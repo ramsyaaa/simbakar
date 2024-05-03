@@ -17,6 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/login', 'Auth\LoginController@index')->name('login')->middleware('guest');
+Route::post('/login', 'Auth\LoginController@authenticate')->name('authenticate')->middleware('guest');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::get('/users', 'Administration\UserController@index')->name('users.index')->middleware('auth');
+Route::get('settings/change-password', 'Settings\ChangePasswordController@index')->name('settings.change-password')->middleware('auth');
+Route::post('settings/change-password', 'Settings\ChangePasswordController@changePassword')->name('settings.change-password.post')->middleware('auth');

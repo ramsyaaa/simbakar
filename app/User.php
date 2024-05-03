@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Ramsey\Uuid\Uuid;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
     use Notifiable;
 
@@ -16,8 +16,18 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array
      */
+
+    public $incrementing = false; // Non-incrementing primary key
+    protected $keyType = 'string'; // Primary key type is string
+    protected $primaryKey = 'uuid'; // Name of the UUID column
+
     protected $fillable = [
-        'name', 'email', 'password',
+        'role_uuid',
+        'name',
+        'username',
+        'email',
+        'password',
+        'status',
     ];
 
     /**
@@ -38,24 +48,12 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier()
+    protected static function boot()
     {
-        return $this->getKey();
-    }
+        parent::boot();
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
+        static::creating(function ($model) {
+            $model->uuid = Uuid::uuid4()->toString();
+        });
     }
-
 }
