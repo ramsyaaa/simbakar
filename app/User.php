@@ -17,17 +17,9 @@ class User extends Authenticatable
      * @var array
      */
 
-    public $incrementing = false; // Non-incrementing primary key
-    protected $keyType = 'string'; // Primary key type is string
-    protected $primaryKey = 'uuid'; // Name of the UUID column
 
-    protected $fillable = [
-        'role_uuid',
-        'name',
-        'username',
-        'email',
-        'password',
-        'status',
+    protected $guarded = [
+       'id'
     ];
 
     /**

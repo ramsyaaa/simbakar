@@ -11,6 +11,218 @@
  * @see https://github.com/barryvdh/laravel-ide-helper
  */
 
+    namespace UxWeb\SweetAlert { 
+            /**
+     * 
+     *
+     */ 
+        class SweetAlert {
+                    /**
+         * Display an alert message with a text and an optional title.
+         * 
+         * By default the alert is not typed.
+         *
+         * @param string $text
+         * @param string $title
+         * @param string $icon
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function message($text = '', $title = null, $icon = null)
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->message($text, $title, $icon);
+        }
+                    /**
+         * Display a not typed alert message with a text and a title.
+         *
+         * @param string $text
+         * @param string $title
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function basic($text, $title)
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->basic($text, $title);
+        }
+                    /**
+         * Display an info typed alert message with a text and an optional title.
+         *
+         * @param string $text
+         * @param string $title
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function info($text, $title = '')
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->info($text, $title);
+        }
+                    /**
+         * Display a success typed alert message with a text and an optional title.
+         *
+         * @param string $text
+         * @param string $title
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function success($text, $title = '')
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->success($text, $title);
+        }
+                    /**
+         * Display an error typed alert message with a text and an optional title.
+         *
+         * @param string $text
+         * @param string $title
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function error($text, $title = '')
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->error($text, $title);
+        }
+                    /**
+         * Display a warning typed alert message with a text and an optional title.
+         *
+         * @param string $text
+         * @param string $title
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function warning($text, $title = '')
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->warning($text, $title);
+        }
+                    /**
+         * Set the duration for this alert until it autocloses.
+         *
+         * @param int $milliseconds
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function autoclose($milliseconds = null)
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->autoclose($milliseconds);
+        }
+                    /**
+         * Add a confirmation button to the alert.
+         *
+         * @param string $buttonText
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function confirmButton($buttonText = 'OK', $overrides = [])
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->confirmButton($buttonText, $overrides);
+        }
+                    /**
+         * Add a cancel button to the alert.
+         *
+         * @param string $buttonText
+         * @param array $overrides
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function cancelButton($buttonText = 'Cancel', $overrides = [])
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->cancelButton($buttonText, $overrides);
+        }
+                    /**
+         * Add a new custom button to the alert.
+         *
+         * @param string $key
+         * @param string $buttonText
+         * @param array $overrides
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function addButton($key, $buttonText, $overrides = [])
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->addButton($key, $buttonText, $overrides);
+        }
+                    /**
+         * Toggle close the alert message when clicking outside.
+         *
+         * @param string $buttonText
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function closeOnClickOutside($value = true)
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->closeOnClickOutside($value);
+        }
+                    /**
+         * Make this alert persistent with a confirmation button.
+         *
+         * @param string $buttonText
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function persistent($buttonText = 'OK')
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->persistent($buttonText);
+        }
+                    /**
+         * Make Message HTML view.
+         *
+         * @param bool|true $html
+         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+         * @static 
+         */ 
+        public static function html()
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->html();
+        }
+                    /**
+         * Return the current alert configuration.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getConfig($key = null)
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->getConfig($key);
+        }
+                    /**
+         * Customize alert configuration "by hand".
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function setConfig($config = [])
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->setConfig($config);
+        }
+                    /**
+         * Return the current alert configuration as Json.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getJsonConfig()
+        {
+                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
+                        return $instance->getJsonConfig();
+        }
+         
+    }
+     
+}
+
     namespace Illuminate\Support\Facades { 
             /**
      * 
@@ -16967,218 +17179,6 @@
      
 }
 
-    namespace UxWeb\SweetAlert { 
-            /**
-     * 
-     *
-     */ 
-        class SweetAlert {
-                    /**
-         * Display an alert message with a text and an optional title.
-         * 
-         * By default the alert is not typed.
-         *
-         * @param string $text
-         * @param string $title
-         * @param string $icon
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function message($text = '', $title = null, $icon = null)
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->message($text, $title, $icon);
-        }
-                    /**
-         * Display a not typed alert message with a text and a title.
-         *
-         * @param string $text
-         * @param string $title
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function basic($text, $title)
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->basic($text, $title);
-        }
-                    /**
-         * Display an info typed alert message with a text and an optional title.
-         *
-         * @param string $text
-         * @param string $title
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function info($text, $title = '')
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->info($text, $title);
-        }
-                    /**
-         * Display a success typed alert message with a text and an optional title.
-         *
-         * @param string $text
-         * @param string $title
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function success($text, $title = '')
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->success($text, $title);
-        }
-                    /**
-         * Display an error typed alert message with a text and an optional title.
-         *
-         * @param string $text
-         * @param string $title
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function error($text, $title = '')
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->error($text, $title);
-        }
-                    /**
-         * Display a warning typed alert message with a text and an optional title.
-         *
-         * @param string $text
-         * @param string $title
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function warning($text, $title = '')
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->warning($text, $title);
-        }
-                    /**
-         * Set the duration for this alert until it autocloses.
-         *
-         * @param int $milliseconds
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function autoclose($milliseconds = null)
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->autoclose($milliseconds);
-        }
-                    /**
-         * Add a confirmation button to the alert.
-         *
-         * @param string $buttonText
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function confirmButton($buttonText = 'OK', $overrides = [])
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->confirmButton($buttonText, $overrides);
-        }
-                    /**
-         * Add a cancel button to the alert.
-         *
-         * @param string $buttonText
-         * @param array $overrides
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function cancelButton($buttonText = 'Cancel', $overrides = [])
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->cancelButton($buttonText, $overrides);
-        }
-                    /**
-         * Add a new custom button to the alert.
-         *
-         * @param string $key
-         * @param string $buttonText
-         * @param array $overrides
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function addButton($key, $buttonText, $overrides = [])
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->addButton($key, $buttonText, $overrides);
-        }
-                    /**
-         * Toggle close the alert message when clicking outside.
-         *
-         * @param string $buttonText
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function closeOnClickOutside($value = true)
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->closeOnClickOutside($value);
-        }
-                    /**
-         * Make this alert persistent with a confirmation button.
-         *
-         * @param string $buttonText
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function persistent($buttonText = 'OK')
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->persistent($buttonText);
-        }
-                    /**
-         * Make Message HTML view.
-         *
-         * @param bool|true $html
-         * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-         * @static 
-         */ 
-        public static function html()
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->html();
-        }
-                    /**
-         * Return the current alert configuration.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getConfig($key = null)
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->getConfig($key);
-        }
-                    /**
-         * Customize alert configuration "by hand".
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function setConfig($config = [])
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->setConfig($config);
-        }
-                    /**
-         * Return the current alert configuration as Json.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getJsonConfig()
-        {
-                        /** @var \UxWeb\SweetAlert\SweetAlertNotifier $instance */
-                        return $instance->getJsonConfig();
-        }
-         
-    }
-     
-}
-
     namespace Illuminate\Http { 
             /**
      * 
@@ -17310,6 +17310,35 @@
         }
          
     }
+            /**
+     * 
+     *
+     */ 
+        class Route {
+                    /**
+         * 
+         *
+         * @see \Spatie\Permission\PermissionServiceProvider::registerMacroHelpers()
+         * @param mixed $roles
+         * @static 
+         */ 
+        public static function role($roles = [])
+        {
+                        return \Illuminate\Routing\Route::role($roles);
+        }
+                    /**
+         * 
+         *
+         * @see \Spatie\Permission\PermissionServiceProvider::registerMacroHelpers()
+         * @param mixed $permissions
+         * @static 
+         */ 
+        public static function permission($permissions = [])
+        {
+                        return \Illuminate\Routing\Route::permission($permissions);
+        }
+         
+    }
      
 }
 
@@ -17401,6 +17430,7 @@
 
 
 namespace  { 
+            class Alert extends \UxWeb\SweetAlert\SweetAlert {}
             class App extends \Illuminate\Support\Facades\App {}
             class Arr extends \Illuminate\Support\Arr {}
             class Artisan extends \Illuminate\Support\Facades\Artisan {}
@@ -20380,7 +20410,6 @@ namespace  {
             class Livewire extends \Livewire\Livewire {}
             class JWTAuth extends \Tymon\JWTAuth\Facades\JWTAuth {}
             class JWTFactory extends \Tymon\JWTAuth\Facades\JWTFactory {}
-            class Alert extends \UxWeb\SweetAlert\SweetAlert {}
      
 }
 

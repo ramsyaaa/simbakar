@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth as AuthFacade;
 
 class LoginController extends Controller
@@ -35,17 +38,16 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(){
         // $this->middleware('guest')->except('logout');
     }
 
     public function index(){
-        return view('auth.login');
+
+        return view('admin.login');
     }
 
-    public function authenticate(Request $request)
-    {
+    public function authenticate(Request $request){
         // Validasi data yang dikirimkan oleh pengguna
         $request->validate([
             'email' => 'required|email',
@@ -56,28 +58,38 @@ class LoginController extends Controller
             'password.required' => 'Password wajib diisi.',
         ]);
 
-        // Autentikasi pengguna
-        $credentials = $request->only('email', 'password');
+        $user = User::where('email', $request->email)->first();
 
-        if (AuthFacade::attempt($credentials)) {
-            // Jika autentikasi berhasil, redirect ke halaman yang sesuai
-            return redirect()->intended('/');
-        } else {
-            // Jika autentikasi gagal, kembalikan ke halaman login dengan pesan kesalahan
-            return back()->withErrors([
-                'email' => 'Email atau password anda salah.',
-            ]);
+        if(!$user){
+            Alert::error('Error', 'Email atau password salah');
+            return redirect()->route('login');
+        }
+        if($user->status ==  false){
+            Alert::error('Error', 'Email tidak dapat digunakan untuk login');
+            return redirect()->route('login');
+        }
+
+        if( Hash::check($request->password,$user->password) ){
+
+            auth()->login($user);
+            Alert::success('Success', 'Login Berhasil');
+            return redirect()->route('admin.dashboard');
+
+        }else{
+            Alert::error('Error', 'Email atau password salah');
+            return redirect()->route('login');
+
         }
     }
 
-    public function logout(Request $request)
-{
-    AuthFacade::logout();
+    public function logout(Request $request){
 
-    // Jika Anda menggunakan session, Anda juga dapat menghapusnya di sini
-    // $request->session()->invalidate();
-    // $request->session()->regenerateToken();
+        Alert::success('Success', 'Logout Berhasil');
+        AuthFacade::logout();
+        // Jika Anda menggunakan session, Anda juga dapat menghapusnya di sini
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
 
-    return redirect(route('login')); // Atau halaman manapun yang Anda inginkan setelah logout
-}
+        return redirect(route('login')); // Atau halaman manapun yang Anda inginkan setelah logout
+    }
 }
