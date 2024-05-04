@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Administration\RoleController;
 use App\Http\Controllers\Administration\DashboardController;
@@ -26,25 +25,6 @@ Route::get('/login', [LoginController::class, 'index'])->name('login')->middlewa
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate')->middleware('guest');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-// Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
-//     Route::prefix('role')->group(function () {
-//         Route::get('', 'Admin\RoleController@index')->name('admin.role.index');
-//         Route::get('/create', 'Admin\RoleController@create')->name('admin.role.create');
-//         Route::post('/store', 'Admin\RoleController@store')->name('admin.role.store');
-//         Route::get('/edit/{id}', 'Admin\RoleController@edit')->name('admin.role.edit');
-//         Route::patch('/edit/{id}', 'Admin\RoleController@update')->name('admin.role.update');
-//         Route::delete('/delete/{id}', 'Admin\RoleController@destroy')->name('admin.role.destroy');
-//     });
-//     Route::prefix('user')->group(function () {
-//         Route::get('/', [UserController::class,'index'])->name('admin.user.index');
-//         Route::get('/export', [UserController::class,'export'])->name('admin.user.export');
-//         Route::get('/create', [UserController::class, 'create'])->name('admin.user.create');
-//         Route::post('/store', [UserController::class,'store'])->name('admin.user.store');
-//         Route::get('edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
-//         Route::patch('edit/{id}', [UserController::class, 'update'])->name('admin.user.update');
-//         Route::delete('/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
-//     });
-// });
 Route::get('/login', 'Auth\LoginController@index')->name('login')->middleware('guest');
 Route::post('/login', 'Auth\LoginController@authenticate')->name('authenticate')->middleware('guest');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
