@@ -23,6 +23,7 @@ class UsersExport implements FromCollection, WithMapping, WithHeadings
             $user->name,
             $user->username,
             $user->email,
+            $user->nid,
         ];
     }
 
@@ -32,6 +33,7 @@ class UsersExport implements FromCollection, WithMapping, WithHeadings
             'Name',
             'Username',
             'Email',
+            'NID',
         ];
     }
 }

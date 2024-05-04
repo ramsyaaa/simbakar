@@ -44,7 +44,7 @@ class LoginController extends Controller
 
     public function index(){
 
-        return view('admin.login');
+        return view('auth.login');
     }
 
     public function authenticate(Request $request){
@@ -61,30 +61,31 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if(!$user){
-            Alert::error('Error', 'Email atau password salah');
-            return redirect()->route('login');
+            return redirect()->route('login')->withErrors([
+                'email' => 'Email atau password anda salah.',
+            ]);;
         }
         if($user->status ==  false){
-            Alert::error('Error', 'Email tidak dapat digunakan untuk login');
-            return redirect()->route('login');
+            return redirect()->route('login')->withErrors([
+                'email' => 'Akun anda sedang tidak aktif.',
+            ]);;
         }
 
         if( Hash::check($request->password,$user->password) ){
 
             auth()->login($user);
-            Alert::success('Success', 'Login Berhasil');
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('administration.dashboard');
 
         }else{
-            Alert::error('Error', 'Email atau password salah');
-            return redirect()->route('login');
+            return redirect()->route('login')->withErrors([
+                'email' => 'Email atau password anda salah.',
+            ]);;
 
         }
     }
 
     public function logout(Request $request){
 
-        Alert::success('Success', 'Logout Berhasil');
         AuthFacade::logout();
         // Jika Anda menggunakan session, Anda juga dapat menghapusnya di sini
         // $request->session()->invalidate();

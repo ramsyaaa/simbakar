@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Administration\RoleController;
+use App\Http\Controllers\Administration\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,7 @@ use App\Http\Controllers\Admin\DashboardController;
 */
 
 Route::get('/', function () {
-    return redirect()->route('admin.dashboard');
+    return redirect()->route('dashboard');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -25,23 +26,51 @@ Route::get('/login', [LoginController::class, 'index'])->name('login')->middlewa
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate')->middleware('guest');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
-    Route::prefix('role')->group(function () {
-        Route::get('', 'Admin\RoleController@index')->name('admin.role.index');
-        Route::get('/create', 'Admin\RoleController@create')->name('admin.role.create');
-        Route::post('/store', 'Admin\RoleController@store')->name('admin.role.store');
-        Route::get('/edit/{id}', 'Admin\RoleController@edit')->name('admin.role.edit');
-        Route::patch('/edit/{id}', 'Admin\RoleController@update')->name('admin.role.update');
-        Route::delete('/delete/{id}', 'Admin\RoleController@destroy')->name('admin.role.destroy');
+// Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+//     Route::prefix('role')->group(function () {
+//         Route::get('', 'Admin\RoleController@index')->name('admin.role.index');
+//         Route::get('/create', 'Admin\RoleController@create')->name('admin.role.create');
+//         Route::post('/store', 'Admin\RoleController@store')->name('admin.role.store');
+//         Route::get('/edit/{id}', 'Admin\RoleController@edit')->name('admin.role.edit');
+//         Route::patch('/edit/{id}', 'Admin\RoleController@update')->name('admin.role.update');
+//         Route::delete('/delete/{id}', 'Admin\RoleController@destroy')->name('admin.role.destroy');
+//     });
+//     Route::prefix('user')->group(function () {
+//         Route::get('/', [UserController::class,'index'])->name('admin.user.index');
+//         Route::get('/export', [UserController::class,'export'])->name('admin.user.export');
+//         Route::get('/create', [UserController::class, 'create'])->name('admin.user.create');
+//         Route::post('/store', [UserController::class,'store'])->name('admin.user.store');
+//         Route::get('edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
+//         Route::patch('edit/{id}', [UserController::class, 'update'])->name('admin.user.update');
+//         Route::delete('/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+//     });
+// });
+Route::get('/login', 'Auth\LoginController@index')->name('login')->middleware('guest');
+Route::post('/login', 'Auth\LoginController@authenticate')->name('authenticate')->middleware('guest');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'settings.',], function () {
+    Route::get('change-password', 'Settings\ChangePasswordController@index')->name('change-password');
+    Route::post('change-password', 'Settings\ChangePasswordController@changePassword')->name('change-password.post');
+});
+Route::group(['middleware' => ['auth'], 'prefix' => 'administration', 'as' => 'administration.'], function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+        Route::get('', 'Administration\UserController@index')->name('index');
+        Route::get('/create', 'Administration\UserController@create')->name('create');
+        Route::post('', 'Administration\UserController@store')->name('store');
+        Route::get('/export', 'Administration\UserController@export')->name('export-data');
+        Route::delete('/{uuid}', 'Administration\UserController@destroy')->name('destroy');
+        Route::get('/{uuid}', 'Administration\UserController@edit')->name('edit');
+        Route::put('/{uuid}', 'Administration\UserController@update')->name('update');
     });
-    Route::prefix('user')->group(function () {
-        Route::get('/', [UserController::class,'index'])->name('admin.user.index');
-        Route::get('/create', [UserController::class, 'create'])->name('admin.user.create');
-        Route::post('/store', [UserController::class,'store'])->name('admin.user.store');
-        Route::get('edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
-        Route::patch('edit/{id}', [UserController::class, 'update'])->name('admin.user.update');
-        Route::delete('/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+    Route::group(['prefix' => 'roles', 'as' => 'roles.'], function () {
+        Route::get('', [RoleController::class,'index'])->name('index');
+        Route::get('/create', [RoleController::class,'create'])->name('create');
+        Route::post('/store', [RoleController::class,'store'])->name('store');
+        Route::get('/edit/{id}', [RoleController::class,'edit'])->name('edit');
+        Route::patch('/edit/{id}', [RoleController::class,'update'])->name('update');
+        Route::delete('/delete/{id}', [RoleController::class,'destroy'])->name('destroy');
     });
 });
 Route::get('/users', 'Administration\UserController@index')->name('users.index')->middleware('auth');

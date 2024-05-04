@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Permission;
 class RoleService{
     function index($request){
      
-        $roles = Role::all();
+        $roles = Role::paginate(25);
         
         return $roles;
     }
