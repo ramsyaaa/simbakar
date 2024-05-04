@@ -53,3 +53,30 @@ body {
   -ms-user-select: none; /* IE 10+ */
   user-select: none; /* Standard syntax */
 }
+
+
+/* Custom styling for pagination links */
+.pagination {
+    margin-top:20px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.pagination .page-link {
+    margin: 0 2px;
+    padding: 6px 10px;
+    border: 1px solid #DEE2E6;
+    color: #4a5568;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+    background-color: #cbd5e0;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #222569;
+    color: #ffffff;
+}

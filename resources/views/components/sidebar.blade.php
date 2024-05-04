@@ -47,7 +47,7 @@
                     Menu Administrator
                 </div>
                 <x-sidebar-dropdown :title="'Administrasi'" :links="[
-                    ['url' => route('login'), 'title' => 'User'],
+                    ['url' => route('administration.users.index'), 'title' => 'User'],
                     ['url' => route('login'), 'title' => 'Aproval Data'],
                     ['url' => route('login'), 'title' => 'Log Aktivitas User'],
                     ['url' => route('login'), 'title' => 'Daftar Role'],

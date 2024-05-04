@@ -17,11 +17,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('dashboard');
 Route::get('/login', 'Auth\LoginController@index')->name('login')->middleware('guest');
 Route::post('/login', 'Auth\LoginController@authenticate')->name('authenticate')->middleware('guest');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/users', 'Administration\UserController@index')->name('users.index')->middleware('auth');
-Route::get('settings/change-password', 'Settings\ChangePasswordController@index')->name('settings.change-password')->middleware('auth');
-Route::post('settings/change-password', 'Settings\ChangePasswordController@changePassword')->name('settings.change-password.post')->middleware('auth');
+Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'settings.',], function () {
+    Route::get('change-password', 'Settings\ChangePasswordController@index')->name('change-password');
+    Route::post('change-password', 'Settings\ChangePasswordController@changePassword')->name('change-password.post');
+});
+
+Route::group(['middleware' => ['auth'], 'prefix' => 'administration', 'as' => 'administration.'], function () {
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+        Route::get('', 'Administration\UserController@index')->name('index');
+        Route::get('/create', 'Administration\UserController@create')->name('create');
+        Route::post('', 'Administration\UserController@store')->name('store');
+        Route::get('/export', 'Administration\UserController@export')->name('export-data');
+        Route::delete('/{uuid}', 'Administration\UserController@destroy')->name('destroy');
+        Route::get('/{uuid}', 'Administration\UserController@edit')->name('edit');
+        Route::put('/{uuid}', 'Administration\UserController@update')->name('update');
+    });
+});

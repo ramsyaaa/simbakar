@@ -42,9 +42,33 @@
                 icon: 'success',
                 title: '{{ session('success') }}',
                 showConfirmButton: false,
-                timer: 1500 // Duration in milliseconds (1.5 seconds)
+                timer: 1500
             });
         @endif
+    </script>
+
+    <script>
+        function confirmSubmit(form, text='Apakah anda yakin?') {
+            event.preventDefault();
+            // Tampilkan SweetAlert konfirmasi
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: text,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                } else {
+                    return false;
+                }
+            });
+            return false;
+        }
     </script>
 </body>
 </html>
