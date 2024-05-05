@@ -63,11 +63,11 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div> 
-                            </div>  
+                                </div>
+                            </div>
                         </div>
-                        <a href="{{route('administration.roles.index')}}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Back</a>
-                        <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah User</button>
+                        <a href="{{route('administration.roles.index')}}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+                        <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Role</button>
                     </div>
                 </form>
             </div>

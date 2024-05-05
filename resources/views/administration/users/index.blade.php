@@ -33,7 +33,9 @@
                         <div class="mb-2 lg:mb-0">
                             <select name="role" id="" class="w-full lg:w-[200px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                 <option value="">Role</option>
-                                <option @if($role == 'Admin') selected @endif value="Admin">Admin</option>
+                                @foreach ($roles as $user_role)
+                                <option @if($user_role->id == $role) selected @endif value="{{ $user_role->id }}">{{ $user_role->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-2 lg:mb-0">
@@ -64,12 +66,12 @@
                             @foreach ($users as $user)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$user->role->name ?? ''}}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{$user->role->name ?? ''}}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $user->email }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $user->name }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $user->username }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $user->nid }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Aktif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $user->status ? 'Aktif' : 'Tidak Aktif' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('administration.users.edit', ['uuid' => $user->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit

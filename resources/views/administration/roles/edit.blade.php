@@ -64,12 +64,12 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div> 
-                               
-                            </div>  
+                                </div>
+
+                            </div>
                         </div>
 
-                        <a href="{{route('administration.roles.index')}}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Back</a>
+                        <a href="{{route('administration.roles.index')}}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                         <button class="bg-[#2E46BA] w-full lg:w-[150px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Update Role</button>
                     </div>
                 </form>

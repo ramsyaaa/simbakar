@@ -57,7 +57,37 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="w-full">
+                                <label for="nid" class="font-bold text-[#232D42] text-[16px]">NID</label>
+                                <div class="relative">
+                                    <input type="text" name="nid" value="{{ old('nid') ? old('nid') : $user->nid }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    @error('nid')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
+                        <div class="lg:flex items-center justify-between">
+                            <div class="w-full">
+                                <label for="role_id" class="font-bold text-[#232D42] text-[16px]">Role</label>
+                                <div class="relative">
+                                    <select name="role_id" id="role_id" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <option value="">Role</option>
+                                        @foreach ($roles as $role)
+                                            <option @if ($role->id == $user->role_id) selected @endif value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('role_id')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{route('administration.users.index')}}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                         <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Update User</button>
                     </div>
                 </form>

@@ -48,7 +48,6 @@ class LoginController extends Controller
     }
 
     public function authenticate(Request $request){
-        // Validasi data yang dikirimkan oleh pengguna
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -87,10 +86,7 @@ class LoginController extends Controller
     public function logout(Request $request){
 
         AuthFacade::logout();
-        // Jika Anda menggunakan session, Anda juga dapat menghapusnya di sini
-        // $request->session()->invalidate();
-        // $request->session()->regenerateToken();
 
-        return redirect(route('login')); // Atau halaman manapun yang Anda inginkan setelah logout
+        return redirect(route('login'));
     }
 }

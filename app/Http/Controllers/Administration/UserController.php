@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -15,6 +16,7 @@ class UserController extends Controller
         $data['find'] = $request->input('find');
         $data['role'] = $request->input('role');
         $data['status'] = $request->input('status');
+        $data['roles'] = Role::get();
 
         $query = User::query();
 
@@ -38,7 +40,8 @@ class UserController extends Controller
     }
 
     public function create(){
-        return view('administration.users.create');
+        $data['roles'] = Role::get();
+        return view('administration.users.create', $data);
     }
 
     public function store(Request $request){
@@ -46,24 +49,30 @@ class UserController extends Controller
             'name' => 'required',
             'username' => 'required|unique:users',
             'email' => 'required|unique:users',
+            'nid' => 'required|unique:users',
+            'role_id' => 'required',
             'password' => 'required',
             'confirmation_password' => 'required|same:password',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'username.required' => 'Username wajib diisi.',
             'email.required' => 'Email wajib diisi.',
+            'role_id.required' => 'Role wajib diisi.',
             'password.required' => 'Kata sandi wajib diisi.',
+            'nid.required' => 'NID wajib diisi.',
             'username.unique' => 'Username sudah digunakan.',
             'email.unique' => 'Email sudah digunakan.',
+            'nid.unique' => 'NID sudah digunakan.',
             'password.min' => 'Kata sandi minimal terdiri dari 8 karakter.',
             'confirmation_password.required' => 'Konfirmasi kata sandi wajib diisi.',
             'confirmation_password.same' => 'Konfirmasi kata sandi harus sama dengan kata sandi.',
         ]);
 
         User::create([
-            'role_uuid' => 'Admin',
+            'role_id' => $request->role_id,
             'name' => $request->name,
             'username' => $request->username,
+            'nid' => $request->nid,
             'email' => $request->email,
             'password' =>  Hash::make($request->password),
             'status' => 1
@@ -84,6 +93,7 @@ class UserController extends Controller
         $data['user'] = User::where([
             'uuid' => $uuid,
         ])->first();
+        $data['roles'] = Role::get();
         return view('administration.users.edit', $data);
     }
 
@@ -94,23 +104,32 @@ class UserController extends Controller
 
         $validate_username = 'required|unique:users';
         $validate_email = 'required|unique:users';
+        $validate_nid = 'required|unique:users';
         if($user->username == $request->username){
             $validate_username = 'required';
         }
         if($user->email == $request->email){
             $validate_email = 'required';
         }
+        if($user->nid == $request->nid){
+            $validate_nid = 'required';
+        }
 
         $request->validate([
             'name' => 'required',
+            'role_id' => 'required',
+            'nid' => $validate_nid,
             'username' => $validate_username,
             'email' => $validate_email,
         ], [
             'name.required' => 'Nama wajib diisi.',
             'username.required' => 'Username wajib diisi.',
+            'nid.required' => 'NID wajib diisi.',
+            'role_id.required' => 'Role wajib diisi.',
             'email.required' => 'Email wajib diisi.',
             'password.required' => 'Kata sandi wajib diisi.',
             'username.unique' => 'Username sudah digunakan.',
+            'nid.unique' => 'NID sudah digunakan.',
             'email.unique' => 'Email sudah digunakan.',
         ]);
 
@@ -120,6 +139,8 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'username' => $request->username,
+            'nid' => $request->nid,
+            'role_id' => $request->role_id,
         ]);
 
         return redirect(route('administration.users.index'))->with('success', 'Update user berhasil dilakukan.');
