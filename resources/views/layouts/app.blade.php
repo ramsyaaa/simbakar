@@ -45,6 +45,17 @@
                 timer: 1500
             });
         @endif
+
+        @if(session('danger'))
+            // Show success alert
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: '{{ session('danger') }}',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        @endif
     </script>
 
     <script>

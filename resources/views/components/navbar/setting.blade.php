@@ -64,7 +64,7 @@
 
             <div x-cloak x-show="open" x-transition:enter="transition-transform transition-opacity ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-[-10%]" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 py-3 text-[#8A92A6]">
                 <div>
-                    <a href="#">
+                    <a href="{{route('settings.bbm-prices.index')}}">
                         <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                             <div>
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +78,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="#">
+                    <a href="{{route('settings.harbor-service-prices.index')}}">
                         <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                             <div>
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,7 +92,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="#">
+                    <a href="{{route('settings.bbm-transport-prices.index')}}">
                         <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                             <div>
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,7 +106,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="#">
+                    <a href="{{route('settings.price-area-taxes.index')}}">
                         <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                             <div>
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -120,7 +120,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="#">
+                    <a href="{{route('settings.price-kso-taxes.index')}}">
                         <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                             <div>
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -134,7 +134,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="#">
+                    <a href="{{route('settings.electric-prices.index')}}">
                         <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                             <div>
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -148,7 +148,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="#">
+                    <a href="{{route('settings.electric-kwh-prices.index')}}">
                         <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                             <div>
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -162,7 +162,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="#">
+                    <a href="{{route('settings.ship-unload-prices.index')}}">
                         <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                             <div>
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">

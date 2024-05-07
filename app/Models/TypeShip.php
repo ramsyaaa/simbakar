@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
+use Spatie\Permission\Models\Role;
+use Illuminate\Database\Eloquent\Model;
 
 class TypeShip extends Model
 {
@@ -20,6 +21,11 @@ class TypeShip extends Model
          'email_verified_at' => 'datetime',
      ];
 
+     public function role()
+     {
+         return $this->hasOne(Role::class, 'id', 'role_id');
+     }
+     
      protected static function boot()
      {
          parent::boot();

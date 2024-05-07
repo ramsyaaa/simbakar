@@ -2,7 +2,7 @@
 
 @section('content')
 <div>
-    <div class="w-screen h-screen flex justify-center items-center">
+    <div class="w-screen h-screen flex justify-center items-center bg-[#135F9C]">
         <div class="bg-white w-[400px] px-4 py-4 rounded-lg">
             <div class="text-center text-[30px] font-bold flex justify-center mb-4">
                 <svg width="257" height="73" viewBox="0 0 257 73" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

@@ -73,7 +73,7 @@ class LoginController extends Controller
         if( Hash::check($request->password,$user->password) ){
 
             auth()->login($user);
-            return redirect()->route('administration.dashboard');
+            return redirect()->route('administration.dashboard')->with('success', 'Login berhasil');
 
         }else{
             return redirect()->route('login')->withErrors([
@@ -87,6 +87,6 @@ class LoginController extends Controller
 
         AuthFacade::logout();
 
-        return redirect(route('login'));
+        return redirect()->route('login')->with('success', 'Logout berhasil');
     }
 }

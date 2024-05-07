@@ -2,15 +2,16 @@
 
 namespace App;
 
+use Ramsey\Uuid\Uuid;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Ramsey\Uuid\Uuid;
-use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -43,7 +44,7 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->hasOne(Role::class, 'id', 'role_id');
     }
 
     protected static function boot()
