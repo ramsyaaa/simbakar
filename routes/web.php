@@ -7,6 +7,7 @@ use App\Http\Controllers\Administration\RoleController;
 use App\Http\Controllers\MasterData\LoadTypeController;
 use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
+use App\Http\Controllers\MasterData\LoadingCompanyController;
 use App\Http\Controllers\MasterData\Ship\TypeShipController;
 use App\Http\Controllers\MasterData\ShipAgentController;
 use App\Http\Controllers\Settings\Variabels\BbmPriceController;
@@ -123,6 +124,15 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::delete('/{uuid}', [ShipAgentController::class, 'destroy'])->name('destroy');
         Route::get('/{uuid}', [ShipAgentController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [ShipAgentController::class, 'update'])->name('update');
+    });
+
+    Route::group(['prefix' => 'load-companies', 'as' => 'load-companies.'], function () {
+        Route::get('', [LoadingCompanyController::class, 'index'])->name('index');
+        Route::get('/create', [LoadingCompanyController::class, 'create'])->name('create');
+        Route::post('', [LoadingCompanyController::class, 'store'])->name('store');
+        Route::delete('/{uuid}', [LoadingCompanyController::class, 'destroy'])->name('destroy');
+        Route::get('/{uuid}', [LoadingCompanyController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [LoadingCompanyController::class, 'update'])->name('update');
     });
 
 });
