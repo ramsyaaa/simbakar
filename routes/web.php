@@ -16,6 +16,7 @@ use App\Http\Controllers\Settings\Variabels\ShipUnloadPriceController;
 use App\Http\Controllers\Settings\Variabels\ElectricKwhPriceController;
 use App\Http\Controllers\Settings\Variabels\BbmTransportPriceController;
 use App\Http\Controllers\Settings\Variabels\HarborServicePriceController;
+use App\Http\Controllers\MasterData\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ use App\Http\Controllers\Settings\Variabels\HarborServicePriceController;
 */
 
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return redirect()->route('home');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -103,6 +104,15 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::delete('/{uuid}', [DockController::class, 'destroy'])->name('destroy');
         Route::get('/{uuid}', [DockController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [DockController::class, 'update'])->name('update');
+    });
+
+    Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.'], function () {
+        Route::get('', [SupplierController::class, 'index'])->name('index');
+        Route::get('/create', [SupplierController::class, 'create'])->name('create');
+        Route::post('', [SupplierController::class, 'store'])->name('store');
+        Route::delete('/{uuid}', [SupplierController::class, 'destroy'])->name('destroy');
+        Route::get('/{uuid}', [SupplierController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [SupplierController::class, 'update'])->name('update');
     });
 
 });

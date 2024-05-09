@@ -9,52 +9,23 @@
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Tambah Kapal
+                        Tambah Pemasok
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
-                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('master-data.ships.index') }}" class="cursor-pointer">Kapal</a> / <span class="text-[#2E46BA] cursor-pointer">Create</span>
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('master-data.suppliers.index') }}" class="cursor-pointer">Pemasok</a>  / <span class="text-[#2E46BA] cursor-pointer">Create</span>
                     </div>
                 </div>
             </div>
             <div class="bg-white rounded-lg p-6">
-                <form onsubmit="return confirmSubmit(this, 'Tambahkan Kapal?')" action="{{ route('master-data.ships.store') }}" method="POST">
+                <form onsubmit="return confirmSubmit(this, 'Tambahkan Pemasok?')" action="{{ route('master-data.suppliers.store') }}" method="POST">
                     @csrf
                     <div class="p-4 bg-white rounded-lg w-full">
                         <div class="lg:flex items-center justify-between">
                             <div class="w-full">
-                                <label for="name" class="font-bold text-[#232D42] text-[16px]">Nama Kapal</label>
+                                <label for="name" class="font-bold text-[#232D42] text-[16px]">Nama Pemasok</label>
                                 <div class="relative">
                                     <input type="text" name="name" value="{{ old('name') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('name')
-                                    <div class="absolute -bottom-1 left-1 text-red-500">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="w-full">
-                                <label for="type_ship_uuid" class="font-bold text-[#232D42] text-[16px]">Jenis Kapal</label>
-                                <div class="relative">
-                                    <select name="type_ship_uuid" id="type_ship_uuid" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                        <option value="">Jenis Kapal</option>
-                                        @foreach ($type_ships as $type_ship)
-                                            <option value="{{ $type_ship->uuid }}">{{ $type_ship->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('type_ship_uuid')
-                                    <div class="absolute -bottom-1 left-1 text-red-500">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="lg:flex items-center justify-between">
-                            <div class="w-full">
-                                <label for="year_created" class="font-bold text-[#232D42] text-[16px]">Tahun Pembuatan</label>
-                                <div class="relative">
-                                    <input type="number" placeholder="YYYY" min="1900" max="{{ date('Y') }}" name="year_created" value="{{ old('year_created') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                    @error('year_created')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
@@ -80,10 +51,10 @@
                         </div>
                         <div class="lg:flex items-center justify-between">
                             <div class="w-full">
-                                <label for="flag" class="font-bold text-[#232D42] text-[16px]">Bendera</label>
+                                <label for="phone" class="font-bold text-[#232D42] text-[16px]">Telp</label>
                                 <div class="relative">
-                                    <input type="text" name="flag" value="{{ old('flag') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                    @error('flag')
+                                    <input type="text" name="phone" value="{{ old('phone') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    @error('phone')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
@@ -91,35 +62,23 @@
                                 </div>
                             </div>
                             <div class="w-full">
-                                <label for="grt" class="font-bold text-[#232D42] text-[16px]">GRT</label>
+                                <label for="fax" class="font-bold text-[#232D42] text-[16px]">Fax</label>
                                 <div class="relative">
-                                    <input type="text" name="grt" value="{{ old('grt') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                    @error('grt')
+                                    <input type="text" name="fax" value="{{ old('fax') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    @error('fax')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
                                     @enderror
                                 </div>
-                            </div>
                             </div>
                         </div>
                         <div class="lg:flex items-center justify-between">
-                            <div class="w-full px-4">
-                                <label for="dwt" class="font-bold text-[#232D42] text-[16px]">DWT</label>
+                            <div class="w-full">
+                                <label for="address" class="font-bold text-[#232D42] text-[16px]">Alamat</label>
                                 <div class="relative">
-                                    <input type="text" name="dwt" value="{{ old('dwt') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                    @error('dwt')
-                                    <div class="absolute -bottom-1 left-1 text-red-500">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="w-full px-4 lg:-ml-6">
-                                <label for="loa" class="font-bold text-[#232D42] text-[16px]">LOA</label>
-                                <div class="relative">
-                                    <input type="text" name="loa" value="{{ old('loa') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                    @error('loa')
+                                    <textarea name="address" value="{{ old('address') }}" style="height:150px" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3"></textarea>
+                                    @error('address')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
@@ -127,8 +86,56 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="{{route('master-data.ships.index')}}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
-                        <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Kapal</button>
+                        <div class="lg:flex items-center justify-between">
+                            <div class="w-full">
+                                <label for="mining_authorization" class="font-bold text-[#232D42] text-[16px]">Kuasa Pertambangan</label>
+                                <div class="relative">
+                                    <input type="text" name="mining_authorization" value="{{ old('mining_authorization') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    @error('mining_authorization')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <label for="mine_name" class="font-bold text-[#232D42] text-[16px]">Nama Tambang</label>
+                                <div class="relative">
+                                    <input type="text" name="mine_name" value="{{ old('mine_name') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    @error('mine_name')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:flex items-center justify-between">
+                            <div class="w-full">
+                                <label for="mine_location" class="font-bold text-[#232D42] text-[16px]">Lokasi Pertambangan</label>
+                                <div class="relative">
+                                    <input type="text" name="mine_location" value="{{ old('mine_location') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    @error('mine_location')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <label for="producer" class="font-bold text-[#232D42] text-[16px]">Produsen</label>
+                                <div class="relative">
+                                    <input type="text" name="producer" value="{{ old('producer') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    @error('producer')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ route('master-data.suppliers.index') }}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+                        <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Pemasok</button>
                     </div>
                 </form>
             </div>
