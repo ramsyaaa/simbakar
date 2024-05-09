@@ -7,6 +7,7 @@ use App\Http\Controllers\Administration\RoleController;
 use App\Http\Controllers\MasterData\LoadTypeController;
 use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
+use App\Http\Controllers\MasterData\HarborController;
 use App\Http\Controllers\MasterData\LoadingCompanyController;
 use App\Http\Controllers\MasterData\Ship\TypeShipController;
 use App\Http\Controllers\MasterData\ShipAgentController;
@@ -143,6 +144,15 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::delete('/{uuid}', [TransporterController::class, 'destroy'])->name('destroy');
         Route::get('/{uuid}', [TransporterController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [TransporterController::class, 'update'])->name('update');
+    });
+
+    Route::group(['prefix' => 'harbors', 'as' => 'harbors.'], function () {
+        Route::get('', [HarborController::class, 'index'])->name('index');
+        Route::get('/create', [HarborController::class, 'create'])->name('create');
+        Route::post('', [HarborController::class, 'store'])->name('store');
+        Route::delete('/{uuid}', [HarborController::class, 'destroy'])->name('destroy');
+        Route::get('/{uuid}', [HarborController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [HarborController::class, 'update'])->name('update');
     });
 
 });
