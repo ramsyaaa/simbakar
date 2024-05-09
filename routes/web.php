@@ -19,6 +19,7 @@ use App\Http\Controllers\Settings\Variabels\ElectricKwhPriceController;
 use App\Http\Controllers\Settings\Variabels\BbmTransportPriceController;
 use App\Http\Controllers\Settings\Variabels\HarborServicePriceController;
 use App\Http\Controllers\MasterData\SupplierController;
+use App\Http\Controllers\MasterData\TransporterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,6 +134,15 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::delete('/{uuid}', [LoadingCompanyController::class, 'destroy'])->name('destroy');
         Route::get('/{uuid}', [LoadingCompanyController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [LoadingCompanyController::class, 'update'])->name('update');
+    });
+
+    Route::group(['prefix' => 'transporters', 'as' => 'transporters.'], function () {
+        Route::get('', [TransporterController::class, 'index'])->name('index');
+        Route::get('/create', [TransporterController::class, 'create'])->name('create');
+        Route::post('', [TransporterController::class, 'store'])->name('store');
+        Route::delete('/{uuid}', [TransporterController::class, 'destroy'])->name('destroy');
+        Route::get('/{uuid}', [TransporterController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [TransporterController::class, 'update'])->name('update');
     });
 
 });
