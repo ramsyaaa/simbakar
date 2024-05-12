@@ -7,6 +7,8 @@ use App\Http\Controllers\Administration\RoleController;
 use App\Http\Controllers\MasterData\LoadTypeController;
 use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
+use App\Http\Controllers\MasterData\Bunker\BunkerController;
+use App\Http\Controllers\MasterData\Bunker\SoundingController;
 use App\Http\Controllers\MasterData\HarborController;
 use App\Http\Controllers\MasterData\HeavyEquipment\HeavyEquipmentController;
 use App\Http\Controllers\MasterData\HeavyEquipment\HeavyEquipmentTypeController;
@@ -194,6 +196,23 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::delete('/{uuid}', [HeavyEquipmentController::class, 'destroy'])->name('destroy');
         Route::get('/{uuid}', [HeavyEquipmentController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [HeavyEquipmentController::class, 'update'])->name('update');
+    });
+
+    Route::group(['prefix' => 'bunkers', 'as' => 'bunkers.'], function () {
+        Route::group(['prefix' => 'soundings', 'as' => 'soundings.'], function () {
+            Route::get('{bunker_uuid}', [SoundingController::class, 'index'])->name('index');
+            Route::get('{bunker_uuid}/create', [SoundingController::class, 'create'])->name('create');
+            Route::post('{bunker_uuid}', [SoundingController::class, 'store'])->name('store');
+            Route::delete('{bunker_uuid}/{uuid}', [SoundingController::class, 'destroy'])->name('destroy');
+            Route::get('{bunker_uuid}/{uuid}', [SoundingController::class, 'edit'])->name('edit');
+            Route::put('{bunker_uuid}/{uuid}', [SoundingController::class, 'update'])->name('update');
+        });
+        Route::get('', [BunkerController::class, 'index'])->name('index');
+        Route::get('/create', [BunkerController::class, 'create'])->name('create');
+        Route::post('', [BunkerController::class, 'store'])->name('store');
+        Route::delete('/{uuid}', [BunkerController::class, 'destroy'])->name('destroy');
+        Route::get('/{uuid}', [BunkerController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [BunkerController::class, 'update'])->name('update');
     });
 
     Route::group(['prefix' => 'units', 'as' => 'units.'], function () {
