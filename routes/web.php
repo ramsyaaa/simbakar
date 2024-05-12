@@ -2,13 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\MasterData\DockController;
+use App\Http\Controllers\MasterData\Dock\DockController;
 use App\Http\Controllers\Administration\RoleController;
 use App\Http\Controllers\MasterData\LoadTypeController;
 use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
 use App\Http\Controllers\MasterData\Bunker\BunkerController;
 use App\Http\Controllers\MasterData\Bunker\SoundingController;
+use App\Http\Controllers\MasterData\Dock\DockInspectionController;
+use App\Http\Controllers\MasterData\Dock\EquipmentController;
 use App\Http\Controllers\MasterData\HarborController;
 use App\Http\Controllers\MasterData\HeavyEquipment\HeavyEquipmentController;
 use App\Http\Controllers\MasterData\HeavyEquipment\HeavyEquipmentTypeController;
@@ -109,6 +111,23 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
     });
 
     Route::group(['prefix' => 'docks', 'as' => 'docks.'], function () {
+        Route::group(['prefix' => 'equipments', 'as' => 'equipments.'], function () {
+            Route::get('', [EquipmentController::class, 'index'])->name('index');
+            Route::get('/create', [EquipmentController::class, 'create'])->name('create');
+            Route::post('', [EquipmentController::class, 'store'])->name('store');
+            Route::delete('/{uuid}', [EquipmentController::class, 'destroy'])->name('destroy');
+            Route::get('/{uuid}', [EquipmentController::class, 'edit'])->name('edit');
+            Route::put('/{uuid}', [EquipmentController::class, 'update'])->name('update');
+        });
+        Route::group(['prefix' => 'inspections', 'as' => 'inspections.'], function () {
+            Route::get('', [DockInspectionController::class, 'index'])->name('index');
+            Route::get('/create', [DockInspectionController::class, 'create'])->name('create');
+            Route::post('', [DockInspectionController::class, 'store'])->name('store');
+            Route::delete('/{uuid}', [DockInspectionController::class, 'destroy'])->name('destroy');
+            Route::get('/{uuid}', [DockInspectionController::class, 'edit'])->name('edit');
+            Route::put('/{uuid}', [DockInspectionController::class, 'update'])->name('update');
+        });
+
         Route::get('', [DockController::class, 'index'])->name('index');
         Route::get('/create', [DockController::class, 'create'])->name('create');
         Route::post('', [DockController::class, 'store'])->name('store');

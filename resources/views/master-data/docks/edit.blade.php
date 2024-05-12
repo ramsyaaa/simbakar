@@ -69,6 +69,38 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="mb-10">
+                            <div class="w-full">
+                                <label for="dock_equipment_lists" class="font-bold text-[#232D42] text-[16px]">Parameter pengecekan :</label>
+                                <div class="relative mt-3">
+                                    @foreach ($dock_equipment_lists as $list)
+                                        <input type="checkbox" id="{{ $list->uuid }}" name="dock_equipment_lists[]" value="{{ $list->uuid }}" {{ $inspection_selected->contains($list->uuid) ? 'checked' : '' }}>
+                                        <label for="{{ $list->uuid }}"> {{ $list->name }}</label><br>
+                                    @endforeach
+                                    @error('dock_equipment_lists')
+                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-10">
+                            <div class="w-full">
+                                <label for="dock_inspection_lists" class="font-bold text-[#232D42] text-[16px]">Peralatan dermaga :</label>
+                                <div class="relative mt-3">
+                                    @foreach ($dock_inspection_lists as $list)
+                                        <input type="checkbox" id="{{ $list->uuid }}" name="dock_inspection_lists[]" value="{{ $list->uuid }}"  {{ $equipment_selected->contains($list->uuid) ? 'checked' : '' }}>
+                                        <label for="{{ $list->uuid }}"> {{ $list->name }}</label><br>
+                                    @endforeach
+                                    @error('dock_inspection_lists')
+                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                         <a href="{{route('master-data.docks.index')}}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                         <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Update Dermaga</button>
                     </div>
