@@ -9,6 +9,7 @@ use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
 use App\Http\Controllers\MasterData\HarborController;
 use App\Http\Controllers\MasterData\LoadingCompanyController;
+use App\Http\Controllers\MasterData\PersonInChargeController;
 use App\Http\Controllers\MasterData\Ship\TypeShipController;
 use App\Http\Controllers\MasterData\ShipAgentController;
 use App\Http\Controllers\Settings\Variabels\BbmPriceController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Settings\Variabels\ElectricKwhPriceController;
 use App\Http\Controllers\Settings\Variabels\BbmTransportPriceController;
 use App\Http\Controllers\Settings\Variabels\HarborServicePriceController;
 use App\Http\Controllers\MasterData\SupplierController;
+use App\Http\Controllers\MasterData\SurveyorController;
 use App\Http\Controllers\MasterData\TransporterController;
 
 /*
@@ -153,6 +155,24 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::delete('/{uuid}', [HarborController::class, 'destroy'])->name('destroy');
         Route::get('/{uuid}', [HarborController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [HarborController::class, 'update'])->name('update');
+    });
+
+    Route::group(['prefix' => 'surveyors', 'as' => 'surveyors.'], function () {
+        Route::get('', [SurveyorController::class, 'index'])->name('index');
+        Route::get('/create', [SurveyorController::class, 'create'])->name('create');
+        Route::post('', [SurveyorController::class, 'store'])->name('store');
+        Route::delete('/{uuid}', [SurveyorController::class, 'destroy'])->name('destroy');
+        Route::get('/{uuid}', [SurveyorController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [SurveyorController::class, 'update'])->name('update');
+    });
+
+    Route::group(['prefix' => 'person-in-charges', 'as' => 'person-in-charges.'], function () {
+        Route::get('', [PersonInChargeController::class, 'index'])->name('index');
+        Route::get('/create', [PersonInChargeController::class, 'create'])->name('create');
+        Route::post('', [PersonInChargeController::class, 'store'])->name('store');
+        Route::delete('/{uuid}', [PersonInChargeController::class, 'destroy'])->name('destroy');
+        Route::get('/{uuid}', [PersonInChargeController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [PersonInChargeController::class, 'update'])->name('update');
     });
 
 });
