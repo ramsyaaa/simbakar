@@ -25,6 +25,7 @@ use App\Http\Controllers\Settings\Variabels\HarborServicePriceController;
 use App\Http\Controllers\MasterData\SupplierController;
 use App\Http\Controllers\MasterData\SurveyorController;
 use App\Http\Controllers\MasterData\TransporterController;
+use App\Http\Controllers\MasterData\UnitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -193,6 +194,15 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::delete('/{uuid}', [HeavyEquipmentController::class, 'destroy'])->name('destroy');
         Route::get('/{uuid}', [HeavyEquipmentController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [HeavyEquipmentController::class, 'update'])->name('update');
+    });
+
+    Route::group(['prefix' => 'units', 'as' => 'units.'], function () {
+        Route::get('', [UnitController::class, 'index'])->name('index');
+        Route::get('/create', [UnitController::class, 'create'])->name('create');
+        Route::post('', [UnitController::class, 'store'])->name('store');
+        Route::delete('/{uuid}', [UnitController::class, 'destroy'])->name('destroy');
+        Route::get('/{uuid}', [UnitController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [UnitController::class, 'update'])->name('update');
     });
 
 });
