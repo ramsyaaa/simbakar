@@ -42,7 +42,7 @@
                                             <option @if($ship->type_ship_uuid == $type_ship->uuid) selected @endif value="{{ $type_ship->uuid }}">{{ $type_ship->name }}</option>
                                         @endforeach
                                     </select>
-                                    @error('name')
+                                    @error('type_ship_uuid')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>

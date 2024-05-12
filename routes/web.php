@@ -8,6 +8,8 @@ use App\Http\Controllers\MasterData\LoadTypeController;
 use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
 use App\Http\Controllers\MasterData\HarborController;
+use App\Http\Controllers\MasterData\HeavyEquipment\HeavyEquipmentController;
+use App\Http\Controllers\MasterData\HeavyEquipment\HeavyEquipmentTypeController;
 use App\Http\Controllers\MasterData\LoadingCompanyController;
 use App\Http\Controllers\MasterData\PersonInChargeController;
 use App\Http\Controllers\MasterData\Ship\TypeShipController;
@@ -173,6 +175,24 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::delete('/{uuid}', [PersonInChargeController::class, 'destroy'])->name('destroy');
         Route::get('/{uuid}', [PersonInChargeController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [PersonInChargeController::class, 'update'])->name('update');
+    });
+
+    Route::group(['prefix' => 'heavy-equipments', 'as' => 'heavy-equipments.'], function () {
+        Route::group(['prefix' => 'type', 'as' => 'type.'], function () {
+            Route::get('', [HeavyEquipmentTypeController::class, 'index'])->name('index');
+            Route::get('/create', [HeavyEquipmentTypeController::class, 'create'])->name('create');
+            Route::post('', [HeavyEquipmentTypeController::class, 'store'])->name('store');
+            Route::delete('/{uuid}', [HeavyEquipmentTypeController::class, 'destroy'])->name('destroy');
+            Route::get('/{uuid}', [HeavyEquipmentTypeController::class, 'edit'])->name('edit');
+            Route::put('/{uuid}', [HeavyEquipmentTypeController::class, 'update'])->name('update');
+        });
+
+        Route::get('', [HeavyEquipmentController::class, 'index'])->name('index');
+        Route::get('/create', [HeavyEquipmentController::class, 'create'])->name('create');
+        Route::post('', [HeavyEquipmentController::class, 'store'])->name('store');
+        Route::delete('/{uuid}', [HeavyEquipmentController::class, 'destroy'])->name('destroy');
+        Route::get('/{uuid}', [HeavyEquipmentController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [HeavyEquipmentController::class, 'update'])->name('update');
     });
 
 });
