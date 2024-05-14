@@ -24,6 +24,11 @@ class BbmReceiptPlan extends Model
         'planning_december',
     ];
 
+    public function settingBpb()
+    {
+        return $this->belongsTo(SettingBpb::class, "setting_bpb_uuid", 'uuid');
+    }
+
     protected static function boot()
     {
         parent::boot();

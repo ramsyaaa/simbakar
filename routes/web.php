@@ -7,6 +7,7 @@ use App\Http\Controllers\Administration\RoleController;
 use App\Http\Controllers\MasterData\LoadTypeController;
 use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
+use App\Http\Controllers\InitialData\BbmReceiptPlanController;
 use App\Http\Controllers\InitialData\CoalReceiptPlanController;
 use App\Http\Controllers\InitialData\ConsumptionPlanController;
 use App\Http\Controllers\InitialData\ElectricityProductionController;
@@ -112,6 +113,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'initial-data', 'as' => 'ini
         Route::get('', [ConsumptionPlanController::class, 'index'])->name('index');
         Route::get('/{uuid}', [ConsumptionPlanController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [ConsumptionPlanController::class, 'update'])->name('update');
+    });
+    Route::group(['prefix' => 'bbm-receipt-plan', 'as' => 'bbm-receipt-plan.', 'middleware' => 'permission:inisiasi-pemakaian-bbm'], function () {
+        Route::get('', [BbmReceiptPlanController::class, 'index'])->name('index');
+        Route::get('/{uuid}', [BbmReceiptPlanController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [BbmReceiptPlanController::class, 'update'])->name('update');
     });
 });
 
