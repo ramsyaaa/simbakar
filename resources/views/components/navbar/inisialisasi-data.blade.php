@@ -1,4 +1,4 @@
-@if (Auth::user()->hasPermissionTo('inisiasi-setting-pbb') || Auth::user()->hasPermissionTo('inisiasi-produksi-listrik') || Auth::user()->hasPermissionTo('inisiasi-data-awal-tahun') || Auth::user()->hasPermissionTo('inisiasi-penerimaan-batu-bara') || Auth::user()->hasPermissionTo('inisiasi-pemakaian') || Auth::user()->hasPermissionTo('inisiasi-pemakaian-bbm'))    
+@if (Auth::user()->hasPermissionTo('inisiasi-setting-pbb') || Auth::user()->hasPermissionTo('inisiasi-produksi-listrik') || Auth::user()->hasPermissionTo('inisiasi-data-awal-tahun') || Auth::user()->hasPermissionTo('inisiasi-penerimaan-batu-bara') || Auth::user()->hasPermissionTo('inisiasi-pemakaian') || Auth::user()->hasPermissionTo('inisiasi-pemakaian-bbm'))
     <div>
         <div x-data="{open:false}" class="py-3 px-3 border-b">
             <div @click="open=!open" class="text-[16px] text-[#8A92A6] flex justify-between items-center cursor-pointer hover:scale-105 duration-300">
@@ -10,7 +10,7 @@
                         </svg>
                     </div>
                     <div class="font-normal">
-                        Insialisasi Data
+                        Inisialisasi Data
                     </div>
                 </div>
                 <div>
@@ -21,9 +21,9 @@
             </div>
 
             <div x-cloak x-show="open" x-transition:enter="transition-transform transition-opacity ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-[-10%]" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 py-3 text-[#8A92A6]">
-                @if (Auth::user()->hasPermissionTo('inisiasi-setting-pbb'))    
+                @if (Auth::user()->hasPermissionTo('inisiasi-setting-pbb'))
                     <div>
-                        <a href="#">
+                        <a href="{{ route('initial-data.settings-bpb.index') }}">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                                 <div>
                                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,7 +37,7 @@
                         </a>
                     </div>
                 @endif
-                @if (Auth::user()->hasPermissionTo('inisiasi-produksi-listrik'))     
+                @if (Auth::user()->hasPermissionTo('inisiasi-produksi-listrik'))
                     <div>
                         <a href="#">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
@@ -53,7 +53,7 @@
                         </a>
                     </div>
                 @endif
-                @if (Auth::user()->hasPermissionTo('inisiasi-data-awal-tahun'))          
+                @if (Auth::user()->hasPermissionTo('inisiasi-data-awal-tahun'))
                     <div>
                         <a href="#">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
@@ -70,7 +70,7 @@
                     </div>
                 @endif
 
-                @if (Auth::user()->hasPermissionTo('inisiasi-penerimaan-batu-bara'))            
+                @if (Auth::user()->hasPermissionTo('inisiasi-penerimaan-batu-bara'))
                     <div>
                         <a href="#">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
@@ -86,7 +86,7 @@
                         </a>
                     </div>
                 @endif
-                @if (Auth::user()->hasPermissionTo('inisiasi-pemakaian'))     
+                @if (Auth::user()->hasPermissionTo('inisiasi-pemakaian'))
                     <div>
                         <a href="#">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
@@ -103,7 +103,7 @@
                     </div>
                 @endif
 
-                @if (Auth::user()->hasPermissionTo('inisiasi-pemakaian-bbm'))             
+                @if (Auth::user()->hasPermissionTo('inisiasi-pemakaian-bbm'))
                     <div>
                         <a href="#">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">

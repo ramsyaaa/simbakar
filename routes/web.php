@@ -7,6 +7,7 @@ use App\Http\Controllers\Administration\RoleController;
 use App\Http\Controllers\MasterData\LoadTypeController;
 use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
+use App\Http\Controllers\InitialData\SettingBpbController;
 use App\Http\Controllers\MasterData\Bunker\BunkerController;
 use App\Http\Controllers\MasterData\Bunker\SoundingController;
 use App\Http\Controllers\MasterData\Dock\DockInspectionController;
@@ -76,6 +77,17 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'administration', 'as' => 'a
         Route::get('/edit/{id}', [RoleController::class,'edit'])->name('edit');
         Route::patch('/edit/{id}', [RoleController::class,'update'])->name('update');
         Route::delete('/delete/{id}', [RoleController::class,'destroy'])->name('destroy');
+    });
+});
+
+Route::group(['middleware' => ['auth'], 'prefix' => 'initial-data', 'as' => 'initial-data.'], function () {
+    Route::group(['prefix' => 'settings-bpb', 'as' => 'settings-bpb.'], function () {
+        Route::get('', [SettingBpbController::class, 'index'])->name('index');
+        Route::get('/create', [SettingBpbController::class, 'create'])->name('create');
+        Route::post('', [SettingBpbController::class, 'store'])->name('store');
+        Route::delete('/{uuid}', [SettingBpbController::class, 'destroy'])->name('destroy');
+        Route::get('/{uuid}', [SettingBpbController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [SettingBpbController::class, 'update'])->name('update');
     });
 });
 
@@ -241,6 +253,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
     });
 
 });
+
 Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'settings.'], function () {
     Route::group(['prefix' => 'bbm-prices', 'as' => 'bbm-prices.','middleware' => 'permission:variabel-harga-bbm'], function () {
         Route::get('', [BbmPriceController::class, 'index'])->name('index');
