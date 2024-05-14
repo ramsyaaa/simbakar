@@ -38,9 +38,9 @@ class UserService
                 'password' => bcrypt($userData['password']),
             ]);
 
-            // $role = Role::find($userData['role_id']);
+            $role = Role::find($userData['role_id']);
         
-            // $user->assignRole($role->name);
+            $user->assignRole($role->name);
 
             DB::commit();
             return true;

@@ -46,7 +46,7 @@
             <div>
 
                 <div class="py-2 text-[16px] text-[#ADB5BD] font-semibold">
-                    Menu {{$user->role->name ?? ''}}
+                    Menu  {{Auth::user()->role->name ?? ''}}
                 </div>
                 @include('components.navbar.administrasi')
                 @include('components.navbar.inisialisasi-data')

@@ -24,7 +24,7 @@
                             <div class="w-full">
                                 <label for="name" class="font-bold text-[#232D42] text-[16px]">Nama</label>
                                 <div class="relative">
-                                    <input type="text" name="name" value="{{ old('name') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="name" value="{{ old('name') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('name')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -35,7 +35,7 @@
                             <div class="w-full">
                                 <label for="" class="font-bold text-[#232D42] text-[16px]">Username</label>
                                 <div class="relative">
-                                    <input type="text" name="username" value="{{ old('username') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="username" value="{{ old('username') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('username')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -48,7 +48,7 @@
                             <div class="w-full">
                                 <label for="email" class="font-bold text-[#232D42] text-[16px]">Email</label>
                                 <div class="relative">
-                                    <input type="email" name="email" value="{{ old('email') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="email" name="email" value="{{ old('email') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('email')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -59,7 +59,7 @@
                             <div class="w-full">
                                 <label for="nid" class="font-bold text-[#232D42] text-[16px]">NID</label>
                                 <div class="relative">
-                                    <input type="text" name="nid" value="{{ old('nid') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="nid" value="{{ old('nid') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('nid')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -72,8 +72,8 @@
                             <div class="w-full">
                                 <label for="role_id" class="font-bold text-[#232D42] text-[16px]">Role</label>
                                 <div class="relative">
-                                    <select name="role_id" id="role_id" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                        <option value="">Role</option>
+                                    <select name="role_id" id="role_id" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <option selected disabled>Pilih Role</option>
                                         @foreach ($roles as $role)
                                             <option value="{{ $role->id }}">{{ $role->name }}</option>
                                         @endforeach
@@ -90,7 +90,7 @@
                             <div class="w-full">
                                 <label for="password" class="font-bold text-[#232D42] text-[16px]">Password</label>
                                 <div class="relative">
-                                    <input type="password" name="password" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="password" name="password" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('password')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -101,7 +101,7 @@
                             <div class="w-full">
                                 <label for="confirmation-password" class="font-bold text-[#232D42] text-[16px]">Konfirmasi Password</label>
                                 <div class="relative">
-                                    <input type="password" name="confirmation_password" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="password" name="confirmation_password" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('confirmation_password')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="{{route('administration.users.index')}}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+                        <a href="{{route('administration.users.index')}}" class="bg-[#C03221] w-full lg:w-[600px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                         <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah User</button>
                     </div>
                 </form>

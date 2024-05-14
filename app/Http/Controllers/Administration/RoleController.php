@@ -45,8 +45,7 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $this->role->store($request);
-        Alert::success('Success', 'Role baru sudah di tambahkan');
-        return redirect()->route('administration.roles.index');
+        return redirect()->route('administration.roles.index')->with('success', 'Tambah role berhasil dilakukan.');;
     }
 
     /**
@@ -82,8 +81,7 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         $this->role->update($request,$id);
-        Alert::success('Success', 'Berhasil mengubah data role');
-        return redirect()->route('administration.roles.index');
+        return redirect()->route('administration.roles.index')->with('success', 'Update role berhasil dilakukan.');;
     }
 
     /**
@@ -96,11 +94,9 @@ class RoleController extends Controller
     {
         $destroy = $this->role->destroy($id);
         if($destroy == true){
-            Alert::success('Success', 'Berhasil menghapus data role');
-            return redirect()->route('administration.roles.index');
+            return redirect()->route('administration.roles.index')->with('success', 'Hapus role berhasil dilakukan.');
         }else{
-            Alert::error('Error', 'Gagal menghapus data role');
-            return redirect()->route('administration.roles.index');
+            return redirect()->route('administration.roles.index')->with('danger', 'Hapus role gagal dilakukan.');
         }
     }
 }

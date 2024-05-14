@@ -17,7 +17,7 @@
                     {{ optional(auth()->user())->name ?? 'User' }}
                 </div>
                 <div class="text-[13px] text-[#8A92A6] font-normal truncate">
-                    {{$user->role->name ?? ''}}
+                    {{Auth::user()->role->name ?? ''}}
                 </div>
             </div>
         </div>

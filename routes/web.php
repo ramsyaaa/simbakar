@@ -51,18 +51,15 @@ Route::get('/login', [LoginController::class, 'index'])->name('login')->middlewa
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate')->middleware('guest');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/login', 'Auth\LoginController@index')->name('login')->middleware('guest');
-Route::post('/login', 'Auth\LoginController@authenticate')->name('authenticate')->middleware('guest');
-Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
-
-Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'settings.',], function () {
+Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'settings.','middleware' => 'permission:pengaturan-ubah-password'], function () {
     Route::get('change-password', 'Settings\ChangePasswordController@index')->name('change-password');
     Route::post('change-password', 'Settings\ChangePasswordController@changePassword')->name('change-password.post');
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'administration', 'as' => 'administration.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+
+    Route::group(['prefix' => 'users', 'as' => 'users.','middleware' => 'permission:administration-user'], function () {
         Route::get('', 'Administration\UserController@index')->name('index');
         Route::get('/create', 'Administration\UserController@create')->name('create');
         Route::post('', 'Administration\UserController@store')->name('store');
@@ -72,7 +69,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'administration', 'as' => 'a
         Route::put('/{uuid}', 'Administration\UserController@update')->name('update');
     });
 
-    Route::group(['prefix' => 'roles', 'as' => 'roles.'], function () {
+    Route::group(['prefix' => 'roles', 'as' => 'roles.' ,'middleware' => 'permission:administration-role'], function () {
         Route::get('', [RoleController::class,'index'])->name('index');
         Route::get('/create', [RoleController::class,'create'])->name('create');
         Route::post('/store', [RoleController::class,'store'])->name('store');
@@ -83,7 +80,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'administration', 'as' => 'a
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'master-data.'], function () {
-    Route::group(['prefix' => 'ships', 'as' => 'ships.'], function () {
+    Route::group(['prefix' => 'ships', 'as' => 'ships.' ,'middleware' => 'permission:data-kapal'], function () {
         Route::group(['prefix' => 'type-ship', 'as' => 'type-ship.'], function () {
             Route::get('', [TypeShipController::class, 'index'])->name('index');
             Route::get('/create', [TypeShipController::class, 'create'])->name('create');
@@ -101,7 +98,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [ShipController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'load-type', 'as' => 'load-type.'], function () {
+    Route::group(['prefix' => 'load-type', 'as' => 'load-type.' ,'middleware' => 'permission:data-muatan'], function () {
         Route::get('', [LoadTypeController::class, 'index'])->name('index');
         Route::get('/create', [LoadTypeController::class, 'create'])->name('create');
         Route::post('', [LoadTypeController::class, 'store'])->name('store');
@@ -110,7 +107,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [LoadTypeController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'docks', 'as' => 'docks.'], function () {
+    Route::group(['prefix' => 'docks', 'as' => 'docks.','middleware' => 'permission:data-dermaga'], function () {
         Route::group(['prefix' => 'equipments', 'as' => 'equipments.'], function () {
             Route::get('', [EquipmentController::class, 'index'])->name('index');
             Route::get('/create', [EquipmentController::class, 'create'])->name('create');
@@ -136,7 +133,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [DockController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.'], function () {
+    Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.','middleware' => 'permission:data-pemasok'], function () {
         Route::get('', [SupplierController::class, 'index'])->name('index');
         Route::get('/create', [SupplierController::class, 'create'])->name('create');
         Route::post('', [SupplierController::class, 'store'])->name('store');
@@ -145,7 +142,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [SupplierController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'ship-agents', 'as' => 'ship-agents.'], function () {
+    Route::group(['prefix' => 'ship-agents', 'as' => 'ship-agents.','middleware' => 'permission:data-agen-kapal'], function () {
         Route::get('', [ShipAgentController::class, 'index'])->name('index');
         Route::get('/create', [ShipAgentController::class, 'create'])->name('create');
         Route::post('', [ShipAgentController::class, 'store'])->name('store');
@@ -154,7 +151,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [ShipAgentController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'load-companies', 'as' => 'load-companies.'], function () {
+    Route::group(['prefix' => 'load-companies', 'as' => 'load-companies.','middleware' => 'permission:data-bongkar-muat'], function () {
         Route::get('', [LoadingCompanyController::class, 'index'])->name('index');
         Route::get('/create', [LoadingCompanyController::class, 'create'])->name('create');
         Route::post('', [LoadingCompanyController::class, 'store'])->name('store');
@@ -163,7 +160,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [LoadingCompanyController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'transporters', 'as' => 'transporters.'], function () {
+    Route::group(['prefix' => 'transporters', 'as' => 'transporters.','middleware' => 'permission:data-transportir'], function () {
         Route::get('', [TransporterController::class, 'index'])->name('index');
         Route::get('/create', [TransporterController::class, 'create'])->name('create');
         Route::post('', [TransporterController::class, 'store'])->name('store');
@@ -172,7 +169,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [TransporterController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'harbors', 'as' => 'harbors.'], function () {
+    Route::group(['prefix' => 'harbors', 'as' => 'harbors.','middleware' => 'permission:data-pelabuhan-muat'], function () {
         Route::get('', [HarborController::class, 'index'])->name('index');
         Route::get('/create', [HarborController::class, 'create'])->name('create');
         Route::post('', [HarborController::class, 'store'])->name('store');
@@ -181,7 +178,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [HarborController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'surveyors', 'as' => 'surveyors.'], function () {
+    Route::group(['prefix' => 'surveyors', 'as' => 'surveyors.','middleware' => 'permission:data-surveyor'], function () {
         Route::get('', [SurveyorController::class, 'index'])->name('index');
         Route::get('/create', [SurveyorController::class, 'create'])->name('create');
         Route::post('', [SurveyorController::class, 'store'])->name('store');
@@ -190,7 +187,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [SurveyorController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'person-in-charges', 'as' => 'person-in-charges.'], function () {
+    Route::group(['prefix' => 'person-in-charges', 'as' => 'person-in-charges.','middleware' => 'permission:data-pic'], function () {
         Route::get('', [PersonInChargeController::class, 'index'])->name('index');
         Route::get('/create', [PersonInChargeController::class, 'create'])->name('create');
         Route::post('', [PersonInChargeController::class, 'store'])->name('store');
@@ -199,7 +196,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [PersonInChargeController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'heavy-equipments', 'as' => 'heavy-equipments.'], function () {
+    Route::group(['prefix' => 'heavy-equipments', 'as' => 'heavy-equipments.','middleware' => 'permission:data-alat'], function () {
         Route::group(['prefix' => 'type', 'as' => 'type.'], function () {
             Route::get('', [HeavyEquipmentTypeController::class, 'index'])->name('index');
             Route::get('/create', [HeavyEquipmentTypeController::class, 'create'])->name('create');
@@ -217,7 +214,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [HeavyEquipmentController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'bunkers', 'as' => 'bunkers.'], function () {
+    Route::group(['prefix' => 'bunkers', 'as' => 'bunkers.','middleware' => 'permission:data-bunker-bbm'], function () {
         Route::group(['prefix' => 'soundings', 'as' => 'soundings.'], function () {
             Route::get('{bunker_uuid}', [SoundingController::class, 'index'])->name('index');
             Route::get('{bunker_uuid}/create', [SoundingController::class, 'create'])->name('create');
@@ -234,7 +231,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
         Route::put('/{uuid}', [BunkerController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'units', 'as' => 'units.'], function () {
+    Route::group(['prefix' => 'units', 'as' => 'units.','middleware' => 'permission:data-unit'], function () {
         Route::get('', [UnitController::class, 'index'])->name('index');
         Route::get('/create', [UnitController::class, 'create'])->name('create');
         Route::post('', [UnitController::class, 'store'])->name('store');
@@ -245,7 +242,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master-data', 'as' => 'mast
 
 });
 Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'settings.'], function () {
-    Route::group(['prefix' => 'bbm-prices', 'as' => 'bbm-prices.'], function () {
+    Route::group(['prefix' => 'bbm-prices', 'as' => 'bbm-prices.','middleware' => 'permission:variabel-harga-bbm'], function () {
         Route::get('', [BbmPriceController::class, 'index'])->name('index');
         Route::get('/create', [BbmPriceController::class, 'create'])->name('create');
         Route::post('', [BbmPriceController::class, 'store'])->name('store');
@@ -254,7 +251,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'setting
         Route::delete('/{uuid}', [BbmPriceController::class, 'destroy'])->name('destroy');
     });
 
-    Route::group(['prefix' => 'harbor-service-prices', 'as' => 'harbor-service-prices.'], function () {
+    Route::group(['prefix' => 'harbor-service-prices', 'as' => 'harbor-service-prices.','middleware' => 'permission:variabel-jasa-dermaga'], function () {
         Route::get('', [HarborServicePriceController::class, 'index'])->name('index');
         Route::get('/create', [HarborServicePriceController::class, 'create'])->name('create');
         Route::post('', [HarborServicePriceController::class, 'store'])->name('store');
@@ -263,7 +260,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'setting
         Route::delete('/{uuid}', [HarborServicePriceController::class, 'destroy'])->name('destroy');
     });
 
-    Route::group(['prefix' => 'bbm-transport-prices', 'as' => 'bbm-transport-prices.'], function () {
+    Route::group(['prefix' => 'bbm-transport-prices', 'as' => 'bbm-transport-prices.','middleware' => 'permission:variabel-angkut-bbm'], function () {
         Route::get('', [BbmTransportPriceController::class, 'index'])->name('index');
         Route::get('/create', [BbmTransportPriceController::class, 'create'])->name('create');
         Route::post('', [BbmTransportPriceController::class, 'store'])->name('store');
@@ -272,7 +269,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'setting
         Route::delete('/{uuid}', [BbmTransportPriceController::class, 'destroy'])->name('destroy');
     });
 
-    Route::group(['prefix' => 'price-area-taxes', 'as' => 'price-area-taxes.'], function () {
+    Route::group(['prefix' => 'price-area-taxes', 'as' => 'price-area-taxes.','middleware' => 'permission:variabel-pajak-daerah'], function () {
         Route::get('', [PriceAreaTaxController::class, 'index'])->name('index');
         Route::get('/create', [PriceAreaTaxController::class, 'create'])->name('create');
         Route::post('', [PriceAreaTaxController::class, 'store'])->name('store');
@@ -281,7 +278,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'setting
         Route::delete('/{uuid}', [PriceAreaTaxController::class, 'destroy'])->name('destroy');
     });
 
-    Route::group(['prefix' => 'price-kso-taxes', 'as' => 'price-kso-taxes.'], function () {
+    Route::group(['prefix' => 'price-kso-taxes', 'as' => 'price-kso-taxes.','middleware' => 'permission:variabel-pajak-kso'], function () {
         Route::get('', [PriceKsoTaxController::class, 'index'])->name('index');
         Route::get('/create', [PriceKsoTaxController::class, 'create'])->name('create');
         Route::post('', [PriceKsoTaxController::class, 'store'])->name('store');
@@ -290,7 +287,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'setting
         Route::delete('/{uuid}', [PriceKsoTaxController::class, 'destroy'])->name('destroy');
     });
 
-    Route::group(['prefix' => 'electric-prices', 'as' => 'electric-prices.'], function () {
+    Route::group(['prefix' => 'electric-prices', 'as' => 'electric-prices.','middleware' => 'permission:variabel-tarif-listrik'], function () {
         Route::get('', [ElectricPriceController::class, 'index'])->name('index');
         Route::get('/create', [ElectricPriceController::class, 'create'])->name('create');
         Route::post('', [ElectricPriceController::class, 'store'])->name('store');
@@ -299,7 +296,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'setting
         Route::delete('/{uuid}', [ElectricPriceController::class, 'destroy'])->name('destroy');
     });
 
-    Route::group(['prefix' => 'electric-kwh-prices', 'as' => 'electric-kwh-prices.'], function () {
+    Route::group(['prefix' => 'electric-kwh-prices', 'as' => 'electric-kwh-prices.','middleware' => 'permission:variabel-tarif-kwh'], function () {
         Route::get('', [ElectricKwhPriceController::class, 'index'])->name('index');
         Route::get('/create', [ElectricKwhPriceController::class, 'create'])->name('create');
         Route::post('', [ElectricKwhPriceController::class, 'store'])->name('store');
@@ -308,7 +305,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'setting
         Route::delete('/{uuid}', [ElectricKwhPriceController::class, 'destroy'])->name('destroy');
     });
 
-    Route::group(['prefix' => 'ship-unload-prices', 'as' => 'ship-unload-prices.'], function () {
+    Route::group(['prefix' => 'ship-unload-prices', 'as' => 'ship-unload-prices.','middleware' => 'permission:variabel-tarif-ship'], function () {
         Route::get('', [ShipUnloadPriceController::class, 'index'])->name('index');
         Route::get('/create', [ShipUnloadPriceController::class, 'create'])->name('create');
         Route::post('', [ShipUnloadPriceController::class, 'store'])->name('store');
@@ -317,8 +314,4 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'settings', 'as' => 'setting
         Route::delete('/{uuid}', [ShipUnloadPriceController::class, 'destroy'])->name('destroy');
     });
 });
-
-Route::get('/users', 'Administration\UserController@index')->name('users.index')->middleware('auth');
-Route::get('settings/change-password', 'Settings\ChangePasswordController@index')->name('settings.change-password')->middleware('auth');
-Route::post('settings/change-password', 'Settings\ChangePasswordController@changePassword')->name('settings.change-password.post')->middleware('auth');
 

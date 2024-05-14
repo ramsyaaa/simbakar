@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Administration;
 
-use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use App\Exports\UsersExport;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -68,23 +69,30 @@ class UserController extends Controller
             'confirmation_password.same' => 'Konfirmasi kata sandi harus sama dengan kata sandi.',
         ]);
 
-        User::create([
+       $user = User::create([
             'role_id' => $request->role_id,
             'name' => $request->name,
             'username' => $request->username,
             'nid' => $request->nid,
             'email' => $request->email,
             'password' =>  Hash::make($request->password),
+            'access_token' => Str::uuid(),
             'status' => 1
         ]);
+        $role = Role::find($request->role_id);
+        
+        $user->assignRole($role->name);
 
         return redirect(route('administration.users.index'))->with('success', 'User baru berhasil dibuat.');
     }
 
     public function destroy($uuid){
-        User::where([
-            'uuid' => $uuid,
-        ])->delete();
+        
+        $user = User::where('uuid', $uuid)->first();
+        $role = Role::where('id', $user->role_id)->first();
+
+        $user->removeRole($role->name);
+        $user->delete();
 
         return redirect(route('administration.users.index'))->with('success', 'User berhasil dihapus.');
     }
@@ -98,9 +106,14 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $uuid){
+        
         $user = User::where([
             'uuid' => $uuid,
         ])->first();
+
+        //remove old role from user
+        $oldRole = Role::where('id', $user->role_id)->first();
+        $user->removeRole($oldRole->name);
 
         $validate_username = 'required|unique:users';
         $validate_email = 'required|unique:users';
@@ -121,27 +134,31 @@ class UserController extends Controller
             'nid' => $validate_nid,
             'username' => $validate_username,
             'email' => $validate_email,
+            'status' => 'required',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'username.required' => 'Username wajib diisi.',
             'nid.required' => 'NID wajib diisi.',
             'role_id.required' => 'Role wajib diisi.',
             'email.required' => 'Email wajib diisi.',
+            'status.required' => 'Status wajib diisi.',
             'password.required' => 'Kata sandi wajib diisi.',
             'username.unique' => 'Username sudah digunakan.',
             'nid.unique' => 'NID sudah digunakan.',
             'email.unique' => 'Email sudah digunakan.',
         ]);
 
-        User::where([
-            'uuid' => $uuid,
-        ])->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'username' => $request->username,
-            'nid' => $request->nid,
-            'role_id' => $request->role_id,
-        ]);
+        $user = User::where('uuid', $uuid)->first();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->username = $request->username;
+        $user->nid = $request->nid;
+        $user->role_id = $request->role_id;
+        $user->save();
+
+        // assign new role
+        $newRole = Role::where('id', $request->role_id)->first();
+        $user->assignRole($newRole);
 
         return redirect(route('administration.users.index'))->with('success', 'Update user berhasil dilakukan.');
     }
