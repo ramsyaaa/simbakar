@@ -7,6 +7,7 @@ use App\Http\Controllers\Administration\RoleController;
 use App\Http\Controllers\MasterData\LoadTypeController;
 use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
+use App\Http\Controllers\InitialData\CoalReceiptPlanController;
 use App\Http\Controllers\InitialData\ElectricityProductionController;
 use App\Http\Controllers\InitialData\SettingBpbController;
 use App\Http\Controllers\InitialData\YearStartDataController;
@@ -96,10 +97,15 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'initial-data', 'as' => 'ini
         Route::get('/{uuid}', [ElectricityProductionController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [ElectricityProductionController::class, 'update'])->name('update');
     });
-    Route::group(['prefix' => 'year-start', 'as' => 'year-start.', 'middleware' => 'permission:inisiasi-produksi-listrik'], function () {
+    Route::group(['prefix' => 'year-start', 'as' => 'year-start.', 'middleware' => 'permission:inisiasi-data-awal-tahun'], function () {
         Route::get('', [YearStartDataController::class, 'index'])->name('index');
         Route::get('/{uuid}', [YearStartDataController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [YearStartDataController::class, 'update'])->name('update');
+    });
+    Route::group(['prefix' => 'coal-receipt-plan', 'as' => 'coal-receipt-plan.', 'middleware' => 'permission:inisiasi-penerimaan-batu-bara'], function () {
+        Route::get('', [CoalReceiptPlanController::class, 'index'])->name('index');
+        Route::get('/{uuid}', [CoalReceiptPlanController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [CoalReceiptPlanController::class, 'update'])->name('update');
     });
 });
 

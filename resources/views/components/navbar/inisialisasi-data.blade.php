@@ -55,7 +55,7 @@
                 @endif
                 @if (Auth::user()->hasPermissionTo('inisiasi-data-awal-tahun'))
                     <div>
-                        <a href="#">
+                        <a href="{{ route('initial-data.year-start.index') }}">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                                 <div>
                                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,7 +72,7 @@
 
                 @if (Auth::user()->hasPermissionTo('inisiasi-penerimaan-batu-bara'))
                     <div>
-                        <a href="#">
+                        <a href="{{ route('initial-data.coal-receipt-plan.index') }}">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                                 <div>
                                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
