@@ -9,6 +9,7 @@ use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
 use App\Http\Controllers\InitialData\ElectricityProductionController;
 use App\Http\Controllers\InitialData\SettingBpbController;
+use App\Http\Controllers\InitialData\YearStartDataController;
 use App\Http\Controllers\MasterData\Bunker\BunkerController;
 use App\Http\Controllers\MasterData\Bunker\SoundingController;
 use App\Http\Controllers\MasterData\Dock\DockInspectionController;
@@ -94,6 +95,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'initial-data', 'as' => 'ini
         Route::get('', [ElectricityProductionController::class, 'index'])->name('index');
         Route::get('/{uuid}', [ElectricityProductionController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [ElectricityProductionController::class, 'update'])->name('update');
+    });
+    Route::group(['prefix' => 'year-start', 'as' => 'year-start.', 'middleware' => 'permission:inisiasi-produksi-listrik'], function () {
+        Route::get('', [YearStartDataController::class, 'index'])->name('index');
+        Route::get('/{uuid}', [YearStartDataController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [YearStartDataController::class, 'update'])->name('update');
     });
 });
 
