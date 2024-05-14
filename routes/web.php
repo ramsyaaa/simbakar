@@ -8,6 +8,7 @@ use App\Http\Controllers\MasterData\LoadTypeController;
 use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
 use App\Http\Controllers\InitialData\CoalReceiptPlanController;
+use App\Http\Controllers\InitialData\ConsumptionPlanController;
 use App\Http\Controllers\InitialData\ElectricityProductionController;
 use App\Http\Controllers\InitialData\SettingBpbController;
 use App\Http\Controllers\InitialData\YearStartDataController;
@@ -106,6 +107,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'initial-data', 'as' => 'ini
         Route::get('', [CoalReceiptPlanController::class, 'index'])->name('index');
         Route::get('/{uuid}', [CoalReceiptPlanController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [CoalReceiptPlanController::class, 'update'])->name('update');
+    });
+    Route::group(['prefix' => 'consuption-plan', 'as' => 'consuption-plan.', 'middleware' => 'permission:inisiasi-pemakaian'], function () {
+        Route::get('', [ConsumptionPlanController::class, 'index'])->name('index');
+        Route::get('/{uuid}', [ConsumptionPlanController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [ConsumptionPlanController::class, 'update'])->name('update');
     });
 });
 
