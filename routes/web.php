@@ -7,6 +7,7 @@ use App\Http\Controllers\Administration\RoleController;
 use App\Http\Controllers\MasterData\LoadTypeController;
 use App\Http\Controllers\MasterData\Ship\ShipController;
 use App\Http\Controllers\Administration\DashboardController;
+use App\Http\Controllers\InitialData\ElectricityProductionController;
 use App\Http\Controllers\InitialData\SettingBpbController;
 use App\Http\Controllers\MasterData\Bunker\BunkerController;
 use App\Http\Controllers\MasterData\Bunker\SoundingController;
@@ -81,13 +82,18 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'administration', 'as' => 'a
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'initial-data', 'as' => 'initial-data.'], function () {
-    Route::group(['prefix' => 'settings-bpb', 'as' => 'settings-bpb.'], function () {
+    Route::group(['prefix' => 'settings-bpb', 'as' => 'settings-bpb.', 'middleware' => 'permission:inisiasi-setting-pbb'], function () {
         Route::get('', [SettingBpbController::class, 'index'])->name('index');
         Route::get('/create', [SettingBpbController::class, 'create'])->name('create');
         Route::post('', [SettingBpbController::class, 'store'])->name('store');
         Route::delete('/{uuid}', [SettingBpbController::class, 'destroy'])->name('destroy');
         Route::get('/{uuid}', [SettingBpbController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [SettingBpbController::class, 'update'])->name('update');
+    });
+    Route::group(['prefix' => 'electricity-production', 'as' => 'electricity-production.', 'middleware' => 'permission:inisiasi-produksi-listrik'], function () {
+        Route::get('', [ElectricityProductionController::class, 'index'])->name('index');
+        Route::get('/{uuid}', [ElectricityProductionController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [ElectricityProductionController::class, 'update'])->name('update');
     });
 });
 
