@@ -33,7 +33,8 @@ class CoalContractController extends Controller
      */
     public function create()
     {
-        //
+        $data['suppliers'] = Supplier::all();
+        return view('contracts.coal-contracts.create',$data);
     }
 
     /**
@@ -44,7 +45,47 @@ class CoalContractController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'supplier_uuid' => 'required',
+                'contract_number' => 'required',
+                'contract_date' => 'required',
+                'type_contract' => 'required',
+                'kind_contract' => 'required',
+                'total_volume' => 'required',
+                'price' => 'required',
+                'contract_start_date' => 'required',
+                'contract_end_date' => 'required',
+            ], [
+                'supplier_uuid.required' => 'Supplier wajib diisi.',
+                'contract_number.required' => 'Nomor Kontrak wajib diisi.',
+                'contract_date.required' => 'Tanggal Kontrak wajib diisi.',
+                'type_contract.required' => 'Tipe Kontrak wajib diisi.',
+                'kind_contract.required' => 'Jenis Kontrak wajib diisi.',
+                'total_volume.required' => 'Volume Total wajib diisi.',
+                'price.required' => 'Harga wajib diisi.',
+                'contract_start_date.required' => 'Tanggal Mulai Kontrak wajib diisi.',
+                'contract_end_date.required' => 'Tanggal Selesai Kontrak wajib diisi.',
+            ]);
+    
+            CoalContract::create([
+                'supplier_uuid' => $request->supplier_uuid,
+                'contract_number' => $request->contract_number,
+                'contract_date' => $request->contract_date,
+                'type_contract' => $request->type_contract,
+                'kind_contract' => $request->kind_contract,
+                'total_volume' => $request->total_volume,
+                'price' => $request->price,
+                'contract_start_date' => $request->contract_start_date,
+                'contract_end_date' => $request->contract_end_date,
+            ]);
+    
+            return redirect(route('contracts.coal-contracts.index'))->with('success', 'Kontrak Batu Bara berhasil dibuat.');
+            
+        } catch (\ValidationException $th) {
+            throw $th;
+        }
+       
     }
 
     /**
@@ -64,9 +105,11 @@ class CoalContractController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($uuid)
     {
-        //
+        $data['coal'] = CoalContract::where('uuid', $uuid)->first();
+        $data['suppliers'] = Supplier::all();
+        return view('contracts.coal-contracts.edit',$data);
     }
 
     /**
@@ -76,9 +119,20 @@ class CoalContractController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        //
+        CoalContract::where('uuid', $uuid)->update([
+            'supplier_uuid' => $request->supplier_uuid,
+            'contract_number' => $request->contract_number,
+            'contract_date' => $request->contract_date,
+            'type_contract' => $request->type_contract,
+            'kind_contract' => $request->kind_contract,
+            'total_volume' => $request->total_volume,
+            'price' => $request->price,
+            'contract_start_date' => $request->contract_start_date,
+            'contract_end_date' => $request->contract_end_date,
+        ]);
+        return redirect(route('contracts.coal-contracts.index'))->with('success', 'Kontrak Batu Bara berhasil di ubah.');
     }
 
     /**
@@ -87,8 +141,9 @@ class CoalContractController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        //
+        CoalContract::where('uuid', $uuid)->delete();
+        return redirect(route('contracts.coal-contracts.index'))->with('success', 'Kontrak Batu Bara berhasil di hapus.');
     }
 }

@@ -81,5 +81,19 @@
             return false;
         }
     </script>
+    <script>
+
+        var fleetType = document.getElementById('fleet_type');
+        var shipUuid = document.getElementById('ship_uuid');
+    
+        fleetType.addEventListener('change', function() {
+            if (this.value === 'Kapal') {
+                shipUuid.disabled = false;
+            } else {
+                shipUuid.disabled = true; 
+            }
+        });
+    </script>
+    
 </body>
 </html>

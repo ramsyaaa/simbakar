@@ -17,14 +17,14 @@ class CreateCoalContractsTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique()->nullable;
             $table->string('supplier_uuid')->references('uuid')->on('suppliers')->nullable();
-            $table->string('contact_number')->nullable();
-            $table->string('name');
-            $table->date('number_contract')->nullable();
+            $table->string('contract_number')->nullable();
+            $table->date('contract_date')->nullable();
             $table->string('type_contract')->nullable();
+            $table->string('kind_contract')->nullable();
             $table->integer('total_volume')->nullable();
             $table->decimal('price',20,2)->nullable();
-            $table->date('contact_start_date')->nullable();
-            $table->date('contact_end_date')->nullable();
+            $table->date('contract_start_date')->nullable();
+            $table->date('contract_end_date')->nullable();
             $table->timestamps();
         });
     }

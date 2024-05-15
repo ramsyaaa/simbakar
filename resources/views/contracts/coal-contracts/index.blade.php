@@ -39,7 +39,9 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>Status</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nomor Kontrak</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]"></th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
@@ -47,17 +49,31 @@
                             @foreach ($coals as $coal)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('contracts.coal-contracts.edit', ['uuid' => $coal->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                        Edit
-                                    </a>
-                                    <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('contracts.coal-contracts.destroy', ['uuid' => $coal->uuid]) }}" method="POST">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="bg-[#C03221] text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                            Delete
-                                        </button>
-                                    </form>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">
+                                    {{ $coal->contract_number }}
+                                    <br/>
+                                    <span>Jenis : {{$coal->kind_contract}}</span>
+                                    <br/>
+                                    [Ada Adendum]
+                                    <br/>
+                                    <span>Jenis Kontrak Baru : {{$coal->kind_contract}}</span>
+                                </td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
+
+                                <td class="h-[36px] text-[16px] font-normal border px-2 ">
+                                    <div class="flex items-center justify-center gap-2">
+
+                                        <a href="{{ route('contracts.coal-contracts.edit', ['uuid' => $coal->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                            Edit
+                                        </a>
+                                        <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('contracts.coal-contracts.destroy', ['uuid' => $coal->uuid]) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="bg-[#C03221] text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

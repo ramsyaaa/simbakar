@@ -21,11 +21,6 @@ class TypeShip extends Model
          'email_verified_at' => 'datetime',
      ];
 
-     public function role()
-     {
-         return $this->hasOne(Role::class, 'id', 'role_id');
-     }
-     
      protected static function boot()
      {
          parent::boot();
