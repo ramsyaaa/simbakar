@@ -2,22 +2,26 @@
 
 namespace App;
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use Ramsey\Uuid\Uuid;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,HasRoles;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
+
+
+    protected $guarded = [
+       'id'
     ];
 
     /**
@@ -38,24 +42,17 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier()
+    public function role()
     {
-        return $this->getKey();
+        return $this->hasOne(Role::class, 'id', 'role_id');
     }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
+    protected static function boot()
     {
-        return [];
-    }
+        parent::boot();
 
+        static::creating(function ($model) {
+            $model->uuid = Uuid::uuid4()->toString();
+        });
+    }
 }

@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth as AuthFacade;
 
 class LoginController extends Controller
 {
@@ -33,8 +38,55 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
+    public function __construct(){
+        // $this->middleware('guest')->except('logout');
+    }
+
+    public function index(){
+
+        return view('auth.login');
+    }
+
+    public function authenticate(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ], [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Email harus berformat email yang valid.',
+            'password.required' => 'Password wajib diisi.',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if(!$user){
+            return redirect()->route('login')->withErrors([
+                'email' => 'Email atau password anda salah.',
+            ]);;
+        }
+        if($user->status ==  false){
+            return redirect()->route('login')->withErrors([
+                'email' => 'Akun anda sedang tidak aktif.',
+            ]);;
+        }
+
+        if( Hash::check($request->password,$user->password) ){
+
+            auth()->login($user);
+            return redirect()->route('administration.dashboard')->with('success', 'Login berhasil');
+
+        }else{
+            return redirect()->route('login')->withErrors([
+                'email' => 'Email atau password anda salah.',
+            ]);;
+
+        }
+    }
+
+    public function logout(Request $request){
+
+        AuthFacade::logout();
+
+        return redirect()->route('login')->with('success', 'Logout berhasil');
     }
 }
