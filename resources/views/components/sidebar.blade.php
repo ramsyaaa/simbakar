@@ -57,6 +57,7 @@
                 @include('components.navbar.analisa')
                 @include('components.navbar.batu-bara')
                 @include('components.navbar.bbm')
+                @include('components.navbar.biomassa')
                 @include('components.navbar.kapal')
                 @include('components.navbar.stock-opname')
                 @include('components.navbar.tug')

@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class BbmPrice extends Model
+class TransferBbm extends Model
 {
     protected $guarded = ['id'];
     
