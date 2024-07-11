@@ -37,7 +37,7 @@
                         </a>
                     </div>
                 @endif
-                @if (Auth::user()->hasPermissionTo('inputan-pembongkaran-batu-bara'))
+                {{-- @if (Auth::user()->hasPermissionTo('inputan-pembongkaran-batu-bara'))
                     <div>
                         <a href="#">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
@@ -100,7 +100,7 @@
                             </div>
                         </a>
                     </div>
-                @endif
+                @endif --}}
                 @if (Auth::user()->hasPermissionTo('inputan-stock-opname'))
                     <div>
                         <a href="{{route('inputs.stock-opnames.index')}}">
@@ -133,7 +133,7 @@
                         </a>
                     </div>
                 @endif
-                @if (Auth::user()->hasPermissionTo('inputan-jadwal-kapal'))
+                {{-- @if (Auth::user()->hasPermissionTo('inputan-jadwal-kapal'))
                     <div>
                         <a href="#">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
@@ -197,7 +197,7 @@
                             </div>
                         </a>
                     </div>
-                @endif  
+                @endif   --}}
             </div>
         </div>
     </div>

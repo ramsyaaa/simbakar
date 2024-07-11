@@ -154,6 +154,16 @@ class RoleService{
                 }
                 $writerRole->givePermissionTo($variabel);
             }
+        }   
+
+        if($request->has('biomassa')){
+            foreach ($request->biomassa as $biomassa) {
+                $existingPermission = Permission::where('name', $biomassa)->first();
+                if (!$existingPermission) {
+                    Permission::create(['name' => $biomassa]);
+                }
+                $writerRole->givePermissionTo($biomassa);
+            }
         }       
     }
 }

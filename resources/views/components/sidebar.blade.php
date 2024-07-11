@@ -58,11 +58,11 @@
                 @include('components.navbar.batu-bara')
                 @include('components.navbar.bbm')
                 @include('components.navbar.biomassa')
-                @include('components.navbar.kapal')
+                {{-- @include('components.navbar.kapal')
                 @include('components.navbar.stock-opname')
                 @include('components.navbar.tug')
                 @include('components.navbar.pencatatan-counter')
-                @include('components.navbar.perbaikan-data-bongkar')
+                @include('components.navbar.perbaikan-data-bongkar') --}}
                 @include('components.navbar.setting')
 
             </div>
