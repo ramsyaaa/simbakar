@@ -39,8 +39,9 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nomor Kontrak</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]"></th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]"></th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
@@ -58,7 +59,18 @@
                                     <br/>
                                     <span>Jenis Kontrak Baru : {{$coal->kind_contract}}</span>
                                 </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">
+                                    <ul class="text-left">
+                                        <li>Spesifikasi Batubara ( 0 )</li>
+                                        <li>Klausul Pengiriman</li>
+                                        <li>Klausul Penyesuaian</li>
+                                    </ul>
+                                </td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">
+                                    <ul class="text-left">
+                                        <li>Klausul Denda Penolakan</li>
+                                    </ul>
+                                </td>
 
                                 <td class="h-[36px] text-[16px] font-normal border px-2 ">
                                     <div class="flex items-center justify-center gap-2">

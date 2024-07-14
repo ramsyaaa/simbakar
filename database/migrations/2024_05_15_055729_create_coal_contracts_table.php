@@ -15,7 +15,7 @@ class CreateCoalContractsTable extends Migration
     {
         Schema::create('coal_contracts', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->nullable;
+            $table->uuid('uuid')->unique()->nullable();
             $table->string('supplier_uuid')->references('uuid')->on('suppliers')->nullable();
             $table->string('contract_number')->nullable();
             $table->date('contract_date')->nullable();
