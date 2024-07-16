@@ -7,9 +7,9 @@ use App\Models\CoalContract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\SpesificationContractCoal;
+use App\Models\PenaltyClause;
 
-class SpesificationCoalContractController extends Controller
+class PenaltyClauseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +18,12 @@ class SpesificationCoalContractController extends Controller
      */
     public function index(Request $request,$contractId)
     {
-        $coals = SpesificationContractCoal::query();
+        $penalties = PenaltyClause::query();
 
         $data['contract'] = CoalContract::where('id', $contractId)->first();
-        $data['coals'] = $coals->latest()->paginate(10)->appends(request()->query());
+        $data['penalties'] = $penalties->latest()->paginate(10)->appends(request()->query());
         // dd($data);
-        return view('contracts.coal-contracts.spesification.index',$data);
+        return view('contracts.coal-contracts.penalty-clause.index',$data);
 
     }
 
@@ -35,7 +35,7 @@ class SpesificationCoalContractController extends Controller
     public function create($contractId)
     {
         $data['contract'] = CoalContract::where('id', $contractId)->first();
-        return view('contracts.coal-contracts.spesification.create',$data);
+        return view('contracts.coal-contracts.penalty-clause.create',$data);
     }
 
     /**
@@ -44,21 +44,20 @@ class SpesificationCoalContractController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$contractId)
     {
         DB::beginTransaction();
-        
         try {
-            
-            SpesificationContractCoal::create($request->all());
+
+            PenaltyClause::create($request->all());
 
             DB::commit();
-            return redirect(route('contracts.coal-contracts.spesification.index',['contractId'=>$request->contract_id]))->with('success', 'Spesifikasi kontrak baru gagal di buat.');
+            return redirect(route('contracts.coal-contracts.penalty-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul denda penolakan kontrak baru berhasil di buat.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
 
-            return redirect()->back()->with('error','Spesifikasi kontrak baru gagal di buat');
+            return redirect()->back()->with('error','Klausul denda penolakan kontrak baru gagal di buat');
         }
        
     }
@@ -83,8 +82,8 @@ class SpesificationCoalContractController extends Controller
     public function edit($contractId,$id)
     {
         $data['contract'] = CoalContract::where('id', $contractId)->first();
-        $data['coal'] = SpesificationContractCoal::where('id', $id)->first();
-        return view('contracts.coal-contracts.spesification.edit',$data);
+        $data['penalty'] = PenaltyClause::where('id', $id)->first();
+        return view('contracts.coal-contracts.penalty-clause.edit',$data);
     }
 
     /**
@@ -96,14 +95,12 @@ class SpesificationCoalContractController extends Controller
      */
     public function update(Request $request, $contractId,$id)
     {
-        // dd($request);
         DB::beginTransaction();
         try {
-            
-            SpesificationContractCoal::where('id',$id)->update($request->except(['_token','_method']));
+            PenaltyClause::where('id',$id)->update($request->except(['_token','_method']));
 
             DB::commit();
-            return redirect(route('contracts.coal-contracts.spesification.index',['contractId'=>$request->contract_id]))->with('success', 'Spesifikasi kontrak baru berhasil di ubah.');
+            return redirect(route('contracts.coal-contracts.penalty-clause.index',['contractId'=>$contractId]))->with('success', 'Spesifikasi kontrak baru berhasil di ubah.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -120,7 +117,7 @@ class SpesificationCoalContractController extends Controller
      */
     public function destroy($contractId,$id)
     {
-        SpesificationContractCoal::where('id', $id)->delete();
-        return redirect(route('contracts.coal-contracts.spesification.index',['contractId'=>$contractId]))->with('success', 'Spesifikasi Kontrak Batu Bara berhasil di hapus.');
+        PenaltyClause::where('id', $id)->delete();
+        return redirect(route('contracts.coal-contracts.penalty-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul Penyesuaian Kontrak Batu Bara berhasil di hapus.');
     }
 }

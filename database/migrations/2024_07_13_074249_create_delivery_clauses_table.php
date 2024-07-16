@@ -15,6 +15,8 @@ class CreateDeliveryClausesTable extends Migration
     {
         Schema::create('delivery_clauses', function (Blueprint $table) {
             $table->id();
+            $table->integer('contract_id')->nullable();
+            $table->date('delivery_date')->nullable();
             $table->string('month', 100)->nullable();
             $table->string('year', 100)->nullable();
             $table->integer('load')->nullable();

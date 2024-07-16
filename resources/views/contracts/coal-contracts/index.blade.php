@@ -51,7 +51,7 @@
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">
-                                    {{ $coal->contract_number }}
+                                    <span class="text-sky-700 cursor-pointer" data-tooltip-target="tooltip-light-{{$loop->iteration}}">{{ $coal->contract_number }}</span> 
                                     <br/>
                                     <span>Jenis : {{$coal->kind_contract}}</span>
                                     <br/>
@@ -60,24 +60,43 @@
                                     <span>Jenis Kontrak Baru : {{$coal->kind_contract}}</span>
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">
-                                    <ul class="text-left">
-                                        <li>Spesifikasi Batubara ( 0 )</li>
-                                        <li>Klausul Pengiriman</li>
-                                        <li>Klausul Penyesuaian</li>
+                                    <ul class="text-center">
+                                        <li>
+                                            <a href="{{route('contracts.coal-contracts.spesification.index',['contractId' => $coal->id])}}" class="text-sky-700 hover:text-sky-900">
+                                                Spesifikasi Batubara ( {{$coal->spesifications->count()}} )
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('contracts.coal-contracts.delivery-clause.index',['contractId' => $coal->id])}}" class="text-sky-700 hover:text-sky-900">
+                                                Klausul Pengiriman
+                                            </a>
+                                           
+                                        </li>
+                                        <li>
+                                            <a href="{{route('contracts.coal-contracts.adjusment-clause.index',['contractId' => $coal->id])}}" class="text-sky-700 hover:text-sky-900">
+                                                Klausul Penyesuaian
+                                            </a>
+                                           
+                                        </li>
                                     </ul>
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">
-                                    <ul class="text-left">
-                                        <li>Klausul Denda Penolakan</li>
+                                    <ul class="text-center">
+                                        <li>
+                                            <a href="{{route('contracts.coal-contracts.penalty-clause.index',['contractId' => $coal->id])}}" class="text-sky-700 hover:text-sky-900">
+                                                Klausul Denda Penolakan
+                                            </a>
+                                            
+                                        </li>
                                     </ul>
                                 </td>
 
                                 <td class="h-[36px] text-[16px] font-normal border px-2 ">
                                     <div class="flex items-center justify-center gap-2">
-
+{{-- 
                                         <a href="{{ route('contracts.coal-contracts.edit', ['uuid' => $coal->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                             Edit
-                                        </a>
+                                        </a> --}}
                                         <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('contracts.coal-contracts.destroy', ['uuid' => $coal->uuid]) }}" method="POST">
                                             @csrf
                                             @method('delete')

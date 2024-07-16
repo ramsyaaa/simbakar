@@ -16,7 +16,7 @@ class CreateSpesificationContractCoalsTable extends Migration
         Schema::create('spesification_contract_coals', function (Blueprint $table) {
             $table->id();
             $table->integer('contract_id')->nullable();
-            $table->text('identification_specfication')->nullable();
+            $table->text('identification_spesification')->nullable();
             $table->integer('price')->nullable();
             $table->integer('exchange_rate')->nullable();
             $table->float('total_moisure_min')->nullable();
@@ -70,15 +70,15 @@ class CreateSpesificationContractCoalsTable extends Migration
             $table->float('mgo_min')->nullable();
             $table->float('mgo_max')->nullable();
             $table->float('mgo_typical')->nullable();
-            $table->float('k20_min')->nullable();
-            $table->float('k20_max')->nullable();
-            $table->float('k20_typical')->nullable();
+            $table->float('k2o_min')->nullable();
+            $table->float('k2o_max')->nullable();
+            $table->float('k2o_typical')->nullable();
             $table->float('so3_min')->nullable();
             $table->float('so3_max')->nullable();
             $table->float('so3_typical')->nullable();
-            $table->float('mn3o4_min')->nullable();
-            $table->float('mn3o4_max')->nullable();
-            $table->float('mn3o4_typical')->nullable();
+            $table->float('mno4_min')->nullable();
+            $table->float('mno4_max')->nullable();
+            $table->float('mno4_typical')->nullable();
             $table->float('ai2o3_min')->nullable();
             $table->float('ai2o3_max')->nullable();
             $table->float('ai2o3_typical')->nullable();

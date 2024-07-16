@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
+use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
 class SpesificationContractCoal extends Model
 {
-    protected $guarded =['id'];
+    protected $guarded = ['id'];
+    protected $table = 'spesification_contract_coals';
 
     protected static function boot()
      {

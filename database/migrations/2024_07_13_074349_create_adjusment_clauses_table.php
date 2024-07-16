@@ -15,6 +15,7 @@ class CreateAdjusmentClausesTable extends Migration
     {
         Schema::create('adjusment_clauses', function (Blueprint $table) {
             $table->id();
+            $table->integer('contract_id')->nullable();
             $table->string('price_coal_will_text', 100)->nullable();
             $table->float('price_coal_will_number')->nullable();
             $table->string('price_coal_will_type_number', 100)->nullable();
@@ -23,7 +24,7 @@ class CreateAdjusmentClausesTable extends Migration
             $table->float('for_will_number')->nullable();
             $table->string('for_will_type_number', 100)->nullable();
             $table->string('with_limit_text', 100)->nullable();
-            $table->string('with_limit_parameter', 100)->nullable();
+            $table->string('with_limit_number', 100)->nullable();
             $table->timestamps();
         });
     }

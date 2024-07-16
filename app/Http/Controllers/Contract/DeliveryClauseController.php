@@ -7,9 +7,9 @@ use App\Models\CoalContract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\SpesificationContractCoal;
+use App\Models\DeliveryClause;
 
-class SpesificationCoalContractController extends Controller
+class DeliveryClauseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +18,12 @@ class SpesificationCoalContractController extends Controller
      */
     public function index(Request $request,$contractId)
     {
-        $coals = SpesificationContractCoal::query();
+        $deliveries = DeliveryClause::query();
 
         $data['contract'] = CoalContract::where('id', $contractId)->first();
-        $data['coals'] = $coals->latest()->paginate(10)->appends(request()->query());
+        $data['deliveries'] = $deliveries->latest()->paginate(10)->appends(request()->query());
         // dd($data);
-        return view('contracts.coal-contracts.spesification.index',$data);
+        return view('contracts.coal-contracts.delivery-clause.index',$data);
 
     }
 
@@ -35,7 +35,7 @@ class SpesificationCoalContractController extends Controller
     public function create($contractId)
     {
         $data['contract'] = CoalContract::where('id', $contractId)->first();
-        return view('contracts.coal-contracts.spesification.create',$data);
+        return view('contracts.coal-contracts.delivery-clause.create',$data);
     }
 
     /**
@@ -44,21 +44,28 @@ class SpesificationCoalContractController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$contractId)
     {
         DB::beginTransaction();
         
         try {
-            
-            SpesificationContractCoal::create($request->all());
+            $date = explode('-',$request->delivery_date);
+
+            DeliveryClause::create([
+                'contract_id' => $contractId,
+                'month' => $date[1],
+                'year' => $date[0],
+                'load' => $request->load,
+                'rakor' => $request->rakor,
+            ]);
 
             DB::commit();
-            return redirect(route('contracts.coal-contracts.spesification.index',['contractId'=>$request->contract_id]))->with('success', 'Spesifikasi kontrak baru gagal di buat.');
+            return redirect(route('contracts.coal-contracts.delivery-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul pengirim kontrak baru berhasil di buat.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
 
-            return redirect()->back()->with('error','Spesifikasi kontrak baru gagal di buat');
+            return redirect()->back()->with('error','Klausul pengiriman kontrak baru gagal di buat');
         }
        
     }
@@ -83,8 +90,8 @@ class SpesificationCoalContractController extends Controller
     public function edit($contractId,$id)
     {
         $data['contract'] = CoalContract::where('id', $contractId)->first();
-        $data['coal'] = SpesificationContractCoal::where('id', $id)->first();
-        return view('contracts.coal-contracts.spesification.edit',$data);
+        $data['delivery'] = DeliveryClause::where('id', $id)->first();
+        return view('contracts.coal-contracts.delivery-clause.edit',$data);
     }
 
     /**
@@ -99,11 +106,18 @@ class SpesificationCoalContractController extends Controller
         // dd($request);
         DB::beginTransaction();
         try {
-            
-            SpesificationContractCoal::where('id',$id)->update($request->except(['_token','_method']));
+
+            $date = explode('-',$request->delivery_date);
+            DeliveryClause::where('id',$id)->update([
+                'contract_id' => $contractId,
+                'month' => $date[1],
+                'year' => $date[0],
+                'load' => $request->load,
+                'rakor' => $request->rakor,
+            ]);
 
             DB::commit();
-            return redirect(route('contracts.coal-contracts.spesification.index',['contractId'=>$request->contract_id]))->with('success', 'Spesifikasi kontrak baru berhasil di ubah.');
+            return redirect(route('contracts.coal-contracts.delivery-clause.index',['contractId'=>$contractId]))->with('success', 'Spesifikasi kontrak baru berhasil di ubah.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -120,7 +134,7 @@ class SpesificationCoalContractController extends Controller
      */
     public function destroy($contractId,$id)
     {
-        SpesificationContractCoal::where('id', $id)->delete();
-        return redirect(route('contracts.coal-contracts.spesification.index',['contractId'=>$contractId]))->with('success', 'Spesifikasi Kontrak Batu Bara berhasil di hapus.');
+        DeliveryClause::where('id', $id)->delete();
+        return redirect(route('contracts.coal-contracts.delivery-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul Pengiriman Kontrak Batu Bara berhasil di hapus.');
     }
 }

@@ -15,6 +15,7 @@ class CreateRefusalPenaltyClausesTable extends Migration
     {
         Schema::create('refusal_penalty_clauses', function (Blueprint $table) {
             $table->id();
+            $table->integer('contract_id')->nullable();
             $table->string('penalty_will_get_if_sign', 100)->nullable();
             $table->string('penalty_will_get_if_parameter', 100)->nullable();
             $table->float('penalty_will_get_if_number')->nullable();
