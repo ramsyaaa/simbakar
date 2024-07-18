@@ -31,7 +31,7 @@
                             <div class="delivery">
                                 <label for="price_coal_will_text" class="font-bold text-[#232D42] text-[16px]">Harga Batu Bara Akan</label>
                                 <div class="relative">
-                                    <select name="price_coal_will_text" id="" class="w-full mt-3 lg:w-[360px] h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <select name="price_coal_will_text" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option {{$adjusment->price_coal_will_text == 'Bertambah' ? 'selected' :''}}>Bertambah</option>
                                         <option {{$adjusment->price_coal_will_text == 'Berkurang' ? 'selected' :''}}>Berkurang</option>
                                     </select>
@@ -46,7 +46,7 @@
                             <div class="delivery">
                                 <label for="price_coal_will_number" class="font-bold text-[#232D42] text-[16px]">Sebesar</label>
                                 <div class="relative">
-                                    <input type="text" name="price_coal_will_number" value="{{ $adjusment->price_coal_will_number }}" class="input-number w-full lg:w-[360px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="price_coal_will_number" value="{{ $adjusment->price_coal_will_number }}" class="input-number w-full lg:w-64 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     
                                     @error('price_coal_will_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
@@ -58,7 +58,7 @@
                             <div class="delivery">
                                 <label for="price_coal_will_text" class="font-bold text-[#232D42] text-[16px]">Tipe Angka</label>
                                 <div class="relative">
-                                    <select name="price_coal_will_type_number" id="" class="w-full mt-3 lg:w-[360px] h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <select name="price_coal_will_type_number" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option value="percentage" {{$adjusment->price_coal_will_type_number == 'percentage' ? 'selected' :''}}> % ( Persentase ) </option>
                                         <option value="number" {{$adjusment->price_coal_will_type_number == 'number' ? 'selected' :''}}>Angka</option>
                                     </select>
@@ -76,7 +76,7 @@
                             <div class="delivery">
                                 <label for="for_will_text" class="font-bold text-[#232D42] text-[16px]">Untuk setiap</label>
                                 <div class="relative">
-                                    <select name="for_will_text" id="" class="w-full mt-3 lg:w-[360px] h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <select name="for_will_text" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option {{$adjusment->for_will_text == 'Penambahan' ? 'selected' :''}}>Penambahan</option>
                                         <option {{$adjusment->for_will_text == 'Pengurangan' ? 'selected' :''}}>Pengurangan</option>
                                     </select>
@@ -91,7 +91,7 @@
                             <div class="delivery">
                                 <label for="for_will_parameter" class="font-bold text-[#232D42] text-[16px]">Parameter</label>
                                 <div class="relative">
-                                    <select name="for_will_parameter" id="" class="w-full mt-3 lg:w-[360px] h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <select name="for_will_parameter" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option {{$adjusment->for_will_parameter == 'Ash' ? 'selected' :''}}>Ash</option>
                                     </select>
                                     
@@ -105,7 +105,7 @@
                             <div class="delivery">
                                 <label for="for_will_number" class="font-bold text-[#232D42] text-[16px]">Sebesar</label>
                                 <div class="relative">
-                                    <input type="text" name="for_will_number" value="{{ $adjusment->for_will_number }}" class="input-number w-full lg:w-[360px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="for_will_number" value="{{ $adjusment->for_will_number }}" class="input-number w-full lg:w-64 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     
                                     @error('for_will_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
@@ -117,7 +117,7 @@
                             <div class="delivery">
                                 <label for="for_will_type_number" class="font-bold text-[#232D42] text-[16px]">Tipe Angka</label>
                                 <div class="relative">
-                                    <select name="for_will_type_number" id="" class="w-full mt-3 lg:w-[360px] h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <select name="for_will_type_number" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option value="percentage" {{$adjusment->for_will_type_number == 'percentage' ? 'selected' :''}}>% ( Persentase ) </option>
                                         <option value="number" {{$adjusment->for_will_type_number == 'number' ? 'selected' :''}}>Angka</option>
                                     </select>
@@ -134,7 +134,7 @@
                             <div class="delivery">
                                 <label for="with_limit_text" class="font-bold text-[#232D42] text-[16px]">Dengan Batas</label>
                                 <div class="relative">
-                                    <select name="with_limit_text" id="" class="w-full mt-3 lg:w-[360px] h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <select name="with_limit_text" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option {{$adjusment->with_limit_text == 'Diatas' ? 'selected' :''}}>Diatas</option>
                                         <option {{$adjusment->with_limit_text == 'Dibawah' ? 'selected' :''}}>Dibawah</option>
                                     </select>
@@ -149,7 +149,7 @@
                             <div class="delivery">
                                 <label for="with_limit_number" class="font-bold text-[#232D42] text-[16px]">Sebesar</label>
                                 <div class="relative">
-                                    <input type="text" name="with_limit_number" value="{{ $adjusment->with_limit_number }}" class="input-number w-full lg:w-[360px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="with_limit_number" value="{{ $adjusment->with_limit_number }}" class="input-number w-full lg:w-64 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     
                                     @error('with_limit_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">

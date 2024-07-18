@@ -28,6 +28,7 @@ require 'administration.php';
 require 'initial-data.php';
 require 'contract.php';
 require 'master-data.php';
+require 'batu-bara.php';
 require 'input.php';
 require 'setting.php';
 

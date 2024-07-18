@@ -1,4 +1,4 @@
-<div :class="sidebar?'w-full lg:w-2/12 absolute lg:relative' : 'w-0 relative'" class="no-select" style="z-index: 10">
+<div :class="sidebar?'w-full lg:w-2/12 absolute lg:relative' : 'w-0 relative' " class="no-select" style="z-index: 10">
     <div :class="sidebar? '-right-3' : '-right-8 rotate-180'" class="absolute top-3 cursor-pointer transition-transform duration-300" @click="sidebar=!sidebar">
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="30" y="0.0065918" width="30" height="30" rx="15" transform="rotate(90 30 0.0065918)" fill="#135F9C"/>
