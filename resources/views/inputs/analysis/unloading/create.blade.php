@@ -9,15 +9,15 @@
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Tambah Labor
+                        Tambah Unloading
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
-                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('inputs.analysis.labors.index') }}">Analisa</a> / <a href="{{ route('inputs.analysis.labors.index') }}" class="cursor-pointer">Labor</a>  / <span class="text-[#2E46BA] cursor-pointer">Create</span>
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('inputs.analysis.unloadings.index') }}">Analisa</a> / <a href="{{ route('inputs.analysis.unloadings.index') }}" class="cursor-pointer">Unloading</a>  / <span class="text-[#2E46BA] cursor-pointer">Create</span>
                     </div>
                 </div>
             </div>
             <div class="bg-white rounded-lg p-6">
-                <form onsubmit="return confirmSubmit(this, 'Tambahkan Labor?')" action="{{ route('inputs.analysis.labors.store') }}" method="POST">
+                <form onsubmit="return confirmSubmit(this, 'Tambahkan Unloading?')" action="{{ route('inputs.analysis.unloadings.store') }}" method="POST">
                     @csrf
                     <div class="p-4 bg-white rounded-lg w-full">
                         <div class="w-full">
@@ -47,6 +47,22 @@
                                         @endforeach
                                     </select>
                                     @error('ship_uuid')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <label for="surveyor_uuid" class="font-bold text-[#232D42] text-[16px]">Surveyor</label>
+                                <div class="relative">
+                                    <select name="surveyor_uuid" id="surveyor_uuid" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <option value="">Pilih</option>
+                                        @foreach ($surveyors as $item)
+                                            <option value="{{ $item->uuid }}" {{ old('surveyor_uuid') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('surveyor_uuid')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
@@ -539,8 +555,8 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('inputs.analysis.labors.index') }}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
-                        <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Labor</button>
+                        <a href="{{ route('inputs.analysis.unloadings.index') }}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+                        <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Unloading</button>
                     </div>
                 </form>
             </div>

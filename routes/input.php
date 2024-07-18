@@ -3,6 +3,7 @@
 use App\Http\Controllers\Input\Analysis\LaborController;
 use App\Http\Controllers\Input\Analysis\LoadingController;
 use App\Http\Controllers\Input\Analysis\PreloadingController;
+use App\Http\Controllers\Input\Analysis\UnloadingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Input\StockOpnameController;
@@ -40,6 +41,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
             Route::get('/{id}', [LaborController::class, 'edit'])->name('edit');
             Route::put('/{id}', [LaborController::class, 'update'])->name('update');
             Route::delete('/{id}', [LaborController::class, 'destroy'])->name('destroy');
+        });
+        Route::group(['prefix' => 'unloadings', 'as' => 'unloadings.'], function () {
+            Route::get('', [UnloadingController::class, 'index'])->name('index');
+            Route::get('/create', [UnloadingController::class, 'create'])->name('create');
+            Route::post('', [UnloadingController::class, 'store'])->name('store');
+            Route::get('/{id}', [UnloadingController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [UnloadingController::class, 'update'])->name('update');
+            Route::delete('/{id}', [UnloadingController::class, 'destroy'])->name('destroy');
         });
     });
 });
