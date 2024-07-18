@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'administration', 'as' => 'a
         Route::delete('/{uuid}', 'Administration\UserController@destroy')->name('destroy');
         Route::get('/{uuid}', 'Administration\UserController@edit')->name('edit');
         Route::put('/{uuid}', 'Administration\UserController@update')->name('update');
-    });
+    }); 
 
     Route::group(['prefix' => 'roles', 'as' => 'roles.' ,'middleware' => 'permission:administration-role'], function () {
         Route::get('', [RoleController::class,'index'])->name('index');
