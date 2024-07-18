@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Input\Analysis\LaborController;
 use App\Http\Controllers\Input\Analysis\LoadingController;
 use App\Http\Controllers\Input\Analysis\PreloadingController;
 use Illuminate\Http\Request;
@@ -31,6 +32,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
             Route::get('/{id}', [LoadingController::class, 'edit'])->name('edit');
             Route::put('/{id}', [LoadingController::class, 'update'])->name('update');
             Route::delete('/{id}', [LoadingController::class, 'destroy'])->name('destroy');
+        });
+        Route::group(['prefix' => 'labors', 'as' => 'labors.'], function () {
+            Route::get('', [LaborController::class, 'index'])->name('index');
+            Route::get('/create', [LaborController::class, 'create'])->name('create');
+            Route::post('', [LaborController::class, 'store'])->name('store');
+            Route::get('/{id}', [LaborController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [LaborController::class, 'update'])->name('update');
+            Route::delete('/{id}', [LaborController::class, 'destroy'])->name('destroy');
         });
     });
 });

@@ -28,7 +28,7 @@
                 <a href="{{ route('inputs.analysis.loadings.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
                     Loading
                 </a>
-                <a href="{{ route('inputs.analysis.preloadings.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
+                <a href="{{ route('inputs.analysis.labors.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
                     Labour
                 </a>
                 <a href="{{ route('inputs.analysis.preloadings.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
