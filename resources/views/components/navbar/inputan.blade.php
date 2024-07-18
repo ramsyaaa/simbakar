@@ -23,7 +23,7 @@
             <div x-cloak x-show="open" x-transition:enter="transition-transform transition-opacity ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-[-10%]" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 py-3 text-[#8A92A6]">
                 @if (Auth::user()->hasPermissionTo('inputan-analisa'))
                     <div>
-                        <a href="#">
+                        <a href="{{ route('inputs.analysis.preloadings.index') }}">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                                 <div>
                                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -69,7 +69,7 @@
                         </a>
                     </div>
                 @endif
-                @if (Auth::user()->hasPermissionTo('inputan-pemakaian-batu-bara'))  
+                @if (Auth::user()->hasPermissionTo('inputan-pemakaian-batu-bara'))
                     <div>
                         <a href="#">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">

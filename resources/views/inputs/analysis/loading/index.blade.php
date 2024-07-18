@@ -9,23 +9,23 @@
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Preloading
+                        Loading
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="text-[#2E46BA] cursor-pointer">Analisa</span>
                     </div>
                 </div>
                 <div class="flex gap-2 items-center">
-                    <a href="{{ route('inputs.analysis.preloadings.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
+                    <a href="{{ route('inputs.analysis.loadings.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
                         Tambah Data
                     </a>
                 </div>
             </div>
             <div class="w-full flex gap-4 items-center my-4">
-                <a href="{{ route('inputs.analysis.preloadings.index') }}" class="w-3/12 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
+                <a href="{{ route('inputs.analysis.preloadings.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
                     Preloading
                 </a>
-                <a href="{{ route('inputs.analysis.loadings.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
+                <a href="{{ route('inputs.analysis.loadings.index') }}" class="w-3/12 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
                     Loading
                 </a>
                 <a href="{{ route('inputs.analysis.preloadings.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
@@ -36,7 +36,7 @@
                 </a>
             </div>
             <div class="bg-white rounded-lg p-6">
-                <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.analysis.preloadings.index') }}" method="GET" id="filterForm">
+                <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.analysis.loadings.index') }}" method="GET" id="filterForm">
                     <div class="lg:flex items-center justify-between gap-2 w-full mb-3">
                         <div class="w-full mb-2 lg:mb-0">
                             <select id="year" name="year" class="w-[350px] h-[44px] rounded-md border px-2" autofocus>
@@ -61,17 +61,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($preloadings as $item)
+                            @foreach ($loadings as $item)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->contract != null ? $item->contract->contract_number : '-' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->analysis_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('inputs.analysis.preloadings.edit', ['id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                    <a href="{{ route('inputs.analysis.loadings.edit', ['id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit
                                     </a>
-                                    <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('inputs.analysis.preloadings.destroy', ['id' => $item->id]) }}" method="POST">
+                                    <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('inputs.analysis.loadings.destroy', ['id' => $item->id]) }}" method="POST">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="bg-[#C03221] text-white w-[80px] h-[25px] text-[16px] rounded-md">
@@ -83,7 +83,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $preloadings->links() }}
+                    {{ $loadings->links() }}
                 </div>
             </div>
         </div>
