@@ -4,6 +4,7 @@ use App\Http\Controllers\Input\Analysis\LaborController;
 use App\Http\Controllers\Input\Analysis\LoadingController;
 use App\Http\Controllers\Input\Analysis\PreloadingController;
 use App\Http\Controllers\Input\Analysis\UnloadingController;
+use App\Http\Controllers\Input\BbmReceipt\BbmReceiptController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Input\StockOpnameController;
@@ -17,6 +18,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
         Route::put('/{uuid}', [StockOpnameController::class, 'update'])->name('update');
         Route::delete('/{uuid}', [StockOpnameController::class, 'destroy'])->name('destroy');
     });
+
     Route::group(['prefix' => 'analysis', 'as' => 'analysis.'], function () {
         Route::group(['prefix' => 'preloadings', 'as' => 'preloadings.'], function () {
             Route::get('', [PreloadingController::class, 'index'])->name('index');
@@ -50,5 +52,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
             Route::put('/{id}', [UnloadingController::class, 'update'])->name('update');
             Route::delete('/{id}', [UnloadingController::class, 'destroy'])->name('destroy');
         });
+    });
+
+    Route::group(['prefix' => 'bbm_receipts', 'as' => 'bbm_receipts.'], function () {
+        Route::get('', [BbmReceiptController::class, 'index'])->name('index');
+        Route::get('/create', [BbmReceiptController::class, 'create'])->name('create');
+        Route::post('', [BbmReceiptController::class, 'store'])->name('store');
+        Route::get('/{id}', [BbmReceiptController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [BbmReceiptController::class, 'update'])->name('update');
+        Route::delete('/{id}', [BbmReceiptController::class, 'destroy'])->name('destroy');
     });
 });
