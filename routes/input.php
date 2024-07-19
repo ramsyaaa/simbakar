@@ -5,6 +5,7 @@ use App\Http\Controllers\Input\Analysis\LoadingController;
 use App\Http\Controllers\Input\Analysis\PreloadingController;
 use App\Http\Controllers\Input\Analysis\UnloadingController;
 use App\Http\Controllers\Input\BbmReceipt\BbmReceiptController;
+use App\Http\Controllers\Input\BbmUsage\BbmUsageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Input\StockOpnameController;
@@ -61,5 +62,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
         Route::get('/{id}', [BbmReceiptController::class, 'edit'])->name('edit');
         Route::put('/{id}', [BbmReceiptController::class, 'update'])->name('update');
         Route::delete('/{id}', [BbmReceiptController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group(['prefix' => 'bbm_usage', 'as' => 'bbm_usage.'], function () {
+        Route::get('', [BbmUsageController::class, 'index'])->name('index');
+        Route::get('/create', [BbmUsageController::class, 'create'])->name('create');
+        Route::post('', [BbmUsageController::class, 'store'])->name('store');
+        Route::get('/{id}', [BbmUsageController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [BbmUsageController::class, 'update'])->name('update');
+        Route::delete('/{id}', [BbmUsageController::class, 'destroy'])->name('destroy');
     });
 });

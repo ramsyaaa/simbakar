@@ -6,7 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\BbmReceiptwithship' => $baseDir . '/app/BbmReceiptwithship.php',
+    'App\\BbmReceipt' => $baseDir . '/app/BbmReceipt.php',
+    'App\\BbmUsage' => $baseDir . '/app/BbmUsage.php',
     'App\\BunkerSounding' => $baseDir . '/app/BunkerSounding.php',
     'App\\Bunkers' => $baseDir . '/app/Bunkers.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
@@ -50,6 +51,7 @@ return array(
     'App\\Http\\Controllers\\Input\\Analysis\\LoadingController' => $baseDir . '/app/Http/Controllers/Input/Analysis/LoadingController.php',
     'App\\Http\\Controllers\\Input\\Analysis\\PreloadingController' => $baseDir . '/app/Http/Controllers/Input/Analysis/PreloadingController.php',
     'App\\Http\\Controllers\\Input\\Analysis\\UnloadingController' => $baseDir . '/app/Http/Controllers/Input/Analysis/UnloadingController.php',
+    'App\\Http\\Controllers\\Input\\BbmReceipt\\BbmReceiptController' => $baseDir . '/app/Http/Controllers/Input/BbmReceipt/BbmReceiptController.php',
     'App\\Http\\Controllers\\Input\\StockOpnameController' => $baseDir . '/app/Http/Controllers/Input/StockOpnameController.php',
     'App\\Http\\Controllers\\MasterData\\Bunker\\BunkerController' => $baseDir . '/app/Http/Controllers/MasterData/Bunker/BunkerController.php',
     'App\\Http\\Controllers\\MasterData\\Bunker\\SoundingController' => $baseDir . '/app/Http/Controllers/MasterData/Bunker/SoundingController.php',
