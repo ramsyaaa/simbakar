@@ -21,7 +21,7 @@ class DeliveryClauseController extends Controller
         $deliveries = DeliveryClause::query();
 
         $data['contract'] = CoalContract::where('id', $contractId)->first();
-        $data['deliveries'] = $deliveries->latest()->paginate(10)->appends(request()->query());
+        $data['deliveries'] = $deliveries->where('contract_id',$contractId)->latest()->paginate(10)->appends(request()->query());
         // dd($data);
         return view('contracts.coal-contracts.delivery-clause.index',$data);
 

@@ -21,7 +21,7 @@ class AdjusmentClauseController extends Controller
         $adjusments = AdjusmentClause::query();
 
         $data['contract'] = CoalContract::where('id', $contractId)->first();
-        $data['adjusments'] = $adjusments->latest()->paginate(10)->appends(request()->query());
+        $data['adjusments'] = $adjusments->where('contract_id',$contractId)->latest()->paginate(10)->appends(request()->query());
         // dd($data);
         return view('contracts.coal-contracts.adjusment-clause.index',$data);
 

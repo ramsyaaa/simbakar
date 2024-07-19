@@ -30,7 +30,7 @@
                             <div class="delivery">
                                 <label for="penalty_will_get_if_parameter" class="font-bold text-[#232D42] text-[16px]">Denda akan di berlakukan apabila</label>
                                 <div class="relative">
-                                    <select name="penalty_will_get_if_parameter" id="" class="w-full mt-3 lg:w-[360px] h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <select name="penalty_will_get_if_parameter" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option>Ash</option>
                                     </select>
                                     
@@ -44,7 +44,7 @@
                             <div class="delivery">
                                 <label for="price_coal_will_text" class="font-bold text-[#232D42] text-[16px]">Tanda</label>
                                 <div class="relative">
-                                    <select name="penalty_will_get_if_sign" id="" class="w-full mt-3 lg:w-[360px] h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <select name="penalty_will_get_if_sign" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option value=">">Lebih besar </option>
                                         <option value=">=">Lebih besar sama dengan</option>
                                         <option value="<=">Kurang dari</option>
@@ -62,7 +62,7 @@
                             <div class="delivery">
                                 <label for="penalty_will_get_if_number" class="font-bold text-[#232D42] text-[16px]">Sebesar</label>
                                 <div class="relative">
-                                    <input type="text" name="penalty_will_get_if_number" value="{{ old('penalty_will_get_if_number') }}" class="input-number w-full lg:w-[360px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="penalty_will_get_if_number" value="{{ old('penalty_will_get_if_number') }}" class="input-number w-full lg:w-64 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     
                                     @error('price_coal_will_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
@@ -78,7 +78,7 @@
                             <div class="delivery">
                                 <label for="penalty_price_number" class="font-bold text-[#232D42] text-[16px]">Dengan menurankan harga sebesar</label>
                                 <div class="relative">
-                                    <input type="text" name="penalty_price_number" value="{{ old('penalty_price_number') }}" class="input-number w-full lg:w-[360px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="penalty_price_number" value="{{ old('penalty_price_number') }}" class="input-number w-full lg:w-64 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     
                                     @error('penalty_price_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
@@ -90,7 +90,7 @@
                             <div class="delivery">
                                 <label for="penalty_price_type_number" class="font-bold text-[#232D42] text-[16px]">Tipe Angka</label>
                                 <div class="relative">
-                                    <select name="penalty_price_type_number" id="" class="w-full mt-3 lg:w-[360px] h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <select name="penalty_price_type_number" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option value="percentage">% ( Persentase ) </option>
                                         <option value="number">Angka</option>
                                     </select>
