@@ -7,24 +7,24 @@
         @include('components.header')
         <div class="w-full py-10 px-8">
             <div class="w-full flex gap-4 items-center my-4">
-                <a href="{{ route('coals.usages.adjusment-incomes.index') }}" class="w-1/2 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
+                <a href="{{ route('coals.usages.adjusment-incomes.index') }}" class="w-1/2 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
                     BA Penyesuaian Persediaan Bahan Bakar
                 </a>
-                <a href="{{ route('inputs.analysis.loadings.index') }}" class="w-1/2 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
+                <a href="#" class="w-1/2 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
                     BA Penyesuaian ( Dibeli ) Perusahaan Lain
                 </a>
             </div>
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        List Pemakaian Batu Bara
+                        List BA Penyesuaian Dibeli Perusahaan Lain
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
-                        <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="cursor-pointer">Pemakaian Batu Bara </span>
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="cursor-pointer">BA Penyesuaian Dibeli Perusahaan Lain </span>
                     </div>
                 </div>
                 <div class="flex gap-2 items-center">
-                    <a href="{{ route('coals.usages.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
+                    <a href="{{ route('coals.usages.adjusment-outcomes.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
                         Tambah Data
                     </a>
                 </div>
@@ -32,15 +32,21 @@
             </div>
             
             <div class="bg-white rounded-lg p-6 h-full">
-                <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('coals.usages.index') }}" method="GET" id="filterForm">
+                <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('coals.usages.adjusment-outcomes.index') }}" method="GET" id="filterForm">
                     <div class="lg:flex items-center gap-5 w-full mb-3">
-                        <label for="" class="font-bold text-[#232D42] text-[16px]">Pemakaian Batu Bara </label>
+                        <label for="" class="font-bold text-[#232D42] text-[16px]">BA Penyesuaian Dibeli Perusahaan Lain </label>
                         <input name="date" type="month" value="{{ request()->date ?? '' }}" class="w-full lg:w-3/12 h-[44px] rounded-md border px-2" placeholder="Cari Data" autofocus>
                         <select id="day" name="day" class="w-[350px] h-[44px] rounded-md border px-2" autofocus>
                             <option selected disabled>Pilih Index Tanggal</option>
                             @for ($i = 1; $i <= 31; $i++)
                                 <option {{request()->day == $i ? 'selected' :''}}>{{ $i }}</option>
                             @endfor
+                        </select>
+                        <select id="fuel" name="fuel" class="w-[350px] h-[44px] rounded-md border px-2" autofocus>
+                            <option selected disabled>Jenis Bahan Bakar</option>
+                            <option> Batu Bara</option>
+                            <option> HSD / Solar</option>
+                            <option> MFO / Residu</option>
                         </select>
                     </div>
                     <button type="submit" class="hidden">Search</button>
@@ -52,25 +58,23 @@
                             <tr>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No TUG 9</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No BA</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jumlah Pemakaian</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Untuk Unit</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($usages as $usage)
+                            @foreach ($adjusments as $adjusment)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->usage_date }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->tug_9_number }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ number_format($usage->amount_use) }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->unit_id }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $adjusment->usage_date }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $adjusment->ba_number }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ number_format($adjusment->usage_amount) }}</td>
                                 <td class="h-[108px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('coals.usages.edit', ['id' => $usage->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                    <a href="{{ route('coals.usages.adjusment-outcomes.edit', ['id' => $adjusment->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit
                                     </a>
-                                    <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('coals.usages.destroy', ['id' => $usage->id]) }}" method="POST">
+                                    <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('coals.usages.adjusment-outcomes.destroy', ['id' => $adjusment->id]) }}" method="POST">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="bg-[#C03221] text-white w-[80px] h-[25px] text-[16px] rounded-md">
@@ -82,7 +86,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $usages->links() }}
+                    {{ $adjusments->links() }}
                 </div>
             </div>
         </div>

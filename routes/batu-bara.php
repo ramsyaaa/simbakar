@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Coal\CoalUsageController;
 use App\Http\Controllers\Coal\CoalReceiptController;
 use App\Http\Controllers\Coal\CoalUnloadingController;
+use App\Http\Controllers\Coal\FuelAdjusmentIncomeController;
+use App\Http\Controllers\Coal\FuelAdjusmentOutcomeController;
 use App\Http\Controllers\Coal\CoalUnloadingDisruptionController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'coals', 'as' => 'coals.'], function () {
@@ -46,5 +48,19 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'coals', 'as' => 'coals.'], 
         Route::get('/{id}', [CoalUsageController::class, 'edit'])->name('edit');
         Route::patch('/{id}', [CoalUsageController::class, 'update'])->name('update');
         Route::delete('/{id}', [CoalUsageController::class, 'destroy'])->name('destroy');
+
+        Route::get('/adjusment-incomes/index', [FuelAdjusmentIncomeController::class, 'index'])->name('adjusment-incomes.index');
+        Route::get('/adjusment-incomes/create', [FuelAdjusmentIncomeController::class, 'create'])->name('adjusment-incomes.create');
+        Route::post('/adjusment-incomes', [FuelAdjusmentIncomeController::class, 'store'])->name('adjusment-incomes.store');
+        Route::get('/adjusment-incomes/edit/{id}', [FuelAdjusmentIncomeController::class, 'edit'])->name('adjusment-incomes.edit');
+        Route::patch('/adjusment-incomes/{id}', [FuelAdjusmentIncomeController::class, 'update'])->name('adjusment-incomes.update');
+        Route::delete('/adjusment-incomes/{id}', [FuelAdjusmentIncomeController::class, 'destroy'])->name('adjusment-incomes.destroy');
+
+        Route::get('/adjusment-outcomes/index', [FuelAdjusmentOutcomeController::class, 'index'])->name('adjusment-outcomes.index');
+        Route::get('/adjusment-outcomes/create', [FuelAdjusmentOutcomeController::class, 'create'])->name('adjusment-outcomes.create');
+        Route::post('/adjusment-outcomes', [FuelAdjusmentOutcomeController::class, 'store'])->name('adjusment-outcomes.store');
+        Route::get('/adjusment-outcomes/edit/{id}', [FuelAdjusmentOutcomeController::class, 'edit'])->name('adjusment-outcomes.edit');
+        Route::patch('/adjusment-outcomes/{id}', [FuelAdjusmentOutcomeController::class, 'update'])->name('adjusment-outcomes.update');
+        Route::delete('/adjusment-outcomes/{id}', [FuelAdjusmentOutcomeController::class, 'destroy'])->name('adjusment-outcomes.destroy');
     });
 });

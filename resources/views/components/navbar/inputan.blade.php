@@ -37,7 +37,7 @@
                         </a>
                     </div>
                 @endif
-                @if (Auth::user()->hasPermissionTo('inputan-pembongkaran-batu-bara'))
+                {{-- @if (Auth::user()->hasPermissionTo('inputan-pembongkaran-batu-bara'))
                     <div>
                         <a href="#">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
@@ -84,9 +84,9 @@
                             </div>
                         </a>
                     </div>
-                @endif
+                @endif --}}
                 {{-- @if (Auth::user()->hasPermissionTo('inputan-penerimaan-bbm')) --}}
-                    <div>
+                    {{-- <div>
                         <a href="{{ route('inputs.bbm_receipts.index') }}">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                                 <div>
@@ -99,10 +99,10 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </div> --}}
                 {{-- @endif --}}
                 {{-- @if (Auth::user()->hasPermissionTo('inputan-penerimaan-bbm')) --}}
-                    <div>
+                    {{-- <div>
                         <a href="{{ route('inputs.bbm_usage.index') }}">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                                 <div>
@@ -115,7 +115,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </div> --}}
                 {{-- @endif --}}
                 @if (Auth::user()->hasPermissionTo('inputan-stock-opname'))
                     <div>
