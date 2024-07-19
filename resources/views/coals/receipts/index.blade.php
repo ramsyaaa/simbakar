@@ -12,7 +12,7 @@
                         List Penerimaan Batu Bara
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
-                        <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="cursor-pointer">BBM </span>/ <span class="text-[#2E46BA] cursor-pointer">Penerimaan</span>
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="cursor-pointer">Batu Bara </span>/ <span class="text-[#2E46BA] cursor-pointer">Penerimaan</span>
                     </div>
                 </div>    
             </div>
@@ -94,7 +94,7 @@
                                         > Detail</a><br/>
                                        
                                     </div>
-                                    <a href="#" class="text-sky-700"> Analisa Kualitas</a><br/>
+                                    <a href="{{route('coals.receipts.quality',['id' => $receipt->id])}}" class="text-sky-700"> Analisa Kualitas</a><br/>
                                 </td>
                                 <td class="h-[108px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('coals.receipts.edit', ['id' => $receipt->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">

@@ -14,6 +14,10 @@ class CoalContract extends Model
     {
         return $this->hasMany(SpesificationContractCoal::class, "contract_id", 'id');
     }
+    public function spesification()
+    {
+        return $this->hasOne(SpesificationContractCoal::class, "contract_id", 'id');
+    }
 
     protected static function boot()
      {

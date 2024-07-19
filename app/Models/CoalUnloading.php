@@ -4,17 +4,38 @@ namespace App\Models;
 
 use App\Dock;
 use App\Ship;
+use App\Labor;
+use App\Loading;
 use App\Supplier;
+use App\Unloading;
 use App\LoadingCompany;
+use App\Models\CoalContract;
 use Illuminate\Database\Eloquent\Model;
 
 class CoalUnloading extends Model
 {
     protected $guarded = ['id'];
 
+    public function loading()
+    {
+        return $this->hasOne(Loading::class, 'id', 'analysis_loading_id');
+    }
+    public function unloading()
+    {
+        return $this->hasOne(Unloading::class, 'id', 'analysis_unloading_id');
+    }
+    public function labor()
+    {
+        return $this->hasOne(Labor::class, 'id', 'analysis_labor_id');
+    }
     public function ship()
     {
         return $this->hasOne(Ship::class, 'id', 'ship_id');
+    }
+
+    public function contract()
+    {
+        return $this->hasOne(CoalContract::class, 'id', 'contract_id');
     }
 
     public function company()

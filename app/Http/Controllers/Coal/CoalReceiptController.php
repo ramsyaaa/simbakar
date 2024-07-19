@@ -4,11 +4,21 @@ namespace App\Http\Controllers\Coal;
 
 use App\Dock;
 use App\Ship;
+use App\Labor;
+use App\Harbor;
+use App\Loading;
 use App\Supplier;
+use App\Surveyor;
+use App\ShipAgent;
+use App\Unloading;
 use Carbon\Carbon;
+use App\Transporter;
 use App\LoadingCompany;
+use App\Models\CoalContract;
 use Illuminate\Http\Request;
 use App\Models\CoalUnloading;
+use App\Models\HeadWarehouse;
+use App\Models\UserInspection;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
@@ -97,12 +107,22 @@ class CoalReceiptController extends Controller
      */
     public function edit($id)
     {
+        $receipt = CoalUnloading::where('id', $id)->first();
         $data['companies'] = LoadingCompany::all();
         $data['suppliers'] = Supplier::all();
         $data['docks'] = Dock::all();
         $data['ships'] = Ship::all();
-        $data['heads'] = 
-        $data['receipt'] = CoalUnloading::where('id', $id)->first();
+        $data['harbors'] = Harbor::all();
+        $data['surveyors'] = Surveyor::all();
+        $data['transporters'] = Transporter::all();
+        $data['agents'] = ShipAgent::all();
+        $data['heads'] = HeadWarehouse::all();
+        $data['inspections'] = UserInspection::all();
+        $data['loadings'] = Loading::all();
+        $data['unloadings'] = Unloading::all();
+        $data['labors'] = Labor::all();
+        $data['contracts'] = CoalContract::where('supplier_id', $receipt->supplier_id)->get();
+        $data['receipt'] = $receipt;
 
         return view('coals.receipts.edit',$data);
     }
@@ -114,7 +134,35 @@ class CoalReceiptController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function updateTug(Request $request,$id)
+    {
+  
+        DB::beginTransaction();
+        try {
+
+            $requestData = $request->except(['_token','_method','check_tug']);
+
+            if($request->has('check_tug')){
+
+                $lastUnloadingToday = CoalUnloading::whereDate('created_at', Carbon::today())->get()->count() + 1;
+
+                $countTug = sprintf("%02d", $lastUnloadingToday);
+                $tugNumber = 'B.'.date('Ymd').'.'.$countTug;
+                $requestData['tug_number'] = $tugNumber;
+
+            }
+            CoalUnloading::where('id',$id)->update($requestData);
+
+            DB::commit();
+            return redirect(route('coals.receipts.index'))->with('success', 'Penerimaan Batu Bara berhasil di ubah.');
+            
+        } catch (\ValidationException $th) {
+            DB::rollback();
+
+            return redirect()->back()->with('error','Penerimaan Batu Bara gagal di ubah');
+        }
+    }
+    public function updateDetail(Request $request,$id)
     {
         DB::beginTransaction();
         try {
@@ -136,6 +184,14 @@ class CoalReceiptController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function quality($id){
+
+        $data['receipt'] = CoalUnloading::where('id', $id)->first();
+
+        return view('coals.receipts.quality',$data);
+    } 
+
     public function destroy($id)
     {
         CoalUnloading::where('id', $id)->delete();
