@@ -10,7 +10,7 @@
                 <a href="{{ route('coals.usages.adjusment-incomes.index') }}" class="w-1/2 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
                     BA Penyesuaian Persediaan Bahan Bakar
                 </a>
-                <a href="{{ route('inputs.analysis.loadings.index') }}" class="w-1/2 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
+                <a href="{{ route('coals.usages.adjusment-outcomes.index') }}" class="w-1/2 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
                     BA Penyesuaian ( Dibeli ) Perusahaan Lain
                 </a>
             </div>

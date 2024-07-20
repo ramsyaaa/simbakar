@@ -12,6 +12,7 @@ use App\Surveyor;
 use App\ShipAgent;
 use App\Unloading;
 use Carbon\Carbon;
+use App\Models\Tug;
 use App\Transporter;
 use App\LoadingCompany;
 use App\Models\CoalContract;
@@ -67,7 +68,7 @@ class CoalReceiptController extends Controller
     {
         DB::beginTransaction();
         try {
-            $lastUnloadingToday = CoalUnloading::whereDate('created_at', Carbon::today())->get()->count() + 1;
+            $lastUnloadingToday = Tug::whereDate('created_at', Carbon::today())->get()->count() + 1;
 
             $count = sprintf("%02d", $lastUnloadingToday);
             $tugNumber = 'B.'.date('Ymd').'.'.$count;
@@ -75,7 +76,18 @@ class CoalReceiptController extends Controller
             $requestData = $request->all();
             $requestData['tug_number'] = $tugNumber;
             
-            CoalUnloading::create($requestData);
+            $receipt = CoalUnloading::create($requestData);
+
+            Tug::create([
+                'tug' => 3,
+                'tug_number' => $tugNumber,
+                'bpb_number' => $bpbNumber,
+                'tug_type' => 'coal-unloading',
+                'usage_amount' => $requestData['bl'],
+                'unit' => 'Kg',
+                'type_fuel' => 'Batu Bara',
+                'coal_unloading' => $unloading->id,
+            ]);
 
             DB::commit();
             return redirect(route('coals.receipts.index'))->with('success', 'Pembongkaran Batu Bara berhasil di buat.');
@@ -151,7 +163,12 @@ class CoalReceiptController extends Controller
                 $requestData['tug_number'] = $tugNumber;
 
             }
+          
             CoalUnloading::where('id',$id)->update($requestData);
+
+            Tug::where('type_tug','coal-unloading')->where('coal_unloading_id',$id)->update([
+                'tug_number' => $requestData['tug_number'],
+            ]);
 
             DB::commit();
             return redirect(route('coals.receipts.index'))->with('success', 'Penerimaan Batu Bara berhasil di ubah.');

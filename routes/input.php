@@ -1,14 +1,16 @@
 <?php
 
-use App\Http\Controllers\Input\Analysis\LaborController;
-use App\Http\Controllers\Input\Analysis\LoadingController;
-use App\Http\Controllers\Input\Analysis\PreloadingController;
-use App\Http\Controllers\Input\Analysis\UnloadingController;
-use App\Http\Controllers\Input\BbmReceipt\BbmReceiptController;
-use App\Http\Controllers\Input\BbmUsage\BbmUsageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Tug\TugNineController;
+use App\Http\Controllers\Tug\TugThreeController;
 use App\Http\Controllers\Input\StockOpnameController;
+use App\Http\Controllers\Input\Analysis\LaborController;
+use App\Http\Controllers\Input\Analysis\LoadingController;
+use App\Http\Controllers\Input\BbmUsage\BbmUsageController;
+use App\Http\Controllers\Input\Analysis\UnloadingController;
+use App\Http\Controllers\Input\Analysis\PreloadingController;
+use App\Http\Controllers\Input\BbmReceipt\BbmReceiptController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.'], function () {
     Route::group(['prefix' => 'stock-opnames', 'as' => 'stock-opnames.','middleware' => 'permission:inputan-stock-opname'], function () {
@@ -63,7 +65,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
         Route::put('/{id}', [BbmReceiptController::class, 'update'])->name('update');
         Route::delete('/{id}', [BbmReceiptController::class, 'destroy'])->name('destroy');
     });
-
+   
     Route::group(['prefix' => 'bbm_usage', 'as' => 'bbm_usage.'], function () {
         Route::get('', [BbmUsageController::class, 'index'])->name('index');
         Route::get('/create', [BbmUsageController::class, 'create'])->name('create');
@@ -71,5 +73,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
         Route::get('/{id}', [BbmUsageController::class, 'edit'])->name('edit');
         Route::put('/{id}', [BbmUsageController::class, 'update'])->name('update');
         Route::delete('/{id}', [BbmUsageController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group(['prefix' => 'tug-3', 'as' => 'tug-3.'], function () {
+        Route::get('', [TugThreeController::class, 'index'])->name('index');
+        Route::get('/{id}', [TugThreeController::class, 'detail'])->name('detail');
+        Route::delete('/{id}', [TugThreeController::class, 'destroy'])->name('destroy');
+    });
+    Route::group(['prefix' => 'tug-9', 'as' => 'tug-9.'], function () {
+        Route::get('/index-coal', [TugNineController::class, 'indexCoal'])->name('index-coal');
     });
 });

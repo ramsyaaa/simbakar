@@ -6,6 +6,7 @@ use App\Dock;
 use App\Ship;
 use App\Supplier;
 use Carbon\Carbon;
+use App\Models\Tug;
 use App\LoadingCompany;
 use Illuminate\Http\Request;
 use App\Models\CoalUnloading;
@@ -72,7 +73,18 @@ class CoalUnloadingController extends Controller
             $requestData['unit'] = 'Kg';
 
             
-            CoalUnloading::create($requestData);
+            $unloading = CoalUnloading::create($requestData);
+
+            Tug::create([
+                'tug' => 3,
+                'tug_number' => $tugNumber,
+                'bpb_number' => $bpbNumber,
+                'type_tug' => 'coal-unloading',
+                'usage_amount' => $requestData['bl'],
+                'unit' => 'Kg',
+                'type_fuel' => 'Batu Bara',
+                'coal_unloading_id' => $unloading->id,
+            ]);
 
             DB::commit();
             return redirect(route('coals.unloadings.index'))->with('success', 'Pembongkaran Batu Bara berhasil di buat.');
@@ -124,6 +136,11 @@ class CoalUnloadingController extends Controller
         DB::beginTransaction();
         try {
             CoalUnloading::where('id',$id)->update($request->except(['_token','_method']));
+
+            Tug::where('type_tug','coal-unloading')->where('coal_unloading_id',$id)->update([
+         
+                'usage_amount' => $request->bl,
+            ]);
 
             DB::commit();
             return redirect(route('coals.unloadings.index'))->with('success', 'Pembongkaran Batu Bara berhasil di ubah.');

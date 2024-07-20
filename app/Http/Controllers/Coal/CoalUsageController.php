@@ -13,6 +13,7 @@ use App\Surveyor;
 use App\ShipAgent;
 use App\Unloading;
 use Carbon\Carbon;
+use App\Models\Tug;
 use App\Transporter;
 use App\LoadingCompany;
 use App\Models\CoalUsage;
@@ -71,7 +72,17 @@ class CoalUsageController extends Controller
 
             $requestData = $request->all();
             
-            CoalUsage::create($requestData);
+            $usage = CoalUsage::create($requestData);
+
+            Tug::create([
+                'tug' => 9,
+                'tug_number' => $requestData['tug_9_number'],
+                'type_tug' => 'coal-usage',
+                'usage_amount' => $requestData['amount_use'],
+                'unit' => 'Kg',
+                'type_fuel' => 'Batu Bara',
+                'coal_usage_id' => $usage->id,
+            ]);
 
             DB::commit();
             return redirect(route('coals.usages.index'))->with('success', 'Pemakaian Batu Bara berhasil di buat.');
@@ -126,6 +137,11 @@ class CoalUsageController extends Controller
             $requestData = $request->except(['_token','_method']);
 
             CoalUsage::where('id',$id)->update($requestData);
+            
+            Tug::where('type_tug','coal-usage')->where('coal_usage_id',$id)->update([
+                'tug_number' => $requestData['tug_9_number'],
+                'usage_amount' => $requestData['amount_use'],
+            ]);
 
             DB::commit();
             return redirect(route('coals.usages.index'))->with('success', 'Pemakaian Batu Bara berhasil di ubah.');

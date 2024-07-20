@@ -24,7 +24,13 @@
                             <div class="w-full">
                                 <label for="ds" class="font-bold text-[#232D42] text-[16px]">DS</label>
                                     <div class="relative">
-                                        <input type="number" name="ds" value="{{ $receipt->contract->kind_contract == 'CIF' ? $receipt->bl : 0 }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        @if ($receipt->contract)
+                                            <input type="number" name="ds" value="{{ $receipt->contract->kind_contract == 'CIF' ? $receipt->bl : 0 }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            
+                                        @else
+                                            <input type="number" name="ds" value="0" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            
+                                        @endif
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -35,7 +41,12 @@
                                 <div class="w-full">
                                     <label for="bl" class="font-bold text-[#232D42] text-[16px]">BL</label>
                                     <div class="relative">
-                                        <input type="number" name="bl" value="{{ $receipt->contract->kind_contract == 'FOB' ? $receipt->bl : 0 }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                         @if ($receipt->contract)
+                                            <input type="number" name="ds" value="{{ $receipt->contract->kind_contract == 'FOB' ? $receipt->bl : 0 }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">   
+                                        @else
+                                            <input type="number" name="ds" value="0" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            
+                                        @endif
                                         @error('bl')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -73,8 +84,14 @@
                                     <div class="relative">
                                         <select name="kind_contract" id="kind_contract" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Jenis Kontrak</option>
-                                            <option {{$receipt->contract->kind_contract == 'FOB' ? 'selected' : ''}}>FOB</option>
-                                            <option {{$receipt->contract->kind_contract == 'CIF' ? 'selected' :''}}>CIF</option>
+                                            @if ($receipt->contract)
+                                                <option {{$receipt->contract->kind_contract == 'FOB' ? 'selected' : ''}}>FOB</option>
+                                                <option {{$receipt->contract->kind_contract == 'CIF' ? 'selected' :''}}>CIF</option>
+                                            @else    
+                                                <option>FOB</option>
+                                                <option>CIF</option>
+                                            @endif
+                                          
                                         </select>
                                         @error('kind_contract')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
@@ -240,7 +257,7 @@
                                         <select name="contract_id" id="contract_id" class="w-full lg:w-1/2 lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Nomor Kontrak</option>
                                             @foreach ($contracts as $contract)
-                                            <option value="{{ $contract->id }}" {{$receipt->contract_id == $contract->id ? 'selected' :''}}>{{ $contract->contract_number }} - {{$contract->spesification->identification_number ?? '[ Identifikasi Kosong ]'}}</option>
+                                            <option value="{{ $contract->id }}" {{$receipt->contract_id == $contract->id ? 'selected' :''}}>{{ $contract->contract_number }} - {{$contract->spesification->identification_number ?? '[ Identifikasi Kosong ]'}} - {{$contract->kind_contract}}</option>
                                             @endforeach
                                         </select>
                                         @error('contract_id')
