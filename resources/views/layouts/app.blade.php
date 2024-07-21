@@ -94,6 +94,37 @@
             }
         });
     </script>
-    
+    <script>
+        async function printPDF(letter) {
+          const element = document.querySelector('#my-pdf');
+  
+          if (!element) {
+              console.error("Element not found");
+              return;
+          }
+  
+          html2canvas(element, { useCORS: true }).then(canvas => {
+              const imgData = canvas.toDataURL('image/png');
+              const { jsPDF } = window.jspdf;
+              const doc = new jsPDF(letter);
+  
+              doc.addImage(imgData, 'PNG', 10, 10);
+              const pdfUrl = doc.output('bloburl');
+  
+              // Open PDF in a new tab and print
+              const printWindow = window.open(pdfUrl, '_blank');
+              if (printWindow) {
+                  printWindow.onload = function() {
+                      printWindow.print();
+                  };
+              }
+          }).catch(err => {
+              console.error("Error generating PDF:", err);
+          });
+      }
+    </script>
+    <script src="{{ asset('/src/js/html2canvas.min.js') }}"></script>
+    <script src="{{ asset('/src/js/jspdf.umd.min.js') }}"></script>
+        
 </body>
 </html>
