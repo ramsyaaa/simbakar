@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Tug;
 
-
 use App\Models\Tug;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class TugThreeController extends Controller
+class TugFourController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,17 +25,17 @@ class TugThreeController extends Controller
             $query->where('type_fuel', $request->fuel);
         });
         $data['tugs'] = $tugs->latest()->paginate(10)->appends(request()->query());
-        return view('inputs.tug-3.index',$data);
+        return view('inputs.tug-4.index',$data);
 
     }
     public function detail($id){
 
         $data['tug'] = Tug::where('id',$id)->first();
-        return view('inputs.tug-3.index',$data);
+        return view('inputs.tug-4.index',$data);
     }
     public function destroy($id)
     {
         Tug::where('id', $id)->delete();
-        return redirect(route('inputs.tug-3.index'))->with('success', 'Pembongkaran Batu Bara berhasil di hapus.');
+        return redirect(route('inputs.tug-4.index'))->with('success', 'Pembongkaran Batu Bara berhasil di hapus.');
     }
 }

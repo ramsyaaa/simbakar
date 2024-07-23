@@ -45,15 +45,17 @@
                                     @endif
                                 </td>
                                 <td class="h-[108px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('inputs.analysis.loadings.edit', ['id' => $receipt->loading->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                        Edit
-                                    </a>
+                                    @if ($receipt->loading)
+                                        <a href="{{ route('inputs.analysis.loadings.edit', ['id' => $receipt->loading->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                            Edit
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unloading Port : {{ $receipt->unloading->analysis_number ?? '' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">
-                                    @if ($receipt->loading)
+                                    @if ($receipt->unloading)
                                         <div class="lg:flex gap-3">
                                             <a href="#" class="text-sky-700 hover:text-sky-800">[ Detail ]</a>
                                             <a href="#" class="text-sky-700 hover:text-sky-800">[ Hasil Perbandingan Kontrak ]</a>
@@ -63,9 +65,11 @@
                                     @endif
                                 </td>
                                 <td class="h-[108px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('inputs.analysis.loadings.edit', ['id' => $receipt->unloading->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                        Edit
-                                    </a>
+                                    @if ($receipt->unloading)
+                                        <a href="{{ route('inputs.analysis.loadings.edit', ['id' => $receipt->unloading->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                            Edit
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
@@ -81,9 +85,11 @@
                                     @endif
                                 </td>
                                 <td class="h-[108px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('inputs.analysis.labors.edit', ['id' => $receipt->labor->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                        Edit
-                                    </a>
+                                    @if ($receipt->labor)
+                                        <a href="{{ route('inputs.analysis.labors.edit', ['id' => $receipt->labor->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                            Edit
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         </tbody>

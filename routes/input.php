@@ -2,8 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Tug\TugFourController;
 use App\Http\Controllers\Tug\TugNineController;
 use App\Http\Controllers\Tug\TugThreeController;
+use App\Http\Controllers\Tug\TugElevenController;
+use App\Http\Controllers\Tug\TugTwelveController;
 use App\Http\Controllers\Input\StockOpnameController;
 use App\Http\Controllers\Input\Analysis\LaborController;
 use App\Http\Controllers\Input\Analysis\LoadingController;
@@ -80,7 +83,18 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
         Route::get('/{id}', [TugThreeController::class, 'detail'])->name('detail');
         Route::delete('/{id}', [TugThreeController::class, 'destroy'])->name('destroy');
     });
+    Route::group(['prefix' => 'tug-4', 'as' => 'tug-4.'], function () {
+        Route::get('', [TugFourController::class, 'index'])->name('index');
+        Route::get('/{id}', [TugFourController::class, 'detail'])->name('detail');
+        Route::delete('/{id}', [TugFourController::class, 'destroy'])->name('destroy');
+    });
     Route::group(['prefix' => 'tug-9', 'as' => 'tug-9.'], function () {
         Route::get('/index-coal', [TugNineController::class, 'indexCoal'])->name('index-coal');
+    });
+    Route::group(['prefix' => 'tug-11', 'as' => 'tug-11.'], function () {
+        Route::get('/index', [TugElevenController::class, 'index'])->name('index');
+    });
+    Route::group(['prefix' => 'tug-12', 'as' => 'tug-12.'], function () {
+        Route::get('/index', [TugTwelveController::class, 'index'])->name('index');
     });
 });
