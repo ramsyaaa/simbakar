@@ -60,7 +60,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
         });
     });
 
-    Route::group(['prefix' => 'bbm_receipts', 'as' => 'bbm_receipts.'], function () {
+    Route::group(['prefix' => 'bbm_receipts/{shipment_type}', 'as' => 'bbm_receipts.'], function () {
         Route::get('', [BbmReceiptController::class, 'index'])->name('index');
         Route::get('/create', [BbmReceiptController::class, 'create'])->name('create');
         Route::post('', [BbmReceiptController::class, 'store'])->name('store');
@@ -68,8 +68,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
         Route::put('/{id}', [BbmReceiptController::class, 'update'])->name('update');
         Route::delete('/{id}', [BbmReceiptController::class, 'destroy'])->name('destroy');
     });
-   
-    Route::group(['prefix' => 'bbm_usage', 'as' => 'bbm_usage.'], function () {
+
+    Route::group(['prefix' => 'bbm_usage/{bbm_use_for}', 'as' => 'bbm_usage.'], function () {
         Route::get('', [BbmUsageController::class, 'index'])->name('index');
         Route::get('/create', [BbmUsageController::class, 'create'])->name('create');
         Route::post('', [BbmUsageController::class, 'store'])->name('store');

@@ -16,13 +16,24 @@
                     </div>
                 </div>
                 <div class="flex gap-2 items-center">
-                    <a href="{{ route('inputs.bbm_usage.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
+                    <a href="{{ route('inputs.bbm_usage.create', ['bbm_use_for' => $bbm_use_for]) }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
                         Tambah Data
                     </a>
                 </div>
             </div>
+            <div class="w-full flex gap-4 items-center my-4">
+                <a href="{{ route('inputs.bbm_usage.index', ['bbm_use_for' => "unit"]) }}" class="w-3/12 px-3 py-2 @if($bbm_use_for == 'unit') bg-[#2E46BA] @else bg-[#6C757D] @endif text-white text-center font-bold rounded-lg">
+                    Pemakaian BBM untuk Unit
+                </a>
+                <a href="{{ route('inputs.bbm_usage.index', ['bbm_use_for' => "heavy_equipment"]) }}" class="w-3/12 px-3 py-2 @if($bbm_use_for == 'heavy_equipment') bg-[#2E46BA] @else bg-[#6C757D] @endif text-white text-center font-bold rounded-lg">
+                    Pemakaian BBM untuk Albes
+                </a>
+                <a href="{{ route('inputs.bbm_usage.index', ['bbm_use_for' => "other"]) }}" class="w-3/12 px-3 py-2 @if($bbm_use_for == 'other') bg-[#2E46BA] @else bg-[#6C757D] @endif text-white text-center font-bold rounded-lg">
+                    Pemakaian BBM untuk Lainnya
+                </a>
+            </div>
             <div class="bg-white rounded-lg p-6">
-                <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.bbm_usage.index') }}" method="GET" id="filterForm">
+                <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.bbm_usage.index', ['bbm_use_for' => $bbm_use_for]) }}" method="GET" id="filterForm">
                     <div class="lg:flex items-center justify-between gap-2 w-full mb-3">
                         <div class="w-full mb-2 lg:mb-0">
                             <select id="year" name="year" class="w-[350px] h-[44px] rounded-md border px-2" autofocus>
@@ -40,9 +51,18 @@
                         <thead>
                             <tr>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal Loading</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No Kontrak</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No Analisa</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No TUG9</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Pemakaian</th>
+                                @if($bbm_use_for == 'unit')
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit</th>
+                                @endif
+                                @if($bbm_use_for == 'heavy_equipment')
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Albes</th>
+                                @endif
+                                @if($bbm_use_for == 'other')
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Keterangan</th>
+                                @endif
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
@@ -50,14 +70,23 @@
                             @foreach ($bbm_usages as $item)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->start_loading)->format('d F Y') }} - {{ \Carbon\Carbon::parse($item->end_loading)->format('d F Y') }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->contract != null ? $item->contract->contract_number : '-' }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->analysis_number }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->use_date)->format('d F Y') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->tug9_number }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->amount }}</td>
+                                @if($bbm_use_for == 'unit')
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->unit != null ? $item->unit->name : '-' }}</td>
+                                @endif
+                                @if($bbm_use_for == 'heavy_equipment')
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->heavy_equipment != null ? $item->heavy_equipment->name : '-' }}</td>
+                                @endif
+                                @if($bbm_use_for == 'other')
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->description }}</td>
+                                @endif
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('inputs.bbm_usage.edit', ['id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                    <a href="{{ route('inputs.bbm_usage.edit', ['bbm_use_for' => $bbm_use_for, 'id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit
                                     </a>
-                                    <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('inputs.bbm_usage.destroy', ['id' => $item->id]) }}" method="POST">
+                                    <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('inputs.bbm_usage.destroy', ['bbm_use_for' => $bbm_use_for, 'id' => $item->id]) }}" method="POST">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="bg-[#C03221] text-white w-[80px] h-[25px] text-[16px] rounded-md">

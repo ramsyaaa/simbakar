@@ -11,16 +11,22 @@ use Illuminate\Http\Request;
 
 class BbmUsageController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $bbm_use_for)
     {
+        $data['bbm_use_for'] = $bbm_use_for;
+
+        if($data['bbm_use_for'] != "unit" && $data['bbm_use_for'] != 'heavy_equipment' && $data['bbm_use_for'] != 'other'){
+            $data['bbm_use_for'] = "unit";
+        }
+
         $bbm_usages = BbmUsage::query();
 
-        $bbm_usages->when($request->year, function ($query) use ($request) {
+        $bbm_usages->where(['bbm_use_for' => $bbm_use_for])->when($request->year, function ($query) use ($request) {
             $query->whereYear('created_at', $request->year);
         });
 
         $data['bbm_usages'] = $bbm_usages->paginate(10)->appends(request()->query());
-        return view('inputs.bbm_usage.bbm_usage.index',$data);
+        return view('inputs.bbm_usage.bbm_usage.index', ['bbm_use_for' => $bbm_use_for],$data);
     }
 
     /**
@@ -28,8 +34,14 @@ class BbmUsageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($bbm_use_for)
     {
+        $data['bbm_use_for'] = $bbm_use_for;
+
+        if($data['bbm_use_for'] != "unit" && $data['bbm_use_for'] != 'heavy_equipment' && $data['bbm_use_for'] != 'other'){
+            $data['bbm_use_for'] = "unit";
+        }
+
         $data['units'] = Unit::get();
         $data['heavy_equipments'] = HeavyEquipment::get();
         $data['bunkers'] = Bunkers::get();
@@ -42,23 +54,22 @@ class BbmUsageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $bbm_use_for)
     {
         $request->validate([
-            'bbm_use_for' => 'required',
-            'unit_uuid' => 'required_if:bbm_use_for,unit',
-            'heavy_equipment_uuid' => 'required_if:bbm_use_for,heavy_equipment',
+            'unit_uuid' => $bbm_use_for == 'unit' ? 'required' : '',
+            'heavy_equipment_uuid' => $bbm_use_for == 'heavy_equipment' ? 'required' : '',
             'bunker_uuid' => 'required',
             'bbm_type' => 'required',
             'tug9_number' => 'required',
             'use_date' => 'required',
             'amount' => 'required',
-            'description' => 'required_if:bbm_use_for,other',
+            'description' => $bbm_use_for == 'other' ? 'required' : '',
         ], [
             'bbm_use_for.required' => 'Peruntukkan BBM wajib diisi',
-            'unit_uuid.required_if' => 'Unit wajib diisi jika peruntukkan BBM adalah unit',
-            'heavy_equipment_uuid.required_if' => 'Albes diisi jika peruntukkan BBM adalah albes',
-            'description.required_if' => 'Keterangan wajib diisi jika peruntukkan BBM adalah lainnya',
+            'unit_uuid.required' => 'Unit wajib diisi jika peruntukkan BBM adalah unit',
+            'heavy_equipment_uuid.required' => 'Albes diisi jika peruntukkan BBM adalah albes',
+            'description.required' => 'Keterangan wajib diisi jika peruntukkan BBM adalah lainnya',
             'bunker_uuid.required' => 'Bunker wajib diisi',
             'bbm_type.required' => 'Jenis BBM wajib diisi',
             'tug9_number.required' => 'No TUG9 wajib diisi',
@@ -67,7 +78,7 @@ class BbmUsageController extends Controller
         ]);
 
         BbmUsage::create([
-            'bbm_use_for' => $request->bbm_use_for,
+            'bbm_use_for' => $bbm_use_for,
             'unit_uuid' => $request->unit_uuid,
             'heavy_equipment_uuid' => $request->heavy_equipment_uuid,
             'bunker_uuid' => $request->bunker_uuid,
@@ -78,7 +89,7 @@ class BbmUsageController extends Controller
             'description' => $request->description,
         ]);
 
-        return redirect(route('inputs.bbm_usage.index'))->with('success', 'Pemakaian BBM baru baru berhasil dibuat.');
+        return redirect(route('inputs.bbm_usage.index', ['bbm_use_for' => $bbm_use_for]))->with('success', 'Pemakaian BBM baru baru berhasil dibuat.');
     }
 
     /**
@@ -87,9 +98,13 @@ class BbmUsageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($bbm_use_for, $id)
     {
-        //
+        $data['bbm_use_for'] = $bbm_use_for;
+
+        if($data['bbm_use_for'] != "unit" && $data['bbm_use_for'] != 'heavy_equipment' && $data['bbm_use_for'] != 'other'){
+            $data['bbm_use_for'] = "unit";
+        }
     }
 
     /**
@@ -98,8 +113,14 @@ class BbmUsageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($bbm_use_for, $id)
     {
+        $data['bbm_use_for'] = $bbm_use_for;
+
+        if($data['bbm_use_for'] != "unit" && $data['bbm_use_for'] != 'heavy_equipment' && $data['bbm_use_for'] != 'other'){
+            $data['bbm_use_for'] = "unit";
+        }
+
         $data['bbm'] = BbmUsage::where('id', $id)->first();
         $data['units'] = Unit::get();
         $data['heavy_equipments'] = HeavyEquipment::get();
@@ -114,23 +135,22 @@ class BbmUsageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $bbm_use_for, $id)
     {
         $request->validate([
-            'bbm_use_for' => 'required',
-            'unit_uuid' => 'required_if:bbm_use_for,unit',
-            'heavy_equipment_uuid' => 'required_if:bbm_use_for,heavy_equipment',
+            'unit_uuid' => $bbm_use_for == 'unit' ? 'required' : '',
+            'heavy_equipment_uuid' => $bbm_use_for == 'heavy_equipment' ? 'required' : '',
             'bunker_uuid' => 'required',
             'bbm_type' => 'required',
             'tug9_number' => 'required',
             'use_date' => 'required',
             'amount' => 'required',
-            'description' => 'required_if:bbm_use_for,other',
+            'description' => $bbm_use_for == 'other' ? 'required' : '',
         ], [
             'bbm_use_for.required' => 'Peruntukkan BBM wajib diisi',
-            'unit_uuid.required_if' => 'Unit wajib diisi jika peruntukkan BBM adalah unit',
-            'heavy_equipment_uuid.required_if' => 'Albes diisi jika peruntukkan BBM adalah albes',
-            'description.required_if' => 'Keterangan wajib diisi jika peruntukkan BBM adalah lainnya',
+            'unit_uuid.required' => 'Unit wajib diisi jika peruntukkan BBM adalah unit',
+            'heavy_equipment_uuid.required' => 'Albes diisi jika peruntukkan BBM adalah albes',
+            'description.required' => 'Keterangan wajib diisi jika peruntukkan BBM adalah lainnya',
             'bunker_uuid.required' => 'Bunker wajib diisi',
             'bbm_type.required' => 'Jenis BBM wajib diisi',
             'tug9_number.required' => 'No TUG9 wajib diisi',
@@ -139,7 +159,7 @@ class BbmUsageController extends Controller
         ]);
 
         BbmUsage::where('id',$id)->update([
-            'bbm_use_for' => $request->bbm_use_for,
+            'bbm_use_for' => $bbm_use_for,
             'unit_uuid' => $request->unit_uuid,
             'heavy_equipment_uuid' => $request->heavy_equipment_uuid,
             'bunker_uuid' => $request->bunker_uuid,
@@ -150,7 +170,7 @@ class BbmUsageController extends Controller
             'description' => $request->description,
         ]);
 
-        return redirect(route('inputs.bbm_usage.index'))->with('success', 'Pemakaian BBM berhasil diubah.');
+        return redirect(route('inputs.bbm_usage.index', ['bbm_use_for' => $bbm_use_for]))->with('success', 'Pemakaian BBM berhasil diubah.');
     }
 
     /**
@@ -159,10 +179,10 @@ class BbmUsageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($bbm_use_for, $id)
     {
         BbmUsage::where('id',$id)->first()->delete();
 
-        return redirect(route('inputs.bbm_usage.index'))->with('success', 'Pemakaian BBM berhasil dihapus.');
+        return redirect(route('inputs.bbm_usage.index', ['bbm_use_for' => $bbm_use_for]))->with('success', 'Pemakaian BBM berhasil dihapus.');
     }
 }

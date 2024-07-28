@@ -15,30 +15,15 @@
                         Tambah Penerimaan BBM
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
-                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('inputs.bbm_receipts.index') }}">Penerimaan BBM</a> / <span class="text-[#2E46BA] cursor-pointer">Create</span>
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('inputs.bbm_receipts.index', ['shipment_type' => $shipment_type]) }}">Penerimaan BBM</a> / <span class="text-[#2E46BA] cursor-pointer">Create</span>
                     </div>
                 </div>
             </div>
             <div class="bg-white rounded-lg p-6">
-                <form onsubmit="return confirmSubmit(this, 'Tambahkan Penerimaan BBM?')" action="{{ route('inputs.bbm_receipts.store') }}" method="POST">
+                <form onsubmit="return confirmSubmit(this, 'Tambahkan Penerimaan BBM?')" action="{{ route('inputs.bbm_receipts.store', ['shipment_type' => $shipment_type]) }}" method="POST">
                     @csrf
                     <div class="p-4 bg-white rounded-lg w-full">
                         <div class="w-full">
-                            <div class="w-full">
-                                <label for="shipment_type" class="font-bold text-[#232D42] text-[16px]">Pengiriman Dengan</label>
-                                <div class="relative">
-                                    <select name="shipment_type" id="shipment_type" onchange="toggleShipmentType()" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                        <option value="">Pilih</option>
-                                        <option value="ship" {{ old('shipment_type') == "ship" ? 'selected' : '' }}>Kapal</option>
-                                        <option value="car" {{ old('shipment_type') == 'car' ? 'selected' : '' }}>Mobil</option>
-                                    </select>
-                                    @error('shipment_type')
-                                    <div class="absolute -bottom-1 left-1 text-red-500">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div>
                             <div class="w-full">
                                 <label for="bbm_type" class="font-bold text-[#232D42] text-[16px]">Jenis BBM</label>
                                 <div class="relative">
@@ -108,7 +93,8 @@
                                 </div>
                             </div>
                             <div class="w-full flex">
-                                <div class="w-full only-ship">
+                                @if($shipment_type == 'ship')
+                                <div class="w-full">
                                     <label for="port_origin" class="font-bold text-[#232D42] text-[16px]">Pelabuhan Asal</label>
                                     <div class="relative">
                                         <select name="port_origin" id="port_origin" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -124,7 +110,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="w-full only-ship">
+                                <div class="w-full">
                                     <label for="destination_port" class="font-bold text-[#232D42] text-[16px]">Pelabuhan Tujuan</label>
                                     <div class="relative">
                                         <select name="destination_port" id="destination_port" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -140,9 +126,11 @@
                                         @enderror
                                     </div>
                                 </div>
+                                @endif
                             </div>
                             <div class="w-full flex">
-                                <div class="w-full only-ship">
+                                @if($shipment_type == 'ship')
+                                <div class="w-full">
                                     <label for="dock" class="font-bold text-[#232D42] text-[16px]">Dermaga</label>
                                     <div class="relative">
                                         <select name="dock" id="dock" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -158,6 +146,7 @@
                                         @enderror
                                     </div>
                                 </div>
+                                @endif
                                 <div class="w-full">
                                     <label for="ship_agent_uuid" class="font-bold text-[#232D42] text-[16px]">Agen</label>
                                     <div class="relative">
@@ -210,7 +199,8 @@
                                 </div>
                             </div>
                             <div class="w-full flex">
-                                <div class="w-full only-ship">
+                                @if($shipment_type == 'ship')
+                                <div class="w-full">
                                     <label for="ship_uuid" class="font-bold text-[#232D42] text-[16px]">Kapal</label>
                                     <div class="relative">
                                         <select name="ship_uuid" id="ship_uuid" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -226,7 +216,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="w-full only-ship">
+                                <div class="w-full">
                                     <label for="captain" class="font-bold text-[#232D42] text-[16px]">Nahkoda</label>
                                     <div class="relative">
                                         <input type="text" name="captain" value="{{ old('captain') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -237,9 +227,11 @@
                                         @enderror
                                     </div>
                                 </div>
+                                @endif
                             </div>
                             <div class="w-full flex">
-                                <div class="w-full only-car">
+                                @if($shipment_type == 'car')
+                                <div class="w-full">
                                     <label for="car_type" class="font-bold text-[#232D42] text-[16px]">Tipe Mobil</label>
                                     <div class="relative">
                                         <input type="text" name="car_type" value="{{ old('car_type') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -250,7 +242,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="w-full only-car">
+                                <div class="w-full">
                                     <label for="police_number" class="font-bold text-[#232D42] text-[16px]">No Polisi</label>
                                     <div class="relative">
                                         <input type="text" name="police_number" value="{{ old('police_number') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -261,6 +253,7 @@
                                         @enderror
                                     </div>
                                 </div>
+                                @endif
                             </div>
                             <div class="w-full flex">
                                 <div class="w-full">
@@ -281,7 +274,8 @@
                                 </div>
                             </div>
                             <div class="w-full flex">
-                                <div class="w-full only-ship">
+                                @if($shipment_type == 'ship')
+                                <div class="w-full">
                                     <label for="load_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Loading</label>
                                     <div class="relative">
                                         <input type="datetime-local" name="load_date" value="{{ old('load_date') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -292,7 +286,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="w-full only-ship">
+                                <div class="w-full">
                                     <label for="arrival_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Tiba</label>
                                     <div class="relative">
                                         <input type="datetime-local" name="arrival_date" value="{{ old('arrival_date') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -303,9 +297,11 @@
                                         @enderror
                                     </div>
                                 </div>
+                                @endif
                             </div>
                             <div class="w-full flex">
-                                <div class="w-full only-ship">
+                                @if($shipment_type == 'ship')
+                                <div class="w-full">
                                     <label for="docked_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Sandar</label>
                                     <div class="relative">
                                         <input type="datetime-local" name="docked_date" value="{{ old('docked_date') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -316,6 +312,7 @@
                                         @enderror
                                     </div>
                                 </div>
+                                @endif
                                 <div class="w-full">
                                     <label for="unload_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Bongkar</label>
                                     <div class="relative">
@@ -340,7 +337,8 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="w-full only-ship">
+                                @if($shipment_type == 'ship')
+                                <div class="w-full">
                                     <label for="departure_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Berangkat</label>
                                     <div class="relative">
                                         <input type="datetime-local" name="departure_date" value="{{ old('departure_date') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -351,6 +349,7 @@
                                         @enderror
                                     </div>
                                 </div>
+                                @endif
                             </div>
                             <div class="w-full flex">
                                 <div class="w-full">
@@ -610,7 +609,7 @@
                                 <div class="w-full">
                                     <label for="tug3_number" class="font-bold text-[#232D42] text-[16px]">No TUG3</label>
                                     <div class="relative">
-                                        <input type="text" name="tug3_number" value="{{ old('tug3_number') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input disabled type="text" name="tug3_number" value="{{ old('tug3_number') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="diisi otomatis">
                                         @error('tug3_number')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -671,7 +670,12 @@
                                 <div class="w-full">
                                     <label for="inspector" class="font-bold text-[#232D42] text-[16px]">Pemeriksa</label>
                                     <div class="relative">
-                                        <input type="text" name="inspector" value="{{ old('inspector') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="inspector" id="inspector" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <option selected disabled>Pilih Pemeriksa</option>
+                                            @foreach ($inspections as $inspection)
+                                                <option {{old('inspector') == $inspection->name ? 'selected' :''}}>{{$inspection->name}}</option>
+                                            @endforeach
+                                        </select>
                                         @error('inspector')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -682,7 +686,12 @@
                                 <div class="w-full">
                                     <label for="head_of_warehouse" class="font-bold text-[#232D42] text-[16px]">Kepala Gudang</label>
                                     <div class="relative">
-                                        <input type="text" name="head_of_warehouse" value="{{ old('head_of_warehouse') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="head_of_warehouse" id="head_of_warehouse" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <option selected disabled>Pilih Kepala Gudang</option>
+                                                @foreach ($heads as $head)
+                                                <option {{old('head_of_warehouse') == $head->name ? 'selected' :''}}>{{$head->name}}</option>
+                                            @endforeach
+                                        </select>
                                         @error('head_of_warehouse')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -693,7 +702,7 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('inputs.bbm_receipts.index') }}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+                        <a href="{{ route('inputs.bbm_receipts.index', ['shipment_type' => $shipment_type]) }}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                         <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Penerimaan</button>
                     </div>
                 </form>
@@ -701,41 +710,5 @@
         </div>
     </div>
 </div>
-
-<script>
-function toggleShipmentType() {
-    var shipmentType = document.getElementById('shipment_type').value;
-    var shipElements = document.querySelectorAll('.only-ship');
-    var carElements = document.querySelectorAll('.only-car');
-
-    if (shipmentType === 'ship') {
-        shipElements.forEach(function(element) {
-            element.classList.remove('hidden');
-        });
-        carElements.forEach(function(element) {
-            element.classList.add('hidden');
-        });
-    } else if (shipmentType === 'car') {
-        carElements.forEach(function(element) {
-            element.classList.remove('hidden');
-        });
-        shipElements.forEach(function(element) {
-            element.classList.add('hidden');
-        });
-    } else {
-        shipElements.forEach(function(element) {
-            element.classList.add('hidden');
-        });
-        carElements.forEach(function(element) {
-            element.classList.add('hidden');
-        });
-    }
-}
-
-// Panggil fungsi ini saat halaman dimuat untuk memastikan elemen disembunyikan/ditampilkan dengan benar berdasarkan nilai yang disimpan
-document.addEventListener('DOMContentLoaded', function() {
-    toggleShipmentType();
-});
-</script>
 
 @endsection

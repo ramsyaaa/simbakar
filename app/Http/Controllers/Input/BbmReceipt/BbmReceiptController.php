@@ -8,24 +8,34 @@ use App\Dock;
 use App\Harbor;
 use App\Http\Controllers\Controller;
 use App\LoadingCompany;
+use App\Models\HeadWarehouse;
+use App\Models\Tug;
+use App\Models\UserInspection;
 use App\Ship;
 use App\ShipAgent;
 use App\Supplier;
 use App\Transporter;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BbmReceiptController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $shipment_type)
     {
+        $data['shipment_type'] = $shipment_type;
+
+        if($data['shipment_type'] != "ship" && $data['shipment_type'] != 'car'){
+            $data['shipment_type'] = "ship";
+        }
+
         $loadings = BbmReceipt::query();
 
-        $loadings->when($request->year, function ($query) use ($request) {
+        $loadings->where(['shipment_type' => $data['shipment_type']])->when($request->year, function ($query) use ($request) {
             $query->whereYear('created_at', $request->year);
         });
 
         $data['loadings'] = $loadings->paginate(10)->appends(request()->query());
-        return view('inputs.bbm_receipt.bbm_receipt.index',$data);
+        return view('inputs.bbm_receipt.bbm_receipt.index', ['shipment_type' => $shipment_type],$data);
     }
 
     /**
@@ -33,8 +43,14 @@ class BbmReceiptController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($shipment_type)
     {
+        $data['shipment_type'] = $shipment_type;
+
+        if($data['shipment_type'] != "ship" && $data['shipment_type'] != 'car'){
+            $data['shipment_type'] = "ship";
+        }
+
         $data['load_companies'] = LoadingCompany::get();
         $data['ship_agents'] = ShipAgent::get();
         $data['harbors'] = Harbor::get();
@@ -43,6 +59,9 @@ class BbmReceiptController extends Controller
         $data['ships'] = Ship::get();
         $data['transporters'] = Transporter::get();
         $data['docks'] = Dock::get();
+        $data['heads'] = HeadWarehouse::all();
+        $data['inspections'] = UserInspection::all();
+
         return view('inputs.bbm_receipt.bbm_receipt.create', $data);
     }
 
@@ -52,10 +71,9 @@ class BbmReceiptController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $shipment_type)
     {
         $request->validate([
-            'shipment_type' => 'required',
             'port_origin' => 'required_if:shipment_type,ship',
             'destination_port' => 'required_if:shipment_type,ship',
             'dock' => 'required_if:shipment_type,ship',
@@ -99,15 +117,14 @@ class BbmReceiptController extends Controller
             'flow_meter_awal' => 'required',
             'flow_meter_akhir' => 'required',
             'liter_15_tug3' => 'required',
-            'tug3_number' => 'required',
+            // 'tug3_number' => 'required',
             'date_receipt' => 'required',
             'norm_number' => 'required',
             'unit' => 'required',
-            'amount_receipt' => 'required',
+            'amount_receipt' => 'required|numeric',
             'inspector' => 'required',
             'head_of_warehouse' => 'required',
         ], [
-            'shipment_type.required' => 'Jenis pengiriman wajib diisi',
             'port_origin.required_if' => 'Pelabuhan asal wajib diisi jika jenis pengiriman adalah kapal',
             'destination_port.required_if' => 'Pelabuhan tujuan wajib diisi jika jenis pengiriman adalah kapal',
             'dock.required_if' => 'Dermaga wajib diisi jika jenis pengiriman adalah kapal',
@@ -160,8 +177,13 @@ class BbmReceiptController extends Controller
             'head_of_warehouse.required' => 'Kepala gudang wajib diisi',
         ]);
 
-        BbmReceipt::create([
-            'shipment_type' => $request->shipment_type,
+        $lastUnloadingToday = Tug::whereDate('created_at', Carbon::today())->get()->count() + 1;
+
+        $count = sprintf("%02d", $lastUnloadingToday);
+        $tugNumber = 'B.'.date('Ymd').'.'.$count;
+
+        $bbm = BbmReceipt::create([
+            'shipment_type' => $shipment_type,
             'port_origin' => $request->port_origin,
             'destination_port' => $request->destination_port,
             'dock' => $request->dock,
@@ -204,7 +226,7 @@ class BbmReceiptController extends Controller
             'flow_meter_awal' => $request->flow_meter_awal,
             'flow_meter_akhir' => $request->flow_meter_akhir,
             'liter_15_tug3' => $request->liter_15_tug3,
-            'tug3_number' => $request->tug3_number,
+            'tug3_number' => $tugNumber,
             'date_receipt' => $request->date_receipt,
             'norm_number' => $request->norm_number,
             'unit' => $request->unit,
@@ -213,7 +235,18 @@ class BbmReceiptController extends Controller
             'head_of_warehouse' => $request->head_of_warehouse,
         ]);
 
-        return redirect(route('inputs.bbm_receipts.index'))->with('success', 'Penerimaan BBM baru baru berhasil dibuat.');
+        Tug::create([
+            'tug' => 3,
+            'tug_number' => $tugNumber,
+            'bpb_number' => $request->bpb_number,
+            'tug_type' => 'coal-unloading',
+            'usage_amount' => $request->amount_receipt,
+            'unit' => 'L',
+            'type_fuel' => 'BBM',
+            'coal_unloading' => $bbm->id,
+        ]);
+
+        return redirect(route('inputs.bbm_receipts.index', ['shipment_type' => $shipment_type]))->with('success', 'Penerimaan BBM baru baru berhasil dibuat.');
     }
 
     /**
@@ -222,9 +255,13 @@ class BbmReceiptController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($shipment_type, $id)
     {
-        //
+        $data['shipment_type'] = $shipment_type;
+
+        if($data['shipment_type'] != "ship" && $data['shipment_type'] != 'car'){
+            $data['shipment_type'] = "ship";
+        }
     }
 
     /**
@@ -233,8 +270,13 @@ class BbmReceiptController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($shipment_type, $id)
     {
+        $data['shipment_type'] = $shipment_type;
+
+        if($data['shipment_type'] != "ship" && $data['shipment_type'] != 'car'){
+            $data['shipment_type'] = "ship";
+        }
         $data['bbm'] = BbmReceipt::where('id', $id)->first();
         $data['load_companies'] = LoadingCompany::get();
         $data['ship_agents'] = ShipAgent::get();
@@ -244,6 +286,8 @@ class BbmReceiptController extends Controller
         $data['ships'] = Ship::get();
         $data['transporters'] = Transporter::get();
         $data['docks'] = Dock::get();
+        $data['heads'] = HeadWarehouse::all();
+        $data['inspections'] = UserInspection::all();
         return view('inputs.bbm_receipt.bbm_receipt.edit',$data);
     }
 
@@ -254,10 +298,9 @@ class BbmReceiptController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $shipment_type, $id)
     {
         $request->validate([
-            'shipment_type' => 'required',
             'port_origin' => 'required_if:shipment_type,ship',
             'destination_port' => 'required_if:shipment_type,ship',
             'dock' => 'required_if:shipment_type,ship',
@@ -301,7 +344,7 @@ class BbmReceiptController extends Controller
             'flow_meter_awal' => 'required',
             'flow_meter_akhir' => 'required',
             'liter_15_tug3' => 'required',
-            'tug3_number' => 'required',
+            // 'tug3_number' => 'required',
             'date_receipt' => 'required',
             'norm_number' => 'required',
             'unit' => 'required',
@@ -309,7 +352,6 @@ class BbmReceiptController extends Controller
             'inspector' => 'required',
             'head_of_warehouse' => 'required',
         ], [
-            'shipment_type.required' => 'Jenis pengiriman wajib diisi',
             'port_origin.required_if' => 'Pelabuhan asal wajib diisi jika jenis pengiriman adalah kapal',
             'destination_port.required_if' => 'Pelabuhan tujuan wajib diisi jika jenis pengiriman adalah kapal',
             'dock.required_if' => 'Dermaga wajib diisi jika jenis pengiriman adalah kapal',
@@ -363,7 +405,7 @@ class BbmReceiptController extends Controller
         ]);
 
         BbmReceipt::where('id',$id)->update([
-            'shipment_type' => $request->shipment_type,
+            'shipment_type' => $shipment_type,
             'port_origin' => $request->port_origin,
             'destination_port' => $request->destination_port,
             'dock' => $request->dock,
@@ -406,7 +448,7 @@ class BbmReceiptController extends Controller
             'flow_meter_awal' => $request->flow_meter_awal,
             'flow_meter_akhir' => $request->flow_meter_akhir,
             'liter_15_tug3' => $request->liter_15_tug3,
-            'tug3_number' => $request->tug3_number,
+            // 'tug3_number' => $request->tug3_number,
             'date_receipt' => $request->date_receipt,
             'norm_number' => $request->norm_number,
             'unit' => $request->unit,
@@ -415,7 +457,7 @@ class BbmReceiptController extends Controller
             'head_of_warehouse' => $request->head_of_warehouse,
         ]);
 
-        return redirect(route('inputs.bbm_receipts.index'))->with('success', 'Penerimaan BBM berhasil diubah.');
+        return redirect(route('inputs.bbm_receipts.index', ['shipment_type' => $shipment_type]))->with('success', 'Penerimaan BBM berhasil diubah.');
     }
 
     /**
@@ -424,10 +466,10 @@ class BbmReceiptController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($shipment_type, $id)
     {
         BbmReceipt::where('id',$id)->first()->delete();
 
-        return redirect(route('inputs.bbm_receipts.index'))->with('success', 'Penerimaan BBM berhasil dihapus.');
+        return redirect(route('inputs.bbm_receipts.index', ['shipment_type' => $shipment_type]))->with('success', 'Penerimaan BBM berhasil dihapus.');
     }
 }
