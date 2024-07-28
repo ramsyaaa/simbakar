@@ -33,15 +33,15 @@
                             </div>
                         </div>     
                         <div class="w-full py-1">
-                            <label for="supplier_uuid" class="font-bold text-[#232D42] text-[16px]">Nama Supplier</label>
+                            <label for="supplier_id" class="font-bold text-[#232D42] text-[16px]">Nama Supplier</label>
                             <div class="relative">
-                                <select name="supplier_uuid" id="" class="w-full lg:w-[600px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                <select name="supplier_id" id="" class="w-full lg:w-[600px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                     <option selected disabled>Pilih Supplier</option>
                                     @foreach ($suppliers as $supplier)
-                                    <option {{$coal->supplier_uuid == $supplier->uuid ? 'selected' :''}} value="{{ $supplier->uuid }}">{{ $supplier->name }}</option>
+                                    <option {{$coal->supplier_id == $supplier->id ? 'selected' :''}} value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                                     @endforeach
                                 </select>
-                                @error('supplier_uuid')
+                                @error('supplier_id')
                                 <div class="absolute -bottom-1 left-1 text-red-500">
                                     {{ $message }}
                                 </div>
@@ -80,8 +80,6 @@
                                 <select name="kind_contract" id="" class="w-full lg:w-[600px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                     <option selected disabled>Pilih Jenis Kontrak</option>
                                     <option {{$coal->kind_contract == 'FOB' ? 'selected' :''}}>FOB</option>
-                                    <option {{$coal->kind_contract == 'FOT' ? 'selected' :''}}>FOT</option>
-                                    <option {{$coal->kind_contract == 'CNF' ? 'selected' :''}}>CNF</option>
                                     <option {{$coal->kind_contract == 'CIF' ? 'selected' :''}}>CIF</option>
                                 </select>
                                 @error('kind_contract')

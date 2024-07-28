@@ -22,7 +22,7 @@ class BbmBookContractController extends Controller
             $query->where('alocation_month', $date[1]);
             $query->where('alocation_year', $date[0]);
         });
-        $data['bbms'] = $bbms->paginate(10)->appends(request()->query());
+        $data['bbms'] = $bbms->latest()->paginate(10)->appends(request()->query());
         return view('contracts.bbm-book-contracts.index',$data);
     }
 

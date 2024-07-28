@@ -241,7 +241,7 @@
                                                     Analisa
                                                     </label>
                                                 </div>
-                                                <div class="pt-1">
+                                                {{-- <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="inputanpembongkaran-batu-bara" name="inputan[]" value="inputan-pembongkaran-batu-bara"  {{$role->hasPermissionTo('inputan-pembongkaran-batu-bara') ?'checked':''}}>
                                                     <label class="form-check-label" for="inputanpembongkaran-batu-bara">
                                                     Pembongkaran Batu Bara
@@ -264,7 +264,7 @@
                                                     <label class="form-check-label" for="inputanpenerimaan-bbm">
                                                     Penerimaan BBM
                                                     </label>
-                                                </div>
+                                                </div> --}}
                                                 <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="inputanstock-opname" name="inputan[]" value="inputan-stock-opname"  {{$role->hasPermissionTo('inputan-stock-opname') ?'checked':''}}>
                                                     <label class="form-check-label" for="inputanstock-opname">
@@ -277,7 +277,7 @@
                                                     TUG
                                                     </label>
                                                 </div>        
-                                                <div class="pt-1">
+                                                {{-- <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="inputanjadwal-kapal" name="inputan[]" value="inputan-jadwal-kapal"  {{$role->hasPermissionTo('inputan-jadwal-kapal') ?'checked':''}}>
                                                     <label class="form-check-label" for="inputanjadwal-kapal">
                                                 Jadwal Kapal
@@ -301,7 +301,7 @@
                                                 Perbaiki Data Bongkar
                                                     </label>
                                                 </div>
-                                            
+                                             --}}
                                             </div>
                                         </div>
                                     </div>
@@ -438,20 +438,14 @@
                                     </div>
                                 </div>
                                 <div class="lg:flex items-center justify-between">
-                                    <div class="kapal-role pb-10">
-                                        <h6 class="font-bold text-[#232D42] text-[16px]">Kapal</h6>
+                                    <div class="biomassa-role pb-10">
+                                        <h6 class="font-bold text-[#232D42] text-[16px]">Biomassa</h6>
                                         <div class="container">
                                             <div class="row row-cols-12 pt-3 ps-3 ">
                                                 <div class="pt-1">
-                                                    <input class="mr-2 leading-tight" type="checkbox" id="kapaljadwal" name="kapal[]" value="kapal-jadwal" {{$role->hasPermissionTo('kapal-jadwal') ?'checked':''}}>
-                                                    <label class="form-check-label" for="kapaljadwal">
-                                                    Jadwal
-                                                    </label>
-                                                </div>
-                                                <div class="pt-1">
-                                                    <input class="mr-2 leading-tight" type="checkbox" id="kapalpemantauan" name="kapal[]" value="kapal-pemantauan" {{$role->hasPermissionTo('kapal-pemantauan') ?'checked':''}}>
-                                                    <label class="form-check-label" for="kapalpemantauan">
-                                                    Pemantauan
+                                                    <input class="mr-2 leading-tight" type="checkbox" id="biomassapenerimaan" name="biomassa[]" value="biomassa-penerimaan" {{$role->hasPermissionTo('biomassa-penerimaan') ?'checked':''}}>
+                                                    <label class="form-check-label" for="biomassapenerimaan">
+                                                    Penerimaan
                                                     </label>
                                                 </div>
                                             </div>

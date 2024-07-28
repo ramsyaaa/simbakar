@@ -240,7 +240,7 @@
                                                     Analisa
                                                     </label>
                                                 </div>
-                                                <div class="pt-1">
+                                                {{-- <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="inputanpembongkaran-batu-bara" name="inputan[]" value="inputan-pembongkaran-batu-bara">
                                                     <label class="form-check-label" for="inputanpembongkaran-batu-bara">
                                                     Pembongkaran Batu Bara
@@ -263,7 +263,7 @@
                                                     <label class="form-check-label" for="inputanpenerimaan-bbm">
                                                     Penerimaan BBM
                                                     </label>
-                                                </div>
+                                                </div> --}}
                                                 <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="inputanstock-opname" name="inputan[]" value="inputan-stock-opname">
                                                     <label class="form-check-label" for="inputanstock-opname">
@@ -276,7 +276,7 @@
                                                     TUG
                                                     </label>
                                                 </div>        
-                                                <div class="pt-1">
+                                                {{-- <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="inputanjadwal-kapal" name="inputan[]" value="inputan-jadwal-kapal">
                                                     <label class="form-check-label" for="inputanjadwal-kapal">
                                                 Jadwal Kapal
@@ -300,7 +300,7 @@
                                                 Perbaiki Data Bongkar
                                                     </label>
                                                 </div>
-                                            
+                                             --}}
                                             </div>
                                         </div>
                                     </div>
@@ -437,20 +437,14 @@
                                     </div>
                                 </div>
                                 <div class="lg:flex items-center justify-between">
-                                    <div class="kapal-role pb-10">
-                                        <h6 class="font-bold text-[#232D42] text-[16px]">Kapal</h6>
+                                    <div class="biomassa-role pb-10">
+                                        <h6 class="font-bold text-[#232D42] text-[16px]">Biomassa</h6>
                                         <div class="container">
                                             <div class="row row-cols-12 pt-3 ps-3 ">
                                                 <div class="pt-1">
-                                                    <input class="mr-2 leading-tight" type="checkbox" id="kapaljadwal" name="kapal[]" value="kapal-jadwal">
-                                                    <label class="form-check-label" for="kapaljadwal">
-                                                    Jadwal
-                                                    </label>
-                                                </div>
-                                                <div class="pt-1">
-                                                    <input class="mr-2 leading-tight" type="checkbox" id="kapalpemantauan" name="kapal[]" value="kapal-pemantauan">
-                                                    <label class="form-check-label" for="kapalpemantauan">
-                                                    Pemantauan
+                                                    <input class="mr-2 leading-tight" type="checkbox" id="biomassapenerimaan" name="biomassa[]" value="biomassa-penerimaan">
+                                                    <label class="form-check-label" for="biomassapenerimaan">
+                                                    Penerimaan
                                                     </label>
                                                 </div>
                                             </div>

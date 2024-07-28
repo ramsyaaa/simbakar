@@ -22,7 +22,7 @@ class CoalContractController extends Controller
             $query->where('supplier_uuid', $request->supplier_uuid);
         });
         $data['suppliers'] = Supplier::all();
-        $data['coals'] = $coals->paginate(10)->appends(request()->query());
+        $data['coals'] = $coals->latest()->paginate(10)->appends(request()->query());
         return view('contracts.coal-contracts.index',$data);
     }
 
