@@ -30,5 +30,6 @@ require 'contract.php';
 require 'master-data.php';
 require 'batu-bara.php';
 require 'input.php';
+require 'report.php';
 require 'setting.php';
 
