@@ -37,8 +37,8 @@
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nama</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jabatan Struktural</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nama Jabatan</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jabatan Fungsional</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Status</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
@@ -48,8 +48,8 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $pic->name }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $pic->structural_position }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $pic->name_position }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $pic->functional_role }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $pic->status == 1 ? 'Aktif' : 'Tidak Aktif' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('master-data.person-in-charges.edit', ['uuid' => $pic->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit

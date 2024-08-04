@@ -29,7 +29,6 @@ class PersonInChargeController extends Controller
         $request->validate([
             'name' => 'required',
             'structural_position' => 'required',
-            'name_position' => 'required',
             'functional_role' => 'required',
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -41,7 +40,7 @@ class PersonInChargeController extends Controller
         PersonInCharge::create([
             'name' => $request->name,
             'structural_position' => $request->structural_position,
-            'name_position' => $request->name_position,
+            'name_position' => $request->name,
             'functional_role' => $request->functional_role,
             'status' => 1
         ]);
@@ -66,12 +65,10 @@ class PersonInChargeController extends Controller
         $request->validate([
             'name' => 'required',
             'structural_position' => 'required',
-            'name_position' => 'required',
             'functional_role' => 'required',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'structural_position.required' => 'Jabatan struktural wajib diisi.',
-            'name_position.required' => 'Nama Jabatan wajib diisi.',
             'functional_role.required' => 'Jabatan fungsioinal wajib diisi.',
         ]);
 
@@ -80,9 +77,8 @@ class PersonInChargeController extends Controller
         ])->update([
             'name' => $request->name,
             'structural_position' => $request->structural_position,
-            'name_position' => $request->name_position,
             'functional_role' => $request->functional_role,
-            'status' => 1
+            'status' => $request->status
         ]);
 
         return redirect(route('master-data.person-in-charges.index'))->with('success', 'Penanggung jawab berhasil diupdate.');

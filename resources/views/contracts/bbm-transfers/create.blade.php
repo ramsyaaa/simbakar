@@ -102,7 +102,7 @@
                             </div>
                                 <div class="destination">
                                     <div class="w-full">
-                                        <label for="bunker_destination_id" class="font-bold text-[#232D42] text-[16px]">Bunker Sumber</label>
+                                        <label for="bunker_destination_id" class="font-bold text-[#232D42] text-[16px]">Bunker Tujuan</label>
                                         <div class="relative">
                                             <select id="bunker_destination_id" name="bunker_destination_id" class="w-96 h-[44px] rounded-md border px-2">
                                                 <option selected disabled>Pilih Bunker</option>

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\ApiFetchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +34,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
 });
+
+Route::post('save-inspection', [ApiFetchController::class, 'saveInspection'])->name('saveInspection');
+Route::post('save-warehouse', [ApiFetchController::class, 'saveWarehouse'])->name('saveWarehouse');
+Route::post('save-manager', [ApiFetchController::class, 'saveManager'])->name('saveManager');

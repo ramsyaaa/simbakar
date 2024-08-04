@@ -9,79 +9,114 @@
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Ubah BA Penyesuaian Bahan Bakar
+                        Ubah TUG 4 
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
-                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('coals.usages.adjusment-incomes.index') }}" class="cursor-pointer">BA Penyesuaian Bahan Bakar</a> / <span class="text-[#2E46BA] cursor-pointer">Create</span>
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('inputs.tug-4.index') }}" class="cursor-pointer">TUG - 4 </a> / <span class="text-[#2E46BA] cursor-pointer">Edit</span>
                     </div>
                 </div>
             </div>
             <div class="bg-white rounded-lg p-6">
-                <form onsubmit="return confirmSubmit(this, 'Ubahkan Penyesuaian Bahan Bakar ?')" action="{{ route('coals.usages.adjusment-incomes.update',['id' => $adjusment->id]) }}" method="POST">
+                <form onsubmit="return confirmSubmit(this, 'Ubah TUG 4 ?')" action="{{ route('inputs.tug-4.update',['id' => $tug->id]) }}" method="POST">
                     @csrf
                     @method('PATCH')
                         <div class="unloadings">
                             <div class="p-4 bg-white rounded-lg w-full">
-                                <div class="lg:flex gap-3">
-                                    <div class="w-full">
-                                        <label for="type_fuel" class="font-bold text-[#232D42] text-[16px]">Tanggal Pakai</label>
+                                    <div class="w-full mb-5">
+                                        <label for="bpb_number" class="font-bold text-[#232D42] text-[16px]">No BPB</label>
                                         <div class="relative">
-                                            <input type="hidden" name="type_adjusment" value="income">
-                                            <select id="type_fuel" name="type_fuel" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3" autofocus>
-                                                <option selected disabled>Jenis Bahan Bakar</option>
-                                                <option {{$adjusment->type_fuel == 'Batu Bara' ? 'selected' :''}}> Batu Bara</option>
-                                                <option {{$adjusment->type_fuel == 'HSD / Solar' ? 'selected' :''}}> HSD / Solar</option>
-                                                <option {{$adjusment->type_fuel == 'MFO / Residu' ? 'selected' :''}}> MFO / Residu</option>
+                                            <input required type="text" value="{{$tug->bpb_number}}" name="bpb_number" class="w-full lg:w-46 border rounded-md mt-3 h-[40px] px-3">
+                                            <small>Diperoleh dari BPB penerimaan, tapi dapat di edit</small>
+                                            @error('bpb_number')
+                                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="w-full">
+                                        <label for="inspection_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Periksa</label>
+                                        <div class="relative">
+                                            <input required type="date" value="{{$tug->inspection_date}}" name="inspection_date" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                           
+                                            @error('inspection_date')
+                                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="w-full mb-5">
+                                        <label for="user_inspection" class="font-bold text-[#232D42] text-[16px]">Pemeriksa</label>
+                                        <div class="relative">
+                                            @foreach ($pics as $pic)
+                                                <div class="pt-1">
+                                                    <input class="mr-2 leading-tight" type="checkbox" id="inspectionuser" name="user_inspections[]" value="{{$pic->id}}"
+                                                    @foreach (json_decode($tug->user_inspections) as $item)
+                                                        {{($item == $pic->id) ? 'checked':''}}
+                                                    @endforeach
+                                                    >
+                                                    <label class="form-check-label" for="inspectionuser">
+                                                    {{$pic->name}} - {{$pic->structural_position}} - {{$pic->functional_role}}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                            
+                                            @error('user_inspection')
+                                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="w-full mb-5">
+                                        <label for="tug_number" class="font-bold text-[#232D42] text-[16px]">No TUG 3</label>
+                                        <div class="relative">
+                                            <input required type="text" value="{{$tug->tug_number}}" name="tug_number" class="w-full lg:w-46 border rounded-md mt-3 h-[40px] px-3">
+                                            @error('tug_number')
+                                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="w-full mb-5">
+                                        <label for="bunker_id" class="font-bold text-[#232D42] text-[16px]">Gudang</label>
+                                        <div class="relative">
+                                            <select name="bunker_id" id="bunker_id" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                <option value="">Pilih</option>
+                                                @foreach ($bunkers as $item)
+                                                    <option value="{{ $item->id }}" {{ $tug->bunker_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                @endforeach
                                             </select>
-                                            @error('type_fuel')
+                                            @error('bunker_id')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
                                             </div>
                                             @enderror
                                         </div>
                                     </div>
-                                
-                                    <div class="w-full">
-                                        <label for="usage_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Pakai</label>
+                                    <div class="w-full mb-5">
+                                        <label for="general_manager" class="font-bold text-[#232D42] text-[16px]">General Manager</label>
                                         <div class="relative">
-                                            <input required type="date" value="{{$adjusment->usage_date}}" name="usage_date" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                            @error('usage_date')
+                                            <select name="general_manager" id="general_manager" class="select-2 select-manager w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                <option value="">Pilih</option>
+                                                @foreach ($managers as $manager)
+                                                    <option value="{{ $manager->name }}" {{ $tug->general_manager == $manager->name ? 'selected' : '' }}>{{ $manager->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('general_manager')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
                                             </div>
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
-                                <div class="lg:flex gap-3">
-                                    <div class="w-full">
-                                        <label for="usage_amount" class="font-bold text-[#232D42] text-[16px]">Jumlah Pakai</label>
-                                        <div class="relative">
-                                            <input required type="number" value="{{$adjusment->usage_amount}}" name="usage_amount" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                            @error('usage_amount')
-                                            <div class="absolute -bottom-1 left-1 text-red-500">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="w-full">
-                                        <label for="ba_number" class="font-bold text-[#232D42] text-[16px]">No Berita Acara</label>
-                                        <div class="relative">
-                                            <input required type="text" value="{{$adjusment->ba_number}}" name="ba_number" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                            @error('ba_number')
-                                            <div class="absolute -bottom-1 left-1 text-red-500">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                             <div class="flex gap-3">
 
-                            <a href="{{route('coals.usages.adjusment-incomes.index')}}" class="bg-[#C03221] text-center w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+                            <a href="{{route('inputs.tug-4.index')}}" class="bg-[#C03221] text-center w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                             <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Ubah</button>
                         </div>
                     </div>

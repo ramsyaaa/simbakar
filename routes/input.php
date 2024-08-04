@@ -86,10 +86,15 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
     Route::group(['prefix' => 'tug-4', 'as' => 'tug-4.'], function () {
         Route::get('', [TugFourController::class, 'index'])->name('index');
         Route::get('/{id}', [TugFourController::class, 'detail'])->name('detail');
+        Route::get('/edit/{id}', [TugFourController::class, 'edit'])->name('edit');
+        Route::patch('/edit/{id}', [TugFourController::class, 'update'])->name('update');
         Route::delete('/{id}', [TugFourController::class, 'destroy'])->name('destroy');
     });
     Route::group(['prefix' => 'tug-9', 'as' => 'tug-9.'], function () {
         Route::get('/index-coal', [TugNineController::class, 'indexCoal'])->name('index-coal');
+        Route::get('/index-unit', [TugNineController::class, 'indexUnit'])->name('index-unit');
+        Route::get('/index-heavy', [TugNineController::class, 'indexHeavy'])->name('index-heavy');
+        Route::get('/index-other', [TugNineController::class, 'indexOther'])->name('index-other');
     });
     Route::group(['prefix' => 'tug-11', 'as' => 'tug-11.'], function () {
         Route::get('/index', [TugElevenController::class, 'index'])->name('index');

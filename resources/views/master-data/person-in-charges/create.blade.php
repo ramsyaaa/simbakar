@@ -24,7 +24,7 @@
                             <div class="w-full">
                                 <label for="name" class="font-bold text-[#232D42] text-[16px]">Nama Penanggung Jawab</label>
                                 <div class="relative">
-                                    <input type="text" name="name" value="{{ old('name') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="name" value="{{ old('name') }}" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('name')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -35,7 +35,7 @@
                             <div class="w-full">
                                 <label for="structural_position" class="font-bold text-[#232D42] text-[16px]">Jabatan Struktural</label>
                                 <div class="relative">
-                                    <input type="text" name="structural_position" value="{{ old('structural_position') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="structural_position" value="{{ old('structural_position') }}" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('structural_position')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -46,10 +46,14 @@
                         </div>
                         <div class="lg:flex items-center justify-between">
                             <div class="w-full">
-                                <label for="name_position" class="font-bold text-[#232D42] text-[16px]">Nama Jabatan</label>
+                                <label for="status" class="font-bold text-[#232D42] text-[16px]">Status</label>
                                 <div class="relative">
-                                    <input type="text" name="name_position" value="{{ old('name_position') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                    @error('name_position')
+                                    <select name="status" id="status" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <option value="">Pilih</option>
+                                        <option value="1" {{ old('status') == "1" ? 'selected' : '' }}>Aktif</option>
+                                        <option value="0" {{ old('status') == '0' ? 'selected' : '' }}> Tidak Aktif</option>
+                                    </select>
+                                    @error('status')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
@@ -59,7 +63,7 @@
                             <div class="w-full">
                                 <label for="functional_role" class="font-bold text-[#232D42] text-[16px]">Jabatan Fungsional</label>
                                 <div class="relative">
-                                    <input type="text" name="functional_role" value="{{ old('functional_role') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="functional_role" value="{{ old('functional_role') }}" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('functional_role')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -68,8 +72,8 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="{{ route('master-data.person-in-charges.index') }}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
-                        <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Penanggung Jawab</button>
+                        <a href="{{ route('master-data.person-in-charges.index') }}" class="bg-[#C03221] w-full lg:w-96 py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+                        <button class="bg-[#2E46BA] w-full lg:w-96 py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Penanggung Jawab</button>
                     </div>
                 </form>
             </div>

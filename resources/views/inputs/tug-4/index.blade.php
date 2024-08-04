@@ -62,8 +62,11 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $tug->bpb_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $tug->tug_number }}</td>
                                 <td class="h-[108px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="#" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                    <a href="{{route('inputs.tug-4.detail',['id' => $tug->id])}}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Detail
+                                    </a>
+                                    <a href="{{route('inputs.tug-4.edit',['id' => $tug->id])}}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                        Edit
                                     </a>
                                     <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('inputs.tug-4.destroy', ['id' => $tug->id]) }}" method="POST">
                                         @csrf
@@ -72,9 +75,6 @@
                                             Delete
                                         </button>
                                     </form>
-                                    <a href="#" class="bg-[#2E46BA] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                        Print
-                                    </a>
                                 </td>
                             </tr>
                             @endforeach

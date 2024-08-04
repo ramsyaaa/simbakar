@@ -1,0 +1,178 @@
+@extends('layouts.app')
+
+@section('content')
+<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+    @include('components.sidebar')
+    <div :class="sidebar?'w-10/12' : 'w-full'">
+        @include('components.header')
+        <div class="w-full py-10 px-8">
+            <div class="flex items-end justify-between mb-2">
+                <div>
+                    <div class="text-[#135F9C] text-[40px] font-bold">
+                        Detail TUG 3
+                    </div>
+                    <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('inputs.tug-3.index') }}" class="cursor-pointer">TUG 3</a> / <span class="text-[#2E46BA] cursor-pointer">Detail</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg p-6">
+                        <div class="unloadings">
+                            <div class="p-4 bg-white rounded-lg w-full">
+                                <div class="lg:flex gap-3">
+                                    <div class="w-full">
+                                        <label for="type_fuel" class="font-bold text-[#232D42] text-[16px]">Jenis Bahan Bakar</label>
+                                        <div class="relative">
+                                            <input type="hidden" name="type_adjusment" value="income">
+                                            <select id="type_fuel" name="type_fuel" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3" autofocus>
+                                                <option selected disabled>Jenis Bahan Bakar</option>
+                                                <option {{$tug->type_fuel == 'Batu Bara' ? 'selected' :''}}> Batu Bara</option>
+                                                <option {{$tug->type_fuel == 'HSD / Solar' ? 'selected' :''}}> HSD / Solar</option>
+                                                <option {{$tug->type_fuel == 'MFO / Residu' ? 'selected' :''}}> MFO / Residu</option>
+                                            </select>
+                                            @error('type_fuel')
+                                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                
+                                    <div class="w-full">
+                                        <label for="tug_number" class="font-bold text-[#232D42] text-[16px]">Nomor TUG</label>
+                                        <div class="relative">
+                                            <input required type="text" value="{{$tug->tug_number}}" name="tug_number" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @error('tug_number')
+                                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="w-full">
+                                        <label for="bpb_number" class="font-bold text-[#232D42] text-[16px]">Nomor BPB</label>
+                                        <div class="relative">
+                                            <input required type="text" value="{{$tug->bpb_number}}" name="bpb_number" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @error('bpb_number')
+                                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lg:flex gap-3">
+                                    <div class="w-full">
+                                        <label for="usage_amount" class="font-bold text-[#232D42] text-[16px]">Jumlah Pakai</label>
+                                        <div class="relative">
+                                            <input required type="text" value="{{number_format($tug->usage_amount)}} {{$tug->unit}}" name="usage_amount" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @error('usage_amount')
+                                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="flex gap-3">
+
+                            <a href="{{route('inputs.tug-3.index')}}" class="bg-[#C03221] text-center w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+
+                            <button type="button" class="bg-[#2E46BA] text-center w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3" onclick="printPDF()">Print</a>
+                        </div>
+                    </div>
+                    <div id="my-pdf" style="display:none">
+                        <div class="p-8" style="font-size: 0.7em;">
+                            <div class="border p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h1 class="text-lg font-bold">PLN</h1>
+                                        <p>Indonesia Power</p>
+                                        <p>UBP SURALAYA</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p>Bon Penerimaan Barang-barang/Spare Parts</p>
+                                        <p>No: B.2024.302/IBPB/UBPSLA/PBB/2024</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6">
+                                    <div class="flex justify-between">
+                                        <div>
+                                            <p>Diterima tanggal: 26-Jun-24</p>
+                                            <p>Dari: UBP SURALAYA</p>
+                                            <p>Dengan: MV. ANDHIKA ATHALIA</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p>P.I.N.: INDONESIA POWER</p>
+                                            <p>Cab./UP/Bkl: SURALAYA PGU</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <table class="min-w-full mt-6 bg-white">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-4 py-2 border border-slate-700">No. Urut</th>
+                                            <th class="px-4 py-2 border border-slate-700">Nama</th>
+                                            <th class="px-4 py-2 border border-slate-700">Norm/Part</th>
+                                            <th class="px-4 py-2 border border-slate-700">Stn.</th>
+                                            <th class="px-4 py-2 border border-slate-700">Banyaknya</th>
+                                            <th class="px-4 py-2 border border-slate-700">Keterangan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="px-4 py-2 border border-slate-700"></td>
+                                            <td class="px-4 py-2 border border-slate-700">
+                                                <p>Jenis Bahan Bakar: Batubara</p>
+                                                <p>ex. PT. ARTHA DAYA COALINDO</p>
+                                                <p>Penerimaan Untuk Unit 1-7</p>
+                                                <p>Pelabuhan Asal: Muara pantai</p>
+                                                <p>Draft Survey: 63.000.163 Kg</p>
+                                                <p>Belt Weiger: 0 Kg</p>
+                                                <p>Bill of Lading: 63.000.163 Kg</p>
+                                                <p>Diterima: 63.000.163 Kg</p>
+                                            </td>
+                                            <td class="px-4 py-2 border border-slate-700">18.01.0009</td>
+                                            <td class="px-4 py-2 border border-slate-700">Kg</td>
+                                            <td class="px-4 py-2 border border-slate-700">63.000.163</td>
+                                            <td class="px-4 py-2 border border-slate-700"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <div class="mt-6 flex justify-between">
+                                    <div>
+                                        <p>Nota No.</p>
+                                        <p>Kode Perkiraan</p>
+                                    </div>
+                                    <div>
+                                        <p>Perintah Kerja</p>
+                                        <p>Fungsi</p>
+                                    </div>
+                                    <div>
+                                        <p>Jumlah</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6 flex justify-between">
+                                    <div></div>
+                                    <div class="text-center">
+                                        <p>Diperiksa Oleh</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p>Kepala Gudang</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

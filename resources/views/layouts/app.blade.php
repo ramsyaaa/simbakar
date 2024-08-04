@@ -15,7 +15,8 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -94,37 +95,88 @@
             }
         });
     </script>
+    
     <script>
-        async function printPDF(letter) {
-          const element = document.querySelector('#my-pdf');
-  
-          if (!element) {
-              console.error("Element not found");
-              return;
-          }
-  
-          html2canvas(element, { useCORS: true }).then(canvas => {
-              const imgData = canvas.toDataURL('image/png');
-              const { jsPDF } = window.jspdf;
-              const doc = new jsPDF(letter);
-  
-              doc.addImage(imgData, 'PNG', 10, 10);
-              const pdfUrl = doc.output('bloburl');
-  
-              // Open PDF in a new tab and print
-              const printWindow = window.open(pdfUrl, '_blank');
-              if (printWindow) {
-                  printWindow.onload = function() {
-                      printWindow.print();
-                  };
-              }
-          }).catch(err => {
-              console.error("Error generating PDF:", err);
-          });
-      }
+        function printPDF() {
+                var printContents = document.getElementById('my-pdf').innerHTML;
+                var originalContents = document.body.innerHTML;
+
+                document.body.innerHTML = printContents;
+
+                window.print();
+
+                document.body.innerHTML = originalContents;
+                }
     </script>
-    <script src="{{ asset('/src/js/html2canvas.min.js') }}"></script>
-    <script src="{{ asset('/src/js/jspdf.umd.min.js') }}"></script>
-        
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function() {
+                $('.select-2').select2({
+                    tags: true,
+                });
+            });
+            </script>
+            <script>
+                $('.select-inspection').change(function(){  
+                   let name  = $(this).val();
+                   let token = "{{ csrf_token() }}"
+
+                    $.ajax({
+                        method: "post",
+                        url: "{{route('saveInspection')}}",
+                        data: {
+                            _token:token,
+                            name:name,
+                        },
+                        success: function (response) {
+
+                            return true
+                        }
+                    })
+
+               })
+           </script>
+            <script>
+                $('.select-warehouse').change(function(){  
+                   let name  = $(this).val();
+                   let token = "{{ csrf_token() }}"
+
+                    $.ajax({
+                        method: "post",
+                        url: "{{route('saveWarehouse')}}",
+                        data: {
+                            _token:token,
+                            name:name,
+                        },
+                        success: function (response) {
+
+                            return true
+                        }
+                    })
+
+               })
+           </script>
+            <script>
+                $('.select-manager').change(function(){  
+                   let name  = $(this).val();
+                   let token = "{{ csrf_token() }}"
+
+                    $.ajax({
+                        method: "post",
+                        url: "{{route('saveManager')}}",
+                        data: {
+                            _token:token,
+                            name:name,
+                        },
+                        success: function (response) {
+
+                            return true
+                        }
+                    })
+
+               })
+           </script>
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 </body>
 </html>

@@ -47,10 +47,14 @@
                         </div>
                         <div class="lg:flex items-center justify-between">
                             <div class="w-full">
-                                <label for="name_position" class="font-bold text-[#232D42] text-[16px]">Nama Jabatan</label>
+                                <label for="status" class="font-bold text-[#232D42] text-[16px]">Status</label>
                                 <div class="relative">
-                                    <input type="text" name="name_position" value="{{ old('name_position') ? old('name_position') : $person_in_charge->name_position }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                    @error('name_position')
+                                    <select name="status" id="status" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <option value="">Pilih</option>
+                                        <option value="1" {{ $person_in_charge->status == "1" ? 'selected' : '' }}>Aktif</option>
+                                        <option value="0" {{ $person_in_charge->status == '0' ? 'selected' : '' }}> Tidak Aktif</option>
+                                    </select>
+                                    @error('status')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>

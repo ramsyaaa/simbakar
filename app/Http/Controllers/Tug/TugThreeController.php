@@ -32,7 +32,7 @@ class TugThreeController extends Controller
     public function detail($id){
 
         $data['tug'] = Tug::where('id',$id)->first();
-        return view('inputs.tug-3.index',$data);
+        return view('inputs.tug-3.detail',$data);
     }
     public function destroy($id)
     {
