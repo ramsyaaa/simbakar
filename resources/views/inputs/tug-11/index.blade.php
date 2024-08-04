@@ -44,246 +44,247 @@
                                 <option value="{{$head->name}}" {{request('head') == $head->name ? 'selected' :''}}>{{$head->name}}</option>
                             @endforeach
                         </select>
+                        <button type="button" onclick="printPDF()" class="px-5 py-2 bg-sky-700 hover:bg-sky-800 text-white text-center font-bold rounded-lg"> Print</button>
                     </div>
                     <button type="submit" class="hidden">Search</button>
                 </form>
 
-                <div class="overflow-auto hide-scrollbar max-w-full">
+                <div class="overflow-auto hide-scrollbar max-w-full" id="my-pdf">
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nama Barang</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nomor Normalisasi</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Satuan</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Mutasi Keluar</th>
+                                <th class="border bg-[#F5F6FA] text-[#8A92A6]">Nama Barang</th>
+                                <th class="border bg-[#F5F6FA] text-[#8A92A6]">Unit</th>
+                                <th class="border bg-[#F5F6FA] text-[#8A92A6]">Nomor Normalisasi</th>
+                                <th class="border bg-[#F5F6FA] text-[#8A92A6]">Satuan</th>
+                                <th class="border bg-[#F5F6FA] text-[#8A92A6]">Mutasi Keluar</th>
                             </tr>
                         </thead>
                         <tbody>
                             {{-- Batu Bara --}}
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Batu Bara</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 1</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0009</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Batu Bara</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 1</td>
+                                <td class="text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0009</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 2</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 2</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 3</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 3</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 4</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 4</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 5</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0009</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 5</td>
+                                <td class="text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0009</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 6</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 6</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 7</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 7</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 8</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 8</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 8 </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 8 </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Batu Bara Lainnya </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Batu Bara Lainnya </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Batu Bara </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Batu Bara </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            {{-- Solar --}}
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Solar HSD</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 1</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0322</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Solar HSD</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 1</td>
+                                <td class="text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0322</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 2</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 2</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 3</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 3</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 4</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 4</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 5</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0322</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 5</td>
+                                <td class="text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0322</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 6</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 6</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 7</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 7</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 8</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 8</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 8 </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 8 </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Solar HSD Lainnya </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Solar HSD Lainnya </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Solar HSD </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Solar HSD </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            {{-- Residu --}}
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Residu MFO</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 1</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0306</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Residu MFO</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 1</td>
+                                <td class="text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0306</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 2</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 2</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 3</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 3</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 4</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 4</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 5</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0306</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 5</td>
+                                <td class="text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0306</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 6</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 6</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 7</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 7</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Unit 8</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 8</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 8 </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 8 </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Residu MFO Lainnya </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Residu MFO Lainnya </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Residu MFO </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">0</td>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Residu MFO </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
                         </tbody>
                     </table>

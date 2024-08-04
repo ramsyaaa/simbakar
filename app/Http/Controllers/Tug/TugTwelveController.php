@@ -18,7 +18,7 @@ class TugTwelveController extends Controller
         $tugs = Tug::query();
         $tugs->where('tug',9)
         ->when($request->date, function ($query) use ($request) {
-            $query->where('created_at', $date);
+            $query->where('created_at', $request->date);
         });
         $data['tugs'] = $tugs->latest()->paginate(10)->appends(request()->query());
         return view('inputs.tug-12.index',$data);
