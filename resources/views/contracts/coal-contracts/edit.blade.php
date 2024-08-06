@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="bg-white rounded-lg p-6">
-                <form onsubmit="return confirmSubmit(this, 'Tambahkan User?')" action="{{ route('contracts.coal-contracts.update',['uuid' => $coal->uuid]) }}" method="POST">
+                <form onsubmit="return confirmSubmit(this, 'Ubah Kontrak Batubara?')" action="{{ route('contracts.coal-contracts.update',['uuid' => $coal->uuid]) }}" method="POST">
                     @csrf
                     @method('PATCH')
                     <div class="p-4 bg-white rounded-lg w-full">
@@ -65,7 +65,8 @@
                                 <select name="type_contract" id="" class="w-full lg:w-[600px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                     <option selected disabled>Pilih Tipe Kontrak</option>
                                     <option {{$coal->type_contract == 'Jangka Panjang' ? 'selected' :''}}>Jangka Panjang</option>
-                                    <option {{$coal->type_contract == 'Jangka Pendek' ? 'selected' :''}}>Jangka Pendek</option>
+                                    <option {{$coal->type_contract == 'Jangka Menengah' ? 'selected' :''}}>Jangka Menengah</option>
+                                    <option {{$coal->type_contract == 'Spot' ? 'selected' :''}}>Spot</option>
                                 </select>
                                 @error('type_contract')
                                 <div class="absolute -bottom-1 left-1 text-red-500">

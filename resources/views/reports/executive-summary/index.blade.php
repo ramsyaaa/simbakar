@@ -21,7 +21,7 @@
             @php
                 $dataReport = [
                     ['text' => 'Rencana Realisasi Kontrak Batubara Bulanan','url' => '#'],
-                    ['text' => 'Perbandingan Spesifikasi Kontrak Pemasok dengan Design Boiler','url' => '#'],
+                    // ['text' => 'Perbandingan Spesifikasi Kontrak Pemasok dengan Design Boiler','url' => '#'],
                     ['text' => 'Rencana Realisasi Pemakaian Batubara & Produksi Listrik Bulanan','url' => '#'],
                     ['text' => 'Realisasi Persediaan Kumulatif Batubara','url' => '#'],
                     ['text' => 'Realisasi Penerimaan, Pemakaian dan Persediaan Efektif Batubara','url' => '#'],
@@ -33,12 +33,12 @@
                     ['text' => 'Perbandingan Analisa Kualitas per Waktu (Loading, Unloading, dan Labor)','url' => '#'],
                     ['text' => 'Perbandingan Penerimaan Batubara Bulanan (B/L, D/S, B/W, TUG, 3)','url' => '#'],
                     ['text' => 'Realisasi Pembongkaran Batubara Bulanan','url' => '#'],
-                    ['text' => 'Rencana dan Realisasi Pengapalan','url' => '#'],
-                    ['text' => 'Losses Batubara per Tahun','url' => '#'],
-                    ['text' => 'Rekapitulasi Losses Batubara','url' => '#'],
-                    ['text' => 'Jasa Tambat Bulanan','url' => '#'],
-                    ['text' => 'Jasa Dermaga Bulanan','url' => '#'],
-                    ['text' => 'Jasa Bongkar Bulanan','url' => '#'],
+                    // ['text' => 'Rencana dan Realisasi Pengapalan','url' => '#'],
+                    // ['text' => 'Losses Batubara per Tahun','url' => '#'],
+                    // ['text' => 'Rekapitulasi Losses Batubara','url' => '#'],
+                    // ['text' => 'Jasa Tambat Bulanan','url' => '#'],
+                    // ['text' => 'Jasa Dermaga Bulanan','url' => '#'],
+                    // ['text' => 'Jasa Bongkar Bulanan','url' => '#'],
 
                 ]
             @endphp

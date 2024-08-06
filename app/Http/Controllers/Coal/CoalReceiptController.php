@@ -149,6 +149,7 @@ class CoalReceiptController extends Controller
     public function updateTug(Request $request,$id)
     {
   
+        dd($request);
         DB::beginTransaction();
         try {
 
