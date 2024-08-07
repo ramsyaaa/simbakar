@@ -7,6 +7,7 @@ use App\Http\Controllers\Report\Contract\ContractController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Report\ExecutiveSummary\ExecutiveSummaryController;
+use App\Http\Controllers\Report\ExecutiveSummary\ReportBbmController;
 use App\Http\Controllers\Report\HeavyEquipment\HeavyEquipmentController;
 use App\Http\Controllers\Report\Performance\PerformanceController;
 use App\Http\Controllers\Report\Receipt\ReceiptController;
@@ -17,6 +18,8 @@ use App\Http\Controllers\Report\Unloading\UnloadingController;
 Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.'], function () {
     Route::group(['prefix' => 'executive-summary', 'as' => 'executive-summary.'], function () {
         Route::get('', [ExecutiveSummaryController::class, 'index'])->name('index');
+        Route::get('bbm-receipt-usage-report/{type}', [ReportBbmController::class, 'index'])->name('bbm-receipt-usage');
+        Route::post('bbm-receipt-usage-report/{type}', [ReportBbmController::class, 'index'])->name('bbm-receipt-usage');
     });
 
     Route::group(['prefix' => 'contracts', 'as' => 'contracts.'], function () {
