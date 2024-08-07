@@ -89,11 +89,13 @@
                                 </div>
                             </div>
                             <div class="delivery">
-                                <label for="for_will_parameter" class="font-bold text-[#232D42] text-[16px]">Parameter</label>
+                                <label for="unit_penalty_id" class="font-bold text-[#232D42] text-[16px]">Parameter</label>
                                 <div class="relative">
-                                    <select name="for_will_parameter" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
-                                        <option {{$adjusment->for_will_parameter == 'Ash' ? 'selected' :''}}>Ash</option>
-                                    </select>
+                                    <select name="unit_penalty_id" id="" class="select-2 w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                        @foreach ($units as $unit)
+                                            <option value="{{$unit->id}}" {{$adjusment->unit_penalty_id == $unit->id ? 'selected' : ''}}>{{$unit->name}}</option>
+                                        @endforeach
+                                    </select>  
                                     
                                     @error('for_will_parameter')
                                     <div class="absolute -bottom-1 left-1 text-red-500">

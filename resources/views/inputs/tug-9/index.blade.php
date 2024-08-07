@@ -62,7 +62,7 @@
                     <button type="submit" class="hidden">Search</button>
                 </form>
 
-                <div class="overflow-auto hide-scrollbar max-w-full">
+                <div class="overflow-auto hide-scrollbar max-w-full max-h-full">
                     <table class="w-full">
                         <thead>
                             <tr>

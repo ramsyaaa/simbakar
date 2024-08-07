@@ -52,9 +52,11 @@
                                             @foreach ($pics as $pic)
                                                 <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="inspectionuser" name="user_inspections[]" value="{{$pic->id}}"
-                                                    @foreach (json_decode($tug->user_inspections) as $item)
-                                                        {{($item == $pic->id) ? 'checked':''}}
-                                                    @endforeach
+                                                    @if ($tug->user_inspections)
+                                                        @foreach (json_decode($tug->user_inspections) as $item)
+                                                            {{($item == $pic->id) ? 'checked':''}}
+                                                        @endforeach
+                                                    @endif
                                                     >
                                                     <label class="form-check-label" for="inspectionuser">
                                                     {{$pic->name}} - {{$pic->structural_position}} - {{$pic->functional_role}}
