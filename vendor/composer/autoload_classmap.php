@@ -148,6 +148,7 @@ return array(
     'App\\Models\\TransferBbm' => $baseDir . '/app/Models/TransferBbm.php',
     'App\\Models\\Tug' => $baseDir . '/app/Models/Tug.php',
     'App\\Models\\TypeShip' => $baseDir . '/app/Models/TypeShip.php',
+    'App\\Models\\UnitPenalty' => $baseDir . '/app/Models/UnitPenalty.php',
     'App\\Models\\UserInspection' => $baseDir . '/app/Models/UserInspection.php',
     'App\\Models\\YearStartData' => $baseDir . '/app/Models/YearStartData.php',
     'App\\PersonInCharge' => $baseDir . '/app/PersonInCharge.php',

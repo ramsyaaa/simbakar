@@ -838,6 +838,7 @@ class ComposerStaticInitc34933d503ac62cddb12489293594bd6
         'App\\Models\\TransferBbm' => __DIR__ . '/../..' . '/app/Models/TransferBbm.php',
         'App\\Models\\Tug' => __DIR__ . '/../..' . '/app/Models/Tug.php',
         'App\\Models\\TypeShip' => __DIR__ . '/../..' . '/app/Models/TypeShip.php',
+        'App\\Models\\UnitPenalty' => __DIR__ . '/../..' . '/app/Models/UnitPenalty.php',
         'App\\Models\\UserInspection' => __DIR__ . '/../..' . '/app/Models/UserInspection.php',
         'App\\Models\\YearStartData' => __DIR__ . '/../..' . '/app/Models/YearStartData.php',
         'App\\PersonInCharge' => __DIR__ . '/../..' . '/app/PersonInCharge.php',
