@@ -17,7 +17,7 @@ class HeavyEquipmentController extends Controller
 
     public function index(Request $request, $type, $type_bbm)
     {
-        $filterType = 'year';
+        $filterType = 'day';
         $data['filter_type'] = $filterType;
         $validFilterTypes = ['day', 'month', 'year'];
         $validBbmTypes = ['HSD', 'MFO'];

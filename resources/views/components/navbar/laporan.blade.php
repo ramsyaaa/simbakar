@@ -181,7 +181,7 @@
                         </a>
                     </div>
                 @endif
-                @if (Auth::user()->hasPermissionTo('laporan-performance'))
+                {{-- @if (Auth::user()->hasPermissionTo('laporan-performance'))
                     <div>
                         <a href="{{ route('reports.performance.index') }}">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
@@ -212,7 +212,7 @@
                             </div>
                         </a>
                     </div>
-                @endif
+                @endif --}}
                 {{-- @if (Auth::user()->hasPermissionTo('laporan-pemantauan-kapal'))
                     <div>
                         <a href="{{ route('reports.ship-monitoring.index') }}">
