@@ -22,6 +22,44 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('src/css/style.css') }}">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        .select2-container .select2-selection--single {
+            height: 40px; /* Tailwind h-[40px] */
+            padding: 0 12px; Tailwind px-3
+            border: 1px solid #e2e8f0; /* Tailwind border */
+            border-radius: 0.375rem; /* Tailwind rounded-md */
+            margin-top: 0.75rem; /* Tailwind mt-3 */
+            /* margin-bottom: 1.25rem; Tailwind mb-5 */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height:70px; /* Slightly smaller to fit inside the select box */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 38px; /* Vertically center the text */
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: #2E46BA; /* Tailwind bg-blue-500 */
+            color: white; /* Tailwind text-white */
+        }
+
+        .select2-container--default .select2-results__option {
+            padding: 0.5rem; Tailwind p-2
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            padding-left: 0.5rem; /* Tailwind pl-2 */
+        }
+        /* Media query for dynamic width */
+        @media (max-width: 1024px) {
+            .select2-container {
+                width: 100% !important; /* Ensure full width on mobile and tablet */
+            }
+        }
+
+    </style>
 </head>
 <body>
     <main>
@@ -165,6 +203,26 @@
                     $.ajax({
                         method: "post",
                         url: "{{route('saveManager')}}",
+                        data: {
+                            _token:token,
+                            name:name,
+                        },
+                        success: function (response) {
+
+                            return true
+                        }
+                    })
+
+               })
+           </script>
+            <script>
+                $('.select-disruption').change(function(){  
+                   let name  = $(this).val();
+                   let token = "{{ csrf_token() }}"
+
+                    $.ajax({
+                        method: "post",
+                        url: "{{route('saveDisruption')}}",
                         data: {
                             _token:token,
                             name:name,

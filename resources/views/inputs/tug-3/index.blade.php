@@ -63,11 +63,11 @@
                         <tbody>
                             @foreach ($tugs as $tug)
                             <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $tug->created_at->format('Y-m-d') }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $tug->tug_number }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ number_format($tug->usage_amount) }}</td>
-                                <td class="h-[108px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->created_at->format('Y-m-d') }}</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->tug_number }}</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ number_format($tug->usage_amount) }}</td>
+                                <td class="text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{route('inputs.tug-3.detail',['id'=>$tug->id])}}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Detail
                                     </a>

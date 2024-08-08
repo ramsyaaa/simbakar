@@ -114,13 +114,7 @@
                            </tr>
                            <tr>
                                 <td class="text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="text-[16px] font-normal border px-2 text-center">Unit 8</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
-                           </tr>
-                           <tr>
-                                <td class="text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 8 </td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 7 </td>
                                 <td class="text-[16px] font-normal border px-2 text-center">Kg</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
@@ -189,13 +183,7 @@
                            </tr>
                            <tr>
                                 <td class="text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="text-[16px] font-normal border px-2 text-center">Unit 8</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
-                           </tr>
-                           <tr>
-                                <td class="text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 8 </td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 7 </td>
                                 <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
@@ -264,13 +252,7 @@
                            </tr>
                            <tr>
                                 <td class="text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="text-[16px] font-normal border px-2 text-center">Unit 8</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
-                           </tr>
-                           <tr>
-                                <td class="text-[16px] font-normal border px-2 text-center"></td>
-                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 8 </td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 7 </td>
                                 <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
@@ -283,6 +265,76 @@
                            <tr>
                                 <td class="text-[16px] font-normal border px-2 text-center"></td>
                                 <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Residu MFO </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
+                           </tr>
+
+                           {{-- Biomassa --}}
+                           <tr>
+                                <td class="text-[16px] font-normal border px-2 text-center">Biomassa</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 1</td>
+                                <td class="text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0306</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
+                           </tr>
+                           <tr>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 2</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
+                           </tr>
+                           <tr>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 3</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
+                           </tr>
+                           <tr>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 4</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
+                           </tr>
+                           <tr>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
+                           </tr>
+                           <tr>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 5</td>
+                                <td class="text-[16px] font-normal border px-2 text-center" rowspan="4">18.01.0306</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
+                           </tr>
+                           <tr>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 6</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
+                           </tr>
+                           <tr>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Unit 7</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
+                           </tr>
+                           <tr>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 7 </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
+                           </tr>
+                           <tr>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Biomassa Lainnya </td>
+                                <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">0</td>
+                           </tr>
+                           <tr>
+                                <td class="text-[16px] font-normal border px-2 text-center"></td>
+                                <td class="text-[16px] font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Biomassa </td>
                                 <td class="text-[16px] font-normal border px-2 text-center">Liter</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">0</td>
                            </tr>
