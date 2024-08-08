@@ -42,8 +42,10 @@
                     </div>
                     <button type="submit" class="hidden">Search</button>
                 </form>
+                <div id="my-pdf">
 
-                <div class="overflow-auto hide-scrollbar max-w-full" id="my-pdf">
+                <div class="overflow-auto hide-scrollbar max-w-full p-9">
+                    <img src="{{asset('logo.png')}}" alt="" style="display:none;">
                     <table class="w-full">
                         <thead>
                             <tr>
@@ -69,6 +71,8 @@
                     </table>
                     {{-- {{ $tugs->links() }} --}}
                 </div>
+            </div>
+
             </div>
         </div>
     </div>

@@ -89,7 +89,7 @@ class BbmReceiptController extends Controller
             'bbm_type' => 'required',
             'load_company_uuid' => 'required',
             'ship_agent_uuid' => 'required',
-            'bpb_number' => 'required',
+            // 'bpb_number' => 'required',
             'order_number' => 'required',
             'faktur_number' => 'required',
             'supplier_uuid' => 'required',
@@ -140,7 +140,7 @@ class BbmReceiptController extends Controller
             'bbm_type.required' => 'Jenis BBM wajib diisi',
             'load_company_uuid.required' => 'UUID perusahaan pemuat wajib diisi',
             'ship_agent_uuid.required' => 'Agen wajib diisi',
-            'bpb_number.required' => 'Nomor BPB wajib diisi',
+            // 'bpb_number.required' => 'Nomor BPB wajib diisi',
             'order_number.required' => 'Nomor pesanan wajib diisi',
             'faktur_number.required' => 'Nomor faktur wajib diisi',
             'supplier_uuid.required' => 'UUID pemasok wajib diisi',
@@ -177,10 +177,13 @@ class BbmReceiptController extends Controller
             'head_of_warehouse.required' => 'Kepala gudang wajib diisi',
         ]);
 
-        $lastUnloadingToday = Tug::whereDate('created_at', Carbon::today())->get()->count() + 1;
+        $lastUnloadingToday = BbmReceipt::whereDate('created_at', Carbon::today())->get()->count() + 1;
 
         $count = sprintf("%02d", $lastUnloadingToday);
-        $tugNumber = 'B.'.date('Ymd').'.'.$count;
+        $tugNumber = 'S.'.date('Ymd').'.'.$count;
+
+        $lastUnloadingYear = BbmReceipt::whereYear('created_at',date('Y'))->get()->count() + 1;
+        $bpbNumber = 'S.'.date('Y').'.'.$lastUnloadingYear;
 
         $bbm = BbmReceipt::create([
             'shipment_type' => $shipment_type,
@@ -198,7 +201,7 @@ class BbmReceiptController extends Controller
             'police_number' => $request->police_number,
             'bbm_type' => $request->bbm_type,
             'load_company_uuid' => $request->load_company_uuid,
-            'bpb_number' => $request->bpb_number,
+            'bpb_number' => $bpbNumber,
             'order_number' => $request->order_number,
             'faktur_number' => $request->faktur_number,
             'supplier_uuid' => $request->supplier_uuid,
@@ -238,12 +241,12 @@ class BbmReceiptController extends Controller
         Tug::create([
             'tug' => 3,
             'tug_number' => $tugNumber,
-            'bpb_number' => $request->bpb_number,
-            'tug_type' => 'coal-unloading',
+            'bpb_number' => $bpbNumber,
+            'type_tug' => 'bbm-receipt',
             'usage_amount' => $request->amount_receipt,
             'unit' => 'L',
-            'type_fuel' => 'BBM',
-            'coal_unloading' => $bbm->id,
+            'type_fuel' => $request->bbm_type,
+            'bbm_receipt_id' => $bbm->id,
         ]);
 
         return redirect(route('inputs.bbm_receipts.index', ['shipment_type' => $shipment_type]))->with('success', 'Penerimaan BBM baru baru berhasil dibuat.');
@@ -316,7 +319,7 @@ class BbmReceiptController extends Controller
             'bbm_type' => 'required',
             'load_company_uuid' => 'required',
             'ship_agent_uuid' => 'required',
-            'bpb_number' => 'required',
+            // 'bpb_number' => 'required',
             'order_number' => 'required',
             'faktur_number' => 'required',
             'supplier_uuid' => 'required',
@@ -367,7 +370,7 @@ class BbmReceiptController extends Controller
             'bbm_type.required' => 'Jenis BBM wajib diisi',
             'load_company_uuid.required' => 'UUID perusahaan pemuat wajib diisi',
             'ship_agent_uuid.required' => 'Agen wajib diisi',
-            'bpb_number.required' => 'Nomor BPB wajib diisi',
+            // 'bpb_number.required' => 'Nomor BPB wajib diisi',
             'order_number.required' => 'Nomor pesanan wajib diisi',
             'faktur_number.required' => 'Nomor faktur wajib diisi',
             'supplier_uuid.required' => 'UUID pemasok wajib diisi',

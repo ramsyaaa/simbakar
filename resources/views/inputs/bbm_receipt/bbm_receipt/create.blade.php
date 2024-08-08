@@ -59,7 +59,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="bpb_number" class="font-bold text-[#232D42] text-[16px]">No BPB</label>
                                     <div class="relative">
-                                        <input type="text" name="bpb_number" value="{{ old('bpb_number') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="bpb_number" value="{{ old('bpb_number') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3" disabled>
                                         @error('bpb_number')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -205,7 +205,7 @@
                                     <div class="relative">
                                         <select name="ship_uuid" id="ship_uuid" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
-                                            @foreach ($suppliers as $item)
+                                            @foreach ($ships as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('ship_uuid') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
                                             @endforeach
                                         </select>

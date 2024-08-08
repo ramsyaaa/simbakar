@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\ShipAgent;
 use Illuminate\Database\Eloquent\Model;
 
 class BbmReceipt extends Model
@@ -16,6 +17,11 @@ class BbmReceipt extends Model
     public function ship()
     {
         return $this->belongsTo(Ship::class, "ship_uuid", 'uuid');
+    }
+    
+    public function shipAgent()
+    {
+        return $this->belongsTo(ShipAgent::class, "ship_agent_uuid", 'uuid');
     }
 
     public function dockName()

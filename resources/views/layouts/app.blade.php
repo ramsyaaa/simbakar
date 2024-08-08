@@ -58,7 +58,6 @@
                 width: 100% !important; /* Ensure full width on mobile and tablet */
             }
         }
-
     </style>
 </head>
 <body>

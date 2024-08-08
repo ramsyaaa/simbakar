@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tug;
 
 use App\Bunkers;
+use Carbon\Carbon;
 use App\Models\Tug;
 use App\PersonInCharge;
 use Illuminate\Http\Request;
@@ -33,11 +34,24 @@ class TugFourController extends Controller
     }
     public function detail($id){
 
-        $data['tug'] = Tug::where('id',$id)->first();
+        $tug = Tug::where('id',$id)->first();
         $data['pics'] = PersonInCharge::where('status',1)->get();
         $data['managers'] = GeneralManager::all();
         $data['bunkers'] = Bunkers::all();
 
+        $array = json_decode($tug->user_inspections);
+        $inspections = $array == null ? [] : $array;
+
+        $data['inspections'] = PersonInCharge::whereIn('id',$inspections)->get();
+        $data['tug'] = $tug;
+
+        Carbon::setLocale('id');
+        // Buat objek Carbon dari data tanggal
+        $carbonDate = Carbon::now();
+            
+        // Tampilkan hari dalam bahasa Indonesia
+        $day = $carbonDate->isoFormat('dddd'); 
+        $data['day'] = $day;
         return view('inputs.tug-4.detail',$data);
     }
 
