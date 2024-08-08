@@ -46,7 +46,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
     });
 
     Route::group(['prefix' => 'heavy-equipment', 'as' => 'heavy-equipment.'], function () {
-        Route::get('', [HeavyEquipmentController::class, 'index'])->name('index');
+        Route::get('{type}/{type_bbm}', [HeavyEquipmentController::class, 'index'])->name('index');
+        Route::post('{type}/{type_bbm}', [HeavyEquipmentController::class, 'index'])->name('index');
     });
 
     Route::group(['prefix' => 'berita-acara', 'as' => 'berita-acara.'], function () {
