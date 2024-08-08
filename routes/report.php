@@ -20,6 +20,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
         Route::get('', [ExecutiveSummaryController::class, 'index'])->name('index');
         Route::get('bbm-receipt-usage-report/{type}', [ReportBbmController::class, 'index'])->name('bbm-receipt-usage');
         Route::post('bbm-receipt-usage-report/{type}', [ReportBbmController::class, 'index'])->name('bbm-receipt-usage');
+
+        Route::get('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
+        Route::post('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
     });
 
     Route::group(['prefix' => 'contracts', 'as' => 'contracts.'], function () {
