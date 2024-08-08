@@ -28,13 +28,15 @@
                     <small class="text-slate-700"> Untuk angka koma gunakan titik .</small>
                         <div class="w-full py-1 flex gap-3">
                             <div class="delivery">
-                                <label for="penalty_will_get_if_parameter" class="font-bold text-[#232D42] text-[16px]">Denda akan di berlakukan apabila</label>
+                                <label for="unit_penalty_id" class="font-bold text-[#232D42] text-[16px]">Denda akan di berlakukan apabila</label>
                                 <div class="relative">
-                                    <select name="penalty_will_get_if_parameter" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
-                                        <option>Ash</option>
+                                    <select name="unit_penalty_id" id="" class="select-2 w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                        @foreach ($units as $unit)
+                                            <option value="{{$unit->id}}">{{$unit->name}}</option>
+                                        @endforeach
                                     </select>
                                     
-                                    @error('price_coal_will_number')
+                                    @error('unit_penalty_id')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                      </div>
@@ -92,7 +94,7 @@
                                 <div class="relative">
                                     <select name="penalty_price_type_number" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option value="percentage">% ( Persentase ) </option>
-                                        <option value="number">Angka</option>
+                                        <option value="rupiah">Rupiah</option>
                                     </select>
                                     
                                     @error('penalty_price_type_number')

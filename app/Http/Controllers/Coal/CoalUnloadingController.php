@@ -64,7 +64,7 @@ class CoalUnloadingController extends Controller
             $tugNumber = 'B.'.date('Ymd').'.'.$countTug;
 
             $lastUnloadingYear = CoalUnloading::whereYear('created_at',date('Y'))->get()->count() + 1;
-            $bpbNumber = 'B.'.date('Ymd').'.'.$lastUnloadingYear;
+            $bpbNumber = 'B.'.date('Y').'.'.$lastUnloadingYear;
 
             $requestData = $request->all();
             $requestData['tug_number'] = $tugNumber;

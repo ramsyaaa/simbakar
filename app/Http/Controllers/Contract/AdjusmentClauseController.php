@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Contract;
 
 use App\Supplier;
+use App\Models\UnitPenalty;
 use App\Models\CoalContract;
 use Illuminate\Http\Request;
+use App\Models\AdjusmentClause;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\AdjusmentClause;
 
 class AdjusmentClauseController extends Controller
 {
@@ -35,6 +36,7 @@ class AdjusmentClauseController extends Controller
     public function create($contractId)
     {
         $data['contract'] = CoalContract::where('id', $contractId)->first();
+        $data['units'] = UnitPenalty::all();
         return view('contracts.coal-contracts.adjusment-clause.create',$data);
     }
 
@@ -83,6 +85,7 @@ class AdjusmentClauseController extends Controller
     {
         $data['contract'] = CoalContract::where('id', $contractId)->first();
         $data['adjusment'] = AdjusmentClause::where('id', $id)->first();
+        $data['units'] = UnitPenalty::all();
         return view('contracts.coal-contracts.adjusment-clause.edit',$data);
     }
 

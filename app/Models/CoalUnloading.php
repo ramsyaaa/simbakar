@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Dock;
 use App\Ship;
 use App\Labor;
+use App\Harbor;
 use App\Loading;
 use App\Supplier;
 use App\Unloading;
@@ -46,6 +47,16 @@ class CoalUnloading extends Model
     public function dock()
     {
         return $this->hasOne(Dock::class, 'id', 'dock_id');
+    }
+
+    public function originHarbor()
+    {
+        return $this->hasOne(Harbor::class, 'id', 'origin_harbor_id');
+    }
+
+    public function destinationHarbor()
+    {
+        return $this->hasOne(Harbor::class, 'id', 'destination_harbor_id');
     }
 
     public function supplier()

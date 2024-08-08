@@ -18,8 +18,8 @@ class CoalContractController extends Controller
     {
         $coals = CoalContract::query();
 
-        $coals->when($request->supplier_uuid, function ($query) use ($request) {
-            $query->where('supplier_uuid', $request->supplier_uuid);
+        $coals->when($request->supplier_id, function ($query) use ($request) {
+            $query->where('supplier_id', $request->supplier_id);
         });
         $data['suppliers'] = Supplier::all();
         $data['coals'] = $coals->latest()->paginate(10)->appends(request()->query());

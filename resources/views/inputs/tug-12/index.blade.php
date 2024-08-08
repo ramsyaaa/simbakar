@@ -48,23 +48,26 @@
                         <thead>
                             <tr>
                                 <th class="border  bg-[#F5F6FA] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Tanggal</th>
                                 <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
-                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Jumlah Pemakaian</th>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($tugs as $tug)
-                            <tr>
-                                <td class="text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->created_at->format('Y-m-d') }}</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->tug_number }}</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">{{ number_format($tug->usage_amount) }}</td>
-                            </tr>
+                            @foreach ($tugs as $item)
+                                <tr>
+                                    <td class="text-[16px] font-normal border px-2 text-center">{{$loop->iteration}}</td>
+                                    @foreach ($item as $tug)         
+                                        <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->tug_number ?? '' }}</td>
+                                    @endforeach
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $tugs->links() }}
+                    {{-- {{ $tugs->links() }} --}}
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Models\HeadWarehouse;
 use App\Models\GeneralManager;
+use App\Models\KindDisruption;
 use App\Models\UserInspection;
 use App\Http\Controllers\Controller;
 
@@ -52,6 +53,22 @@ class ApiFetchController extends Controller
             return true;
         }else{
             GeneralManager::create([
+                'name' => $request->name
+            ]);
+            return true;
+        }
+   }
+
+   public function saveDisruption(Request $request){
+
+    if($request->name == null){return false;}
+        
+        $user = KindDisruption::where('name', $request->name)->first();
+
+        if($user){
+            return true;
+        }else{
+            KindDisruption::create([
                 'name' => $request->name
             ]);
             return true;

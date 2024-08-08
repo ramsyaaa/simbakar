@@ -25,10 +25,10 @@
                 <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('contracts.coal-contracts.index') }}" method="GET" id="filterForm">
                     <div class="lg:flex items-center justify-between gap-2 w-full mb-3">
                         <div class="mb-2 lg:mb-0">
-                            <select name="supplier_uuid" id="" class="w-full lg:w-[600px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                            <select name="supplier_id" id="" class="w-full lg:w-[600px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                 <option selected disabled>Pilih Supplier</option>
                                 @foreach ($suppliers as $supplier)
-                                <option @if($supplier->uuid == request()->supplier_uuid ) selected @endif value="{{ $supplier->uuid }}">{{ $supplier->name }}</option>
+                                <option @if($supplier->id == request()->supplier_id ) selected @endif value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                                 @endforeach
                             </select>
                         </div>

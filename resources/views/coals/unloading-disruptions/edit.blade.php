@@ -22,11 +22,11 @@
                     @method('PATCH')
                         <div class="unloadings">
                             <div class="p-4 bg-white rounded-lg w-full">
-                                <div class="w-full">
+                                <div class="w-full mb-5">
                                     <input type="hidden" name="unloading_id" value="{{$unloading->id}}">
                                     <label for="kind_disruption" class="font-bold text-[#232D42] text-[16px]">Jenis Gangguan</label>
                                     <div class="relative">
-                                        <select name="kind_disruption" id="kind_disruption" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="kind_disruption" id="kind_disruption" class="select-2-tag select-disruption w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Jenis Gangguan</option>
                                             @foreach ($disruptions as $disruption)
                                                 <option {{ $unloadDisruption->kind_disruption == $disruption->name ? 'selected':''}}>{{ $disruption->name }}</option>

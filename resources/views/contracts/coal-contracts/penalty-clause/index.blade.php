@@ -32,6 +32,7 @@
                         <thead>
                             <tr>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Name</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
@@ -39,6 +40,13 @@
                             @foreach ($penalties as $penalty)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Bila {{$penalty->unit->name}} {{$penalty->penalty_will_get_if_sign}} {{$penalty->penalty_will_get_if_number}} sehingga harga turun 
+                                    @if ($penalty->penalty_price_type_number == 'percentage')
+                                    {{ $penalty->penalty_price_number}} %
+                                    @else
+                                    Rp .{{ $penalty->penalty_price_number}}
+                                    @endif
+                                </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 ">
                                     <div class="flex items-center justify-center gap-2">
 
