@@ -9,7 +9,7 @@
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Filter Monitoring Penerimaan, Pemakaian, dan Persediaan @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif
+                        Filter Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif @if($type == 'heavy_equipment') Albes @elseif ($type == "unit") Unit @elseif($type == 'other') Lainnya @endif
                     </div>
                 </div>
             </div>
@@ -20,14 +20,26 @@
                         <input type="number" name="tahunInput" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('tahun', $tahunInput) }}" min="1980" max="2200">
                     </div>
 
-                    <div class="w-full flex justify-end">
+                    <div class="w-full flex justify-end gap-4">
+                        <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
                     </div>
                 </form>
             </div>
 
 
-            <div class="bg-white rounded-lg p-6">
+            <div id="my-pdf" class="bg-white rounded-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <img src="{{asset('logo.png')}}" alt="" width="200">
+                        <p class="text-right">UBP SURALAYA</p>
+                    </div>
+                    <div class="text-center text-[20px] font-bold">
+                        <p>Laporan Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif @if($type == 'heavy_equipment') Albes @elseif ($type == "unit") Unit @elseif($type == 'other') Lainnya @endif</p>
+                        {{-- <p>No: {{$tug->bpb_number}}/IBPB/UBPSLA/PBB/{{date('Y')}}</p> --}}
+                    </div>
+                    <div></div>
+                </div>
                 <div class="overflow-auto hide-scrollbar max-w-full">
                     <table class="w-full">
                         <thead>
@@ -36,18 +48,18 @@
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="13">Bulan</th>
                             </tr>
                             <tr>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jan (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Feb (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Mar (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Apr (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Mei (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jun (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jul (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Agu (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Sep (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Okt (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nov (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Des (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jan <br> (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Feb <br> (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Mar <br> (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Apr <br> (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Mei <br> (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jun <br> (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jul <br> (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Agu <br> (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Sep <br> (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Okt <br> (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nov <br> (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Des <br> (Liter)</th>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Total</th>
                             </tr>
                         </thead>

@@ -21,6 +21,7 @@ class HeavyEquipmentController extends Controller
         $data['filter_type'] = $filterType;
         $validFilterTypes = ['day', 'month', 'year'];
         $validBbmTypes = ['HSD', 'MFO'];
+        $validTypes = ['albes', 'unit', 'other'];
         if ($request->has('filter_type') && in_array($request->filter_type, $validFilterTypes)) {
             $data['filter_type'] = $request->filter_type;
             $filterType = $request->filter_type;
@@ -41,6 +42,26 @@ class HeavyEquipmentController extends Controller
             $data['type_bbm'] = 'solar';
         }
 
+        if (in_array($type, $validTypes)) {
+            $data['type'] = $type;
+
+            if($type == 'albes'){
+                $data['type'] = 'heavy_equipment';
+                $type = 'heavy_equipment';
+            }
+            if($type == 'unit'){
+                $data['type'] = 'unit';
+                $type = 'unit';
+            }
+            if($type == 'other'){
+                $data['type'] = 'other';
+                $type = 'other';
+            }
+        }else{
+            $type = 'heavy_equipment';
+            $data['type'] = 'heavy_equipment';
+        }
+
         $bulanTahun = $request->input('bulan_tahun', date('Y-m'));
         list($tahun, $bulan) = explode('-', $bulanTahun);
         $data['tahun'] = $tahun;
@@ -57,7 +78,7 @@ class HeavyEquipmentController extends Controller
         switch ($filterType) {
             case 'day':
                 $bbmUsageResults = $queryBbmUsage->select('heavy_equipment_uuid', DB::raw('DATE(use_date) as date'), DB::raw('SUM(amount) as total_amount'))
-                    ->where('bbm_use_for', 'heavy_equipment')
+                    ->where('bbm_use_for', $type)
                     ->whereYear('use_date', $tahun)
                     ->whereMonth('use_date', $bulan)
                     ->groupBy('heavy_equipment_uuid', 'date')
@@ -75,7 +96,7 @@ class HeavyEquipmentController extends Controller
 
                     if (!isset($groupedData[$uuid])) {
                         // Buat array untuk setiap heavy_equipment_uuid dengan semua tanggal diisi dengan 0.0
-                        $groupedData[$uuid] = array_fill(1, $daysInMonth, 0.0);
+                        $groupedData[$uuid] = array_fill(0, $daysInMonth, 0.0);
                     }
 
                     // Ambil hari dari tanggal (format YYYY-MM-DD)
@@ -89,7 +110,7 @@ class HeavyEquipmentController extends Controller
                     if(isset($groupedData[$value->uuid])){
                         $data['bbm_usage'][$value->name] = array_values($groupedData[$value->uuid]);
                     }else{
-                        $data['bbm_usage'][$value->name] = array_fill(1, $daysInMonth, 0.0);
+                        $data['bbm_usage'][$value->name] = array_fill(0, $daysInMonth, 0.0);
                     }
                 }
 
@@ -111,7 +132,7 @@ class HeavyEquipmentController extends Controller
 
                     if (!isset($groupedData[$uuid])) {
                         // Buat array untuk setiap heavy_equipment_uuid dengan semua bulan diisi dengan 0.0
-                        $groupedData[$uuid] = array_fill(1, 12, 0.0);
+                        $groupedData[$uuid] = array_fill(0, 11, 0.0);
                     }
 
                     // Ambil bulan dari hasil query
@@ -124,7 +145,7 @@ class HeavyEquipmentController extends Controller
                         if(isset($groupedData[$value->uuid])){
                             $data['bbm_usage'][$value->name] = $groupedData[$value->uuid];
                         }else{
-                            $data['bbm_usage'][$value->name] = array_fill(1, 12, 0.0);
+                            $data['bbm_usage'][$value->name] = array_fill(0, 11, 0.0);
                         }
                     }
                 }
@@ -135,7 +156,7 @@ class HeavyEquipmentController extends Controller
                     if (isset($groupedData[$value->uuid])) {
                         $data['bbm_usage'][$value->name] = array_values($groupedData[$value->uuid]);
                     } else {
-                        $data['bbm_usage'][$value->name] = array_fill(1, 12, 0.0);
+                        $data['bbm_usage'][$value->name] = array_fill(0, 11, 0.0);
                     }
                 }
                 break;
@@ -176,7 +197,7 @@ class HeavyEquipmentController extends Controller
                         $data['bbm_usage'][$value->name] = array_values($groupedData[$value->uuid]);
                     } else {
                         // Jika tidak ada data untuk equipment tertentu, isi dengan 0.0 untuk setiap tahun dalam range
-                        $data['bbm_usage'][$value->name] = array_fill(1, ($endYear - $startYear + 1), 0.0);
+                        $data['bbm_usage'][$value->name] = array_fill(0, ($endYear - $startYear + 1), 0.0);
                     }
                 }
                 break;

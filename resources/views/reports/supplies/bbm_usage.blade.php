@@ -9,7 +9,7 @@
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Laporan Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif @if($type == 'heavy_equipment') Albes @elseif ($type == "unit") Unit @elseif($type == 'other') Lainnya @endif
+                        Laporan Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif
                     </div>
                     {{-- <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="text-[#2E46BA] cursor-pointer">Analisa</span>
@@ -63,7 +63,7 @@
                         <p class="text-right">UBP SURALAYA</p>
                     </div>
                     <div class="text-center text-[20px] font-bold">
-                        <p>Laporan Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif @if($type == 'heavy_equipment') Albes @elseif ($type == "unit") Unit @elseif($type == 'other') Lainnya @endif</p>
+                        <p>Laporan Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif</p>
                         {{-- <p>No: {{$tug->bpb_number}}/IBPB/UBPSLA/PBB/{{date('Y')}}</p> --}}
                     </div>
                     <div></div>
@@ -74,50 +74,63 @@
                             <tr>
                                 @foreach ($bbm_usage as $index => $item)
                                 @php
-                                    $total = count($item);
+                                    $total = count($item['unit']);
                                 @endphp
                                 @break
                                 @endforeach
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Albes</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="{{ $total+1 }}">@if($filter_type == 'day')Tanggal @elseif($filter_type == 'month')Bulan @elseif($filter_type == 'year') Tahun @endif</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">@if($filter_type == 'day') Tanggal @elseif($filter_type == 'month') Bulan @elseif($filter_type == 'year') Tahun @endif</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Penerimaan (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="{{ $total+3 }}">Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif Sesuai TUG 9 (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Persediaan (Liter)</th>
                             </tr>
                             <tr>
                                 @php
                                     $i=1;
-                                    $totalData = array_fill(0, $total, 0.0);
                                 @endphp
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Albes</th>
                                 @foreach ($bbm_usage as $index => $item)
-                                @foreach ($item as $index1 => $item1)
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">@if($filter_type == 'day'){{ $i }} @elseif($filter_type == 'month'){{ date('M', mktime(0, 0, 0, $i, 10)) }} @elseif($filter_type == 'year') {{ $start_year+($i-1) }} @endif</th>
+                                @foreach ($item['unit'] as $index1 => $item1)
+                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">{{ $index1 }}</th>
                                     @php
                                         $i  = $i + 1;
                                     @endphp
                                 @endforeach
                                 @break
                                 @endforeach
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Total</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Lainnya</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jumlah</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Kumulatif</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Efektif</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($bbm_usage as $index => $item)
+                            @php
+                                $sum = 0;
+                            @endphp
                             <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $index }}</td>
-                                @foreach ($item as $index1 => $item1)
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day') {{ $index+1 }}-{{ $bulan }}-{{ $tahun }} @elseif($filter_type == 'month') {{ date('M', mktime(0, 0, 0, $index+1, 1)) }} @elseif($filter_type == 'year') {{ $start_year + $index }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt[$index] }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item['heavy_equipment'] }}</td>
+                                @foreach ($item['unit'] as $index1 => $item1)
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item1 }}</td>
                                 @php
-                                    $totalData[$index1] = $totalData[$index1] + $item1;
+                                    $sum = $sum + $item1;
                                 @endphp
                                 @endforeach
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{array_sum($item) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item['other'] }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $sum + $item['other'] + $item['heavy_equipment'] }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
                             </tr>
                             @endforeach
-                            <tr>
+                            {{-- <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">Jumlah</td>
                                 @foreach ($totalData as $index1 => $item1)
                                 <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{ $item1 }}</td>
                                 @endforeach
                                 <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{array_sum($totalData) }}</td>
-                            </tr>
+                            </tr> --}}
                         </tbody>
                     </table>
                 </div>

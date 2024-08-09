@@ -31,6 +31,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
     Route::group(['prefix' => 'supplies', 'as' => 'supplies.'], function () {
         Route::get('', [SuppliesController::class, 'index'])->name('index');
+        Route::get('bbm-receipt/{bbm_type}', [SuppliesController::class, 'bbmReceipt'])->name('bbm-receipt');
+        Route::post('bbm-receipt/{bbm_type}', [SuppliesController::class, 'bbmReceipt'])->name('bbm-receipt');
     });
 
     Route::group(['prefix' => 'receipt', 'as' => 'receipt.'], function () {
