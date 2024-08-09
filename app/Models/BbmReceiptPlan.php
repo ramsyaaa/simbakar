@@ -22,6 +22,7 @@ class BbmReceiptPlan extends Model
         'planning_october',
         'planning_november',
         'planning_december',
+        'year'
     ];
 
     public function settingBpb()

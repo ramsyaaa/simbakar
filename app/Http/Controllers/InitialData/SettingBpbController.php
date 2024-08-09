@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers\InitialData;
 
-use App\Http\Controllers\Controller;
+use App\BbmUsage;
+use App\Models\CoalUsage;
+use App\Models\SettingBpb;
+use Illuminate\Http\Request;
+use App\Models\YearStartData;
 use App\Models\BbmReceiptPlan;
 use App\Models\CoalReceiptPlan;
 use App\Models\ConsumptionPlan;
+use App\Http\Controllers\Controller;
 use App\Models\ElectricityProduction;
-use App\Models\SettingBpb;
-use App\Models\YearStartData;
-use Illuminate\Http\Request;
 
 class SettingBpbController extends Controller
 {
     public function index(Request $request){
-        $query = SettingBpb::query();
-
-        $data['bpbs'] = $query->paginate(10);
-        $data['bpbs']->appends(request()->query());
+       
+        $data['solar'] = BbmUsage::where('bbm_type','solar')->whereYear('use_date',date('Y'))->get()->count();
+        $data['residu'] = BbmUsage::where('bbm_type','residu')->whereYear('use_date',date('Y'))->get()->count();
+        $data['coal'] = CoalUsage::whereYear('usage_date',date('Y'))->get()->count();
+        $data['year'] = date('Y');
         return view('initial-data.bpbs.index', $data);
     }
 

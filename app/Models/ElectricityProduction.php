@@ -33,6 +33,7 @@ class ElectricityProduction extends Model
         'actual_october',
         'actual_november',
         'actual_december',
+        'year'
     ];
 
     public function settingBpb()

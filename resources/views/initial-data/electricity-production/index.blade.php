@@ -16,6 +16,11 @@
                     </div>
                 </div>
             </div>
+            <div class="flex gap-2 mb-3">
+                <a href="{{ route('initial-data.settings-bpb.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
+                    Tambah Data
+                </a>
+            </div>
             <div class="bg-white rounded-lg p-6">
                 <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('initial-data.electricity-production.index') }}" method="GET" id="filterForm">
                     <div class="lg:flex items-center justify-between gap-2 w-full mb-3">
