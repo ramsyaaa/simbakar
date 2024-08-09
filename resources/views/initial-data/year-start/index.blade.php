@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="flex gap-2 mb-3">
-                <a href="{{ route('initial-data.settings-bpb.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
+                <a href="{{ route('initial-data.year-start.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
                     Tambah Data
                 </a>
             </div>
@@ -42,66 +42,74 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($start_years['batubara'] as $start_data)
-                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $start_data->settingBpb->year }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->planning }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->actual }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('initial-data.year-start.edit', ['uuid' => $start_data->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <table x-cloak x-show="solar" class="w-full">
-                        <thead>
-                            <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tahun</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana Perencanaan Awal (Liter)</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Realisasi Persediaan Awal (Liter)</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($start_years['solar'] as $start_data)
-                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $start_data->settingBpb->year }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->planning }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->actual }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('initial-data.year-start.edit', ['uuid' => $start_data->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <table x-cloak x-show="residu" class="w-full">
-                        <thead>
-                            <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tahun</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana Perencanaan Awal (Liter)</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Realisasi Persediaan Awal (Liter)</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($start_years['residu'] as $start_data)
-                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $start_data->settingBpb->year }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->planning }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->actual }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('initial-data.year-start.edit', ['uuid' => $start_data->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
+                            @isset ($start_years['batubara'])   
+                                @foreach ($start_years['batubara'] as $start_data)
+                                <tr>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $start_data->year }}</td>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->planning }}</td>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->actual }}</td>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
+                                        <a href="{{ route('initial-data.year-start.edit', ['uuid' => $start_data->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                            Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            @endisset
+                            </tbody>
+                        </table>
+                        <table x-cloak x-show="solar" class="w-full">
+                            <thead>
+                                <tr>
+                                    <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tahun</th>
+                                    <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana Perencanaan Awal (Liter)</th>
+                                    <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Realisasi Persediaan Awal (Liter)</th>
+                                    <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @isset ($start_years['solar'])  
+                                    @foreach ($start_years['solar'] as $start_data)
+                                    <tr>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $start_data->year }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->planning }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->actual }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
+                                            <a href="{{ route('initial-data.year-start.edit', ['uuid' => $start_data->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                                Edit
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endisset
+
+                            </tbody>
+                        </table>
+                        <table x-cloak x-show="residu" class="w-full">
+                            <thead>
+                                <tr>
+                                    <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tahun</th>
+                                    <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana Perencanaan Awal (Liter)</th>
+                                    <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Realisasi Persediaan Awal (Liter)</th>
+                                    <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @isset ($start_years['residu'])  
+                                    @foreach ($start_years['residu'] as $start_data)
+                                    <tr>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $start_data->year }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->planning }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $start_data->actual }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
+                                            <a href="{{ route('initial-data.year-start.edit', ['uuid' => $start_data->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                                Edit
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                            @endisset
+
                         </tbody>
                     </table>
                 </div>
