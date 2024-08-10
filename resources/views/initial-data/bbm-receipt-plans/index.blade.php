@@ -12,7 +12,7 @@
                         Rencana Penerimaan BBM
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
-                        <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="text-[#2E46BA] cursor-pointer">Rencana Pemakaian BBM</span>
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="text-[#2E46BA] cursor-pointer">Rencana Penerimaan BBM</span>
                     </div>
                 </div>
             </div>
