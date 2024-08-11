@@ -113,7 +113,7 @@
                                     </svg>
                                 </div>
                                 <div class="font-normal text-[16px]">
-                                    Renc. Pemakaian BBM
+                                    Renc. Penerimaan BBM
                                 </div>
                             </div>
                         </a>

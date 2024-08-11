@@ -9,7 +9,7 @@
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Edit Rencana Pemakaian {{ ucfirst($consumption_plan->type) }} {{ $consumption_plan->settingBpb->year }}
+                        Edit Rencana Pemakaian {{ ucfirst($consumption_plan->type) }} {{ $consumption_plan->year }}
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('initial-data.consuption-plan.index') }}" class="cursor-pointer">Rencana Pemakaian</a> / <span class="text-[#2E46BA] cursor-pointer">Update</span>
@@ -20,6 +20,32 @@
                 @csrf
                 @method('PUT')
                 <div class="bg-white rounded-lg p-6">
+                    <div class="w-full">
+                        <label for="year" class="font-bold text-[#232D42] text-[16px]">Tahun</label>
+                        <div class="relative">
+                            <input required type="number" name="year" class="w-full lg:w-3/12 border rounded-md mt-3 mb-5 h-[40px] px-3" value="{{$consumption_plan->year}}">
+                            @error('year')
+                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="w-full">
+                        <label for="type" class="font-bold text-[#232D42] text-[16px]">Jenis</label>
+                        <div class="relative">
+                            <select name="type" class="w-full lg:w-3/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                <option value="batubara" {{$consumption_plan->type == 'batubara' ? 'selected' : ''}}>Batubara</option>
+                                <option value="solar" {{$consumption_plan->type == 'solar' ? 'selected' : ''}}>Solar / HSD</option>
+                                <option value="residu" {{$consumption_plan->type == 'residu' ? 'selected' : ''}}>Residu / MFO</option>
+                            </select>
+                            @error('type')
+                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="overflow-auto hide-scrollbar max-w-full">
                         <table class="w-full">
                             <thead>
