@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\CoalUnloading;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Unloading;
 
 class CoalUnloadingController extends Controller
 {
@@ -72,7 +73,11 @@ class CoalUnloadingController extends Controller
             $requestData['form_part_number'] = '18.01.0009';
             $requestData['unit'] = 'Kg';
 
-            
+            $unloadingData = Unloading::create();
+
+            $requestData['analysis_unloading_id'] = $unloadingData->id;
+
+
             $unloading = CoalUnloading::create($requestData);
 
             Tug::create([
@@ -88,13 +93,13 @@ class CoalUnloadingController extends Controller
 
             DB::commit();
             return redirect(route('coals.unloadings.index'))->with('success', 'Pembongkaran Batu Bara berhasil di buat.');
-            
+
         } catch (\ValidationException $th) {
             DB::rollback();
 
             return redirect()->back()->with('error','Pembongkaran Batu Bara gagal di buat');
         }
-       
+
     }
 
     /**
@@ -138,13 +143,13 @@ class CoalUnloadingController extends Controller
             CoalUnloading::where('id',$id)->update($request->except(['_token','_method']));
 
             Tug::where('type_tug','coal-unloading')->where('coal_unloading_id',$id)->update([
-         
+
                 'usage_amount' => $request->bl,
             ]);
 
             DB::commit();
             return redirect(route('coals.unloadings.index'))->with('success', 'Pembongkaran Batu Bara berhasil di ubah.');
-            
+
         } catch (\ValidationException $th) {
             DB::rollback();
 

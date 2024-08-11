@@ -25,10 +25,10 @@
                             <div class="w-full">
                                 <label for="supplier_uuid" class="font-bold text-[#232D42] text-[16px]">Pemasok</label>
                                 <div class="relative">
-                                    <select name="supplier_uuid" id="supplier_uuid" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <select id="supplier_uuid" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         <option value="">Pilih</option>
                                         @foreach ($suppliers as $item)
-                                            <option value="{{ $item->uuid }}" {{ old('supplier_uuid', $unloading->supplier_uuid ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
+                                            <option @isset($unloading->coal_unloading->supplier_id) {{ $unloading->coal_unloading->supplier_id == $item->id ? 'selected' : '' }} @endisset>{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('supplier_uuid')
@@ -41,10 +41,10 @@
                             <div class="w-full">
                                 <label for="ship_uuid" class="font-bold text-[#232D42] text-[16px]">Kapal</label>
                                 <div class="relative">
-                                    <select name="ship_uuid" id="ship_uuid" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <select id="ship_uuid" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         <option value="">Pilih</option>
                                         @foreach ($ships as $item)
-                                            <option value="{{ $item->uuid }}" {{ old('ship_uuid', $unloading->ship_uuid ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
+                                            <option @isset($unloading->coal_unloading->ship_id) {{ $unloading->coal_unloading->ship_id == $item->id ? 'selected' : '' }} @endisset>{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('ship_uuid')
@@ -74,7 +74,13 @@
                                 <div class="w-full">
                                     <label for="start_unloading" class="font-bold text-[#232D42] text-[16px]">Tanggal Mulai Bongkar</label>
                                     <div class="relative">
-                                        <input type="datetime-local" name="start_unloading" value="{{ old('start_unloading', $unloading->start_unloading ?? '') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        @isset($unloading->coal_unloading->unloading_date)
+                                            @php
+                                                $unloadingDate = \Carbon\Carbon::parse($unloading->coal_unloading->unloading_date)->format('Y-m-d\TH:i');
+                                            @endphp
+                                        @endisset
+                                        <input type="datetime-local" disabled value="{{ $unloadingDate ?? '' }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+
                                         @error('start_unloading')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -85,7 +91,12 @@
                                 <div class="w-full">
                                     <label for="end_unloading" class="font-bold text-[#232D42] text-[16px]">Tanggal Selesai Bongkar</label>
                                     <div class="relative">
-                                        <input type="datetime-local" name="end_unloading" value="{{ old('end_unloading', $unloading->end_unloading ?? '') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        @isset($unloading->coal_unloading->end_date)
+                                            @php
+                                                $endDate = \Carbon\Carbon::parse($unloading->coal_unloading->end_date)->format('Y-m-d\TH:i');
+                                            @endphp
+                                        @endisset
+                                        <input type="datetime-local" disabled value="{{ $endDate ?? '' }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('end_unloading')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}

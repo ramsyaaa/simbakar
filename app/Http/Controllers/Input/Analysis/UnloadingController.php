@@ -19,6 +19,8 @@ class UnloadingController extends Controller
             $query->whereYear('created_at', $request->year);
         });
 
+        $unloadings = $unloadings->with(['coal_unloading']);
+
         $data['unloadings'] = $unloadings->paginate(10)->appends(request()->query());
         return view('inputs.analysis.unloading.index',$data);
     }
@@ -45,13 +47,9 @@ class UnloadingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'supplier_uuid' => 'required',
-            'ship_uuid' => 'required',
             'surveyor_uuid' => 'required',
             'analysis_number' => 'required',
             'analysis_date' => 'required',
-            'start_unloading' => 'required',
-            'end_unloading' => 'required',
             'moisture_total' => 'required',
             'ash' => 'required',
             'fixed_carbon' => 'required',
@@ -85,13 +83,9 @@ class UnloadingController extends Controller
             'butiran_238' => 'required',
             'hgi' => 'required',
         ], [
-            'supplier_uuid.required' => 'Pemasok wajib diisi',
             'surveyor_uuid.required' => 'Surveyor wajib diisi',
-            'ship_uuid.required' => 'Kapal wajib diisi',
             'analysis_number.required' => 'No Analisa wajib diisi',
             'analysis_date.required' => 'Tanggal analisa wajib diisi',
-            'start_unloading.required' => 'Tanggal mulai bongkar wajib diisi',
-            'end_unloading.required' => 'Tanggal selesai bongkar wajib diisi',
             'moisture_total.required' => 'Total moisture wajib diisi',
             'ash.required' => 'Ash wajib diisi',
             'fixed_carbon.required' => 'Fixed carbon wajib diisi',
@@ -127,13 +121,9 @@ class UnloadingController extends Controller
         ]);
 
         Unloading::create([
-            'supplier_uuid' => $request->supplier_uuid,
             "surveyor_uuid" => $request->surveyor_uuid,
-            'ship_uuid' => $request->ship_uuid,
             'analysis_number' => $request->analysis_number,
             'analysis_date' => $request->analysis_date,
-            'start_unloading' => $request->start_unloading,
-            'end_unloading' => $request->end_unloading,
             'moisture_total' => $request->moisture_total,
             'ash' => $request->ash,
             'fixed_carbon' => $request->fixed_carbon,
@@ -190,7 +180,7 @@ class UnloadingController extends Controller
      */
     public function edit($id)
     {
-        $data['unloading'] = Unloading::where('id', $id)->first();
+        $data['unloading'] = Unloading::where('id', $id)->with(['coal_unloading'])->first();
         $data['suppliers'] = Supplier::get();
         $data['surveyors'] = Surveyor::get();
         $data['ships'] = Ship::get();
@@ -207,13 +197,9 @@ class UnloadingController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'supplier_uuid' => 'required',
-            'ship_uuid' => 'required',
             'surveyor_uuid' => 'required',
             'analysis_number' => 'required',
             'analysis_date' => 'required',
-            'start_unloading' => 'required',
-            'end_unloading' => 'required',
             'moisture_total' => 'required',
             'ash' => 'required',
             'fixed_carbon' => 'required',
@@ -247,13 +233,9 @@ class UnloadingController extends Controller
             'butiran_238' => 'required',
             'hgi' => 'required',
         ], [
-            'supplier_uuid.required' => 'Pemasok wajib diisi',
             'surveyor_uuid.required' => 'Surveyor wajib diisi',
-            'ship_uuid.required' => 'Kapal wajib diisi',
             'analysis_number.required' => 'No Analisa wajib diisi',
             'analysis_date.required' => 'Tanggal analisa wajib diisi',
-            'start_unloading.required' => 'Tanggal mulai bongkar wajib diisi',
-            'end_unloading.required' => 'Tanggal selesai bongkar wajib diisi',
             'moisture_total.required' => 'Total moisture wajib diisi',
             'ash.required' => 'Ash wajib diisi',
             'fixed_carbon.required' => 'Fixed carbon wajib diisi',
@@ -289,13 +271,9 @@ class UnloadingController extends Controller
         ]);
 
         Unloading::where('id',$id)->update([
-            'supplier_uuid' => $request->supplier_uuid,
             'surveyor_uuid' => $request->surveyor_uuid,
-            'ship_uuid' => $request->ship_uuid,
             'analysis_number' => $request->analysis_number,
             'analysis_date' => $request->analysis_date,
-            'start_unloading' => $request->start_unloading,
-            'end_unloading' => $request->end_unloading,
             'moisture_total' => $request->moisture_total,
             'ash' => $request->ash,
             'fixed_carbon' => $request->fixed_carbon,
