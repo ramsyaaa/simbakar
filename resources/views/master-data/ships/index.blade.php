@@ -56,7 +56,9 @@
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nama</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jenis Kapal</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Benndera</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jenis Muatan</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Identitas</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
@@ -64,9 +66,11 @@
                             @foreach ($ships as $ship)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $ship->name }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $ship->name }} <br> Tahun Pembuatan : {{ $ship->year_created }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $ship->typeShip->name }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $ship->flag }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $ship->loadType->name }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">GRT : {{ $ship->grt }} <br>DWT : {{ $ship->dwt }} <br>LOA : {{ $ship->loa }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('master-data.ships.edit', ['uuid' => $ship->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit

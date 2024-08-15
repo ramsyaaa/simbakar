@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Input\Analysis;
 
 use App\Http\Controllers\Controller;
+use App\Models\CoalUnloading;
 use App\Ship;
 use App\Supplier;
 use App\Surveyor;
@@ -268,6 +269,13 @@ class UnloadingController extends Controller
             'butiran_32_50.required' => 'Butiran 32 - 50 mm wajib diisi',
             'butiran_238.required' => 'Butiran < 2,38 mm wajib diisi',
             'hgi.required' => 'HGI wajib diisi',
+        ]);
+
+        $getData = Unloading::where('id',$id)->first();
+        CoalUnloading::where([
+            'id' => $getData->coal_unloading_id
+        ])->update([
+            'analysis_unloading_id' => $id,
         ]);
 
         Unloading::where('id',$id)->update([

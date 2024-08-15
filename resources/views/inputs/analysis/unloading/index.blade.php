@@ -68,7 +68,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Tiba : {{ isset($item->coal_unloading->departure_date) ? \Carbon\Carbon::parse($item->coal_unloading->departure_date)->format('d F Y') : '-' }} <br>Bongkar : {{ isset($item->coal_unloading->unloading_date) ? \Carbon\Carbon::parse($item->coal_unloading->unloading_date)->format('d F Y') : '-' }} <br> Selesai : {{ isset($item->coal_unloading->end_date) ? \Carbon\Carbon::parse($item->coal_unloading->end_date)->format('d F Y') : '-' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ isset($item->coal_unloading->supplier->name) ? $item->coal_unloading->supplier->name : '-' }}, {{ isset($item->coal_unloading->ship->name) ? $item->coal_unloading->ship->name : '-' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ isset($item->coal_unloading->dock->name) ? $item->coal_unloading->dock->name : '-' }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">[belum ada]</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">[{{ $item->analysis_number == null ? 'belum ada' : 'ada' }}]</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('inputs.analysis.unloadings.edit', ['id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit

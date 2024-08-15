@@ -73,12 +73,12 @@ class CoalUnloadingController extends Controller
             $requestData['form_part_number'] = '18.01.0009';
             $requestData['unit'] = 'Kg';
 
-            $unloadingData = Unloading::create();
-
-            $requestData['analysis_unloading_id'] = $unloadingData->id;
-
 
             $unloading = CoalUnloading::create($requestData);
+
+            $unloadingData = Unloading::create([
+                'coal_unloading_id' => $unloading->id,
+            ]);
 
             Tug::create([
                 'tug' => 3,

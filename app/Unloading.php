@@ -15,6 +15,6 @@ class Unloading extends Model
     }
 
     public function coal_unloading(){
-        return $this->hasOne(CoalUnloading::class, 'analysis_unloading_id', 'id');
+        return $this->belongsTo(CoalUnloading::class, "coal_unloading_id", 'id');
     }
 }
