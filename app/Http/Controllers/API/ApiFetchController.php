@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\CoalContract;
 use Illuminate\Http\Request;
 use App\Models\HeadWarehouse;
 use App\Models\GeneralManager;
@@ -73,6 +74,17 @@ class ApiFetchController extends Controller
             ]);
             return true;
         }
+   }
+
+   public function getContract(Request $request){
+    
+    return $contract = CoalContract::where('id', $request->id)->get();
+
+   }
+   public function getNumber(Request $request){
+
+    return $number = CoalContract::where('id', $request->id)->first();
+
    }
 
 }

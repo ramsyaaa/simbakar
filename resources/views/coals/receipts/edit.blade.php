@@ -63,7 +63,7 @@
                             <div class="w-full">
                                 <label for="tug" class="font-bold text-[#232D42] text-[16px]">Yang diterima tug 3</label>
                                     <div class="relative">
-                                        <input type="number" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3" name="tug_3_accept" value="{{$receipt->tug_3_number}}">
+                                        <input type="number" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3" name="tug_3_accept" value="{{$receipt->tug_3_accept}}">
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -116,10 +116,7 @@
                                     <div class="w-full">
                                         <label for="receipt_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Terima</label>
                                         <div class="relative">
-                                            @php
-                                                $formattedDate = Carbon\Carbon::parse($receipt->receipt_date)->format('Y-m-d');
-                                            @endphp
-                                            <input type="date" name="receipt_date" value="{{ $formattedDate }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <input required type="date" name="receipt_date" value="{{ $receipt->receipt_date ?? null }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             @error('receipt')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}

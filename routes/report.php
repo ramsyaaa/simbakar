@@ -1,19 +1,23 @@
 <?php
 
-use App\Http\Controllers\Report\BeritaAcara\BeritaAcaraController;
-use App\Http\Controllers\Report\BW\BWController;
-use App\Http\Controllers\Report\CoalQuality\CoalQualityController;
-use App\Http\Controllers\Report\Contract\ContractController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Report\ExecutiveSummary\ExecutiveSummaryController;
-use App\Http\Controllers\Report\ExecutiveSummary\ReportBbmController;
-use App\Http\Controllers\Report\HeavyEquipment\HeavyEquipmentController;
-use App\Http\Controllers\Report\Performance\PerformanceController;
+use App\Http\Controllers\Report\BW\BWController;
 use App\Http\Controllers\Report\Receipt\ReceiptController;
-use App\Http\Controllers\Report\ShipMonitoring\ShipMonitoringController;
+use App\Http\Controllers\Report\Contract\ContractController;
 use App\Http\Controllers\Report\Supplies\SuppliesController;
 use App\Http\Controllers\Report\Unloading\UnloadingController;
+use App\Http\Controllers\Report\Contract\SpotMonthlyController;
+use App\Http\Controllers\Report\BeritaAcara\BeritaAcaraController;
+use App\Http\Controllers\Report\CoalQuality\CoalQualityController;
+use App\Http\Controllers\Report\Performance\PerformanceController;
+use App\Http\Controllers\Report\ExecutiveSummary\ReportBbmController;
+use App\Http\Controllers\Report\Contract\CoalRecapitulationController;
+use App\Http\Controllers\Report\HeavyEquipment\HeavyEquipmentController;
+use App\Http\Controllers\Report\ShipMonitoring\ShipMonitoringController;
+use App\Http\Controllers\Report\ExecutiveSummary\ExecutiveSummaryController;
+use App\Http\Controllers\Report\Contract\PlanAndReazlitionCoalMonthlyController;
+use App\Http\Controllers\Report\Contract\PlanAndReazlitionCoalMonthlySpotController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.'], function () {
     Route::group(['prefix' => 'executive-summary', 'as' => 'executive-summary.'], function () {
@@ -27,6 +31,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
     Route::group(['prefix' => 'contracts', 'as' => 'contracts.'], function () {
         Route::get('', [ContractController::class, 'index'])->name('index');
+        Route::get('coal-monthly', [PlanAndReazlitionCoalMonthlyController::class, 'index'])->name('coal-monthly');
+        Route::get('coal-monthly-spot', [SpotMonthlyController::class, 'index'])->name('coal-monthly-spot');
+        Route::get('coal-recapitulation', [CoalRecapitulationController::class, 'index'])->name('coal-recapitulation');
     });
 
     Route::group(['prefix' => 'supplies', 'as' => 'supplies.'], function () {
