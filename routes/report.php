@@ -25,6 +25,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
         Route::get('bbm-receipt-usage-report/{type}', [ReportBbmController::class, 'index'])->name('bbm-receipt-usage');
         Route::post('bbm-receipt-usage-report/{type}', [ReportBbmController::class, 'index'])->name('bbm-receipt-usage');
 
+        // no 11
+        Route::get('bbm-unloading-month-comparison' , [ReportBbmController::class, 'bbmUnloadingMonthComparison'])->name('bbm-unloading-month-comparison');
+        Route::post('bbm-unloading-month-comparison' , [ReportBbmController::class, 'bbmUnloadingMonthComparison'])->name('bbm-unloading-month-comparison');
+
+        // no 12
+        Route::get('bbm-unloading-month-realitation' , [ReportBbmController::class, 'bbmUnloadingMonthRealitation'])->name('bbm-unloading-month-realitation');
+        Route::post('bbm-unloading-month-realitation' , [ReportBbmController::class, 'bbmUnloadingMonthRealitation'])->name('bbm-unloading-month-realitation');
+
         Route::get('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
         Route::post('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
     });
