@@ -337,9 +337,6 @@ class ReportBbmController extends Controller
             return $items->values()->all(); // Convert the grouped collection to an array of values
         })->toArray();
 
-        function formatNumber ($val) {
-            return number_format($val , 0);
-        }
 
         foreach ($processedData as $month => $value) {
             foreach ($groupedArray as $key => $value) {
@@ -358,13 +355,13 @@ class ReportBbmController extends Controller
                     $bl_bw_percentage = $bl > 0  ? $bl_bw/$bl * 100 . "%" : '100%';
                     
                     $processedData[$month] = [
-                        'bl' => formatNumber($bl),
-                        'ds' => formatNumber($ds),
-                        'bw' => formatNumber($bw),
-                        'tug' => formatNumber($tug),
-                        'ds_bl' => formatNumber($ds_bl),
-                        'bw_ds' => formatNumber($bw_ds),
-                        'bl_bw' => formatNumber($bl_bw),
+                        'bl' => $bl,
+                        'ds' => $ds,
+                        'bw' => $bw,
+                        'tug' => $tug,
+                        'ds_bl' => $ds_bl,
+                        'bw_ds' => $bw_ds,
+                        'bl_bw' => $bl_bw,
                         
                         'ds_bl_percentage' => $ds_bl_percentage,
                         'bw_ds_percentage' => $bw_ds_percentage,
@@ -434,6 +431,52 @@ class ReportBbmController extends Controller
         $data['bbm_unloading'] = $processedData;
 
         return view('reports.executive-summary.bbm-unloading-month-realitation', $data);
+    }
+
+    public function bbmLoadingUnloadingEfectiveStock (Request $request) {
+
+        $type = isset($_GET['type']) ? $_GET['type'] : 'day';
+
+        $day = $request->get('day') ?? date('Y-m-d' , time());
+        $data['day'] = $day;
+        
+        $month = $request->get('month') ?? date('Y-m' , time());
+        $data['month'] = $month;
+
+        $year = $request->get('year') ?? date('Y' , time());
+        $data['year'] = $year;
+
+
+        function getDataByDay () {
+            return [];
+        }
+        function getDataByMonth () {
+            return [];
+        }
+        function getDataByYear () {
+            return [];
+        }
+
+        $processedData = [];
+
+        switch ($type) {
+            case 'month':
+                $processedData = getDataByMonth();
+                break;
+            
+            case 'month':
+                $processedData = getDataByYear();
+                break;
+            
+            default:
+                // day
+                $processedData = getDataByDay();
+                break;
+        }
+
+        $data['bbm_unloading'] = $processedData;
+
+        return view('reports.executive-summary.bbm-loading-unloading-efective-stock', $data);
     }
 
 }

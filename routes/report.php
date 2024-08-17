@@ -25,6 +25,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
         Route::get('bbm-receipt-usage-report/{type}', [ReportBbmController::class, 'index'])->name('bbm-receipt-usage');
         Route::post('bbm-receipt-usage-report/{type}', [ReportBbmController::class, 'index'])->name('bbm-receipt-usage');
 
+        // no 4
+        Route::get('bbm-loading-unloading-efective-stock' , [ReportBbmController::class , 'bbmLoadingUnloadingEfectiveStock' ])->name('bbm-loading-unloading-efective-stock');
+        Route::post('bbm-loading-unloading-efective-stock' , [ReportBbmController::class , 'bbmLoadingUnloadingEfectiveStock' ])->name('bbm-loading-unloading-efective-stock');
+
         // no 11
         Route::get('bbm-unloading-month-comparison' , [ReportBbmController::class, 'bbmUnloadingMonthComparison'])->name('bbm-unloading-month-comparison');
         Route::post('bbm-unloading-month-comparison' , [ReportBbmController::class, 'bbmUnloadingMonthComparison'])->name('bbm-unloading-month-comparison');

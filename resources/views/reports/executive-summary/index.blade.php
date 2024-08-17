@@ -25,7 +25,10 @@
                         ['text' => 'Rencana Realisasi Kontrak Batubara Bulanan', 'url' => '#'],
                         ['text' => 'Rencana Realisasi Pemakaian Batubara & Produksi Listrik Bulanan', 'url' => '#'],
                         ['text' => 'Realisasi Persediaan Kumulatif Batubara', 'url' => '#'],
-                        ['text' => 'Realisasi Penerimaan, Pemakaian dan Persediaan Efektif Batubara', 'url' => '#'],
+                        [
+                            'text' => 'Realisasi Penerimaan, Pemakaian dan Persediaan Efektif Batubara',
+                            'url' => route('reports.executive-summary.bbm-loading-unloading-efective-stock'),
+                        ],
                         [
                             'text' => 'Penerimaan, Pemakaian dan Oersediaan Efektif HSD',
                             'url' => route('reports.executive-summary.bbm-receipt-usage', ['type' => 'HSD']),

@@ -14,32 +14,64 @@
                 <div class="flex items-end justify-between mb-2">
                     <div>
                         <div class="text-[#135F9C] text-[40px] font-bold">
-                            Perbandingan Penerimaan Batubara Bulanan (B/L, D/S, B/W, TUG, 3)
+                            Realisasi Penerimaan, Pemakaian dan Persediaan Efektif Batubara
                         </div>
                     </div>
                 </div>
                 <div class="w-full flex justify-center mb-6">
                     <form method="POST" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
                         @csrf
-                        <div id="year-fields" class="filter-field">
-                            <div class="w-full mb-4">
-                                <label for="year">Tahun:</label>
-                                <input type="number" id="year" name="year"
-                                    class="border h-[40px] w-full rounded-lg px-3" value="{{ request('year', $year) }}"
-                                    min="2000" max="2100">
-                            </div>
-                        </div>
 
                         <div class="flex items-center gap-4">
-                            <label for="grafik" class="flex items-center gap-2">
-                                <input id="grafik" checked name="display" type="checkbox" value="grafik">
-                                Grafik
+                            <label for="day" class="flex items-center gap-2">
+                                <input id="day" @if ((isset($_GET['type']) && $_GET['type'] == 'day') || !isset($_GET['type'])) checked @endif name="type"
+                                    type="radio" value="day">
+                                Hari
                             </label>
-                            <label for="table" class="flex items-center gap-2">
-                                <input id="table" checked name="display" type="checkbox" value="table">
-                                Tabel
+                            <label for="month" class="flex items-center gap-2">
+                                <input id="month" @if (isset($_GET['type']) && $_GET['type'] == 'month') checked @endif name="type"
+                                    type="radio" value="month">
+                                Bulan
+                            </label>
+                            <label for="year" class="flex items-center gap-2">
+                                <input @if (isset($_GET['type']) && $_GET['type'] == 'year') checked @endif id="year" name="type"
+                                    type="radio" value="year">
+                                Tahun
                             </label>
                         </div>
+
+                        @if ((isset($_GET['type']) && $_GET['type'] == 'day') || !isset($_GET['type']))
+                            <div id="day-fields" class="filter-field">
+                                <div class="w-full mb-4">
+                                    <label for="day-input">Hari:</label>
+                                    <input type="date" id="day-input" name="day"
+                                        class="border h-[40px] w-full rounded-lg px-3" value="{{ request('day', $day) }}"
+                                        min="2000" max="2100">
+                                </div>
+                            </div>
+                        @endif
+
+                        @if (isset($_GET['type']) && $_GET['type'] == 'month')
+                            <div id="month-fields" class="filter-field">
+                                <div class="w-full mb-4">
+                                    <label for="month-input">Bulan:</label>
+                                    <input type="month" id="month-input" name="month"
+                                        class="border h-[40px] w-full rounded-lg px-3"
+                                        value="{{ request('month', $month) }}" min="2000" max="2100">
+                                </div>
+                            </div>
+                        @endif
+
+                        @if (isset($_GET['type']) && $_GET['type'] == 'year')
+                            <div id="year-fields" class="filter-field">
+                                <div class="w-full mb-4">
+                                    <label for="year-input">Tahun:</label>
+                                    <input type="number" id="year-input" name="year"
+                                        class="border h-[40px] w-full rounded-lg px-3" value="{{ request('year', $year) }}"
+                                        min="2000" max="2100">
+                                </div>
+                            </div>
+                        @endif
 
                         <div class="w-full flex justify-end gap-2">
                             <button type="button"
@@ -220,75 +252,9 @@
                                     </tr>
                                 </tfoot>
                             @endif
-
                         </table>
                     </div>
                 </div>
-                @if ($year)
-                    <div class="mt-4 pb-10 display-grafik" style="page-break-after: always">
-                        <div class="bg-white rounded-xl p-4 flex flex-col gap-4">
-
-                            <div class="text-[#135F9C] text-xl text-center  font-bold">
-                                Grafik Perbandingan Penerimaan Batubara Bulanan (B/L, D/S, B/W, TUG, 3) Tahun
-                                {{ request('year', $year) }} <br>
-                                Per {{ date('d M Y', time()) }}
-                            </div>
-                            <div class="chart">
-                                <canvas id="chart" class="h-[300px]"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <script>
-                        const ctx = document.getElementById('chart').getContext('2d');
-                        let bl = {!! json_encode(collect($bbm_unloading)->pluck('bl')->toArray()) !!};
-                        let ds = {!! json_encode(collect($bbm_unloading)->pluck('ds')->toArray()) !!};
-                        let bw = {!! json_encode(collect($bbm_unloading)->pluck('bw')->toArray()) !!};
-
-                        bl = bl.map((item) => item ? parseInt(item) : 0)
-                        ds = ds.map((item) => item ? parseInt(item) : 0)
-                        bw = bw.map((item) => item ? parseInt(item) : 0)
-
-                        const myBarChart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: {!! json_encode(collect($bbm_unloading)->keys()->toArray()) !!},
-                                datasets: [{
-                                        label: 'BL',
-                                        data: bl,
-                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                        borderColor: 'rgba(255, 99, 132, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'DS',
-                                        data: ds,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'BW',
-                                        data: bw,
-                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                        borderColor: 'rgba(75, 192, 192, 1)',
-                                        borderWidth: 1
-                                    }
-                                ]
-                            },
-                            options: {
-                                scales: {
-                                    x: {
-                                        stacked: false
-                                    },
-                                    y: {
-                                        stacked: false
-                                    }
-                                }
-                            }
-                        });
-                    </script>
-                @endif
             </div>
 
         </div>
@@ -298,31 +264,16 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            $('[name="display"]').change(function() {
+            $('[name="type"]').change(function() {
                 let val = $(this).val();
                 let isChecked = this.checked;
-                console.log(val)
+                console.log(isChecked)
                 if (isChecked) {
-                    $(`.display-${val}`).show()
-                } else {
-                    $(`.display-${val}`).hide()
+                    let url =
+                        `{{ route('reports.executive-summary.bbm-loading-unloading-efective-stock') }}?type=${val}`
+                    window.location.href = url;
                 }
             })
         })
-
-        function handlePrint() {
-            let canvas = $('.display-grafik canvas')[0];
-            let chartContainer = $('.chart');
-            var dataUrl = canvas.toDataURL(); // Convert canvas to data URL
-            chartContainer.find('canvas').hide()
-            let el = chartContainer.append(`<img class="w-full" src="${dataUrl}" />`)
-            setTimeout(() => {
-                printPDF()
-            }, 1000);
-            setTimeout(() => {
-                chartContainer.find('canvas').show()
-                el.hide()
-            }, 3000);
-        }
     </script>
 @endsection
