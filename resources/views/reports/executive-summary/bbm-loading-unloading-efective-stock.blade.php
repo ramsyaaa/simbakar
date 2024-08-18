@@ -4,6 +4,21 @@
     {
         return number_format($val, 0);
     }
+
+    $label = 'Tanggal';
+    if (isset($_GET['type'])) {
+        switch ($_GET['type']) {
+            case 'month':
+                $label = 'Bulan';
+                break;
+            case 'year':
+                $label = 'Tahun';
+                break;
+            default:
+                $label = 'Tanggal';
+                break;
+        }
+    }
 @endphp
 @section('content')
     <div x-data="{ sidebar: true }" class="w-screen min-h-screen flex bg-[#E9ECEF]">
@@ -41,17 +56,6 @@
                         </div>
 
                         @if ((isset($_GET['type']) && $_GET['type'] == 'day') || !isset($_GET['type']))
-                            <div id="day-fields" class="filter-field">
-                                <div class="w-full mb-4">
-                                    <label for="day-input">Hari:</label>
-                                    <input type="date" id="day-input" name="day"
-                                        class="border h-[40px] w-full rounded-lg px-3" value="{{ request('day', $day) }}"
-                                        min="2000" max="2100">
-                                </div>
-                            </div>
-                        @endif
-
-                        @if (isset($_GET['type']) && $_GET['type'] == 'month')
                             <div id="month-fields" class="filter-field">
                                 <div class="w-full mb-4">
                                     <label for="month-input">Bulan:</label>
@@ -62,7 +66,7 @@
                             </div>
                         @endif
 
-                        @if (isset($_GET['type']) && $_GET['type'] == 'year')
+                        @if (isset($_GET['type']) && $_GET['type'] == 'month')
                             <div id="year-fields" class="filter-field">
                                 <div class="w-full mb-4">
                                     <label for="year-input">Tahun:</label>
@@ -72,6 +76,7 @@
                                 </div>
                             </div>
                         @endif
+
 
                         <div class="w-full flex justify-end gap-2">
                             <button type="button"
@@ -85,6 +90,7 @@
 
 
             </div>
+
             <div class="px-8 -mt-8 mb-4" id="my-pdf">
                 <style>
                     table {
@@ -119,67 +125,72 @@
                             <thead>
                                 <tr>
                                     <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">No</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Bulan</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">B/L<br>Kg</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">D/S<br>Kg</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">B/W<br>Kg</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Diterima
-                                        [TUG3](Kg)</th>
+                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">
+                                        {{ $label }}</th>
+                                    @if (isset($_GET['type']) && $_GET['type'] == 'month')
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Stock
+                                        </th>
+                                    @endif
+                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Realisasi
+                                        Penerimaan
+                                    </th>
+                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="7">DS &
+                                        BL</th>
 
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]" colspan="2">DS & BL</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]" colspan="2">BW & DS</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]" colspan="2">BL & BW</th>
                                 </tr>
                                 <tr>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Selisih</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Persentasi Selisih</th>
+                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 1</th>
+                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 2</th>
 
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Selisih</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Persentasi Selisih</th>
+                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 3</th>
+                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 4</th>
 
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Selisih</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Persentasi Selisih</th>
+                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 5</th>
+                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 6</th>
+                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 7</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
                                     $i = 0;
                                 @endphp
-                                @foreach ($bbm_unloading as $month => $item)
+                                @foreach ($bbm_unloading as $day => $item)
                                     @php
                                         $i++;
                                     @endphp
                                     <tr>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $i }}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $month }}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bl']) ? formatNumber($item['bl']) : '-' }}
+                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $i }}
                                         </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['ds']) ? formatNumber($item['ds']) : '-' }}
+                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $day }}
                                         </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bw']) ? formatNumber($item['bw']) : '-' }}
-                                        </td>
+                                        @if (isset($_GET['type']) && $_GET['type'] == 'month')
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                {{ isset($item['stock']) ? formatNumber($item['stock']) : '-' }}
+                                            </td>
+                                        @endif
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
                                             {{ isset($item['tug']) ? formatNumber($item['tug']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['ds_bl']) ? formatNumber($item['ds_bl']) : '-' }}
+                                            {{ isset($item['unit_1']) ? formatNumber($item['unit_1']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['ds_bl_percentage']) ? $item['ds_bl_percentage'] : '-' }}
+                                            {{ isset($item['unit_2']) ? formatNumber($item['unit_2']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bw_ds']) ? formatNumber($item['bw_ds']) : '-' }}
+                                            {{ isset($item['unit_3']) ? formatNumber($item['unit_3']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bw_ds_percentage']) ? $item['bw_ds_percentage'] : '-' }}
+                                            {{ isset($item['unit_4']) ? formatNumber($item['unit_4']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bl_bw']) ? formatNumber($item['bl_bw']) : '-' }}</td>
+                                            {{ isset($item['unit_5']) ? formatNumber($item['unit_5']) : '-' }}
+                                        </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bl_bw_percentage']) ? $item['bl_bw_percentage'] : '-' }}
+                                            {{ isset($item['unit_6']) ? formatNumber($item['unit_6']) : '-' }}
+                                        </td>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            {{ isset($item['unit_7']) ? formatNumber($item['unit_7']) : '-' }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -187,67 +198,33 @@
                             @if (count($bbm_unloading) > 0)
                                 <tfoot>
                                     <tr>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Rata-rata
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Total
                                         </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl')->sum() / collect($bbm_unloading)->pluck('bl')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('ds')->sum() / collect($bbm_unloading)->pluck('ds')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw')->sum() / collect($bbm_unloading)->pluck('bw')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum() / collect($bbm_unloading)->pluck('tug')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('ds_bl')->sum() / collect($bbm_unloading)->pluck('ds_bl')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw_ds')->sum() / collect($bbm_unloading)->pluck('bw_ds')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl_bw')->sum() / collect($bbm_unloading)->pluck('bl_bw')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Total</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl')->sum()) }}</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('ds')->sum()) }}</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw')->sum()) }}</th>
+                                        @if (isset($_GET['type']) && $_GET['type'] == 'month')
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('stock')->sum()) }}
+                                            </th>
+                                        @endif
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                             {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum()) }}</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('unit_1')->sum()) }}</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('unit_2')->sum()) }}</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('unit_3')->sum()) }}</th>
 
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('ds_bl')->sum()) }}
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('unit_4')->sum()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('unit_5')->sum()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw_ds')->sum()) }}
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('unit_6')->sum()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl_bw')->sum()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('unit_7')->sum()) }}
                                         </th>
                                     </tr>
                                 </tfoot>

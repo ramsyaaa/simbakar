@@ -6,7 +6,9 @@ use App\BbmReceipt;
 use App\BbmUsage;
 use App\HeavyEquipment;
 use App\Http\Controllers\Controller;
+use App\Models\CoalReceiptPlan;
 use App\Models\CoalUnloading;
+use App\Models\CoalUsage;
 use App\Unit;
 use DateTime;
 use Illuminate\Http\Request;
@@ -436,9 +438,6 @@ class ReportBbmController extends Controller
     public function bbmLoadingUnloadingEfectiveStock (Request $request) {
 
         $type = isset($_GET['type']) ? $_GET['type'] : 'day';
-
-        $day = $request->get('day') ?? date('Y-m-d' , time());
-        $data['day'] = $day;
         
         $month = $request->get('month') ?? date('Y-m' , time());
         $data['month'] = $month;
@@ -447,30 +446,225 @@ class ReportBbmController extends Controller
         $data['year'] = $year;
 
 
-        function getDataByDay () {
-            return [];
+        function getDataByDay ($month) {
+            $dayArray = explode( '-' ,$month );
+            $year = $dayArray[0];
+            $month = $dayArray[1];
+            
+            $daysInMonth = Carbon::createFromDate($year, $month, 1)->daysInMonth;
+            $daysArray = [];
+
+            for ($i = 1; $i <= $daysInMonth; $i++) {
+                $daysArray[] = Carbon::createFromDate($year, $month, $i)->format('Y-m-d');
+            }
+
+            
+            $processedData = [];
+            $units = Unit::all();
+            foreach ($daysArray as $day) {
+                $processedData[$day] = [];
+                $bbm_unloading = CoalUnloading::with(['ship' , 'dock' , 'company'])->whereRaw('receipt_date like ?',["%" . $day . "%"])->get();
+                if(count($bbm_unloading) > 0){
+                    foreach ($bbm_unloading as $key => $item) {
+                        $receipt_date = date('Y-m-d' , strtotime($item->receipt_date));
+                        if($receipt_date == $day){
+                            // Get BBM Usage with receipt date
+                            $bbm_usage = CoalUsage::with(['unit'])->whereRaw('usage_date like ?' , ['%'. $receipt_date .'%'])->get();
+
+                            // get All Unit Value
+                            foreach ($units as $unit_key => $unit) {
+                                $index = "unit_" . ($unit_key + 1);
+                                $processedData[$day][$index] = 0;
+                                foreach ($bbm_usage as $usage) {
+                                    if($unit->id == $usage->unit_id) $processedData[$day][$index] = $processedData[$day][$index] + $usage->amount_use;
+                                }
+                                $processedData[$day][$index] = $processedData[$day][$index] ?? 0;
+                            }
+
+
+                            $processedData[$day]['receipt_date'] = $receipt_date;
+                            $processedData[$day]['tug'] = $item->tug_3_accept;
+                            $processedData[$day]['unit_5_7'] = array_sum([
+                                $processedData[$day]['unit_5'], 
+                                $processedData[$day]['unit_6'], 
+                                $processedData[$day]['unit_7']
+                            ]);
+                            $processedData[$day]['unit_1_7'] = array_sum([
+                                $processedData[$day]['unit_1'],
+                                $processedData[$day]['unit_2'],
+                                $processedData[$day]['unit_3'],
+                                $processedData[$day]['unit_4'],
+                                $processedData[$day]['unit_5'],
+                                $processedData[$day]['unit_6'], 
+                                $processedData[$day]['unit_7']
+                            ]);
+                        }
+                    }
+                }
+
+            }
+            
+            return $processedData;
         }
-        function getDataByMonth () {
-            return [];
+
+        function getDataByMonth ($year) {
+            $processedData = [];
+            $months = [];
+
+            for ($i = 1; $i <= 12; $i++) {
+                array_push($months , Carbon::create()->month($i)->translatedFormat('m'));
+                $processedData[Carbon::create()->month($i)->translatedFormat('F')] = [];
+            }
+            
+            $coal_plans = CoalReceiptPlan::where('year' , $year)->first();
+            $units = Unit::all();
+            $i = 0;
+
+            function getStock($coal_plans, $monthIndex)  {
+                switch ($monthIndex) {
+                    case 0:
+                        return $coal_plans->planning_january;
+                    case 1:
+                        return $coal_plans->planning_february;
+                    case 2:
+                        return $coal_plans->planning_march;
+                    case 3:
+                        return $coal_plans->planning_april;
+                    case 4:
+                        return $coal_plans->planning_may;
+                    case 5:
+                        return $coal_plans->planning_june;
+                    case 6:
+                        return $coal_plans->planning_july;
+                    case 7:
+                        return $coal_plans->planning_august;
+                    case 8:
+                        return $coal_plans->planning_september;
+                    case 9:
+                        return $coal_plans->planning_october;
+                    case 10:
+                        return $coal_plans->planning_november;
+                    case 11:
+                        return $coal_plans->planning_december;
+                    default:
+                        break;
+                }
+            }
+            foreach ($processedData as $month => $value) {
+                $bbm_unloading = CoalUnloading::with(['ship' , 'dock' , 'company'])->whereRaw('receipt_date like ?',["%" . ("$year-$months[$i]") . "%"])->get();
+                $processedData[$month]['stock'] = $coal_plans ? getStock($coal_plans , $i) : 0;
+                if(count($bbm_unloading) > 0){
+                    foreach ($bbm_unloading as $key => $item) {
+                        $receipt_date = date('Y-m' , strtotime($item->receipt_date));
+                        if($receipt_date == ("$year-$months[$i]")){
+                            // Get BBM Usage with receipt date
+                            $bbm_usage = CoalUsage::with(['unit'])->whereRaw('usage_date like ?' , ['%'. $receipt_date .'%'])->get();
+                            // get All Unit Value
+                            foreach ($units as $unit_key => $unit) {
+                                $index = "unit_" . ($unit_key + 1);
+                                $processedData[$month][$index] = 0;
+                                foreach ($bbm_usage as $usage) {
+                                    if($unit->id == $usage->unit_id) $processedData[$month][$index] = $processedData[$month][$index] + $usage->amount_use;
+                                }
+                                $processedData[$month][$index] = $processedData[$month][$index] ?? 0;
+                            }
+
+
+                            $processedData[$month]['receipt_date'] = date('d M Y' , strtotime($item->receipt_date));
+                            $processedData[$month]['tug'] = $bbm_unloading->pluck('tug_3_accept')->sum();
+                            $processedData[$month]['unit_5_7'] = array_sum([
+                                $processedData[$month]['unit_5'], 
+                                $processedData[$month]['unit_6'], 
+                                $processedData[$month]['unit_7']
+                            ]);
+                            $processedData[$month]['unit_1_7'] = array_sum([
+                                $processedData[$month]['unit_1'],
+                                $processedData[$month]['unit_2'],
+                                $processedData[$month]['unit_3'],
+                                $processedData[$month]['unit_4'],
+                                $processedData[$month]['unit_5'],
+                                $processedData[$month]['unit_6'], 
+                                $processedData[$month]['unit_7']
+                            ]);
+                        }
+                    }
+                }
+                $i++;
+            }
+            
+            return $processedData;
         }
         function getDataByYear () {
-            return [];
+            $currentYear = Carbon::now()->year;
+            $processedData = [];
+            $units = Unit::all();
+
+            for ($i = 0; $i <= 10; $i++) {
+                $processedData[$currentYear - $i] = [];
+            }
+            function getStock($coal_plans)  {
+                return $coal_plans->planning_january + $coal_plans->planning_february + $coal_plans->planning_march + $coal_plans->planning_april + $coal_plans->planning_may + $coal_plans->planning_june + $coal_plans->planning_july + $coal_plans->planning_august + $coal_plans->planning_september + $coal_plans->planning_october + $coal_plans->planning_november + $coal_plans->planning_december;
+            }
+            foreach ($processedData as $year => $value) {
+                $coal_plans = CoalReceiptPlan::where('year' , $year)->first();
+
+                $bbm_unloading = CoalUnloading::with(['ship' , 'dock' , 'company'])->whereRaw('receipt_date like ?',["%" . ("$year") . "%"])->get();
+                $processedData[$year]['stock'] = $coal_plans ? getStock($coal_plans) : 0;
+                if(count($bbm_unloading) > 0){
+                    foreach ($bbm_unloading as $key => $item) {
+                        $receipt_date = date('Y' , strtotime($item->receipt_date));
+                        if($receipt_date == ("$year")){
+                            // Get BBM Usage with receipt date
+                            $bbm_usage = CoalUsage::with(['unit'])->whereRaw('usage_date like ?' , ['%'. $receipt_date .'%'])->get();
+                            // get All Unit Value
+                            foreach ($units as $unit_key => $unit) {
+                                $index = "unit_" . ($unit_key + 1);
+                                $processedData[$year][$index] = 0;
+                                foreach ($bbm_usage as $usage) {
+                                    if($unit->id == $usage->unit_id) $processedData[$year][$index] = $processedData[$year][$index] + $usage->amount_use;
+                                }
+                                $processedData[$year][$index] = $processedData[$year][$index] ?? 0;
+                            }
+
+
+                            $processedData[$year]['receipt_date'] = date('d M Y' , strtotime($item->receipt_date));
+                            $processedData[$year]['tug'] = $bbm_unloading->pluck('tug_3_accept')->sum();
+                            $processedData[$year]['unit_5_7'] = array_sum([
+                                $processedData[$year]['unit_5'], 
+                                $processedData[$year]['unit_6'], 
+                                $processedData[$year]['unit_7']
+                            ]);
+                            $processedData[$year]['unit_1_7'] = array_sum([
+                                $processedData[$year]['unit_1'],
+                                $processedData[$year]['unit_2'],
+                                $processedData[$year]['unit_3'],
+                                $processedData[$year]['unit_4'],
+                                $processedData[$year]['unit_5'],
+                                $processedData[$year]['unit_6'], 
+                                $processedData[$year]['unit_7']
+                            ]);
+                        }
+                    }
+                }
+                $i++;
+            }
+            return $processedData;
         }
 
         $processedData = [];
 
         switch ($type) {
             case 'month':
-                $processedData = getDataByMonth();
+                $processedData = getDataByMonth($year);
                 break;
             
-            case 'month':
+            case 'year':
                 $processedData = getDataByYear();
                 break;
             
             default:
                 // day
-                $processedData = getDataByDay();
+                $processedData = getDataByDay($month);
                 break;
         }
 
