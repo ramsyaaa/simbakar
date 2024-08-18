@@ -252,5 +252,10 @@
                 }
             })
         })
+
+
+        function handlePrint() {
+            printPDF()
+        }
     </script>
 @endsection
