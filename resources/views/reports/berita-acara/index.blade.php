@@ -22,8 +22,8 @@
                 $dataReport = [
                     ['text' => 'Berita Acara Serah Terima HSD/MFO','url' => '#'],
                     ['text' => 'Berita Acara Serah Terima HSD/MFO - Versi SLA','url' => '#'],
-                    ['text' => 'Pencetakan BA Pemotongan Pembayaran Jasa Dermaga Suralaya','url' => '#'],
-                    ['text' => 'Pencetakan Tagihan Biaya Tambat','url' => '#'],
+                    // ['text' => 'Pencetakan BA Pemotongan Pembayaran Jasa Dermaga Suralaya','url' => '#'],
+                    // ['text' => 'Pencetakan Tagihan Biaya Tambat','url' => '#'],
                 ]
             @endphp
             @foreach ($dataReport as $index => $report)

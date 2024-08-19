@@ -10,12 +10,15 @@ use App\Http\Controllers\Report\Unloading\UnloadingController;
 use App\Http\Controllers\Report\Contract\SpotMonthlyController;
 use App\Http\Controllers\Report\BeritaAcara\BeritaAcaraController;
 use App\Http\Controllers\Report\CoalQuality\CoalQualityController;
+use App\Http\Controllers\Report\Contract\MonitoringCoalController;
 use App\Http\Controllers\Report\Performance\PerformanceController;
+use App\Http\Controllers\Report\Contract\CoalAllContractController;
 use App\Http\Controllers\Report\ExecutiveSummary\ReportBbmController;
 use App\Http\Controllers\Report\Contract\CoalRecapitulationController;
 use App\Http\Controllers\Report\HeavyEquipment\HeavyEquipmentController;
 use App\Http\Controllers\Report\ShipMonitoring\ShipMonitoringController;
 use App\Http\Controllers\Report\ExecutiveSummary\ExecutiveSummaryController;
+use App\Http\Controllers\Report\Contract\CoalReceiptRecapitulationController;
 use App\Http\Controllers\Report\Contract\PlanAndReazlitionCoalMonthlyController;
 use App\Http\Controllers\Report\Contract\PlanAndReazlitionCoalMonthlySpotController;
 
@@ -43,9 +46,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
     Route::group(['prefix' => 'contracts', 'as' => 'contracts.'], function () {
         Route::get('', [ContractController::class, 'index'])->name('index');
+        Route::get('coal-monitoring', [MonitoringCoalController::class, 'index'])->name('coal-monitoring');
         Route::get('coal-monthly', [PlanAndReazlitionCoalMonthlyController::class, 'index'])->name('coal-monthly');
         Route::get('coal-monthly-spot', [SpotMonthlyController::class, 'index'])->name('coal-monthly-spot');
         Route::get('coal-recapitulation', [CoalRecapitulationController::class, 'index'])->name('coal-recapitulation');
+        Route::get('coal-receipt', [CoalReceiptRecapitulationController::class, 'index'])->name('coal-receipt');
+        Route::get('coal-all', [CoalAllContractController::class, 'index'])->name('coal-all');
     });
 
     Route::group(['prefix' => 'supplies', 'as' => 'supplies.'], function () {

@@ -25,18 +25,16 @@ class PlanAndReazlitionCoalMonthlyController extends Controller
         })
         ->where('delivery_clauses.year', $year)
         ->get()
-        ->groupBy('supplier_id')->map(function($items){
+        ->groupBy('contract_id')->map(function($items){
              // Define an array for all 12 months with names as keys and default value of 0
             $months = collect(range(1, 12))->mapWithKeys(function ($month) {
                 $monthName = Carbon::createFromFormat('m', $month)->format('F'); // Get full month name
                 return [$monthName => 0]; // Initialize with 0
             });
-
             // Group items by month name and sum the amounts
             $groupedByMonth = $items->groupBy(function ($item) {
                 return Carbon::parse(Carbon::create()->month($item->month))->format('F'); // Group by full month name
             })->map(function ($monthItems) {
-
                 $valuePlan =[
                     'kontrak' => 0,
                     'rakor' => $monthItems->sum('rakor')
@@ -61,7 +59,7 @@ class PlanAndReazlitionCoalMonthlyController extends Controller
         })
         ->whereYear('receipt_date', $year)
         ->get()
-        ->groupBy('supplier_id')->map(function($items){
+        ->groupBy('contract_id')->map(function($items){
             // Define an array for all 12 months with names as keys and default value of 0
             $months = collect(range(1, 12))->mapWithKeys(function ($month) {
                 $monthName = Carbon::createFromFormat('m', $month)->format('F'); // Get full month name
@@ -90,7 +88,6 @@ class PlanAndReazlitionCoalMonthlyController extends Controller
                 ] : $value;
             });
         });
-
         $combinedData = $contractPlan->union($contractsReal)->map(function ($planData, $supplierId) use ($contractsReal) {
 
         $realData = $contractsReal->get($supplierId, collect());
@@ -119,14 +116,15 @@ class PlanAndReazlitionCoalMonthlyController extends Controller
             });
         });
 
+
         // Get the necessary details for formatting keys
         $supplierContractDetails = Supplier::join('coal_contracts', 'suppliers.id', 'coal_contracts.supplier_id')
             ->select('suppliers.id as supplier_id as id ','coal_contracts.id as contract_id', 'suppliers.name as supplier_name', 'coal_contracts.contract_number', 'coal_contracts.contract_start_date','coal_contracts.contract_end_date')
-            ->whereIn('supplier_id', $combinedData->keys()->toArray())
+            ->whereIn('coal_contracts.id', $combinedData->keys()->toArray())
             ->get()
             ->mapWithKeys(function ($item) {
                 $key = "{$item->supplier_name} {$item->contract_number} {$item->contract_start_date} s/d {$item->contract_end_date}";
-                return [$item->supplier_id => $key];
+                return [$item->contract_id => $key];
             });
 
         // Replace contract_id keys with formatted names
