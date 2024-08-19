@@ -12,6 +12,7 @@ class YearStartData extends Model
         'type',
         'planning',
         'actual',
+        'year'
     ];
 
     public function settingBpb()

@@ -9,7 +9,7 @@
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Rencana Penerimaan Batubara Tahun {{ $coal_receipt_plan->settingBpb->year }}
+                        Rencana Penerimaan Batubara Tahun {{ $coal_receipt_plan->year }}
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('initial-data.coal-receipt-plan.index') }}" class="cursor-pointer">Rencana Penerimaan Batubara</a> / <span class="text-[#2E46BA] cursor-pointer">Update</span>
@@ -19,7 +19,19 @@
             <form action="{{ route('initial-data.coal-receipt-plan.update', ['uuid' => $coal_receipt_plan->uuid]) }}" method="POST">
                 @csrf
                 @method('PUT')
+                
                 <div class="bg-white rounded-lg p-6">
+                    <div class="w-full">
+                        <label for="year" class="font-bold text-[#232D42] text-[16px]">Tahun</label>
+                        <div class="relative">
+                            <input required type="number" name="year" class="w-full lg:w-3/12 border rounded-md mt-3 mb-5 h-[40px] px-3" value="{{$coal_receipt_plan->year}}">
+                            @error('year')
+                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="overflow-auto hide-scrollbar max-w-full">
                         <table class="w-full">
                             <thead>

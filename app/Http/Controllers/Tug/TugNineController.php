@@ -35,6 +35,15 @@ class TugNineController extends Controller
 
     }
 
+    public function detailCoal(Request $request,$id)
+    {
+        $tugs = CoalUsage::where('id',$id)->first();
+        $data['units'] = Unit::all();
+        $data['tug'] = $tugs;
+        return view('inputs.tug-9.detail',$data);
+
+    }
+
     public function indexUnit(Request $request)
     {
         $tugs = BbmUsage::query();
@@ -51,6 +60,15 @@ class TugNineController extends Controller
 
     }
 
+    public function detailUnit(Request $request,$id)
+    {
+        $tugs = BbmUsage::where('id',$id)->first();
+        $data['units'] = Unit::all();
+        $data['tug'] = $tugs;
+        return view('inputs.tug-9.detailUnit',$data);
+
+    }
+
     public function indexHeavy(Request $request)
     {
         $tugs = BbmUsage::query();
@@ -63,7 +81,17 @@ class TugNineController extends Controller
         });
         $data['heavies'] = HeavyEquipment::all();
         $data['tugs'] = $tugs->latest()->paginate(10)->appends(request()->query());
+        
         return view('inputs.tug-9.indexHeavy',$data);
+    }
+    
+    public function detailHeavy(Request $request,$id)
+    {
+        $tugs = BbmUsage::where('id',$id)->first();
+        $data['heavies'] = HeavyEquipment::all();
+        $data['tug'] = $tugs;
+
+        return view('inputs.tug-9.detailHeavy',$data);
 
     }
 
@@ -77,6 +105,14 @@ class TugNineController extends Controller
         });
         $data['tugs'] = $tugs->latest()->paginate(10)->appends(request()->query());
         return view('inputs.tug-9.indexOther',$data);
+
+    }
+
+    public function detailOther(Request $request,$id)
+    {
+        $tugs = BbmUsage::where('id',$id)->first();
+        $data['tug'] = $tugs;
+        return view('inputs.tug-9.detailOther',$data);
 
     }
 

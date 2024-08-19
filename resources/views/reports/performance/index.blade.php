@@ -22,7 +22,7 @@
                 $dataReport = [
                     ['text' => 'Performance Berth of JETTY (1, 2, SPJ, and SPOJ)','url' => '#'],
                     ['text' => 'Realisasi Pembongkaran','url' => '#'],
-                    ['text' => 'Sistem Bahan Bakar (Counter Pagi, Siang, dan Malam serta Variance)','url' => '#'],
+                    // ['text' => 'Sistem Bahan Bakar (Counter Pagi, Siang, dan Malam serta Variance)','url' => '#'],
                 ]
             @endphp
             @foreach ($dataReport as $index => $report)

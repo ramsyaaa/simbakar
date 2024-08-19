@@ -48,9 +48,11 @@
                                             @foreach ($pics as $pic)
                                                 <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="inspectionuser" name="user_inspections[]" value="{{$pic->id}}"
-                                                    @foreach (json_decode($tug->user_inspections) as $item)
-                                                        {{($item == $pic->id) ? 'checked':''}}
-                                                    @endforeach
+                                                    @if ($tug->user_inspections)
+                                                        @foreach (json_decode($tug->user_inspections) as $item)
+                                                            {{($item == $pic->id) ? 'checked':''}}
+                                                        @endforeach
+                                                    @endif
                                                     >
                                                     <label class="form-check-label" for="inspectionuser">
                                                     {{$pic->name}} - {{$pic->structural_position}} - {{$pic->functional_role}}
@@ -122,20 +124,24 @@
                             <div class="p-6 print-page">
                                 <div class="flex justify-between items-center mb-4 print-header">
                                     <div>
-                                        <h1 class="text-xl font-bold">PLN Indonesia Power</h1>
-                                        <h2 class="text-lg">UBP Suralaya</h2>
+                                        <img src="{{asset('logo.png')}}" alt="" width="200 ">
+                                        <h2 class="text-lg text-right">UBP Suralaya</h2>
                                     </div>
                                     <div class="text-right">
                                         <p class="font-bold">TUG 4</p>
+                                        <div class="text-right mt-5">
+                                            <p class="border border-slate-700">P.I.N.: INDONESIA POWER</p>
+                                            <p class="border border-slate-700">Cab./UP/Bkl: SURALAYA PGU</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <h4 class="text-center font-bold mb-4">BERITA ACARA PEMERIKSAAN BARANG-BARANG/SPARE PARTS</h4>
-                                <p class="text-center mb-6">NO : BB.2024.302/BA/UBPSLA/PBB/2024</p>
+                                <p class="text-center mb-6">NO : {{$tug->bpb_number}}/BA/UBPSLA/PBB/{{date('Y')}}</p>
                                 
                                 <div class="mb-4 w-[100px]">
                                     <div class="border-collapse border border-slate-700">
-                                        <span>Rabu</span> <br>
-                                        <span>26-Jun-24</span>
+                                        <span>{{$day}}</span> <br>
+                                        <span>{{date('y-M-d')}}</span>
                                     </div>
                                 </div>
                                 
@@ -151,18 +157,21 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="border border-slate-700 p-2">1</td>
-                                                <td class="border border-slate-700 p-2">Nugroho Prasetyo Rubiyanto</td>
-                                                <td class="border border-slate-700 p-2">
-                                                    <div class="flex justify-between">
-                                                        <span>MREP</span>
-                                                        <span>Ketua</span>
-                                                    </div>
-                                                    
-                                                </td>
-                                                <td class="border border-slate-700 p-2"></td>
-                                            </tr>
+                                            @foreach ($inspections as $item)
+                                                <tr>
+                                                    <td class="border border-slate-700 p-2">{{$loop->iteration}}</td>
+                                                    <td class="border border-slate-700 p-2">{{$item->name}}</td>
+                                                    <td class="border border-slate-700 p-2">
+                                                        <div class="flex justify-between">
+                                                            <span>{{$item->structural_position}}</span>
+                                                            <span>{{$item->functional_role}}</span>
+                                                        </div>
+                                                        
+                                                    </td>
+                                                    <td class="border border-slate-700 p-2"></td>
+                                                </tr>
+                                            @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -183,24 +192,40 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @if ($tug->type_tug == 'coal-unloading')
                                             <tr>
-                                                <td class="border border-slate-700 p-2">1</td>
-                                                <td class="border border-slate-700 p-2">Seluruhnya diterima dengan baik sesuai data terlampir</td>
-                                                <td class="border border-slate-700 p-2">
-                                                    <div class="mt-4">
-                                                        <p class="mb-1">Tanggal penerimaan : 26-Jun-24</p>
-                                                        <p class="mb-1">Jumlah B/L : 63.000.000 Kg</p>
-                                                        <p class="mb-1">Jumlah D/S : 63.000.163 Kg</p>
-                                                        <p class="mb-1">Jumlah Diterima : 63.000.163 Kg</p>
-                                                        <p class="mb-1">Nama Kapal : MV. ANDHIKA ATHALIA</p>
-                                                        <p class="mb-1">No. Kontrak : 159.PJ/061/IP/2017 tanggal 17 Juli 2017</p>
-                                                        <p class="mb-1">No. TUG3 : B.20240626.02</p>
-                                                    </div>
+                                                <td class="px-4 py-2 border border-slate-700"></td>
+                                                <td class="px-4 py-2 border border-slate-700">
+                                                    <p>Jenis Bahan Bakar: Batubara</p>
+                                                    <p>ex. {{$tug->coal->supplier->name}}</p>
+                                                    <p>Penerimaan Untuk Unit 1-7</p>
+                                                    <p>Pelabuhan Asal: {{$tug->coal->originHarbor->name}}</p>
+                                                    <p>Draft Survey: {{ number_format($tug->coal->ds)}} Kg</p>
+                                                    <p>Belt Weiger: 0 Kg</p>
+                                                    <p>Bill of Lading: {{ number_format($tug->coal->bl)}} Kg</p>
+                                                    <p>Diterima: {{ number_format($tug->coal->tug_3_accept)}} Kg</p>
                                                 </td>
-                                                <td class="border border-slate-700 p-2">Kg</td>
-                                                <td class="border border-slate-700 p-2">63.000.163</td>
-                                                <td class="border border-slate-700 p-2"></td>
-                                            </tr>
+                                                <td class="px-4 py-2 border border-slate-700">18.01.0009</td>
+                                                <td class="px-4 py-2 border border-slate-700">Kg</td>
+                                                <td class="px-4 py-2 border border-slate-700">{{ number_format($tug->coal->tug_3_accept)}}</td>
+                                                <td class="px-4 py-2 border border-slate-700"></td>
+                                            </tr>   
+                                        @endif
+                                        @if ($tug->type_tug == 'bbm-receipt')
+                                            <tr>
+                                                <td class="px-4 py-2 border border-slate-700"></td>
+                                                <td class="px-4 py-2 border border-slate-700">
+                                                    <p>Jenis Bahan Bakar: {{$tug->type_fuel == 'Solar' ? 'Solar / HSD' : 'Residu MFO'}}</p>
+                                                    <p>{{$tug->bbm->note}}</p>
+                                                    <p>Nama Agen : {{$tug->bbm->shipAgent->name}}</p>
+                                                    <p>Volume Faktur: {{ number_format($tug->bbm->amount_receipt)}} Kg</p>
+                                                </td>
+                                                <td class="px-4 py-2 border border-slate-700">18.01.0323</td>
+                                                <td class="px-4 py-2 border border-slate-700">L</td>
+                                                <td class="px-4 py-2 border border-slate-700">{{ number_format($tug->bbm->amount_receipt)}}</td>
+                                                <td class="px-4 py-2 border border-slate-700"></td>
+                                            </tr>   
+                                        @endif
                                         </tbody>
                                     </table>
                                     
@@ -214,7 +239,7 @@
                                     </div>
                                     <div class="text-center-print">
                                         <p class="pb-12">GENERAL MANAGER</p>
-                                        <p class="font-bold mt-4">IRWAN EDI SYAHPUTRA LUBIS</p>
+                                        <p class="font-bold mt-4">{{$manager->name}}</p>
                                     </div>
                                 </div>
                                 

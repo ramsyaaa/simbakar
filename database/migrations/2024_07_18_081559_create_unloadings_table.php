@@ -15,13 +15,9 @@ class CreateUnloadingsTable extends Migration
     {
         Schema::create('unloadings', function (Blueprint $table) {
             $table->id();
-            $table->string('supplier_uuid')->nunllable();
-            $table->string('ship_uuid')->nunllable();
             $table->string('surveyor_uuid')->nullable();
             $table->string('analysis_number')->nullable();
             $table->date('analysis_date')->nullable();
-            $table->datetime('start_unloading')->nullable();
-            $table->datetime('end_unloading')->nullable();
             $table->string('moisture_total')->nullable();
             $table->string('ash')->nullable();
             $table->string('fixed_carbon')->nullable();

@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="bg-white rounded-lg p-6">
-                <form onsubmit="return confirmSubmit(this, 'Tambahkan User?')" action="{{ route('contracts.coal-contracts.store') }}" method="POST">
+                <form onsubmit="return confirmSubmit(this, 'Tambahkan Data Kontrak Batubara?')" action="{{ route('contracts.coal-contracts.store') }}" method="POST">
                     @csrf
                     <div class="p-4 bg-white rounded-lg w-full">
                         <div class="w-full py-1">
@@ -64,7 +64,8 @@
                                 <select name="type_contract" id="" class="w-full lg:w-[600px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                     <option selected disabled>Pilih Tipe Kontrak</option>
                                     <option>Jangka Panjang</option>
-                                    <option>Jangka Pendek</option>
+                                    <option>Jangka Menengah</option>
+                                    <option>Spot</option>
                                 </select>
                                 @error('type_contract')
                                 <div class="absolute -bottom-1 left-1 text-red-500">

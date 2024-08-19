@@ -12,9 +12,14 @@
                         Rencana Penerimaan BBM
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
-                        <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="text-[#2E46BA] cursor-pointer">Rencana Pemakaian BBM</span>
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="text-[#2E46BA] cursor-pointer">Rencana Penerimaan BBM</span>
                     </div>
                 </div>
+            </div>
+            <div class="flex gap-2 mb-3">
+                <a href="{{ route('initial-data.bbm-receipt-plan.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
+                    Tambah Data
+                </a>
             </div>
             <div x-data="{ selectedFuel: 'solar', solar: true, residu: false }" class="bg-white rounded-lg p-6">
                 <div class="lg:flex items-center justify-between gap-2 w-full mb-3">
@@ -22,9 +27,9 @@
                         <div class="mb-2 lg:mb-0">
                             <select name="year" id="" class="w-full lg:w-[200px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                 <option value="">Tahun</option>
-                                @foreach ($years as $year)
-                                <option @if($year->uuid == $bpb->uuid) selected @endif value="{{ $year->uuid }}">{{ $year->year }}</option>
-                                @endforeach
+                                @for ($i = date('Y'); $i >= 2000; $i--)
+                                    <option {{request()->year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                @endfor
                             </select>
                         </div>
                     </form>
@@ -36,6 +41,8 @@
                     </div>
                 </div>
                 <div class="overflow-auto hide-scrollbar max-w-full">
+                    @isset ($bbm_receipt_plans['solar'])
+
                     <table x-cloak x-show="solar" class="w-full">
                         <thead>
                             <tr>
@@ -44,80 +51,81 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($bbm_receipt_plans['solar'] as $plan)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Januari</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_january }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_january }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Februari</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_february }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_february }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Maret</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_march }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_march }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">April</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_april }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_april }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Mei</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_may }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_may }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Juni</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_june }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_june }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Juli</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_july }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_july }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Agustus</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_august }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_august }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">September</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_september }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_september }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Oktober</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_october }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_october }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">November</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_november }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_november }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Desember</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_december }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['solar'][0]->planning_december }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-bold border px-2">Total</td>
                                 <td class="h-[36px] text-[16px] font-bold border px-2">
                                     {{
-                                        $plan->planning_january +
-                                        $plan->planning_february +
-                                        $plan->planning_march +
-                                        $plan->planning_april +
-                                        $plan->planning_may +
-                                        $plan->planning_june +
-                                        $plan->planning_july +
-                                        $plan->planning_august +
-                                        $plan->planning_september +
-                                        $plan->planning_october +
-                                        $plan->planning_november +
-                                        $plan->planning_december
+                                        $bbm_receipt_plans['solar'][0]->planning_january +
+                                        $bbm_receipt_plans['solar'][0]->planning_february +
+                                        $bbm_receipt_plans['solar'][0]->planning_march +
+                                        $bbm_receipt_plans['solar'][0]->planning_april +
+                                        $bbm_receipt_plans['solar'][0]->planning_may +
+                                        $bbm_receipt_plans['solar'][0]->planning_june +
+                                        $bbm_receipt_plans['solar'][0]->planning_july +
+                                        $bbm_receipt_plans['solar'][0]->planning_august +
+                                        $bbm_receipt_plans['solar'][0]->planning_september +
+                                        $bbm_receipt_plans['solar'][0]->planning_october +
+                                        $bbm_receipt_plans['solar'][0]->planning_november +
+                                        $bbm_receipt_plans['solar'][0]->planning_december
                                     }}
                                 </td>
                             </tr>
-                            @endforeach
                         </tbody>
                     </table>
                     <div x-cloak x-show="solar" class="mt-10 w-full flex justify-center">
-                        <a href="{{ route('initial-data.bbm-receipt-plan.edit', ['uuid' => $plan->uuid]) }}" class="px-4 py-2 rounded-lg bg-[#135F9C] text-white font-bold">Update</a>
+                        <a href="{{ route('initial-data.bbm-receipt-plan.edit', ['uuid' => $bbm_receipt_plans['solar'][0]->uuid]) }}" class="px-4 py-2 rounded-lg bg-[#135F9C] text-white font-bold">Update</a>
                     </div>
+                    @endisset
+                    @isset ($bbm_receipt_plans['residu'])
+
                     <table x-cloak x-show="residu" class="w-full">
                         <thead>
                             <tr>
@@ -126,80 +134,80 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($bbm_receipt_plans['residu'] as $plan)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Januari</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_january }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_january }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Februari</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_february }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_february }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Maret</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_march }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_march }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">April</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_april }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_april }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Mei</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_may }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_may }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Juni</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_june }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_june }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Juli</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_july }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_july }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Agustus</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_august }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_august }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">September</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_september }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_september }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Oktober</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_october }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_october }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">November</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_november }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_november }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Desember</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $plan->planning_december }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt_plans['residu'][0]->planning_december }}</td>
                             </tr>
                             <tr>
                                 <td class="h-[36px] text-[16px] font-bold border px-2">Total</td>
                                 <td class="h-[36px] text-[16px] font-bold border px-2">
                                     {{
-                                        $plan->planning_january +
-                                        $plan->planning_february +
-                                        $plan->planning_march +
-                                        $plan->planning_april +
-                                        $plan->planning_may +
-                                        $plan->planning_june +
-                                        $plan->planning_july +
-                                        $plan->planning_august +
-                                        $plan->planning_september +
-                                        $plan->planning_october +
-                                        $plan->planning_november +
-                                        $plan->planning_december
+                                        $bbm_receipt_plans['residu'][0]->planning_january +
+                                        $bbm_receipt_plans['residu'][0]->planning_february +
+                                        $bbm_receipt_plans['residu'][0]->planning_march +
+                                        $bbm_receipt_plans['residu'][0]->planning_april +
+                                        $bbm_receipt_plans['residu'][0]->planning_may +
+                                        $bbm_receipt_plans['residu'][0]->planning_june +
+                                        $bbm_receipt_plans['residu'][0]->planning_july +
+                                        $bbm_receipt_plans['residu'][0]->planning_august +
+                                        $bbm_receipt_plans['residu'][0]->planning_september +
+                                        $bbm_receipt_plans['residu'][0]->planning_october +
+                                        $bbm_receipt_plans['residu'][0]->planning_november +
+                                        $bbm_receipt_plans['residu'][0]->planning_december
                                     }}
                                 </td>
                             </tr>
-                            @endforeach
                         </tbody>
                     </table>
                     <div x-cloak x-show="residu" class="mt-10 w-full flex justify-center">
-                        <a href="{{ route('initial-data.bbm-receipt-plan.edit', ['uuid' => $plan->uuid]) }}" class="px-4 py-2 rounded-lg bg-[#135F9C] text-white font-bold">Update</a>
+                        <a href="{{ route('initial-data.bbm-receipt-plan.edit', ['uuid' => $bbm_receipt_plans['residu'][0]->uuid]) }}" class="px-4 py-2 rounded-lg bg-[#135F9C] text-white font-bold">Update</a>
                     </div>
+                    @endisset
+
                 </div>
             </div>
         </div>

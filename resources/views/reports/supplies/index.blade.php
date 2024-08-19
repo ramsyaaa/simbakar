@@ -21,9 +21,9 @@
             @php
                 $dataReport = [
                     ['text' => 'Penerimaan, Pemakaian dan Persediaan Batubara','url' => '#'],
-                    ['text' => 'Penerimaan, Pemakaian dan Persediaan HSD','url' => '#'],
-                    ['text' => 'Penerimaan, Pemakaian dan Persediaan MFO','url' => '#'],
-                    ['text' => 'Stock Opmane','url' => '#'],
+                    ['text' => 'Penerimaan, Pemakaian dan Persediaan HSD','url' => route('reports.supplies.bbm-receipt', ['bbm_type' => 'HSD'])],
+                    ['text' => 'Penerimaan, Pemakaian dan Persediaan MFO','url' => route('reports.supplies.bbm-receipt', ['bbm_type' => 'MFO'])],
+                    // ['text' => 'Stock Opmane','url' => '#'],
                 ]
             @endphp
             @foreach ($dataReport as $index => $report)

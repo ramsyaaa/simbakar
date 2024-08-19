@@ -67,7 +67,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($shipment_type == 'ship') {{ \Carbon\Carbon::parse($item->load_date)->format('d F Y') }} - @endif {{ \Carbon\Carbon::parse($item->unload_date)->format('d F Y') }}</td>
                                 @if($shipment_type == 'ship')
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->supplier != null ? $item->supplier->name : '-' }} <br> {{ $item->ship != null ? $item->ship->name : '-' }} </td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->dock != null ? $item->dock->name : '-' }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->dockName != null ? $item->dockName->name : '-' }}</td>
                                 @endif
                                 @if($shipment_type == 'car')
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->car_type }}</td>

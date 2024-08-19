@@ -59,7 +59,7 @@
                                 <div class="relative">
                                     <select name="price_coal_will_type_number" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option value="percentage">% ( Persentase ) </option>
-                                        <option value="number">Angka</option>
+                                        <option value="rupiah">Rupiah</option>
                                     </select>
                                     
                                     @error('price_coal_will_number')
@@ -88,13 +88,14 @@
                                 </div>
                             </div>
                             <div class="delivery">
-                                <label for="for_will_parameter" class="font-bold text-[#232D42] text-[16px]">Parameter</label>
+                                <label for="unit_penalty_id" class="font-bold text-[#232D42] text-[16px]">Parameter</label>
                                 <div class="relative">
-                                    <select name="for_will_parameter" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
-                                        <option>Ash</option>
-                                    </select>
-                                    
-                                    @error('for_will_parameter')
+                                    <select name="unit_penalty_id" id="" class="select-2 w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                        @foreach ($units as $unit)
+                                            <option value="{{$unit->id}}">{{$unit->name}}</option>
+                                        @endforeach
+                                    </select>  
+                                    @error('unit_penalty_id')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                      </div>
@@ -118,7 +119,7 @@
                                 <div class="relative">
                                     <select name="for_will_type_number" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option value="percentage">% ( Persentase ) </option>
-                                        <option value="number">Angka</option>
+                                        <option value="rupiah">Rupiah</option>
                                     </select>
                                     
                                     @error('for_will_type_number')

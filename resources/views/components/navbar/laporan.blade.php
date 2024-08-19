@@ -133,7 +133,7 @@
                 @if (Auth::user()->hasPermissionTo('laporan-alat-besar'))
 
                     <div>
-                        <a href="{{ route('reports.heavy-equipment.index') }}">
+                        <a href="{{ route('reports.heavy-equipment.index', ['type' => 'albes', 'type_bbm' => 'HSD']) }}">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
                                 <div>
                                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -181,7 +181,7 @@
                         </a>
                     </div>
                 @endif
-                @if (Auth::user()->hasPermissionTo('laporan-performance'))
+                {{-- @if (Auth::user()->hasPermissionTo('laporan-performance'))
                     <div>
                         <a href="{{ route('reports.performance.index') }}">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
@@ -212,8 +212,8 @@
                             </div>
                         </a>
                     </div>
-                @endif
-                @if (Auth::user()->hasPermissionTo('laporan-pemantauan-kapal'))
+                @endif --}}
+                {{-- @if (Auth::user()->hasPermissionTo('laporan-pemantauan-kapal'))
                     <div>
                         <a href="{{ route('reports.ship-monitoring.index') }}">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300">
@@ -228,7 +228,7 @@
                             </div>
                         </a>
                     </div>
-                @endif
+                @endif --}}
             </div>
         </div>
     </div>

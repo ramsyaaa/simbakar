@@ -38,3 +38,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
 Route::post('save-inspection', [ApiFetchController::class, 'saveInspection'])->name('saveInspection');
 Route::post('save-warehouse', [ApiFetchController::class, 'saveWarehouse'])->name('saveWarehouse');
 Route::post('save-manager', [ApiFetchController::class, 'saveManager'])->name('saveManager');
+Route::post('save-disruption', [ApiFetchController::class, 'saveDisruption'])->name('saveDisruption');
+Route::post('get-contract', [ApiFetchController::class, 'getContract'])->name('getContract');
+Route::post('get-number', [ApiFetchController::class, 'getNumber'])->name('getNumber');

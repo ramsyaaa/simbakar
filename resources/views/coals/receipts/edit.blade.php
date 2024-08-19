@@ -20,17 +20,14 @@
                 <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Data Analisa Kualitas</div>
 
                  <div class="p-4 bg-white rounded-lg w-full">
+                    <form action="{{route('coals.receipts.update-tug',['id' => $receipt->id])}}" method="POST">
+                        @csrf
+                        @method('PATCH')
                         <div class="lg:flex lg:gap-3">
                             <div class="w-full">
                                 <label for="ds" class="font-bold text-[#232D42] text-[16px]">DS</label>
                                     <div class="relative">
-                                        @if ($receipt->contract)
-                                            <input type="number" name="ds" value="{{ $receipt->contract->kind_contract == 'CIF' ? $receipt->bl : 0 }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                            
-                                        @else
-                                            <input type="number" name="ds" value="0" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                            
-                                        @endif
+                                        <input type="number" name="ds" value="{{$receipt->ds ?? 0}}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -41,12 +38,7 @@
                                 <div class="w-full">
                                     <label for="bl" class="font-bold text-[#232D42] text-[16px]">BL</label>
                                     <div class="relative">
-                                         @if ($receipt->contract)
-                                            <input type="number" name="ds" value="{{ $receipt->contract->kind_contract == 'FOB' ? $receipt->bl : 0 }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">   
-                                        @else
-                                            <input type="number" name="ds" value="0" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                            
-                                        @endif
+                                        <input type="number" name="ds" value="{{ $receipt->bl ??  0 }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">   
                                         @error('bl')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -71,7 +63,7 @@
                             <div class="w-full">
                                 <label for="tug" class="font-bold text-[#232D42] text-[16px]">Yang diterima tug 3</label>
                                     <div class="relative">
-                                        <input type="text" value="{{ number_format($receipt->bl) }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="number" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3" name="tug_3_accept" value="{{$receipt->tug_3_accept}}">
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -82,7 +74,7 @@
                                 <div class="w-full">
                                     <label for="kind_contract" class="font-bold text-[#232D42] text-[16px]">Jenis Kontrak</label>
                                     <div class="relative">
-                                        <select name="kind_contract" id="kind_contract" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="kind_contract" id="kind_contract" class="w-full lg:w-46 border rounded-md mt-3 h-[40px] px-3">
                                             <option selected disabled>Pilih Jenis Kontrak</option>
                                             @if ($receipt->contract)
                                                 <option {{$receipt->contract->kind_contract == 'FOB' ? 'selected' : ''}}>FOB</option>
@@ -91,8 +83,9 @@
                                                 <option>FOB</option>
                                                 <option>CIF</option>
                                             @endif
-                                          
+                                            
                                         </select>
+                                        <small>Jenis kontrak akan terisi ,kalau nomor kontrak sudah di pilih    </small>
                                         @error('kind_contract')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -103,9 +96,6 @@
                             </div>
                         </div>
                         <div class="bg-white rounded-lg p-6 mt-5">
-                            <form action="{{route('coals.receipts.update-tug',['id' => $receipt->id])}}" method="POST">
-                                @csrf
-                                @method('PATCH')
                                 <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Tambahan Detail TUG 3</div>
                                 <div class="lg:flex lg:gap-3">
                                     <div class="w-full">
@@ -126,10 +116,7 @@
                                     <div class="w-full">
                                         <label for="receipt_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Terima</label>
                                         <div class="relative">
-                                            @php
-                                                $formattedDate = Carbon\Carbon::parse($receipt->receipt_date)->format('Y-m-d');
-                                            @endphp
-                                            <input type="date" name="receipt_date" value="{{ $formattedDate }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <input required type="date" name="receipt_date" value="{{ $receipt->receipt_date ?? null }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             @error('receipt')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -170,7 +157,7 @@
                                     <div class="w-full">
                                         <label for="user_inspection" class="font-bold text-[#232D42] text-[16px]">Pemeriksa</label>
                                         <div class="relative">
-                                            <select name="user_inspection" id="user_inspection" class="select-2 select-inspection w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="user_inspection" id="user_inspection" class="select-2-tag select-inspection w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                                 <option selected disabled>Pilih Pemeriksa</option>
                                                 @foreach ($inspections as $inspection)
                                                     <option {{$receipt->user_inspection == $inspection->name ? 'selected' :''}}>{{$inspection->name}}</option> 
@@ -199,7 +186,7 @@
                                     <div class="w-full">
                                         <label for="head_warehouse" class="font-bold text-[#232D42] text-[16px]">Kepala Gudang</label>
                                         <div class="relative">
-                                            <select name="head_warehouse" id="head_warehouse" class="select-2 select-warehouse w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="head_warehouse" id="head_warehouse" class="select-2-tag select-warehouse w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                                 <option selected disabled>Pilih Kepala Gudang</option>
                                                 @foreach ($heads as $head)
                                                 <option {{$receipt->head_warehouse == $head->name ? 'selected' :''}}>{{$head->name}}</option> 

@@ -20,14 +20,13 @@
         <div class="w-full flex flex-col gap-4 my-4 mt-4 px-8">
             @php
                 $dataReport = [
-                    ['text' => 'Rencana Realisasi Kontrak (Panjang, Menengah, Spot) - Bulanan','url' => '#'],
-                    ['text' => 'Rencana Realisasi Kontrak Spot Bulanan (awal s/d selesai kontrak)','url' => '#'],
-                    ['text' => 'Rencana Realisasi Semua Kontrak - Tahunan','url' => '#'],
-                    ['text' => 'Monitoring Kontrak Batubara s.d Tahun Tertentu','url' => '#'],
+                    ['text' => 'Rencana Realisasi Kontrak (Panjang, Menengah, Spot) - Bulanan','url' => route('reports.contracts.coal-monthly')],
+                    ['text' => 'Rencana Realisasi Kontrak Spot Bulanan (awal s/d selesai kontrak)','url' => route('reports.contracts.coal-monthly-spot')],
+                    ['text' => 'Rencana Realisasi Semua Kontrak - Tahunan','url' => route('reports.contracts.coal-all')],
+                    ['text' => 'Monitoring Kontrak Batubara s.d Tahun Tertentu','url' => route('reports.contracts.coal-monitoring')],
                     ['text' => 'Evaluasi Kualitas Pre-Loading, Loading, Un-Loading Batubara thd. Kontrak','url' => '#'],
-                    ['text' => 'Rekap Realisasi Kontrak Batubara per Pemasok','url' => '#'],
-                    ['text' => 'Penerimaan, Pemakaian dan Persediaan Efektif MFO','url' => '#'],
-                    ['text' => 'Rekapitulasi Penerimaan Batubara','url' => '#'],
+                    ['text' => 'Rekap Realisasi Kontrak Batubara per Pemasok','url' => route('reports.contracts.coal-recapitulation')],
+                    ['text' => 'Rekapitulasi Penerimaan Batubara','url' => route('reports.contracts.coal-receipt')],
                 ]
             @endphp
             @foreach ($dataReport as $index => $report)

@@ -15,11 +15,6 @@
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="text-[#2E46BA] cursor-pointer">BPB</span>
                     </div>
                 </div>
-                <div class="flex gap-2 items-center">
-                    <a href="{{ route('initial-data.settings-bpb.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
-                        Tambah Data
-                    </a>
-                </div>
             </div>
             <div class="bg-white rounded-lg p-6">
                 <div class="overflow-auto hide-scrollbar max-w-full">
@@ -35,30 +30,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($bpbs as $bpb)
                             <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bpb->year }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bpb->last_bpb_coal }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bpb->last_bpb_solar }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bpb->last_bpb_residu }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">1</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$year }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$solar }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$residu }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('initial-data.settings-bpb.edit', ['uuid' => $bpb->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                        Edit
-                                    </a>
-                                    <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('initial-data.settings-bpb.destroy', ['uuid' => $bpb->uuid]) }}" method="POST">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="bg-[#C03221] text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                            Delete
-                                        </button>
-                                    </form>
                                 </td>
                             </tr>
-                            @endforeach
                         </tbody>
                     </table>
-                    {{ $bpbs->links() }}
                 </div>
             </div>
         </div>

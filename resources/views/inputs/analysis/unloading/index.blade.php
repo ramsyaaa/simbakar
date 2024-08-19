@@ -54,9 +54,10 @@
                         <thead>
                             <tr>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal Bongkar</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nama Kapal</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No Analisa</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Pemasok, Kapal</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Dermaga</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Hasil</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
@@ -64,9 +65,10 @@
                             @foreach ($unloadings as $item)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->start_unloading)->format('d F Y') }} - {{ \Carbon\Carbon::parse($item->end_unloading)->format('d F Y') }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->ship != null ? $item->ship->name : '-' }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->analysis_number }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">Tiba : {{ isset($item->coal_unloading->departure_date) ? \Carbon\Carbon::parse($item->coal_unloading->departure_date)->format('d F Y') : '-' }} <br>Bongkar : {{ isset($item->coal_unloading->unloading_date) ? \Carbon\Carbon::parse($item->coal_unloading->unloading_date)->format('d F Y') : '-' }} <br> Selesai : {{ isset($item->coal_unloading->end_date) ? \Carbon\Carbon::parse($item->coal_unloading->end_date)->format('d F Y') : '-' }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ isset($item->coal_unloading->supplier->name) ? $item->coal_unloading->supplier->name : '-' }}, {{ isset($item->coal_unloading->ship->name) ? $item->coal_unloading->ship->name : '-' }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ isset($item->coal_unloading->dock->name) ? $item->coal_unloading->dock->name : '-' }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">[{{ $item->analysis_number == null ? 'belum ada' : 'ada' }}]</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('inputs.analysis.unloadings.edit', ['id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit

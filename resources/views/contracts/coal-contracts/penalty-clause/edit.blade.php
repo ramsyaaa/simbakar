@@ -29,10 +29,12 @@
                     <small class="text-slate-700"> Untuk angka koma gunakan titik .</small>
                         <div class="w-full py-1 flex gap-3">
                             <div class="delivery">
-                                <label for="penalty_will_get_if_parameter" class="font-bold text-[#232D42] text-[16px]">Denda akan di berlakukan apabila</label>
+                                <label for="unit_penalty_id" class="font-bold text-[#232D42] text-[16px]">Denda akan di berlakukan apabila</label>
                                 <div class="relative">
-                                    <select name="penalty_will_get_if_parameter" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
-                                        <option {{$penalty->penalty_will_get_if_parameter == 'Ash' ? 'selected' : ''}}>Ash</option>
+                                    <select name="unit_penalty_id" id="" class="select-2 w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
+                                        @foreach ($units as $unit)
+                                            <option value="{{$unit->id}}" {{$penalty->unit_penalty_id == $unit->id ? 'selected' : ''}}>{{$unit->name}}</option>
+                                        @endforeach
                                     </select>
                                     
                                     @error('price_coal_will_number')
@@ -93,7 +95,7 @@
                                 <div class="relative">
                                     <select name="penalty_price_type_number" id="" class="w-full mt-3 lg:w-64 h-[40px] text-[19px] text-[#8A92A6] border rounded-md">
                                         <option value="percentage" {{$penalty->penalty_price_type_number == 'percentage' ? 'selected' : ''}}>% ( Persentase ) </option>
-                                        <option value="number" {{$penalty->penalty_price_type_number == 'number' ? 'selected' : ''}}>Angka</option>
+                                        <option value="number" {{$penalty->penalty_price_type_number == 'rupiah' ? 'selected' : ''}}>Rupiah</option>
                                     </select>
                                     
                                     @error('penalty_price_type_number')

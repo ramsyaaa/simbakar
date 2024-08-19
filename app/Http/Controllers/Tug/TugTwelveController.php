@@ -20,7 +20,9 @@ class TugTwelveController extends Controller
         ->when($request->date, function ($query) use ($request) {
             $query->where('created_at', $request->date);
         });
-        $data['tugs'] = $tugs->latest()->paginate(10)->appends(request()->query());
+        $data['tugs'] = $tugs->latest()->get()->chunk(6)->map(function ($item){
+            return $item->pad(6,null);
+        });
         return view('inputs.tug-12.index',$data);
 
     }

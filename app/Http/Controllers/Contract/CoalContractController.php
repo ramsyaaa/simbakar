@@ -18,8 +18,8 @@ class CoalContractController extends Controller
     {
         $coals = CoalContract::query();
 
-        $coals->when($request->supplier_uuid, function ($query) use ($request) {
-            $query->where('supplier_uuid', $request->supplier_uuid);
+        $coals->when($request->supplier_id, function ($query) use ($request) {
+            $query->where('supplier_id', $request->supplier_id);
         });
         $data['suppliers'] = Supplier::all();
         $data['coals'] = $coals->latest()->paginate(10)->appends(request()->query());
@@ -47,7 +47,7 @@ class CoalContractController extends Controller
     {
         try {
             $request->validate([
-                'supplier_uuid' => 'required',
+                'supplier_id' => 'required',
                 'contract_number' => 'required',
                 'contract_date' => 'required',
                 'type_contract' => 'required',
@@ -57,7 +57,7 @@ class CoalContractController extends Controller
                 'contract_start_date' => 'required',
                 'contract_end_date' => 'required',
             ], [
-                'supplier_uuid.required' => 'Supplier wajib diisi.',
+                'supplier_id.required' => 'Supplier wajib diisi.',
                 'contract_number.required' => 'Nomor Kontrak wajib diisi.',
                 'contract_date.required' => 'Tanggal Kontrak wajib diisi.',
                 'type_contract.required' => 'Tipe Kontrak wajib diisi.',
@@ -69,7 +69,7 @@ class CoalContractController extends Controller
             ]);
     
             CoalContract::create([
-                'supplier_uuid' => $request->supplier_uuid,
+                'supplier_id' => $request->supplier_id,
                 'contract_number' => $request->contract_number,
                 'contract_date' => $request->contract_date,
                 'type_contract' => $request->type_contract,
