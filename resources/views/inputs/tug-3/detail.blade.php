@@ -121,6 +121,19 @@
                                                 <p>Dengan: {{$tug->bbm->ship->name}}</p>
                                             @endif
                                         </div>
+                                        <div class="text-left">
+                                            @if ($tug->type_fuel == 'Batu Bara')          
+                                                <p>Pembelian ditempat lihat faktur / bukti kas no:</p>
+                                                <p>Diterima bon pengeluaran/surat pengantar no:</p>
+                                                <p>Menurut surat pesanan/daftar permintaan no : {{$tug->coal->contract->contract_number}} / {{$tug->coal->receipt_date}}</p>
+                                            @endif
+                                            @if ($tug->type_fuel == 'solar')          
+                                            <p>Pembelian ditempat lihat faktur / bukti kas no:</p>
+                                            <p>Diterima bon pengeluaran/surat pengantar no:</p>
+                                            <p>Menurut surat pesanan/daftar permintaan no : </p>
+                                            @endif
+                                        </div>
+                                        <div></div>
                                         
                                     </div>
                                 </div>
