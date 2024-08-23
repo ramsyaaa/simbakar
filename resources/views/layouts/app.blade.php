@@ -153,7 +153,24 @@
             var printContents = document.getElementById('my-pdf').innerHTML;
             var originalContents = document.body.innerHTML;
 
-            document.body.innerHTML = printContents;
+            var printStyles = `
+                <style>
+                    @media print {
+                       .body{
+                            width: 100%;
+                            height: 75%;
+                            margin: 0;
+                            padding: 0;
+                            font-size: 12px; /* Adjust font size for better fit */
+                            line-height: 1;
+                            padding:30px;
+                        }
+                    }
+                </style>
+            `;
+
+            document.body.innerHTML = printStyles + printContents;
+
 
             window.print();
 
