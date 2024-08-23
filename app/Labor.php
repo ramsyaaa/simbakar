@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Surveyor;
 use Illuminate\Database\Eloquent\Model;
 
 class Labor extends Model
@@ -16,5 +17,10 @@ class Labor extends Model
     public function ship()
     {
         return $this->belongsTo(Ship::class, "ship_uuid", 'uuid');
+    }
+    
+    public function surveyor()
+    {
+        return $this->belongsTo(Surveyor::class, "surveyor_uuid", 'uuid');
     }
 }

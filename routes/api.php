@@ -41,3 +41,5 @@ Route::post('save-manager', [ApiFetchController::class, 'saveManager'])->name('s
 Route::post('save-disruption', [ApiFetchController::class, 'saveDisruption'])->name('saveDisruption');
 Route::post('get-contract', [ApiFetchController::class, 'getContract'])->name('getContract');
 Route::post('get-number', [ApiFetchController::class, 'getNumber'])->name('getNumber');
+Route::post('get-supplier-contract', [ApiFetchController::class, 'getSupplierContract'])->name('getSupplierContract');
+Route::post('get-certificate', [ApiFetchController::class, 'getCertificate'])->name('getCertificate');

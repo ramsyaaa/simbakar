@@ -24,7 +24,7 @@
                     ['text' => 'Rencana Realisasi Kontrak Spot Bulanan (awal s/d selesai kontrak)','url' => route('reports.contracts.coal-monthly-spot')],
                     ['text' => 'Rencana Realisasi Semua Kontrak - Tahunan','url' => route('reports.contracts.coal-all')],
                     ['text' => 'Monitoring Kontrak Batubara s.d Tahun Tertentu','url' => route('reports.contracts.coal-monitoring')],
-                    ['text' => 'Evaluasi Kualitas Pre-Loading, Loading, Un-Loading Batubara thd. Kontrak','url' => '#'],
+                    ['text' => 'Evaluasi Kualitas Pre-Loading, Loading, Un-Loading Batubara thd. Kontrak','url' => route('reports.contracts.coal-evaluation')],
                     ['text' => 'Rekap Realisasi Kontrak Batubara per Pemasok','url' => route('reports.contracts.coal-recapitulation')],
                     ['text' => 'Rekapitulasi Penerimaan Batubara','url' => route('reports.contracts.coal-receipt')],
                 ]

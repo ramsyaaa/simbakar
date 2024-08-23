@@ -10,6 +10,7 @@ use App\Http\Controllers\Report\Unloading\UnloadingController;
 use App\Http\Controllers\Report\Contract\SpotMonthlyController;
 use App\Http\Controllers\Report\BeritaAcara\BeritaAcaraController;
 use App\Http\Controllers\Report\CoalQuality\CoalQualityController;
+use App\Http\Controllers\Report\Contract\EvaluationCoalController;
 use App\Http\Controllers\Report\Contract\MonitoringCoalController;
 use App\Http\Controllers\Report\Performance\PerformanceController;
 use App\Http\Controllers\Report\Contract\CoalAllContractController;
@@ -52,6 +53,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
         Route::get('coal-recapitulation', [CoalRecapitulationController::class, 'index'])->name('coal-recapitulation');
         Route::get('coal-receipt', [CoalReceiptRecapitulationController::class, 'index'])->name('coal-receipt');
         Route::get('coal-all', [CoalAllContractController::class, 'index'])->name('coal-all');
+        Route::get('coal-evaluation', [EvaluationCoalController::class, 'index'])->name('coal-evaluation');
     });
 
     Route::group(['prefix' => 'supplies', 'as' => 'supplies.'], function () {

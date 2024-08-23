@@ -620,10 +620,10 @@
                           {{-- AI2O3 --}}
                         <div class="w-full py-1 flex gap-3">
                             <div class="ai2o3">
-                                <label for="ai2o3_min" class="font-bold text-[#232D42] text-[16px]">AI2O3 Min</label>
+                                <label for="al2o3_min" class="font-bold text-[#232D42] text-[16px]">Al2O3 Min</label>
                                 <div class="relative">
-                                    <input type="text" name="ai2o3_min" value="{{ old('ai2o3_min') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="AI2O3 Min">
-                                    @error('ai2o3_min')
+                                    <input type="text" name="al2o3_min" value="{{ old('al2o3_min') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="AI2O3 Min">
+                                    @error('al2o3_min')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
@@ -631,10 +631,10 @@
                                 </div>
                             </div>
                             <div class="ai2o3">
-                                <label for="ai2o3_max" class="font-bold text-[#232D42] text-[16px]">AI2O3 Max</label>
+                                <label for="al2o3_max" class="font-bold text-[#232D42] text-[16px]">Al2O3 Max</label>
                                 <div class="relative">
-                                    <input type="text" name="ai2o3_max" value="{{ old('ai2o3_max') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="AI2O3 Max">
-                                    @error('ai2o3_max')
+                                    <input type="text" name="al2o3_max" value="{{ old('al2o3_max') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="AI2O3 Max">
+                                    @error('al2o3_max')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
@@ -642,9 +642,9 @@
                                 </div>
                             </div>
                             <div class="ai2o3">
-                                <label for="ai2o3_typical" class="font-bold text-[#232D42] text-[16px]">AI2O3 Typical</label>
+                                <label for="al2o3_typical" class="font-bold text-[#232D42] text-[16px]">Al2O3 Typical</label>
                                 <div class="relative">
-                                    <input type="text" name="ai2o3_typical" value="{{ old('ai2o3_typical') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="AI2O3 Typical">
+                                    <input type="text" name="al2o3_typical" value="{{ old('al2o3_typical') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="AI2O3 Typical">
                                     @error('ai2o3_typical')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -842,10 +842,10 @@
                           {{-- TiO2 --}}
                           <div class="w-full py-1 flex gap-3">
                             <div class="tio2">
-                                <label for="tio2_min" class="font-bold text-[#232D42] text-[16px]">TiO2 Min</label>
+                                <label for="tlo2_min" class="font-bold text-[#232D42] text-[16px]">TlO2 Min</label>
                                 <div class="relative">
-                                    <input type="text" name="tio2_min" value="{{ old('tio2_min') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="TiO2 Min">
-                                    @error('tio2_min')
+                                    <input type="text" name="tlo2_min" value="{{ old('tlo2_min') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="TiO2 Min">
+                                    @error('tlo2_min')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
@@ -853,10 +853,10 @@
                                 </div>
                             </div>
                             <div class="tio2">
-                                <label for="tio2_max" class="font-bold text-[#232D42] text-[16px]">TiO2 Max</label>
+                                <label for="tlo2_max" class="font-bold text-[#232D42] text-[16px]">TlO2 Max</label>
                                 <div class="relative">
-                                    <input type="text" name="tio2_max" value="{{ old('tio2_max') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="TiO2 Max">
-                                    @error('tio2_max')
+                                    <input type="text" name="tlo2_max" value="{{ old('tlo2_max') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="TiO2 Max">
+                                    @error('tlo2_max')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
@@ -864,10 +864,10 @@
                                 </div>
                             </div>
                             <div class="tio2">
-                                <label for="tio2_typical" class="font-bold text-[#232D42] text-[16px]">TiO2 Typical</label>
+                                <label for="tlo2_typical" class="font-bold text-[#232D42] text-[16px]">TlO2 Typical</label>
                                 <div class="relative">
-                                    <input type="text" name="tio2_typical" value="{{ old('tio2_typical') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="TiO2 Typical">
-                                    @error('tio2_typical')
+                                    <input type="text" name="tlo2_typical" value="{{ old('tlo2_typical') }}" class="input-number w-full lg:w-72 border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="TiO2 Typical">
+                                    @error('tlo2_typical')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
