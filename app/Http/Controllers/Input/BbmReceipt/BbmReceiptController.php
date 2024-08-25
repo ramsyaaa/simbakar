@@ -8,6 +8,7 @@ use App\Dock;
 use App\Harbor;
 use App\Http\Controllers\Controller;
 use App\LoadingCompany;
+use App\Models\BbmBookContract;
 use App\Models\HeadWarehouse;
 use App\Models\Tug;
 use App\Models\UserInspection;
@@ -34,7 +35,7 @@ class BbmReceiptController extends Controller
             $query->whereYear('created_at', $request->year);
         });
 
-        $data['loadings'] = $loadings->paginate(10)->appends(request()->query());
+        $data['loadings'] = $loadings->latest()->paginate(10)->appends(request()->query());
         return view('inputs.bbm_receipt.bbm_receipt.index', ['shipment_type' => $shipment_type],$data);
     }
 
@@ -61,6 +62,7 @@ class BbmReceiptController extends Controller
         $data['docks'] = Dock::get();
         $data['heads'] = HeadWarehouse::all();
         $data['inspections'] = UserInspection::all();
+        $data['bbm_books'] = BbmBookContract::all();
 
         return view('inputs.bbm_receipt.bbm_receipt.create', $data);
     }
@@ -100,8 +102,8 @@ class BbmReceiptController extends Controller
             'note' => 'required',
             'faktur_obs' => 'required',
             'faktur_ltr15' => 'required',
-            'ubl_obs' => 'required',
-            'ubl_ltr15' => 'required',
+            // 'ubl_obs' => 'required',
+            // 'ubl_ltr15' => 'required',
             'ual_obs' => 'required',
             'ual_ltr15' => 'required',
             'ubd_obs' => 'required',
@@ -212,8 +214,8 @@ class BbmReceiptController extends Controller
             'note' => $request->note,
             'faktur_obs' => $request->faktur_obs,
             'faktur_ltr15' => $request->faktur_ltr15,
-            'ubl_obs' => $request->ubl_obs,
-            'ubl_ltr15' => $request->ubl_ltr15,
+            // 'ubl_obs' => $request->ubl_obs,
+            // 'ubl_ltr15' => $request->ubl_ltr15,
             'ual_obs' => $request->ual_obs,
             'ual_ltr15' => $request->ual_ltr15,
             'ubd_obs' => $request->ubd_obs,
@@ -291,6 +293,8 @@ class BbmReceiptController extends Controller
         $data['docks'] = Dock::get();
         $data['heads'] = HeadWarehouse::all();
         $data['inspections'] = UserInspection::all();
+        $data['bbm_books'] = BbmBookContract::all();
+
         return view('inputs.bbm_receipt.bbm_receipt.edit',$data);
     }
 
@@ -330,8 +334,8 @@ class BbmReceiptController extends Controller
             'note' => 'required',
             'faktur_obs' => 'required',
             'faktur_ltr15' => 'required',
-            'ubl_obs' => 'required',
-            'ubl_ltr15' => 'required',
+            // 'ubl_obs' => 'required',
+            // 'ubl_ltr15' => 'required',
             'ual_obs' => 'required',
             'ual_ltr15' => 'required',
             'ubd_obs' => 'required',
@@ -434,8 +438,8 @@ class BbmReceiptController extends Controller
             'note' => $request->note,
             'faktur_obs' => $request->faktur_obs,
             'faktur_ltr15' => $request->faktur_ltr15,
-            'ubl_obs' => $request->ubl_obs,
-            'ubl_ltr15' => $request->ubl_ltr15,
+            // 'ubl_obs' => $request->ubl_obs,
+            // 'ubl_ltr15' => $request->ubl_ltr15,
             'ual_obs' => $request->ual_obs,
             'ual_ltr15' => $request->ual_ltr15,
             'ubd_obs' => $request->ubd_obs,

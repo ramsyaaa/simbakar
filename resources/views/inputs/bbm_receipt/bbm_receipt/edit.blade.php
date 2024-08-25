@@ -68,7 +68,12 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="order_number" class="font-bold text-[#232D42] text-[16px]">No Pemesanan</label>
                                     <div class="relative">
-                                        <input type="text" name="order_number" value="{{ old('order_number', $bbm->order_number ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="order_number" id="order_number" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <option value="">Pilih</option>
+                                            @foreach ($bbm_books as $item)
+                                                <option value="{{ $item->uuid }}" {{ old('order_number', $bbm->order_number ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->order_number }}</option>
+                                            @endforeach
+                                        </select>
                                         @error('order_number')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
