@@ -20,10 +20,10 @@
         <div class="w-full flex flex-col gap-4 my-4 mt-4 px-8">
             @php
                 $dataReport = [
-                    ['text' => 'Perbandingan Analisa Kualitas (Loading, Unloading, Labor)','url' => '#'],
-                    ['text' => 'Nilai Kalor Moisture per Bulan','url' => '#'],
-                    ['text' => 'Nilai Kalor Moisture Rata Rata per Pemasok','url' => '#'],
-                    ['text' => 'Rekap Analisa Seluruh Item Kualitas','url' => '#'],
+                    ['text' => 'Perbandingan Analisa Kualitas (Loading, Unloading, Labor)','url' => route('reports.coal-quality.coal-comparison')],
+                    ['text' => 'Nilai Kalor Moisture per Bulan','url' => route('reports.coal-quality.coal-calor-monthly')],
+                    ['text' => 'Nilai Kalor Moisture Rata Rata per Pemasok','url' => route('reports.coal-quality.coal-calor-supplier')],
+                    ['text' => 'Rekap Analisa Seluruh Item Kualitas','url' => route('reports.coal-quality.coal-all-item')],
                 ]
             @endphp
             @foreach ($dataReport as $index => $report)

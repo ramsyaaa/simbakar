@@ -9,13 +9,17 @@ use App\Http\Controllers\Report\Supplies\SuppliesController;
 use App\Http\Controllers\Report\Unloading\UnloadingController;
 use App\Http\Controllers\Report\Contract\SpotMonthlyController;
 use App\Http\Controllers\Report\BeritaAcara\BeritaAcaraController;
+use App\Http\Controllers\Report\CoalQuality\CoalAllItemController;
 use App\Http\Controllers\Report\CoalQuality\CoalQualityController;
 use App\Http\Controllers\Report\Contract\EvaluationCoalController;
 use App\Http\Controllers\Report\Contract\MonitoringCoalController;
 use App\Http\Controllers\Report\Performance\PerformanceController;
 use App\Http\Controllers\Report\Contract\CoalAllContractController;
+use App\Http\Controllers\Report\CoalQuality\CoalComparisonController;
 use App\Http\Controllers\Report\ExecutiveSummary\ReportBbmController;
 use App\Http\Controllers\Report\Contract\CoalRecapitulationController;
+use App\Http\Controllers\Report\CoalQuality\CoalCalorMonthlyController;
+use App\Http\Controllers\Report\CoalQuality\CoalCalorSupplierController;
 use App\Http\Controllers\Report\HeavyEquipment\HeavyEquipmentController;
 use App\Http\Controllers\Report\ShipMonitoring\ShipMonitoringController;
 use App\Http\Controllers\Report\ExecutiveSummary\ExecutiveSummaryController;
@@ -81,6 +85,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
     Route::group(['prefix' => 'coal-quality', 'as' => 'coal-quality.'], function () {
         Route::get('', [CoalQualityController::class, 'index'])->name('index');
+        Route::get('coal-comparison', [CoalComparisonController::class, 'index'])->name('coal-comparison');
+        Route::get('coal-calor-monthly', [CoalCalorMonthlyController::class, 'index'])->name('coal-calor-monthly');
+        Route::get('coal-calor-supplier', [CoalCalorSupplierController::class, 'index'])->name('coal-calor-supplier');
+        Route::get('coal-all-item', [CoalAllItemController::class, 'index'])->name('coal-all-item');
     });
 
     Route::group(['prefix' => 'unloading', 'as' => 'unloading.'], function () {

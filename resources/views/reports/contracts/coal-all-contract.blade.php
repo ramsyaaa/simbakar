@@ -43,7 +43,7 @@
             </div>
             <div id="my-pdf">
 
-                <div class="bg-white rounded-lg p-6">
+                <div class="bg-white rounded-lg p-6 body">
                     <div class="flex justify-between items-center mb-4">
                         <div>
                             <img src="{{asset('logo.png')}}" alt="" width="200">
