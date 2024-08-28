@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
     Route::group(['prefix' => 'receipt', 'as' => 'receipt.'], function () {
         Route::get('', [ReceiptController::class, 'index'])->name('index');
+        Route::get('bbm/{type_bbm}', [ReceiptController::class, 'bbmReceipt'])->name('bbm-receipt.index');
     });
 
     Route::group(['prefix' => 'coal-quality', 'as' => 'coal-quality.'], function () {
