@@ -759,8 +759,8 @@ class ReportBbmController extends Controller
 
         $processedData = [];
         $months = [];
-        $initialSock = YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
-        if ($initialSock) {
+        $initialStock = YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
+        if ($initialStock) {
 
             for ($i = 1; $i <= 12; $i++) {
                 array_push($months, Carbon::create()->month($i)->translatedFormat('m'));
@@ -770,12 +770,49 @@ class ReportBbmController extends Controller
             $coal_plans = CoalReceiptPlan::where('year', $year)->first();
             $units = Unit::all();
             $i = 0;
+            $initial_stock_realitation = $initialStock->planning;
+
+            function getStock($coal_plans, $monthIndex)
+            {
+                switch ($monthIndex) {
+                    case 0:
+                        return $coal_plans->planning_january;
+                    case 1:
+                        return $coal_plans->planning_february;
+                    case 2:
+                        return $coal_plans->planning_march;
+                    case 3:
+                        return $coal_plans->planning_april;
+                    case 4:
+                        return $coal_plans->planning_may;
+                    case 5:
+                        return $coal_plans->planning_june;
+                    case 6:
+                        return $coal_plans->planning_july;
+                    case 7:
+                        return $coal_plans->planning_august;
+                    case 8:
+                        return $coal_plans->planning_september;
+                    case 9:
+                        return $coal_plans->planning_october;
+                    case 10:
+                        return $coal_plans->planning_november;
+                    case 11:
+                        return $coal_plans->planning_december;
+                    default:
+                        break;
+                }
+            }
+
             foreach ($processedData as $monthKey => $value) {
                 $bbm_unloading = CoalUnloading::with(['ship', 'dock', 'company'])->whereRaw('receipt_date like ?', ["%" . ("$year-$months[$i]") . "%"]);
                 $bbm_unloading = $bbm_unloading->get();
 
 
-                $processedData[$monthKey]['initial_stock_plan'] = $initialSock->planning;
+                $processedData[$monthKey]['initial_stock_plan'] = $initialStock->planning;
+                $processedData[$monthKey]['cumulative_stock_plan'] = $initialStock->planning;
+                $processedData[$monthKey]['efective_stock_plan'] = $initialStock->planning - 158000;
+                $processedData[0]['initial_stock_realitation'] = $initialStock->planning;
 
                 if (count($bbm_unloading) > 0) {
                     foreach ($bbm_unloading as $key => $item) {
@@ -788,22 +825,20 @@ class ReportBbmController extends Controller
                             $processedData[$monthKey]['accept_plan'] = 0;
                             $processedData[$monthKey]['accept_realitation'] = intval($bbm_unloading->pluck('tug_3_accept')->sum());
 
-                            $processedData[$monthKey]['usage_plan'] = 0;
-                            $processedData[$monthKey]['usage_realitation'] = 0;
-
-
-                            $processedData[$monthKey]['efective_stock_plan'] = 0;
-                            $processedData[$monthKey]['efective_stock_realitation'] = 0;
+                            $processedData[$monthKey]['usage_plan'] = getStock($coal_plans, $i);
+                            $processedData[$monthKey]['usage_realitation'] = $bbm_usage->pluck('amount_use')->sum();
                         }
                     }
                 }
+                $initial_stock_realitation = $initial_stock_realitation + ($processedData[$monthKey]['accept_realitation'] ?? 0);
+                if (isset($processedData[$monthKey + 1])) {
+                    $processedData[$monthKey + 1]['initial_stock_realitation'] = $initial_stock_realitation;
+                }
 
-                $processedData[$monthKey]['initial_stock_realitation'] = ($processedData[$monthKey - 1]['initial_stock_realitation'] ?? $initialSock->planning) + (isset($processedData[$monthKey]['accept_realitation']) ? $processedData[$monthKey]['accept_realitation'] : 0);
+                $processedData[$monthKey]['cumulative_stock_realitation'] = $initial_stock_realitation;
 
-                $processedData[$monthKey]['cumulative_stock_plan'] = $processedData[$monthKey]['initial_stock_plan'];
-                $processedData[$monthKey]['cumulative_stock_realitation'] = $processedData[$monthKey - 1]['initial_stock_realitation'] ?? $initialSock->planning;
+                $processedData[$monthKey]['efective_stock_realitation'] = $initial_stock_realitation - 150000;
 
-                // if ($monthKey == 8) dd($processedData[$monthKey]);
                 $i++;
             }
 
