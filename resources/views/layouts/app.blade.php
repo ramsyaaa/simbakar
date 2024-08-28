@@ -81,7 +81,7 @@
         @yield('content')
     </main>
 
-    <script src="{{ asset('sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
     <!-- End Script SweetAlert -->
 
     <!-- Other scripts -->
