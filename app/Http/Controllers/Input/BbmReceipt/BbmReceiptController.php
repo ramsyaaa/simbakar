@@ -21,6 +21,15 @@ use Illuminate\Http\Request;
 
 class BbmReceiptController extends Controller
 {
+    public $amount_receipts = [
+        "Selisih Volume Level",
+        "Selisih Volume Level (Liter 15)",
+        "Selisih Hasil Sounding",
+        "Selisih Flow Meter",
+        "Faktur",
+        "Faktur Liter 15",
+    ];
+
     public function index(Request $request, $shipment_type)
     {
         $data['shipment_type'] = $shipment_type;
@@ -47,6 +56,7 @@ class BbmReceiptController extends Controller
     public function create($shipment_type)
     {
         $data['shipment_type'] = $shipment_type;
+        $data['amount_receipts'] = $this->amount_receipts;
 
         if($data['shipment_type'] != "ship" && $data['shipment_type'] != 'car'){
             $data['shipment_type'] = "ship";
@@ -123,7 +133,7 @@ class BbmReceiptController extends Controller
             'date_receipt' => 'required',
             'norm_number' => 'required',
             'unit' => 'required',
-            'amount_receipt' => 'required|numeric',
+            'amount_receipt' => 'required',
             'inspector' => 'required',
             'head_of_warehouse' => 'required',
         ], [
@@ -278,6 +288,7 @@ class BbmReceiptController extends Controller
     public function edit($shipment_type, $id)
     {
         $data['shipment_type'] = $shipment_type;
+        $data['amount_receipts'] = $this->amount_receipts;
 
         if($data['shipment_type'] != "ship" && $data['shipment_type'] != 'car'){
             $data['shipment_type'] = "ship";
