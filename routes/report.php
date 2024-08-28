@@ -60,6 +60,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
         Route::get('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
         Route::post('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
+        
+         // no 9
+        Route::get('monitoring-coal-analytic', [MonitoringCoalAnalyticController::class, 'index'])->name('monitoring-coal-analytic');
+        // no 10
+        Route::get('monitoring-supplier', [MonitoringSupplierController::class, 'index'])->name('monitoring-supplier');
     });
 
     Route::group(['prefix' => 'contracts', 'as' => 'contracts.'], function () {

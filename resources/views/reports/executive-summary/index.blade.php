@@ -62,11 +62,11 @@
                         ],
                         [
                             'text' => 'Perbandingan Analisa Kualitas per Pemasok (Loading, Unloading, dan Labor)',
-                            'url' => '#',
+                            'url' => route('reports.executive-summary.monitoring-coal-analytic'),
                         ],
                         [
                             'text' => 'Perbandingan Analisa Kualitas per Waktu (Loading, Unloading, dan Labor)',
-                            'url' => '#',
+                            'url' => route('reports.executive-summary.monitoring-supplier'),
                         ],
                         [
                             'text' => 'Perbandingan Penerimaan Batubara Bulanan (B/L, D/S, B/W, TUG, 3)',
