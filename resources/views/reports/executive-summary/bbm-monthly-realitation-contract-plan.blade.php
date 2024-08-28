@@ -24,7 +24,7 @@
                         <div id="suppliers-fields" class="filter-field">
                             <div class="w-full mb-4 flex items-start gap-0 flex-col">
                                 <label for="suppliers">Pemasok :</label>
-                                <select name="suppliers" id="suppliers" class="select-2 w-full">
+                                <select name="supplier" id="suppliers" class="select-2 w-full">
                                     <option value="">Pilih Pemasok</option>
                                     @foreach ($suppliers as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -44,17 +44,17 @@
                             </div>
                         </div>
 
-                        <div id="contracts-fields" class="filter-field">
+                        <div id="contract-fields" class="filter-field">
                             <div class="w-full mb-4 flex items-start gap-0 flex-col">
-                                <label for="contracts">Kontrak :</label>
-                                <select name="contracts" id="contracts" class="select-2 w-full">
+                                <label for="contract">Kontrak :</label>
+                                <select name="contract" id="contract" class="select-2 w-full">
                                     <option value="">Pilih Kontrak</option>
                                     @foreach ($contracts as $item)
                                         <option value="{{ $item->id }}">{{ $item->type_contract }}</option>
                                     @endforeach
                                 </select>
-                                {{-- <input type="number" id="contracts" name="contracts"
-                                    class="border h-[40px] w-full rounded-lg px-3" value="{{ request('contracts', $contracts) }}"
+                                {{-- <input type="number" id="contract" name="contract"
+                                    class="border h-[40px] w-full rounded-lg px-3" value="{{ request('contract', $contract) }}"
                                     min="2000" max="2100"> --}}
                             </div>
                         </div>
@@ -143,36 +143,27 @@
                                         $i++;
                                     @endphp
                                     <tr>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $i }}</td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">{{ $month }}</td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bl']) ? formatNumber($item['bl']) : '-' }}
+                                            -
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['ds']) ? formatNumber($item['ds']) : '-' }}
-                                        </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bw']) ? formatNumber($item['bw']) : '-' }}
+                                            {{ isset($item['rakor']) ? formatNumber($item['rakor']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
                                             {{ isset($item['tug']) ? formatNumber($item['tug']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['ds_bl']) ? formatNumber($item['ds_bl']) : '-' }}
+                                            {{ isset($item['tug']) ? formatNumber($item['tug'] + $item['rakor']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['ds_bl_percentage']) ? $item['ds_bl_percentage'] : '-' }}
+                                            -
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bw_ds']) ? formatNumber($item['bw_ds']) : '-' }}
+                                            {{ isset($item['tug']) ? formatNumber($item['tug'] + $item['rakor']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bw_ds_percentage']) ? $item['bw_ds_percentage'] : '-' }}
-                                        </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bl_bw']) ? formatNumber($item['bl_bw']) : '-' }}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bl_bw_percentage']) ? $item['bl_bw_percentage'] : '-' }}
+                                            -
                                         </td>
                                     </tr>
                                 @endforeach
@@ -180,64 +171,48 @@
                             @if (count($bbm_unloading) > 0)
                                 <tfoot>
                                     <tr>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Rata-rata
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">Rata-rata
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                             {{ formatNumber(collect($bbm_unloading)->pluck('bl')->sum() / collect($bbm_unloading)->pluck('bl')->count()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('ds')->sum() / collect($bbm_unloading)->pluck('ds')->count()) }}
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('rakor')->sum() / collect($bbm_unloading)->pluck('rakor')->count()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw')->sum() / collect($bbm_unloading)->pluck('bw')->count()) }}
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum() / collect($bbm_unloading)->pluck('rakor')->count()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum() / collect($bbm_unloading)->pluck('tug')->count()) }}
+                                            {{ formatNumber((collect($bbm_unloading)->pluck('tug')->sum() + collect($bbm_unloading)->pluck('rakor')->sum()) / collect($bbm_unloading)->pluck('rakor')->count()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('ds_bl')->sum() / collect($bbm_unloading)->pluck('ds_bl')->count()) }}
+                                            0
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw_ds')->sum() / collect($bbm_unloading)->pluck('bw_ds')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl_bw')->sum() / collect($bbm_unloading)->pluck('bl_bw')->count()) }}
+                                            {{ formatNumber((collect($bbm_unloading)->pluck('tug')->sum() + collect($bbm_unloading)->pluck('rakor')->sum()) / collect($bbm_unloading)->pluck('rakor')->count()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                             -
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Total</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">Total</th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                             {{ formatNumber(collect($bbm_unloading)->pluck('bl')->sum()) }}</th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('ds')->sum()) }}</th>
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('rakor')->sum()) }}</th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw')->sum()) }}</th>
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum()) }}
+                                        </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum()) }}</th>
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('rakor')->sum() + collect($bbm_unloading)->pluck('tug')->sum()) }}
+                                        </th>
 
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                             {{ formatNumber(collect($bbm_unloading)->pluck('ds_bl')->sum()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw_ds')->sum()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl_bw')->sum()) }}
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('rakor')->sum() + collect($bbm_unloading)->pluck('tug')->sum()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                             -

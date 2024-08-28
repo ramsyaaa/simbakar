@@ -127,19 +127,18 @@
                                         $i++;
                                     @endphp
                                     <tr>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $i }}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $month }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item['month'] }}</td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bl']) ? formatNumber($item['bl']) : '-' }}
+                                            {{ isset($item['initial_stock_plan']) ? formatNumber($item['initial_stock_plan']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['ds']) ? formatNumber($item['ds']) : '-' }}
+                                            {{ isset($item['initial_stock_realitation']) ? formatNumber($item['initial_stock_realitation']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bw']) ? formatNumber($item['bw']) : '-' }}
+                                            {{ isset($item['accept_plan']) ? formatNumber($item['accept_plan']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['tug']) ? formatNumber($item['tug']) : '-' }}
+                                            {{ isset($item['accept_realitation']) ? formatNumber($item['accept_realitation']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
                                             {{ isset($item['ds_bl']) ? formatNumber($item['ds_bl']) : '-' }}
@@ -148,10 +147,10 @@
                                             {{ isset($item['ds_bl_percentage']) ? $item['ds_bl_percentage'] : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bw_ds']) ? formatNumber($item['bw_ds']) : '-' }}
+                                            {{ isset($item['cumulative_stock_plan']) ? formatNumber($item['cumulative_stock_plan']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bw_ds_percentage']) ? $item['bw_ds_percentage'] : '-' }}
+                                            {{ isset($item['cumulative_stock_realitation']) ? formatNumber($item['cumulative_stock_realitation']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
                                             {{ isset($item['bl_bw']) ? formatNumber($item['bl_bw']) : '-' }}</td>

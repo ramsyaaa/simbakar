@@ -10,6 +10,8 @@ use App\Models\CoalContract;
 use App\Models\CoalReceiptPlan;
 use App\Models\CoalUnloading;
 use App\Models\CoalUsage;
+use App\Models\DeliveryClause;
+use App\Models\YearStartData;
 use App\Supplier;
 use App\Unit;
 use DateTime;
@@ -699,7 +701,52 @@ class ReportBbmController extends Controller
 
         $data['contracts'] = CoalContract::all();
 
-        $data['bbm_unloading'] = [];
+        $processedData = [];
+        $months = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            array_push($months, Carbon::create()->month($i)->translatedFormat('m'));
+
+            $processedData[Carbon::create()->month($i)->translatedFormat('F')] = [];
+            $rakor = DeliveryClause::where(['month' => $i, 'year' => $year]);
+            if ($contract) {
+                $rakor = $rakor->where('contract_id', $contract);
+            }
+            $rakor = $rakor->get();
+            $rakor = $rakor->pluck('rakor')->sum();
+            $processedData[Carbon::create()->month($i)->translatedFormat('F')]['rakor'] = $rakor;
+        }
+
+        $coal_plans = CoalReceiptPlan::where('year', $year)->first();
+        $units = Unit::all();
+        $i = 0;
+
+        foreach ($processedData as $month => $value) {
+            $bbm_unloading = CoalUnloading::with(['ship', 'dock', 'company'])->whereRaw('receipt_date like ?', ["%" . ("$year-$months[$i]") . "%"]);
+            if ($contract) {
+                $bbm_unloading = $bbm_unloading->whereRaw('contract_id = ?', [$contract]);
+            }
+            if ($supplier) {
+                $bbm_unloading = $bbm_unloading->whereRaw('supplier_id = ?', [$supplier]);
+            }
+            $bbm_unloading = $bbm_unloading->get();
+            $processedData[$month]['stock'] = $coal_plans ? 0 : 0;
+            if (count($bbm_unloading) > 0) {
+                foreach ($bbm_unloading as $key => $item) {
+                    $receipt_date = date('Y-m', strtotime($item->receipt_date));
+                    if ($receipt_date == ("$year-$months[$i]")) {
+                        // Get BBM Usage with receipt date
+                        $bbm_usage = CoalUsage::with(['unit'])->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
+                        // get All Unit Value
+
+                    }
+                }
+            }
+            $i++;
+        }
+
+
+        $data['bbm_unloading'] = $processedData;
         return view('reports.executive-summary.bbm-monthly-realitation-contract-plan', $data);
     }
 
@@ -709,7 +756,60 @@ class ReportBbmController extends Controller
         $year = $request->get('year') ?? date('Y', time());
         $data['year'] = $year;
 
-        $data['bbm_unloading'] = [];
+
+        $processedData = [];
+        $months = [];
+        $initialSock = YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
+        if ($initialSock) {
+
+            for ($i = 1; $i <= 12; $i++) {
+                array_push($months, Carbon::create()->month($i)->translatedFormat('m'));
+                $processedData[]['month'] = Carbon::create()->month($i)->translatedFormat('F');
+            }
+
+            $coal_plans = CoalReceiptPlan::where('year', $year)->first();
+            $units = Unit::all();
+            $i = 0;
+            foreach ($processedData as $monthKey => $value) {
+                $bbm_unloading = CoalUnloading::with(['ship', 'dock', 'company'])->whereRaw('receipt_date like ?', ["%" . ("$year-$months[$i]") . "%"]);
+                $bbm_unloading = $bbm_unloading->get();
+
+
+                $processedData[$monthKey]['initial_stock_plan'] = $initialSock->planning;
+
+                if (count($bbm_unloading) > 0) {
+                    foreach ($bbm_unloading as $key => $item) {
+                        $receipt_date = date('Y-m', strtotime($item->receipt_date));
+                        if ($receipt_date == ("$year-$months[$i]")) {
+                            // Get BBM Usage with receipt date
+                            $bbm_usage = CoalUsage::with(['unit'])->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
+                            // get All Unit Value
+
+                            $processedData[$monthKey]['accept_plan'] = 0;
+                            $processedData[$monthKey]['accept_realitation'] = intval($bbm_unloading->pluck('tug_3_accept')->sum());
+
+                            $processedData[$monthKey]['usage_plan'] = 0;
+                            $processedData[$monthKey]['usage_realitation'] = 0;
+
+
+                            $processedData[$monthKey]['efective_stock_plan'] = 0;
+                            $processedData[$monthKey]['efective_stock_realitation'] = 0;
+                        }
+                    }
+                }
+
+                $processedData[$monthKey]['initial_stock_realitation'] = ($processedData[$monthKey - 1]['initial_stock_realitation'] ?? $initialSock->planning) + (isset($processedData[$monthKey]['accept_realitation']) ? $processedData[$monthKey]['accept_realitation'] : 0);
+
+                $processedData[$monthKey]['cumulative_stock_plan'] = $processedData[$monthKey]['initial_stock_plan'];
+                $processedData[$monthKey]['cumulative_stock_realitation'] = $processedData[$monthKey - 1]['initial_stock_realitation'] ?? $initialSock->planning;
+
+                // if ($monthKey == 8) dd($processedData[$monthKey]);
+                $i++;
+            }
+
+            $data['bbm_unloading'] = $processedData;
+        }
+
         return view('reports.executive-summary.bbm-monthly-usage-realitation', $data);
     }
 
