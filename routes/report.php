@@ -9,13 +9,17 @@ use App\Http\Controllers\Report\Supplies\SuppliesController;
 use App\Http\Controllers\Report\Unloading\UnloadingController;
 use App\Http\Controllers\Report\Contract\SpotMonthlyController;
 use App\Http\Controllers\Report\BeritaAcara\BeritaAcaraController;
+use App\Http\Controllers\Report\CoalQuality\CoalAllItemController;
 use App\Http\Controllers\Report\CoalQuality\CoalQualityController;
 use App\Http\Controllers\Report\Contract\EvaluationCoalController;
 use App\Http\Controllers\Report\Contract\MonitoringCoalController;
 use App\Http\Controllers\Report\Performance\PerformanceController;
 use App\Http\Controllers\Report\Contract\CoalAllContractController;
+use App\Http\Controllers\Report\CoalQuality\CoalComparisonController;
 use App\Http\Controllers\Report\ExecutiveSummary\ReportBbmController;
 use App\Http\Controllers\Report\Contract\CoalRecapitulationController;
+use App\Http\Controllers\Report\CoalQuality\CoalCalorMonthlyController;
+use App\Http\Controllers\Report\CoalQuality\CoalCalorSupplierController;
 use App\Http\Controllers\Report\HeavyEquipment\HeavyEquipmentController;
 use App\Http\Controllers\Report\ShipMonitoring\ShipMonitoringController;
 use App\Http\Controllers\Report\ExecutiveSummary\ExecutiveSummaryController;
@@ -29,17 +33,30 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
         Route::get('bbm-receipt-usage-report/{type}', [ReportBbmController::class, 'index'])->name('bbm-receipt-usage');
         Route::post('bbm-receipt-usage-report/{type}', [ReportBbmController::class, 'index'])->name('bbm-receipt-usage');
 
+        // no 1
+        Route::get('bbm-monthly-realitation-contract-plan', [ReportBbmController::class, 'bbmMonthlyRealitationContractPlan'])->name('bbm-monthly-realitation-contract-plan');
+        Route::post('bbm-monthly-realitation-contract-plan', [ReportBbmController::class, 'bbmMonthlyRealitationContractPlan'])->name('bbm-monthly-realitation-contract-plan');
+
+        // no 2
+        Route::get('bbm-monthly-usage-realitation', [ReportBbmController::class, 'bbmMonthlyUsageRealitation'])->name('bbm-monthly-usage-realitation');
+        Route::post('bbm-monthly-usage-realitation', [ReportBbmController::class, 'bbmMonthlyUsageRealitation'])->name('bbm-monthly-usage-realitation');
+
+        // no 3
+        Route::get('bbm-realitation-cumulative-stock', [ReportBbmController::class, 'bbmRealitationCumulativeStock'])->name('bbm-realitation-cumulative-stock');
+        Route::post('bbm-realitation-cumulative-stock', [ReportBbmController::class, 'bbmRealitationCumulativeStock'])->name('bbm-realitation-cumulative-stock');
+
+
         // no 4
-        Route::get('bbm-loading-unloading-efective-stock' , [ReportBbmController::class , 'bbmLoadingUnloadingEfectiveStock' ])->name('bbm-loading-unloading-efective-stock');
-        Route::post('bbm-loading-unloading-efective-stock' , [ReportBbmController::class , 'bbmLoadingUnloadingEfectiveStock' ])->name('bbm-loading-unloading-efective-stock');
+        Route::get('bbm-loading-unloading-efective-stock', [ReportBbmController::class, 'bbmLoadingUnloadingEfectiveStock'])->name('bbm-loading-unloading-efective-stock');
+        Route::post('bbm-loading-unloading-efective-stock', [ReportBbmController::class, 'bbmLoadingUnloadingEfectiveStock'])->name('bbm-loading-unloading-efective-stock');
 
         // no 11
-        Route::get('bbm-unloading-month-comparison' , [ReportBbmController::class, 'bbmUnloadingMonthComparison'])->name('bbm-unloading-month-comparison');
-        Route::post('bbm-unloading-month-comparison' , [ReportBbmController::class, 'bbmUnloadingMonthComparison'])->name('bbm-unloading-month-comparison');
+        Route::get('bbm-unloading-month-comparison', [ReportBbmController::class, 'bbmUnloadingMonthComparison'])->name('bbm-unloading-month-comparison');
+        Route::post('bbm-unloading-month-comparison', [ReportBbmController::class, 'bbmUnloadingMonthComparison'])->name('bbm-unloading-month-comparison');
 
         // no 12
-        Route::get('bbm-unloading-month-realitation' , [ReportBbmController::class, 'bbmUnloadingMonthRealitation'])->name('bbm-unloading-month-realitation');
-        Route::post('bbm-unloading-month-realitation' , [ReportBbmController::class, 'bbmUnloadingMonthRealitation'])->name('bbm-unloading-month-realitation');
+        Route::get('bbm-unloading-month-realitation', [ReportBbmController::class, 'bbmUnloadingMonthRealitation'])->name('bbm-unloading-month-realitation');
+        Route::post('bbm-unloading-month-realitation', [ReportBbmController::class, 'bbmUnloadingMonthRealitation'])->name('bbm-unloading-month-realitation');
 
         Route::get('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
         Route::post('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
@@ -68,6 +85,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
     Route::group(['prefix' => 'coal-quality', 'as' => 'coal-quality.'], function () {
         Route::get('', [CoalQualityController::class, 'index'])->name('index');
+        Route::get('coal-comparison', [CoalComparisonController::class, 'index'])->name('coal-comparison');
+        Route::get('coal-calor-monthly', [CoalCalorMonthlyController::class, 'index'])->name('coal-calor-monthly');
+        Route::get('coal-calor-supplier', [CoalCalorSupplierController::class, 'index'])->name('coal-calor-supplier');
+        Route::get('coal-all-item', [CoalAllItemController::class, 'index'])->name('coal-all-item');
     });
 
     Route::group(['prefix' => 'unloading', 'as' => 'unloading.'], function () {
@@ -94,6 +115,4 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
     Route::group(['prefix' => 'ship-monitoring', 'as' => 'ship-monitoring.'], function () {
         Route::get('', [ShipMonitoringController::class, 'index'])->name('index');
     });
-
-
 });

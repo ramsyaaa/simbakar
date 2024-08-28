@@ -34,7 +34,9 @@
                 </form>
             </div>
 
-            <div id="my-pdf" class="bg-white rounded-lg p-6">
+            <div id="my-pdf">
+                <div class="body bg-white rounded-lg p-6">
+
                 <div class="flex justify-between items-center mb-4">
                     <div>
                         <img src="{{asset('logo.png')}}" alt="" width="200">
@@ -108,6 +110,7 @@
                     </div>
                     @endisset
                 </div>
+            </div>
         </div>
     </div>
 </div>

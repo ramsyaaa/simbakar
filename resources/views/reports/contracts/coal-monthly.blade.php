@@ -34,14 +34,15 @@
             </div>
 
             <div id="my-pdf" class="bg-white rounded-lg p-6">
+                <div class="body">
+
                 <div class="flex justify-between items-center mb-4">
                     <div>
                         <img src="{{asset('logo.png')}}" alt="" width="200">
                         <p class="text-right">UBP SURALAYA</p>
                     </div>
                     <div class="text-center text-[20px] font-bold">
-                        <p>Laporan Pemakaian</p>
-                        {{-- <p>No: {{$tug->bpb_number}}/IBPB/UBPSLA/PBB/{{date('Y')}}</p> --}}
+                        <p>RENCANA DAN REALISASI KONTRAK BATUBARA TAHUN {{ request()->year ?? ''}}</p>
                     </div>
                     <div></div>
                 </div>
@@ -128,6 +129,8 @@
                     </table>
                 </div>
             </div>
+        </div>
+
         </div>
     </div>
 </div>

@@ -43,3 +43,4 @@ Route::post('get-contract', [ApiFetchController::class, 'getContract'])->name('g
 Route::post('get-number', [ApiFetchController::class, 'getNumber'])->name('getNumber');
 Route::post('get-supplier-contract', [ApiFetchController::class, 'getSupplierContract'])->name('getSupplierContract');
 Route::post('get-certificate', [ApiFetchController::class, 'getCertificate'])->name('getCertificate');
+Route::post('get-contract-ship', [ApiFetchController::class, 'getContractShip'])->name('getContractShip');

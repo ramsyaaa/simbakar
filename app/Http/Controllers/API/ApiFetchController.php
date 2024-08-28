@@ -121,4 +121,15 @@ class ApiFetchController extends Controller
 
    }
 
+   public function getContractShip(Request $request){
+
+    return CoalUnloading::where('supplier_id', $request->supplier_id)
+    ->where('ship_id',$request->ship_id)
+    ->whereNotNull('analysis_loading_id')
+    ->whereNotNull('analysis_unloading_id')
+    ->whereNotNull('analysis_labor_id')
+    ->get();
+
+   }
+
 }

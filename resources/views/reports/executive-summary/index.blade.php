@@ -22,9 +22,18 @@
             <div class="w-full flex flex-col gap-4 my-4 mt-4 px-8">
                 @php
                     $dataReport = [
-                        ['text' => 'Rencana Realisasi Kontrak Batubara Bulanan', 'url' => '#'],
-                        ['text' => 'Rencana Realisasi Pemakaian Batubara & Produksi Listrik Bulanan', 'url' => '#'],
-                        ['text' => 'Realisasi Persediaan Kumulatif Batubara', 'url' => '#'],
+                        [
+                            'text' => 'Rencana Realisasi Kontrak Batubara Bulanan',
+                            'url' => route('reports.executive-summary.bbm-monthly-realitation-contract-plan'),
+                        ],
+                        [
+                            'text' => 'Rencana Realisasi Pemakaian Batubara & Produksi Listrik Bulanan',
+                            'url' => route('reports.executive-summary.bbm-monthly-usage-realitation'),
+                        ],
+                        [
+                            'text' => 'Realisasi Persediaan Kumulatif Batubara',
+                            'url' => route('reports.executive-summary.bbm-realitation-cumulative-stock'),
+                        ],
                         [
                             'text' => 'Realisasi Penerimaan, Pemakaian dan Persediaan Efektif Batubara',
                             'url' => route('reports.executive-summary.bbm-loading-unloading-efective-stock'),

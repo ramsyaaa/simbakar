@@ -44,7 +44,7 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Alat Berat</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Unit</th>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="13">Bulan</th>
                             </tr>
                             <tr>

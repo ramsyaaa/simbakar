@@ -70,7 +70,12 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="order_number" class="font-bold text-[#232D42] text-[16px]">No Pemesanan</label>
                                     <div class="relative">
-                                        <input type="text" name="order_number" value="{{ old('order_number') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="order_number" id="order_number" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <option value="">Pilih</option>
+                                            @foreach ($bbm_books as $item)
+                                                <option value="{{ $item->uuid }}" {{ old('order_number') == $item->uuid ? 'selected' : '' }}>{{ $item->order_number }}</option>
+                                            @endforeach
+                                        </select>
                                         @error('order_number')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -394,7 +399,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-full flex gap-4">
+                            {{-- <div class="w-full flex gap-4">
                                 <div class="w-full lg:w-6/12">
                                     <label for="ubl_obs" class="font-bold text-[#232D42] text-[16px]">UBL (OBS) (sebelum load)</label>
                                     <div class="relative">
@@ -417,7 +422,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="w-full flex gap-4">
                                 <div class="w-full lg:w-6/12">
                                     <label for="ual_obs" class="font-bold text-[#232D42] text-[16px]">UAL (OBS) (setelah load)</label>
