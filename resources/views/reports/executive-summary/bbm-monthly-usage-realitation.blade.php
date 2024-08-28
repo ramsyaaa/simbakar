@@ -10,293 +10,310 @@
         @include('components.sidebar')
         <div :class="sidebar ? 'w-10/12' : 'w-full'">
             @include('components.header')
-            <div class="w-full py-10 px-8">
-                <div class="flex items-end justify-between mb-2">
-                    <div>
-                        <div class="text-[#135F9C] text-[40px] font-bold">
-                            Rencana Realisasi Kontrak Batubara Bulanan
-                        </div>
-                    </div>
-                </div>
-                <div class="w-full flex justify-center mb-6">
-                    <form method="POST" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
-                        @csrf
-                        <div id="year-fields" class="filter-field">
-                            <div class="w-full mb-4 flex flex-col gap-2">
-                                <label for="year">Tahun:</label>
-                                <input type="number" id="year" name="year"
-                                    class="border h-[40px] w-full rounded-lg px-3" value="{{ request('year', $year) }}"
-                                    min="2000" max="2100">
+            <div class="h-screen overflow-y-auto">
+
+                <div class="w-full py-10 px-8">
+                    <div class="flex items-end justify-between mb-2">
+                        <div>
+                            <div class="text-[#135F9C] text-[40px] font-bold">
+                                Rencana Realisasi Kontrak Batubara Bulanan
                             </div>
                         </div>
+                    </div>
+                    <div class="w-full flex justify-center mb-6">
+                        <form method="POST" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
+                            @csrf
+                            <div id="year-fields" class="filter-field">
+                                <div class="w-full mb-4 flex flex-col gap-2">
+                                    <label for="year">Tahun:</label>
+                                    <input type="number" id="year" name="year"
+                                        class="border h-[40px] w-full rounded-lg px-3" value="{{ request('year', $year) }}"
+                                        min="2000" max="2100">
+                                </div>
+                            </div>
 
-                        <div class="flex items-center gap-4">
-                            <label for="grafik" class="flex items-center gap-2">
-                                <input id="grafik" checked name="display" type="checkbox" value="grafik">
-                                Grafik
-                            </label>
-                            <label for="table" class="flex items-center gap-2">
-                                <input id="table" checked name="display" type="checkbox" value="table">
-                                Tabel
-                            </label>
-                        </div>
+                            <div class="flex items-center gap-4">
+                                <label for="grafik" class="flex items-center gap-2">
+                                    <input id="grafik" checked name="display" type="checkbox" value="grafik">
+                                    Grafik
+                                </label>
+                                <label for="table" class="flex items-center gap-2">
+                                    <input id="table" checked name="display" type="checkbox" value="table">
+                                    Tabel
+                                </label>
+                            </div>
 
-                        <div class="w-full flex justify-end gap-2">
-                            <button type="button"
-                                class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg"
-                                onclick="handlePrint()">Print</button>
-                            <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg"
-                                type="submit">Filter</button>
-                        </div>
-                    </form>
+                            <div class="w-full flex justify-end gap-2">
+                                <button type="button"
+                                    class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg"
+                                    onclick="handlePrint()">Print</button>
+                                <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg"
+                                    type="submit">Filter</button>
+                            </div>
+                        </form>
+                    </div>
+
+
                 </div>
+                <div class="px-8 -mt-8 mb-4" id="my-pdf">
+                    <style>
+                        table {
+                            width: 100% !important;
+                            border-collapse: collapse !important;
+                            page-break-inside: auto !important;
+                        }
+
+                        tr {
+                            page-break-inside: avoid !important;
+                            page-break-after: auto !important;
+                        }
+
+                        th,
+                        td {
+                            text-align: center !important;
+                            font-size: 12px !important
+                        }
+
+                        thead {
+                            display: table-header-group !important;
+                        }
+
+                        tfoot {
+                            display: table-footer-group !important;
+                        }
+                    </style>
+
+                    <div class="bg-white display-table rounded-lg p-6">
+                        <div class="overflow-auto hide-scrollbar max-w-full">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Bulan</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                            rowspan="1">
+                                            Stok Awal</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                            rowspan="1">
+                                            Penerimaan</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                            rowspan="1">
+                                            Pemakaian</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                            rowspan="1">
+                                            Stok Kumulatif</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                            rowspan="1">
+                                            Stok Efektif</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
+
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
 
 
-            </div>
-            <div class="px-8 -mt-8 mb-4" id="my-pdf">
-                <style>
-                    table {
-                        width: 100% !important;
-                        border-collapse: collapse !important;
-                        page-break-inside: auto !important;
-                    }
-
-                    tr {
-                        page-break-inside: avoid !important;
-                        page-break-after: auto !important;
-                    }
-
-                    th,
-                    td {
-                        text-align: center !important;
-                        font-size: 12px !important
-                    }
-
-                    thead {
-                        display: table-header-group !important;
-                    }
-
-                    tfoot {
-                        display: table-footer-group !important;
-                    }
-                </style>
-
-                <div class="bg-white display-table rounded-lg p-6">
-                    <div class="overflow-auto hide-scrollbar max-w-full">
-                        <table class="w-full">
-                            <thead>
-                                <tr>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Bulan</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2" rowspan="1">
-                                        Stok Awal</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2" rowspan="1">
-                                        Penerimaan</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2" rowspan="1">
-                                        Pemakaian</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2" rowspan="1">
-                                        Stok Kumulatif</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2" rowspan="1">
-                                        Stok Efektif</th>
-                                </tr>
-                                <tr>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
-
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
 
 
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
 
 
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
-
-
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $i = 0;
-                                @endphp
-                                @foreach ($bbm_unloading as $month => $item)
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     @php
-                                        $i++;
+                                        $i = 0;
                                     @endphp
-                                    <tr>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item['month'] }}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['initial_stock_plan']) ? formatNumber($item['initial_stock_plan']) : '-' }}
-                                        </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['initial_stock_realitation']) ? formatNumber($item['initial_stock_realitation']) : '-' }}
-                                        </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['accept_plan']) ? formatNumber($item['accept_plan']) : '-' }}
-                                        </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['accept_realitation']) ? formatNumber($item['accept_realitation']) : '-' }}
-                                        </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['ds_bl']) ? formatNumber($item['ds_bl']) : '-' }}
-                                        </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['ds_bl_percentage']) ? $item['ds_bl_percentage'] : '-' }}
-                                        </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['cumulative_stock_plan']) ? formatNumber($item['cumulative_stock_plan']) : '-' }}
-                                        </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['cumulative_stock_realitation']) ? formatNumber($item['cumulative_stock_realitation']) : '-' }}
-                                        </td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bl_bw']) ? formatNumber($item['bl_bw']) : '-' }}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['bl_bw_percentage']) ? $item['bl_bw_percentage'] : '-' }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                            @if (count($bbm_unloading) > 0)
-                                <tfoot>
-                                    <tr>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Rata-rata
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl')->sum() / collect($bbm_unloading)->pluck('bl')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('ds')->sum() / collect($bbm_unloading)->pluck('ds')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw')->sum() / collect($bbm_unloading)->pluck('bw')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum() / collect($bbm_unloading)->pluck('tug')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('ds_bl')->sum() / collect($bbm_unloading)->pluck('ds_bl')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw_ds')->sum() / collect($bbm_unloading)->pluck('bw_ds')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl_bw')->sum() / collect($bbm_unloading)->pluck('bl_bw')->count()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Total</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl')->sum()) }}</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('ds')->sum()) }}</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw')->sum()) }}</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum()) }}</th>
+                                    @foreach ($bbm_unloading as $month => $item)
+                                        @php
+                                            $i++;
+                                        @endphp
+                                        <tr>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item['month'] }}
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                {{ isset($item['initial_stock_plan']) ? formatNumber($item['initial_stock_plan']) : '-' }}
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                {{ isset($item['initial_stock_realitation']) ? formatNumber($item['initial_stock_realitation']) : '-' }}
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                {{ isset($item['accept_plan']) ? formatNumber($item['accept_plan']) : '-' }}
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                {{ isset($item['accept_realitation']) ? formatNumber($item['accept_realitation']) : '-' }}
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                {{ isset($item['usage_plan']) ? formatNumber($item['usage_plan']) : '-' }}
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                {{ isset($item['usage_realitation']) ? formatNumber($item['usage_realitation']) : '-' }}
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                {{ isset($item['cumulative_stock_plan']) ? formatNumber($item['cumulative_stock_plan']) : '-' }}
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                {{ isset($item['cumulative_stock_realitation']) ? formatNumber($item['cumulative_stock_realitation']) : '-' }}
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                {{ isset($item['efective_stock_plan']) ? formatNumber($item['efective_stock_plan']) : '-' }}
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                {{ isset($item['efective_stock_realitation']) ? formatNumber($item['efective_stock_realitation']) : '-' }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                @if (count($bbm_unloading) > 0)
+                                    <tfoot>
+                                        <tr>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">Rata-rata
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('initial_stock_plan')->sum() / collect($bbm_unloading)->pluck('initial_stock_plan')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('initial_stock_realitation')->sum() / collect($bbm_unloading)->pluck('initial_stock_realitation')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('accept_plan')->sum() / collect($bbm_unloading)->pluck('accept_plan')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('accept_realitation')->sum() / collect($bbm_unloading)->pluck('accept_realitation')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('usage_plan')->sum() / collect($bbm_unloading)->pluck('usage_plan')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
 
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('ds_bl')->sum()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bw_ds')->sum()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl_bw')->sum()) }}
-                                        </th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            -
-                                        </th>
-                                    </tr>
-                                </tfoot>
-                            @endif
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('usage_realitation')->sum() / collect($bbm_unloading)->pluck('usage_realitation')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
 
-                        </table>
-                    </div>
-                </div>
-                @if ($year)
-                    <div class="mt-4 pb-10 display-grafik" style="page-break-after: always">
-                        <div class="bg-white rounded-xl p-4 flex flex-col gap-4">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('cumulative_stock_plan')->sum() / collect($bbm_unloading)->pluck('cumulative_stock_plan')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('cumulative_stock_realitation')->sum() / collect($bbm_unloading)->pluck('cumulative_stock_realitation')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_plan')->sum() / collect($bbm_unloading)->pluck('efective_stock_plan')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_realitation')->sum() / collect($bbm_unloading)->pluck('efective_stock_realitation')->count()) }}
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">Total
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('initial_stock_plan')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('initial_stock_realitation')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('accept_plan')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('accept_realitation')->sum()) }}
+                                            </th>
 
-                            <div class="text-[#135F9C] text-xl text-center  font-bold">
-                                Grafik Perbandingan Penerimaan Batubara Bulanan (B/L, D/S, B/W, TUG, 3) Tahun
-                                {{ request('year', $year) }} <br>
-                                Per {{ date('d M Y', time()) }}
-                            </div>
-                            <div class="chart">
-                                <canvas id="chart" class="h-[300px]"></canvas>
-                            </div>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('usage_plan')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('usage_realitation')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('cumulative_stock_plan')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('cumulative_stock_realitation')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_plan')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_realitation')->sum()) }}
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                @endif
+
+                            </table>
                         </div>
                     </div>
+                    {{-- @if ($year)
+                        <div class="mt-4 pb-10 display-grafik" style="page-break-after: always">
+                            <div class="bg-white rounded-xl p-4 flex flex-col gap-4">
 
-                    <script>
-                        const ctx = document.getElementById('chart').getContext('2d');
-                        let bl = {!! json_encode(collect($bbm_unloading)->pluck('bl')->toArray()) !!};
-                        let ds = {!! json_encode(collect($bbm_unloading)->pluck('ds')->toArray()) !!};
-                        let bw = {!! json_encode(collect($bbm_unloading)->pluck('bw')->toArray()) !!};
+                                <div class="text-[#135F9C] text-xl text-center  font-bold">
+                                    Grafik Perbandingan Penerimaan Batubara Bulanan (B/L, D/S, B/W, TUG, 3) Tahun
+                                    {{ request('year', $year) }} <br>
+                                    Per {{ date('d M Y', time()) }}
+                                </div>
+                                <div class="chart">
+                                    <canvas id="chart" class="h-[300px]"></canvas>
+                                </div>
+                            </div>
+                        </div>
 
-                        bl = bl.map((item) => item ? parseInt(item) : 0)
-                        ds = ds.map((item) => item ? parseInt(item) : 0)
-                        bw = bw.map((item) => item ? parseInt(item) : 0)
+                        <script>
+                            const ctx = document.getElementById('chart').getContext('2d');
+                            let bl = {!! json_encode(collect($bbm_unloading)->pluck('bl')->toArray()) !!};
+                            let ds = {!! json_encode(collect($bbm_unloading)->pluck('ds')->toArray()) !!};
+                            let bw = {!! json_encode(collect($bbm_unloading)->pluck('bw')->toArray()) !!};
 
-                        const myBarChart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: {!! json_encode(collect($bbm_unloading)->keys()->toArray()) !!},
-                                datasets: [{
-                                        label: 'BL',
-                                        data: bl,
-                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                        borderColor: 'rgba(255, 99, 132, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'DS',
-                                        data: ds,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'BW',
-                                        data: bw,
-                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                        borderColor: 'rgba(75, 192, 192, 1)',
-                                        borderWidth: 1
-                                    }
-                                ]
-                            },
-                            options: {
-                                scales: {
-                                    x: {
-                                        stacked: false
-                                    },
-                                    y: {
-                                        stacked: false
+                            bl = bl.map((item) => item ? parseInt(item) : 0)
+                            ds = ds.map((item) => item ? parseInt(item) : 0)
+                            bw = bw.map((item) => item ? parseInt(item) : 0)
+
+                            const myBarChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: {!! json_encode(collect($bbm_unloading)->keys()->toArray()) !!},
+                                    datasets: [{
+                                            label: 'BL',
+                                            data: bl,
+                                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                            borderColor: 'rgba(255, 99, 132, 1)',
+                                            borderWidth: 1
+                                        },
+                                        {
+                                            label: 'DS',
+                                            data: ds,
+                                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                            borderColor: 'rgba(54, 162, 235, 1)',
+                                            borderWidth: 1
+                                        },
+                                        {
+                                            label: 'BW',
+                                            data: bw,
+                                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                            borderColor: 'rgba(75, 192, 192, 1)',
+                                            borderWidth: 1
+                                        }
+                                    ]
+                                },
+                                options: {
+                                    scales: {
+                                        x: {
+                                            stacked: false
+                                        },
+                                        y: {
+                                            stacked: false
+                                        }
                                     }
                                 }
-                            }
-                        });
-                    </script>
-                @endif
+                            });
+                        </script>
+                    @endif --}}
+                </div>
             </div>
 
         </div>
@@ -319,18 +336,18 @@
         })
 
         function handlePrint() {
-            let canvas = $('.display-grafik canvas')[0];
-            let chartContainer = $('.chart');
-            var dataUrl = canvas.toDataURL(); // Convert canvas to data URL
-            chartContainer.find('canvas').hide()
-            let el = chartContainer.append(`<img class="w-full" src="${dataUrl}" />`)
+            // let canvas = $('.display-grafik canvas')[0];
+            // let chartContainer = $('.chart');
+            // var dataUrl = canvas.toDataURL(); // Convert canvas to data URL
+            // chartContainer.find('canvas').hide()
+            // let el = chartContainer.append(`<img class="w-full" src="${dataUrl}" />`)
             setTimeout(() => {
                 printPDF()
             }, 1000);
-            setTimeout(() => {
-                chartContainer.find('canvas').show()
-                el.hide()
-            }, 3000);
+            // setTimeout(() => {
+            //     chartContainer.find('canvas').show()
+            //     el.hide()
+            // }, 3000);
         }
     </script>
 @endsection

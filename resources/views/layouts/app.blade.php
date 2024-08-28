@@ -15,9 +15,6 @@
 
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="{{ asset('css/select-2.min.css') }}" rel="stylesheet" />
 
     <!-- Styles -->
@@ -25,6 +22,11 @@
     <script src="{{ asset('js/tailwind.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('src/css/style.css') }}">
     <script defer src="{{ asset('js/alpine.min.js') }}"></script>
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
     <style>
         .select2-container .select2-selection--single {
             height: 40px;
