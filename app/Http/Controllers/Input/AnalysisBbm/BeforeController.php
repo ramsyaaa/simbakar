@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Input\AnalysisBbm;
 
+use App\AnalyticBefore;
+use App\BbmReceipt;
 use App\Ship;
 use App\before;
 use App\Loading;
@@ -14,13 +16,13 @@ class BeforeController extends Controller
 {
     public function index(Request $request)
     {
-        $befores = Loading::query();
+        $befores = AnalyticBefore::query();
 
         $befores->when($request->year, function ($query) use ($request) {
-            $query->whereYear('created_at', $request->year);
+            $query->whereYear('analysis_date', $request->year);
         });
 
-        $data['labors'] = $befores->paginate(10)->appends(request()->query());
+        $data['analytics'] = $befores->paginate(10)->appends(request()->query());
         return view('inputs.analysis-bbm.before.index',$data);
     }
 
@@ -31,9 +33,7 @@ class BeforeController extends Controller
      */
     public function create()
     {
-        $data['contracts'] = CoalContract::get();
-        $data['surveyors'] = Surveyor::get();
-        $data['ships'] = Ship::get();
+        $data['bbm_receipt'] = BbmReceipt::where([['analytic_before_id', '=', null]])->get();
         return view('inputs.analysis-bbm.before.create', $data);
     }
 
@@ -46,136 +46,72 @@ class BeforeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'contract_uuid' => 'required',
-            'surveyor_uuid' => 'required',
-            'ship_uuid' => 'required',
+            'faktur_number' =>'required',
             'analysis_number' => 'required',
             'analysis_date' => 'required',
-            'start_before' => 'required',
-            'end_before' => 'required',
-            'bill_of_ladding' => 'required',
-            'origin_of_goods' => 'required',
-            'moisture_total' => 'required',
-            'ash' => 'required',
-            'fixed_carbon' => 'required',
-            'calorivic_value' => 'required',
-            'air_dried_moisture' => 'required',
-            'volatile_matter' => 'required',
-            'total_sulfur' => 'required',
-            'carbon' => 'required',
-            'nitrogen' => 'required',
-            'hydrogen' => 'required',
-            'oxygen' => 'required',
-            'initial_deformation' => 'required',
-            'hemispherical' => 'required',
-            'softening' => 'required',
-            'fluid' => 'required',
-            'sio2' => 'required',
-            'fe2o3' => 'required',
-            'mgo' => 'required',
-            'k2o' => 'required',
-            'so3' => 'required',
-            'mn3o4' => 'required',
-            'al2o3' => 'required',
-            'cao' => 'required',
-            'na2o' => 'required',
-            'tlo2' => 'required',
-            'p2o5' => 'required',
-            'butiran_70' => 'required',
-            'butiran_50' => 'required',
-            'butiran_32' => 'required',
-            'butiran_32_50' => 'required',
-            'butiran_238' => 'required',
-            'hgi' => 'required',
+            'density' => 'required',
+            'spesific_gravity' => 'required',
+            'kinematic_viscosity' => 'required',
+            'sulfur_content' => 'required',
+            'flash_point' => 'required',
+            'pour_point' => 'required',
+            'carbon_residu' => 'required',
+            'water_content' => 'required',
+            'fame_content' => 'required',
+            'ash_content' => 'required',
+            'sediment_content' => 'required',
+            'calorific_value' => 'required',
+            'sodium' => 'required',
+            'potassium' => 'required',
+            'vanadium' => 'required',
         ], [
-            'contract_uuid.required' => 'No Kontrak wajib diisi',
-            'surveyor_uuid.required' => 'Surveyor wajib diisi',
-            'ship_uuid.required' => 'Kapal wajib diisi',
-            'analysis_number.required' => 'No Analisa wajib diisi',
-            'analysis_date.required' => 'Tanggal analisa wajib diisi',
-            'start_before.required' => 'Tanggal mulai before wajib diisi',
-            'end_before.required' => 'Tanggal selesai before wajib diisi',
-            'bill_of_ladding.required' => 'Bill of ladding wajib diisi',
-            'origin_of_goods.required' => 'Asal barang wajib diisi',
-            'moisture_total.required' => 'Total moisture wajib diisi',
-            'ash.required' => 'Ash wajib diisi',
-            'fixed_carbon.required' => 'Fixed carbon wajib diisi',
-            'calorivic_value.required' => 'Calorivic value wajib diisi',
-            'air_dried_moisture.required' => 'Air dried moisture wajib diisi',
-            'volatile_matter.required' => 'Volatile matter wajib diisi',
-            'total_sulfur.required' => 'Total sulfur wajib diisi',
-            'carbon.required' => 'Carbon wajib diisi',
-            'nitrogen.required' => 'Nitrogen wajib diisi',
-            'hydrogen.required' => 'Hydrogen wajib diisi',
-            'oxygen.required' => 'Oxygen wajib diisi',
-            'initial_deformation.required' => 'Initial deformation wajib diisi',
-            'hemispherical.required' => 'Hemispherical wajib diisi',
-            'softening.required' => 'Softening wajib diisi',
-            'fluid.required' => 'Fluid wajib diisi',
-            'sio2.required' => 'SiO3 wajib diisi',
-            'fe2o3.required' => 'Fe2O3 wajib diisi',
-            'mgo.required' => 'MgO wajib diisi',
-            'k2o.required' => 'K2O wajib diisi',
-            'so3.required' => 'SO3 wajib diisi',
-            'mn3o4.required' => 'Mn3O4 wajib diisi',
-            'al2o3.required' => 'Al2O3 wajib diisi',
-            'cao.required' => 'CaO wajib diisi',
-            'na2o.required' => 'Na2O wajib diisi',
-            'tlo2.required' => 'TlO2 wajib diisi',
-            'p2o5.required' => 'P2O5 wajib diisi',
-            'butiran_70.required' => 'Butiran > 70 mm wajib diisi',
-            'butiran_50.required' => 'Butiran > 50 mm wajib diisi',
-            'butiran_32.required' => 'Butiran < 32 mm wajib diisi',
-            'butiran_32_50.required' => 'Butiran 32 - 50 mm wajib diisi',
-            'butiran_238.required' => 'Butiran < 2,38 mm wajib diisi',
-            'hgi.required' => 'HGI wajib diisi',
+            'faktur_number.required' => 'Nomor faktur wajib dipilih.',
+            'analysis_number.required' => 'Nomor analisis wajib diisi.',
+            'analysis_date.required' => 'Tanggal analisis wajib diisi.',
+            'density.required' => 'Density at 15 C wajib diisi.',
+            'spesific_gravity.required' => 'Specific Gravity at 60/60 F wajib diisi.',
+            'kinematic_viscosity.required' => 'Kinematic Viscosity at 40 wajib diisi.',
+            'sulfur_content.required' => 'Sulfur Content wajib diisi.',
+            'flash_point.required' => 'Flash Point PMcc wajib diisi.',
+            'pour_point.required' => 'Pour Point wajib diisi.',
+            'carbon_residu.required' => 'Carbon residue wajib diisi.',
+            'water_content.required' => 'Water content wajib diisi.',
+            'fame_content.required' => 'FAME content wajib diisi.',
+            'ash_content.required' => 'Ash content wajib diisi.',
+            'sediment_content.required' => 'Sediment content wajib diisi.',
+            'calorific_value.required' => 'Clorific value gross wajib diisi.',
+            'sodium.required' => 'Sodium (Na) wajib diisi.',
+            'potassium.required' => 'Potassium (K) wajib diisi.',
+            'vanadium.required' => 'Vanadium (V) wajib diisi.',
         ]);
 
-        before::create([
-            'contract_uuid' => $request->contract_uuid,
-            'surveyor_uuid' => $request->surveyor_uuid,
-            'ship_uuid' => $request->ship_uuid,
+        $analytic = AnalyticBefore::create([
             'analysis_number' => $request->analysis_number,
             'analysis_date' => $request->analysis_date,
-            'start_before' => $request->start_before,
-            'end_before' => $request->end_before,
-            'bill_of_ladding' => $request->bill_of_ladding,
-            'origin_of_goods' => $request->origin_of_goods,
-            'moisture_total' => $request->moisture_total,
-            'ash' => $request->ash,
-            'fixed_carbon' => $request->fixed_carbon,
-            'calorivic_value' => $request->calorivic_value,
-            'air_dried_moisture' => $request->air_dried_moisture,
-            'volatile_matter' => $request->volatile_matter,
-            'total_sulfur' => $request->total_sulfur,
-            'carbon' => $request->carbon,
-            'nitrogen' => $request->nitrogen,
-            'hydrogen' => $request->hydrogen,
-            'oxygen' => $request->oxygen,
-            'initial_deformation' => $request->initial_deformation,
-            'hemispherical' => $request->hemispherical,
-            'softening' => $request->softening,
-            'fluid' => $request->fluid,
-            'sio2' => $request->sio2,
-            'fe2o3' => $request->fe2o3,
-            'mgo' => $request->mgo,
-            'k2o' => $request->k2o,
-            'so3' => $request->so3,
-            'mn3o4' => $request->mn3o4,
-            'al2o3' => $request->al2o3,
-            'cao' => $request->cao,
-            'na2o' => $request->na2o,
-            'tlo2' => $request->tlo2,
-            'p2o5' => $request->p2o5,
-            'butiran_70' => $request->butiran_70,
-            'butiran_50' => $request->butiran_50,
-            'butiran_32' => $request->butiran_32,
-            'butiran_32_50' => $request->butiran_32_50,
-            'butiran_238' => $request->butiran_238,
-            'hgi' => $request->hgi,
+            'density' => $request->density,
+            'spesific_gravity' => $request->spesific_gravity,
+            'kinematic_viscosity' => $request->kinematic_viscosity,
+            'sulfur_content' => $request->sulfur_content,
+            'flash_point' => $request->flash_point,
+            'pour_point' => $request->pour_point,
+            'carbon_residu' => $request->carbon_residu,
+            'water_content' => $request->water_content,
+            'fame_content' => $request->fame_content,
+            'ash_content' => $request->ash_content,
+            'sediment_content' => $request->sediment_content,
+            'calorific_value' => $request->calorific_value,
+            'sodium' => $request->sodium,
+            'potassium' => $request->potassium,
+            'vanadium' => $request->vanadium,
         ]);
 
-        return redirect(route('inputs.analysis.befores.index'))->with('success', 'before baru baru berhasil dibuat.');
+        BbmReceipt::where([
+            'id' => $request->faktur_number,
+        ])->update([
+            'analytic_before_id' => $analytic->id,
+        ]);
+
+        return redirect(route('inputs.analysis-bbm.befores.index'))->with('success', 'Analisa baru baru berhasil dibuat.');
     }
 
     /**
@@ -197,10 +133,7 @@ class BeforeController extends Controller
      */
     public function edit($id)
     {
-        $data['before'] = before::where('id', $id)->first();
-        $data['contracts'] = CoalContract::get();
-        $data['surveyors'] = Surveyor::get();
-        $data['ships'] = Ship::get();
+        $data['analytic'] = AnalyticBefore::where('id', $id)->first();
         return view('inputs.analysis-bbm.before.edit',$data);
     }
 
@@ -214,136 +147,64 @@ class BeforeController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'contract_uuid' => 'required',
-            'surveyor_uuid' => 'required',
-            'ship_uuid' => 'required',
             'analysis_number' => 'required',
             'analysis_date' => 'required',
-            'start_before' => 'required',
-            'end_before' => 'required',
-            'bill_of_ladding' => 'required',
-            'origin_of_goods' => 'required',
-            'moisture_total' => 'required',
-            'ash' => 'required',
-            'fixed_carbon' => 'required',
-            'calorivic_value' => 'required',
-            'air_dried_moisture' => 'required',
-            'volatile_matter' => 'required',
-            'total_sulfur' => 'required',
-            'carbon' => 'required',
-            'nitrogen' => 'required',
-            'hydrogen' => 'required',
-            'oxygen' => 'required',
-            'initial_deformation' => 'required',
-            'hemispherical' => 'required',
-            'softening' => 'required',
-            'fluid' => 'required',
-            'sio2' => 'required',
-            'fe2o3' => 'required',
-            'mgo' => 'required',
-            'k2o' => 'required',
-            'so3' => 'required',
-            'mn3o4' => 'required',
-            'al2o3' => 'required',
-            'cao' => 'required',
-            'na2o' => 'required',
-            'tlo2' => 'required',
-            'p2o5' => 'required',
-            'butiran_70' => 'required',
-            'butiran_50' => 'required',
-            'butiran_32' => 'required',
-            'butiran_32_50' => 'required',
-            'butiran_238' => 'required',
-            'hgi' => 'required',
+            'density' => 'required',
+            'spesific_gravity' => 'required',
+            'kinematic_viscosity' => 'required',
+            'sulfur_content' => 'required',
+            'flash_point' => 'required',
+            'pour_point' => 'required',
+            'carbon_residu' => 'required',
+            'water_content' => 'required',
+            'fame_content' => 'required',
+            'ash_content' => 'required',
+            'sediment_content' => 'required',
+            'calorific_value' => 'required',
+            'sodium' => 'required',
+            'potassium' => 'required',
+            'vanadium' => 'required',
         ], [
-            'contract_uuid.required' => 'No Kontrak wajib diisi',
-            'surveyor_uuid.required' => 'Surveyor wajib diisi',
-            'ship_uuid.required' => 'Kapal wajib diisi',
-            'analysis_number.required' => 'No Analisa wajib diisi',
-            'analysis_date.required' => 'Tanggal analisa wajib diisi',
-            'start_before.required' => 'Tanggal mulai before wajib diisi',
-            'end_before.required' => 'Tanggal selesai before wajib diisi',
-            'bill_of_ladding.required' => 'Bill of ladding wajib diisi',
-            'origin_of_goods.required' => 'Asal barang wajib diisi',
-            'moisture_total.required' => 'Total moisture wajib diisi',
-            'ash.required' => 'Ash wajib diisi',
-            'fixed_carbon.required' => 'Fixed carbon wajib diisi',
-            'calorivic_value.required' => 'Calorivic value wajib diisi',
-            'air_dried_moisture.required' => 'Air dried moisture wajib diisi',
-            'volatile_matter.required' => 'Volatile matter wajib diisi',
-            'total_sulfur.required' => 'Total sulfur wajib diisi',
-            'carbon.required' => 'Carbon wajib diisi',
-            'nitrogen.required' => 'Nitrogen wajib diisi',
-            'hydrogen.required' => 'Hydrogen wajib diisi',
-            'oxygen.required' => 'Oxygen wajib diisi',
-            'initial_deformation.required' => 'Initial deformation wajib diisi',
-            'hemispherical.required' => 'Hemispherical wajib diisi',
-            'softening.required' => 'Softening wajib diisi',
-            'fluid.required' => 'Fluid wajib diisi',
-            'sio2.required' => 'SiO3 wajib diisi',
-            'fe2o3.required' => 'Fe2O3 wajib diisi',
-            'mgo.required' => 'MgO wajib diisi',
-            'k2o.required' => 'K2O wajib diisi',
-            'so3.required' => 'SO3 wajib diisi',
-            'mn3o4.required' => 'Mn3O4 wajib diisi',
-            'al2o3.required' => 'Al2O3 wajib diisi',
-            'cao.required' => 'CaO wajib diisi',
-            'na2o.required' => 'Na2O wajib diisi',
-            'tlo2.required' => 'TlO2 wajib diisi',
-            'p2o5.required' => 'P2O5 wajib diisi',
-            'butiran_70.required' => 'Butiran > 70 mm wajib diisi',
-            'butiran_50.required' => 'Butiran > 50 mm wajib diisi',
-            'butiran_32.required' => 'Butiran < 32 mm wajib diisi',
-            'butiran_32_50.required' => 'Butiran 32 - 50 mm wajib diisi',
-            'butiran_238.required' => 'Butiran < 2,38 mm wajib diisi',
-            'hgi.required' => 'HGI wajib diisi',
+            'analysis_number.required' => 'Nomor analisis wajib diisi.',
+            'analysis_date.required' => 'Tanggal analisis wajib diisi.',
+            'density.required' => 'Density at 15 C wajib diisi.',
+            'spesific_gravity.required' => 'Specific Gravity at 60/60 F wajib diisi.',
+            'kinematic_viscosity.required' => 'Kinematic Viscosity at 40 wajib diisi.',
+            'sulfur_content.required' => 'Sulfur Content wajib diisi.',
+            'flash_point.required' => 'Flash Point PMcc wajib diisi.',
+            'pour_point.required' => 'Pour Point wajib diisi.',
+            'carbon_residu.required' => 'Carbon residue wajib diisi.',
+            'water_content.required' => 'Water content wajib diisi.',
+            'fame_content.required' => 'FAME content wajib diisi.',
+            'ash_content.required' => 'Ash content wajib diisi.',
+            'sediment_content.required' => 'Sediment content wajib diisi.',
+            'calorific_value.required' => 'Clorific value gross wajib diisi.',
+            'sodium.required' => 'Sodium (Na) wajib diisi.',
+            'potassium.required' => 'Potassium (K) wajib diisi.',
+            'vanadium.required' => 'Vanadium (V) wajib diisi.',
         ]);
 
-        before::where('id',$id)->update([
-            'contract_uuid' => $request->contract_uuid,
-            'surveyor_uuid' => $request->surveyor_uuid,
-            'ship_uuid' => $request->ship_uuid,
+        AnalyticBefore::where('id',$id)->update([
             'analysis_number' => $request->analysis_number,
             'analysis_date' => $request->analysis_date,
-            'start_before' => $request->start_before,
-            'end_before' => $request->end_before,
-            'bill_of_ladding' => $request->bill_of_ladding,
-            'origin_of_goods' => $request->origin_of_goods,
-            'moisture_total' => $request->moisture_total,
-            'ash' => $request->ash,
-            'fixed_carbon' => $request->fixed_carbon,
-            'calorivic_value' => $request->calorivic_value,
-            'air_dried_moisture' => $request->air_dried_moisture,
-            'volatile_matter' => $request->volatile_matter,
-            'total_sulfur' => $request->total_sulfur,
-            'carbon' => $request->carbon,
-            'nitrogen' => $request->nitrogen,
-            'hydrogen' => $request->hydrogen,
-            'oxygen' => $request->oxygen,
-            'initial_deformation' => $request->initial_deformation,
-            'hemispherical' => $request->hemispherical,
-            'softening' => $request->softening,
-            'fluid' => $request->fluid,
-            'sio2' => $request->sio2,
-            'fe2o3' => $request->fe2o3,
-            'mgo' => $request->mgo,
-            'k2o' => $request->k2o,
-            'so3' => $request->so3,
-            'mn3o4' => $request->mn3o4,
-            'al2o3' => $request->al2o3,
-            'cao' => $request->cao,
-            'na2o' => $request->na2o,
-            'tlo2' => $request->tlo2,
-            'p2o5' => $request->p2o5,
-            'butiran_70' => $request->butiran_70,
-            'butiran_50' => $request->butiran_50,
-            'butiran_32' => $request->butiran_32,
-            'butiran_32_50' => $request->butiran_32_50,
-            'butiran_238' => $request->butiran_238,
-            'hgi' => $request->hgi,
+            'density' => $request->density,
+            'spesific_gravity' => $request->spesific_gravity,
+            'kinematic_viscosity' => $request->kinematic_viscosity,
+            'sulfur_content' => $request->sulfur_content,
+            'flash_point' => $request->flash_point,
+            'pour_point' => $request->pour_point,
+            'carbon_residu' => $request->carbon_residu,
+            'water_content' => $request->water_content,
+            'fame_content' => $request->fame_content,
+            'ash_content' => $request->ash_content,
+            'sediment_content' => $request->sediment_content,
+            'calorific_value' => $request->calorific_value,
+            'sodium' => $request->sodium,
+            'potassium' => $request->potassium,
+            'vanadium' => $request->vanadium,
         ]);
 
-        return redirect(route('inputs.analysis.befores.index'))->with('success', 'before berhasil diubah.');
+        return redirect(route('inputs.analysis-bbm.befores.index'))->with('success', 'Analisa berhasil diubah.');
     }
 
     /**
@@ -354,8 +215,8 @@ class BeforeController extends Controller
      */
     public function destroy($id)
     {
-        before::where('id',$id)->first()->delete();
+        AnalyticBefore::where('id',$id)->first()->delete();
 
-        return redirect(route('inputs.analysis.befores.index'))->with('success', 'before berhasil dihapus.');
+        return redirect(route('inputs.analysis-bbm.befores.index'))->with('success', 'Analisa berhasil dihapus.');
     }
 }

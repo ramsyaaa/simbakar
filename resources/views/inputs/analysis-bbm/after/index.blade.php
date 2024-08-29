@@ -16,21 +16,21 @@
                     </div>
                 </div>
                 <div class="flex gap-2 items-center">
-                    <a href="{{ route('inputs.analysis.labors.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
+                    <a href="{{ route('inputs.analysis-bbm.afters.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
                         Tambah Data
                     </a>
                 </div>
             </div>
             <div class="w-full flex gap-4 items-center my-4">
                 <a href="{{ route('inputs.analysis-bbm.befores.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
-                    Before
+                    Sebelum Pembongkaran
                 </a>
                 <a href="#" class="w-3/12 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
-                    After
+                    Setelah Pembongkaran
                 </a>
             </div>
             <div class="bg-white rounded-lg p-6">
-                <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.analysis.labors.index') }}" method="GET" id="filterForm">
+                <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.analysis-bbm.afters.index') }}" method="GET" id="filterForm">
                     <div class="lg:flex items-center justify-between gap-2 w-full mb-3">
                         <div class="w-full mb-2 lg:mb-0">
                             <select id="year" name="year" class="w-[350px] h-[44px] rounded-md border px-2" autofocus>
@@ -48,36 +48,27 @@
                         <thead>
                             <tr>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal Bongkar</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nama Kapal</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal Analisa</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No Analisa</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($labors as $item)
+                            @foreach ($analytics as $item)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->start_unloading)->format('d F Y') }} - {{ \Carbon\Carbon::parse($item->end_unloading)->format('d F Y') }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->ship != null ? $item->ship->name : '-' }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->analysis_date)->format('d F Y') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->analysis_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{ route('inputs.analysis.labors.edit', ['id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                    <a href="{{ route('inputs.analysis-bbm.afters.edit', ['id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit
                                     </a>
-                                    <form onsubmit="return confirmSubmit(this, 'Hapus Data?')" action="{{ route('inputs.analysis.labors.destroy', ['id' => $item->id]) }}" method="POST">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="bg-[#C03221] text-white w-[80px] h-[25px] text-[16px] rounded-md">
-                                            Delete
-                                        </button>
-                                    </form>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $labors->links() }}
+                    {{ $analytics->links() }}
                 </div>
             </div>
         </div>

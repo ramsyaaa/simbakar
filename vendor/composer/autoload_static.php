@@ -696,6 +696,8 @@ class ComposerStaticInitc34933d503ac62cddb12489293594bd6
     );
 
     public static $classMap = array (
+        'App\\AnalyticAfter' => __DIR__ . '/../..' . '/app/AnalyticAfter.php',
+        'App\\AnalyticBefore' => __DIR__ . '/../..' . '/app/AnalyticBefore.php',
         'App\\BbmReceipt' => __DIR__ . '/../..' . '/app/BbmReceipt.php',
         'App\\BbmUsage' => __DIR__ . '/../..' . '/app/BbmUsage.php',
         'App\\BunkerSounding' => __DIR__ . '/../..' . '/app/BunkerSounding.php',

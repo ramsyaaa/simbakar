@@ -6,6 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\AnalyticAfter' => $baseDir . '/app/AnalyticAfter.php',
+    'App\\AnalyticBefore' => $baseDir . '/app/AnalyticBefore.php',
     'App\\BbmReceipt' => $baseDir . '/app/BbmReceipt.php',
     'App\\BbmUsage' => $baseDir . '/app/BbmUsage.php',
     'App\\BunkerSounding' => $baseDir . '/app/BunkerSounding.php',
