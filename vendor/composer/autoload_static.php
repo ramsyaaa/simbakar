@@ -744,6 +744,8 @@ class ComposerStaticInitc34933d503ac62cddb12489293594bd6
         'App\\Http\\Controllers\\InitialData\\ElectricityProductionController' => __DIR__ . '/../..' . '/app/Http/Controllers/InitialData/ElectricityProductionController.php',
         'App\\Http\\Controllers\\InitialData\\SettingBpbController' => __DIR__ . '/../..' . '/app/Http/Controllers/InitialData/SettingBpbController.php',
         'App\\Http\\Controllers\\InitialData\\YearStartDataController' => __DIR__ . '/../..' . '/app/Http/Controllers/InitialData/YearStartDataController.php',
+        'App\\Http\\Controllers\\Input\\AnalysisBbm\\AfterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Input/AnalysisBbm/AfterController.php',
+        'App\\Http\\Controllers\\Input\\AnalysisBbm\\BeforeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Input/AnalysisBbm/BeforeController.php',
         'App\\Http\\Controllers\\Input\\Analysis\\LaborController' => __DIR__ . '/../..' . '/app/Http/Controllers/Input/Analysis/LaborController.php',
         'App\\Http\\Controllers\\Input\\Analysis\\LoadingController' => __DIR__ . '/../..' . '/app/Http/Controllers/Input/Analysis/LoadingController.php',
         'App\\Http\\Controllers\\Input\\Analysis\\PreloadingController' => __DIR__ . '/../..' . '/app/Http/Controllers/Input/Analysis/PreloadingController.php',

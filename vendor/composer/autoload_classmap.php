@@ -54,6 +54,8 @@ return array(
     'App\\Http\\Controllers\\InitialData\\ElectricityProductionController' => $baseDir . '/app/Http/Controllers/InitialData/ElectricityProductionController.php',
     'App\\Http\\Controllers\\InitialData\\SettingBpbController' => $baseDir . '/app/Http/Controllers/InitialData/SettingBpbController.php',
     'App\\Http\\Controllers\\InitialData\\YearStartDataController' => $baseDir . '/app/Http/Controllers/InitialData/YearStartDataController.php',
+    'App\\Http\\Controllers\\Input\\AnalysisBbm\\AfterController' => $baseDir . '/app/Http/Controllers/Input/AnalysisBbm/AfterController.php',
+    'App\\Http\\Controllers\\Input\\AnalysisBbm\\BeforeController' => $baseDir . '/app/Http/Controllers/Input/AnalysisBbm/BeforeController.php',
     'App\\Http\\Controllers\\Input\\Analysis\\LaborController' => $baseDir . '/app/Http/Controllers/Input/Analysis/LaborController.php',
     'App\\Http\\Controllers\\Input\\Analysis\\LoadingController' => $baseDir . '/app/Http/Controllers/Input/Analysis/LoadingController.php',
     'App\\Http\\Controllers\\Input\\Analysis\\PreloadingController' => $baseDir . '/app/Http/Controllers/Input/Analysis/PreloadingController.php',
