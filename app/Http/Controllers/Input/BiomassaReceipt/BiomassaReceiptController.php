@@ -1,0 +1,251 @@
+<?php
+
+namespace App\Http\Controllers\Input\BiomassaReceipt;
+
+use App\BbmReceipt;
+use App\BiomassaReceipt;
+use App\Bunkers;
+use App\DetailBiomassaReceipt;
+use App\DetailUnloadingBiomassaReceipt;
+use App\Dock;
+use App\Harbor;
+use App\Http\Controllers\Controller;
+use App\LoadingCompany;
+use App\Models\BbmBookContract;
+use App\Models\HeadWarehouse;
+use App\Models\Tug;
+use App\Models\UserInspection;
+use App\Ship;
+use App\ShipAgent;
+use App\Supplier;
+use App\Transporter;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+
+class BiomassaReceiptController extends Controller
+{
+    public function index(Request $request)
+    {
+        $receipts = BiomassaReceipt::query();
+
+        $receipts->when($request->year, function ($query) use ($request) {
+            $query->whereYear('created_at', $request->year);
+        });
+
+        $data['receipts'] = $receipts->latest()->paginate(10)->appends(request()->query());
+        return view('inputs.biomassa_receipt.biomassa_receipt.index',$data);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $data['suppliers'] = Supplier::get();
+
+        return view('inputs.biomassa_receipt.biomassa_receipt.create', $data);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $lastUnloadingToday = BiomassaReceipt::whereDate('created_at', Carbon::today())->get()->count() + 1;
+
+        $count = sprintf("%02d", $lastUnloadingToday);
+        $tugNumber = 'Biomassa.'.date('Ymd').'.'.$count;
+
+        $lastUnloadingYear = BiomassaReceipt::whereYear('created_at',date('Y'))->get()->count() + 1;
+        $bpbNumber = 'Biomassa.'.date('Y').'.'.$lastUnloadingYear;
+
+        $biomassa = BiomassaReceipt::create([
+            'bpb_number' => $bpbNumber,
+            'faktur_number' => $request->faktur_number,
+            'main_supplier_uuid' => $request->main_supplier_uuid,
+            'note' => $request->note,
+            'tug3_number' => $tugNumber,
+        ]);
+
+        $detail_biomassa = [];
+        if(isset($request->supplier_uuid)){
+            if(count($request->supplier_uuid) > 1){
+                foreach ($request->supplier_uuid as $key => $supplier) {
+                    if($key == 0){
+                        continue;
+                    }
+                    $detail_biomassa[] = [
+                        'biomassa_receipt_id' => $biomassa->id,
+                        'supplier_uuid' => $supplier,
+                        'volume' => isset($request->volume[$key]) ? $request->volume[$key] : null,
+                        'number_of_shipper' => isset($request->number_of_shipper[$key]) ? $request->number_of_shipper[$key] : null,
+                        'date_shipment' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,
+                    ];
+                }
+            }
+        }
+
+        if(count($detail_biomassa) > 0){
+            DetailBiomassaReceipt::insert($detail_biomassa);
+        }
+
+        $unloading_biomassa = [];
+
+        if(isset($request->start)){
+            if(count($request->start) > 1){
+                foreach ($request->start as $key => $start) {
+                    if($key == 0){
+                        continue;
+                    }
+                    $unloading_biomassa[] = [
+                        'biomassa_receipt_id' => $biomassa->id,
+                        'start' => $start,
+                        'end' => isset($request->end[$key]) ? $request->end[$key] : null,
+                        'date_unloading' => isset($request->date_unloading[$key]) ? $request->date_unloading[$key] : null,
+                    ];
+                }
+            }
+        }
+
+        if(count($unloading_biomassa) > 0){
+            DetailUnloadingBiomassaReceipt::insert($unloading_biomassa);
+        }
+
+        // Tug::create([
+        //     'tug' => 3,
+        //     'tug_number' => $tugNumber,
+        //     'bpb_number' => $bpbNumber,
+        //     'type_tug' => 'bbm-receipt',
+        //     'usage_amount' => $request->amount_receipt,
+        //     'unit' => 'L',
+        //     'type_fuel' => $request->bbm_type,
+        //     'biomassa_receipt_id' => $bbm->id,
+        // ]);
+
+        return redirect(route('inputs.biomassa_receipts.index'))->with('success', 'Penerimaan Biomassa baru baru berhasil dibuat.');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($shipment_type, $id)
+    {
+        $data['shipment_type'] = $shipment_type;
+
+        if($data['shipment_type'] != "ship" && $data['shipment_type'] != 'car'){
+            $data['shipment_type'] = "ship";
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $data['biomassa'] = BiomassaReceipt::where('id', $id)->first();
+        $data['suppliers'] = Supplier::get();
+
+        return view('inputs.biomassa_receipt.biomassa_receipt.edit',$data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        BiomassaReceipt::where(['id' => $id])->update([
+            'faktur_number' => $request->faktur_number,
+            'main_supplier_uuid' => $request->main_supplier_uuid,
+            'note' => $request->note,
+        ]);
+
+        $biomassa = BiomassaReceipt::where(['id' => $id])->first();
+
+        DetailBiomassaReceipt::where([
+            'biomassa_receipt_id' => $biomassa->id,
+        ])->delete();
+        $detail_biomassa = [];
+        if(isset($request->supplier_uuid)){
+            if(count($request->supplier_uuid) > 1){
+                foreach ($request->supplier_uuid as $key => $supplier) {
+                    if($key == 0){
+                        continue;
+                    }
+                    $detail_biomassa[] = [
+                        'biomassa_receipt_id' => $biomassa->id,
+                        'supplier_uuid' => $supplier,
+                        'volume' => isset($request->volume[$key]) ? $request->volume[$key] : null,
+                        'number_of_shipper' => isset($request->number_of_shipper[$key]) ? $request->number_of_shipper[$key] : null,
+                        'date_shipment' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,
+                    ];
+                }
+            }
+        }
+
+        if(count($detail_biomassa) > 0){
+            DetailBiomassaReceipt::insert($detail_biomassa);
+        }
+
+        DetailUnloadingBiomassaReceipt::where([
+            'biomassa_receipt_id' => $biomassa->id,
+        ])->delete();
+
+        $unloading_biomassa = [];
+
+        if(isset($request->start)){
+            if(count($request->start) > 1){
+                foreach ($request->start as $key => $start) {
+                    if($key == 0){
+                        continue;
+                    }
+                    $unloading_biomassa[] = [
+                        'biomassa_receipt_id' => $biomassa->id,
+                        'start' => $start,
+                        'end' => isset($request->end[$key]) ? $request->end[$key] : null,
+                        'date_unloading' => isset($request->date_unloading[$key]) ? $request->date_unloading[$key] : null,
+                    ];
+                }
+            }
+        }
+
+        if(count($unloading_biomassa) > 0){
+            DetailUnloadingBiomassaReceipt::insert($unloading_biomassa);
+        }
+
+        return redirect(route('inputs.biomassa_receipts.index'))->with('success', 'Penerimaan Biomassa berhasil diubah.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        BiomassaReceipt::where('id',$id)->first()->delete();
+        DetailBiomassaReceipt::where([
+            'biomassa_receipt_id' => $id,
+        ])->delete();
+        DetailUnloadingBiomassaReceipt::where([
+            'biomassa_receipt_id' => $id,
+        ])->delete();
+
+        return redirect(route('inputs.biomassa_receipts.index'))->with('success', 'Penerimaan Biomassa berhasil dihapus.');
+    }
+}
