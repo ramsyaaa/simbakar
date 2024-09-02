@@ -24,7 +24,9 @@ use App\Http\Controllers\Report\HeavyEquipment\HeavyEquipmentController;
 use App\Http\Controllers\Report\ShipMonitoring\ShipMonitoringController;
 use App\Http\Controllers\Report\ExecutiveSummary\ExecutiveSummaryController;
 use App\Http\Controllers\Report\Contract\CoalReceiptRecapitulationController;
+use App\Http\Controllers\Report\ExecutiveSummary\MonitoringSupplierController;
 use App\Http\Controllers\Report\Contract\PlanAndReazlitionCoalMonthlyController;
+use App\Http\Controllers\Report\ExecutiveSummary\MonitoringCoalAnalyticController;
 use App\Http\Controllers\Report\Contract\PlanAndReazlitionCoalMonthlySpotController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.'], function () {

@@ -154,9 +154,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($coals as $coal)
                                         <tr>
 
-                                            @foreach ($coals as $coal)
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$loop->iteration}}</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->ship->name}}</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading_date}}</td>
@@ -179,8 +179,8 @@
                                             @if (in_array('labor',$analytic))
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->labor->moisture_total}}</td>
                                             @endif
-                                            @endforeach
                                         </tr>
+                                        @endforeach
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2" colspan="2"></td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">Total</td>

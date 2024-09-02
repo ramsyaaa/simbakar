@@ -10,10 +10,13 @@ use App\Http\Controllers\Tug\TugTwelveController;
 use App\Http\Controllers\Input\StockOpnameController;
 use App\Http\Controllers\Input\Analysis\LaborController;
 use App\Http\Controllers\Input\Analysis\LoadingController;
+use App\Http\Controllers\Input\AnalysisBbm\AfterController;
 use App\Http\Controllers\Input\BbmUsage\BbmUsageController;
 use App\Http\Controllers\Input\Analysis\UnloadingController;
+use App\Http\Controllers\Input\AnalysisBbm\BeforeController;
 use App\Http\Controllers\Input\Analysis\PreloadingController;
 use App\Http\Controllers\Input\BbmReceipt\BbmReceiptController;
+use App\Http\Controllers\Input\BiomassaReceipt\BiomassaReceiptController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.'], function () {
     Route::group(['prefix' => 'stock-opnames', 'as' => 'stock-opnames.','middleware' => 'permission:inputan-stock-opname'], function () {
@@ -60,6 +63,25 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
         });
     });
 
+    Route::group(['prefix' => 'analysis-bbm', 'as' => 'analysis-bbm.'], function () {
+        Route::group(['prefix' => 'befores', 'as' => 'befores.'], function () {
+            Route::get('', [BeforeController::class, 'index'])->name('index');
+            Route::get('/create', [BeforeController::class, 'create'])->name('create');
+            Route::post('', [BeforeController::class, 'store'])->name('store');
+            Route::get('/{id}', [BeforeController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [BeforeController::class, 'update'])->name('update');
+            Route::delete('/{id}', [BeforeController::class, 'destroy'])->name('destroy');
+        });
+        Route::group(['prefix' => 'afters', 'as' => 'afters.'], function () {
+            Route::get('', [AfterController::class, 'index'])->name('index');
+            Route::get('/create', [AfterController::class, 'create'])->name('create');
+            Route::post('', [AfterController::class, 'store'])->name('store');
+            Route::get('/{id}', [AfterController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [AfterController::class, 'update'])->name('update');
+            Route::delete('/{id}', [AfterController::class, 'destroy'])->name('destroy');
+        });
+    });
+
     Route::group(['prefix' => 'bbm_receipts/{shipment_type}', 'as' => 'bbm_receipts.'], function () {
         Route::get('', [BbmReceiptController::class, 'index'])->name('index');
         Route::get('/create', [BbmReceiptController::class, 'create'])->name('create');
@@ -76,6 +98,15 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
         Route::get('/{id}', [BbmUsageController::class, 'edit'])->name('edit');
         Route::put('/{id}', [BbmUsageController::class, 'update'])->name('update');
         Route::delete('/{id}', [BbmUsageController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::group(['prefix' => 'biomassa_receipts', 'as' => 'biomassa_receipts.'], function () {
+        Route::get('', [BiomassaReceiptController::class, 'index'])->name('index');
+        Route::get('/create', [BiomassaReceiptController::class, 'create'])->name('create');
+        Route::post('', [BiomassaReceiptController::class, 'store'])->name('store');
+        Route::get('/{id}', [BiomassaReceiptController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [BiomassaReceiptController::class, 'update'])->name('update');
+        Route::delete('/{id}', [BiomassaReceiptController::class, 'destroy'])->name('destroy');
     });
 
     Route::group(['prefix' => 'tug-3', 'as' => 'tug-3.'], function () {

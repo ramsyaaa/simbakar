@@ -66,11 +66,11 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($shipment_type == 'ship') {{ \Carbon\Carbon::parse($item->load_date)->format('d F Y') }} - @endif {{ \Carbon\Carbon::parse($item->unload_date)->format('d F Y') }}</td>
                                 @if($shipment_type == 'ship')
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->supplier != null ? $item->supplier->name : '-' }} <br> {{ $item->ship != null ? $item->ship->name : '-' }} </td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->supplier != null ? $item->supplier->name : '-' }} <br> {{ $item->ship != null ? $item->ship->name : '-' }} <br> <span class="text-red-500">{{ $item->analytic_before_id == null ? "[analisa sebelum bongkar belum]"  : "" }}</span> <span class="text-red-500"> {{ $item->analytic_before_id == null ? "[analisa sebelum bongkar belum]"  : "" }}</span></td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->dockName != null ? $item->dockName->name : '-' }}</td>
                                 @endif
                                 @if($shipment_type == 'car')
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->car_type }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->car_type }} <br><span class="text-red-500">{{ $item->analytic_before_id == null ? "[analisa sebelum bongkar belum]"  : "" }}</span> <span class="text-red-500"> {{ $item->analytic_before_id == null ? "[analisa sebelum bongkar belum]"  : "" }}</span></td>
                                 @endif
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('inputs.bbm_receipts.edit', ['shipment_type' => $shipment_type, 'id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">

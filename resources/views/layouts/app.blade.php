@@ -11,20 +11,22 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('js/chartjs.min.js') }}"></script>
 
     <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <link href="{{ asset('css/select-2.min.css') }}" rel="stylesheet" />
+
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/tailwind.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('src/css/style.css') }}">
+    <script defer src="{{ asset('js/alpine.min.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ asset('src/css/style.css') }}">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         .select2-container .select2-selection--single {
             height: 40px;
@@ -81,7 +83,7 @@
         @yield('content')
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
     <!-- End Script SweetAlert -->
 
     <!-- Other scripts -->
@@ -177,8 +179,7 @@
             document.body.innerHTML = originalContents;
         }
     </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('.select-2').select2()
@@ -268,8 +269,8 @@
         })
     </script>
     @yield('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script src="{{ asset('js/select-2.min.js') }}"></script>
+    <script src="{{ asset('js/html2pdf.min.js') }}"></script>
 
 
     <script>
