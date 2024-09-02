@@ -99,7 +99,7 @@
                 </form>
             </div>
 
-            {{-- @isset($coals) --}}
+            @isset($coals)
                 
             <div id="my-pdf">
 
@@ -165,7 +165,7 @@
                     </div>
                 </div>
             </div>
-         {{-- @endisset --}}
+         @endisset
     </div>
 </div>
 
