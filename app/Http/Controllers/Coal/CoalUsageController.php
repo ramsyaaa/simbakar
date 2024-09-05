@@ -24,6 +24,7 @@ use App\Models\HeadWarehouse;
 use App\Models\UserInspection;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use PhpParser\Node\Expr\AssignOp\Coalesce;
 
 class CoalUsageController extends Controller
 {
@@ -35,14 +36,22 @@ class CoalUsageController extends Controller
     public function index(Request $request)
     {
         $usages = CoalUsage::query();
-        $usages->when($request->date, function ($query) use ($request) {
-            $date = explode('-', $request->date);
-            $query->whereYear('usage_date', $date[0]);
-            $query->whereMonth('usage_date', $date[1]);
-        })->when($request->day, function ($query) use ($request) {
-            $query->where(DB::raw('DAY(usage_date)'), $request->day);
-        });
-        $data['usages'] = $usages->latest()->paginate(10)->appends(request()->query());
+
+        $date = Carbon::now()->format('Y-m-d');
+        if(isset($request->date)){
+            $date = $request->date;
+        }
+        $usages->where('usage_date', $date);
+        $data['date'] = $date;
+
+        $data['units'] = Unit::get();
+
+        if(isset($request->unit_id)){
+            $usages->where(['unit_id' => $request->unit_id]);
+            $data['unit_id'] = $request->unit_id;
+        }
+
+        $data['usages'] = $usages->orderBy('unit_id', 'asc')->latest()->paginate(10)->appends(request()->query());
         // dd($data);
         return view('coals.usages.index',$data);
 
@@ -69,9 +78,15 @@ class CoalUsageController extends Controller
     {
         DB::beginTransaction();
         try {
+        $request->validate([
+            'tug_9_number' => ['required', 'unique:tugs,tug_number'],
+        ], [
+            'tug_9_number.required' => 'No TUG9 wajib diisi',
+            'tug_9_number.unique' => 'No TUG9 sudah digunakan',
+        ]);
 
             $requestData = $request->all();
-            
+
             $usage = CoalUsage::create($requestData);
 
             Tug::create([
@@ -86,13 +101,13 @@ class CoalUsageController extends Controller
 
             DB::commit();
             return redirect(route('coals.usages.index'))->with('success', 'Pemakaian Batu Bara berhasil di buat.');
-            
+
         } catch (\ValidationException $th) {
             DB::rollback();
 
             return redirect()->back()->with('error','Pemakaian Batu Bara gagal di buat');
         }
-       
+
     }
 
     /**
@@ -130,14 +145,28 @@ class CoalUsageController extends Controller
      */
     public function update(Request $request,$id)
     {
-  
+
         DB::beginTransaction();
         try {
+            $coal_usage = CoalUsage::where([
+                'id' => $id,
+            ])->first();
+
+            if($coal_usage == null){
+                return;
+            }
+
+            $request->validate([
+                'tug_9_number' => ['required', $coal_usage->tug_9_number != $request->tug_9_number ? 'unique:tugs,tug_number' : ''],
+            ], [
+                'tug_9_number.required' => 'No TUG9 wajib diisi',
+                'tug_9_number.unique' => 'No TUG9 sudah digunakan',
+            ]);
 
             $requestData = $request->except(['_token','_method']);
 
             CoalUsage::where('id',$id)->update($requestData);
-            
+
             Tug::where('type_tug','coal-usage')->where('coal_usage_id',$id)->update([
                 'tug_number' => $requestData['tug_9_number'],
                 'usage_amount' => $requestData['amount_use'],
@@ -145,7 +174,7 @@ class CoalUsageController extends Controller
 
             DB::commit();
             return redirect(route('coals.usages.index'))->with('success', 'Pemakaian Batu Bara berhasil di ubah.');
-            
+
         } catch (\ValidationException $th) {
             DB::rollback();
 

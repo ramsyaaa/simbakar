@@ -2,40 +2,40 @@
 
 namespace App\Http\Controllers\InitialData;
 
+use App\BiomassaReceiptPlan;
 use App\Http\Controllers\Controller;
-use App\Models\CoalReceiptPlan;
 use App\Models\SettingBpb;
 use Illuminate\Http\Request;
 
-class CoalReceiptPlanController extends Controller
+class BiomassaReceiptController extends Controller
 {
     public function index(Request $request){
-        $data['year'] = $request->input('year');
+        $data['year'] = $request->input('year') ? $request->input('year') : date('Y');
         $data['years'] = SettingBpb::get();
         if ($data['year']) {
-            $data['coal_receipt_plan'] = CoalReceiptPlan::where('year',$data['year'])->orderBy('year','desc')->first();
+            $data['biomassa_receipt_plan'] = BiomassaReceiptPlan::where('year',$data['year'])->orderBy('year','desc')->first();
         }else{
-            $data['coal_receipt_plan'] = CoalReceiptPlan::orderBy('year','desc')->first();
+            $data['biomassa_receipt_plan'] = BiomassaReceiptPlan::orderBy('year','desc')->first();
         }
-        return view('initial-data.coal-receipt-plans.index', $data);
+        return view('initial-data.biomassa-receipt-plans.index', $data);
     }
 
     public function create(Request $request){
 
-        return view('initial-data.coal-receipt-plans.create');
+        return view('initial-data.biomassa-receipt-plans.create');
     }
 
     public function edit(Request $request, $uuid){
 
-        $data['coal_receipt_plan'] = CoalReceiptPlan::where([
+        $data['biomassa_receipt_plan'] = BiomassaReceiptPlan::where([
             'uuid' => $uuid,
         ])->first();
-        return view('initial-data.coal-receipt-plans.edit', $data);
+        return view('initial-data.biomassa-receipt-plans.edit', $data);
     }
 
     public function  store(Request $request){
 
-        CoalReceiptPlan::create([
+        BiomassaReceiptPlan::create([
             'setting_bpb_uuid' => 1,
             'planning_january' => $request->planning_january,
             'planning_february' => $request->planning_february,
@@ -52,7 +52,7 @@ class CoalReceiptPlanController extends Controller
             'year' => $request->year,
         ]);
 
-        return redirect()->route('initial-data.coal-receipt-plan.index')->with('success', 'Data berhasil dibuat.');
+        return redirect()->route('initial-data.biomassa-receipt-plan.index')->with('success', 'Data berhasil dibuat.');
     }
     public function  update(Request $request, $uuid){
         $request->validate([
@@ -70,7 +70,7 @@ class CoalReceiptPlanController extends Controller
             'planning_december' => 'nullable|numeric',
         ]);
 
-        CoalReceiptPlan::where('uuid', $uuid)->update([
+        BiomassaReceiptPlan::where('uuid', $uuid)->update([
             'planning_january' => $request->planning_january,
             'planning_february' => $request->planning_february,
             'planning_march' => $request->planning_march,
@@ -86,6 +86,6 @@ class CoalReceiptPlanController extends Controller
             'year' => $request->year,
         ]);
 
-        return redirect()->route('initial-data.coal-receipt-plan.index')->with('success', 'Data berhasil diubah.');
+        return redirect()->route('initial-data.biomassa-receipt-plan.index')->with('success', 'Data berhasil diubah.');
     }
 }

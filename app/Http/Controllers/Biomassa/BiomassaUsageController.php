@@ -36,14 +36,24 @@ class BiomassaUsageController extends Controller
     public function index(Request $request)
     {
         $usages = BiomassaUsage::query();
-        $usages->when($request->date, function ($query) use ($request) {
-            $date = explode('-', $request->date);
-            $query->whereYear('usage_date', $date[0]);
-            $query->whereMonth('usage_date', $date[1]);
-        })->when($request->day, function ($query) use ($request) {
-            $query->where(DB::raw('DAY(usage_date)'), $request->day);
-        });
-        $data['usages'] = $usages->latest()->paginate(10)->appends(request()->query());
+        $date = Carbon::now()->format('Y-m-d');
+        if(isset($request->date)){
+            $date = $request->date;
+        }
+        $usages->where('usage_date', $date);
+        $data['date'] = $date;
+
+        $data['units'] = Unit::get();
+
+        if(isset($request->unit_id)){
+            $usages->where(['unit_id' => $request->unit_id]);
+            $data['unit_id'] = $request->unit_id;
+        }
+
+        $data['usages'] = $usages->join('units', 'biomassa_usages.unit_id', '=', 'units.id')
+                ->orderBy('units.name', 'asc')
+                ->paginate(10)
+                ->appends(request()->query());
         return view('biomassa.usages.index',$data);
 
     }
@@ -69,6 +79,13 @@ class BiomassaUsageController extends Controller
     {
         DB::beginTransaction();
         try {
+
+            $request->validate([
+                'tug_9_number' => ['required', 'unique:tugs,tug_number'],
+            ], [
+                'tug_9_number.required' => 'No TUG9 wajib diisi',
+                'tug_9_number.unique' => 'No TUG9 sudah digunakan',
+            ]);
 
             $requestData = $request->all();
 
@@ -133,6 +150,21 @@ class BiomassaUsageController extends Controller
 
         DB::beginTransaction();
         try {
+
+            $bbm_usage = BiomassaUsage::where([
+                'id' => $id,
+            ])->first();
+
+            if($bbm_usage == null){
+                return;
+            }
+
+            $request->validate([
+                'tug_9_number' => ['required', $bbm_usage->tug_9_number != $request->tug_9_number ? 'unique:tugs,tug_number' : ''],
+            ], [
+                'tug_9_number.required' => 'No TUG9 wajib diisi',
+                'tug_9_number.unique' => 'No TUG9 sudah digunakan',
+            ]);
 
             $requestData = $request->except(['_token','_method']);
 

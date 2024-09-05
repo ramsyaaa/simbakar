@@ -36,13 +36,21 @@
                 <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.bbm_usage.index', ['bbm_use_for' => $bbm_use_for]) }}" method="GET" id="filterForm">
                     <div class="lg:flex items-center justify-between gap-2 w-full mb-3">
                         <div class="w-full mb-2 lg:mb-0">
-                            <select id="year" name="year" class="w-[350px] h-[44px] rounded-md border px-2" autofocus>
-                                <option selected disabled>Pilih Tahun</option>
-                                @for ($i = date('Y'); $i >= 2000; $i--)
-                                    <option {{request()->year == $i ? 'selected' :''}}>{{ $i }}</option>
-                                @endfor
+                            <input name="date" type="date" value="{{ $date }}" class="w-[350px] h-[44px] rounded-md border px-2">
+                        </div>
+                        @if($bbm_use_for == 'unit')
+                        <div class="w-full mb-2 lg:mb-0 flex gap-4 items-center">
+                            <div class="font-bold">
+                                Unit :
+                            </div>
+                            <select name="unit_uuid" class="w-[350px] h-[44px] rounded-md border px-2">
+                                <option value="">Pilih</option>
+                                @foreach ($units as $unit)
+                                    <option {{ isset($unit_uuid) && $unit_uuid == $unit->uuid ? 'selected' : '' }} value="{{ $unit->uuid }}">{{ $unit->name }}</option>
+                                @endforeach
                             </select>
                         </div>
+                        @endif
                     </div>
                     <button type="submit" class="hidden">Search</button>
                 </form>
@@ -70,7 +78,7 @@
                             @foreach ($bbm_usages as $item)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->use_date)->format('d F Y') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->use_date)->format('d/m/Y') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->tug9_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->amount }}</td>
                                 @if($bbm_use_for == 'unit')

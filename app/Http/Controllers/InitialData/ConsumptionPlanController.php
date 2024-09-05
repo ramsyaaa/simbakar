@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class ConsumptionPlanController extends Controller
 {
     public function index(Request $request){
-        $data['year'] = $request->input('year');
+        $data['year'] = $request->input('year') ? $request->input('year') : date('Y');
         if ($data['year']) {
             $data['consumption_plans'] = ConsumptionPlan::where([
                 'year' => $data['year'],
@@ -18,6 +18,7 @@ class ConsumptionPlanController extends Controller
         }else{
             $data['consumption_plans'] = ConsumptionPlan::orderBy('year','desc')->get()->groupBy('type');
         }
+
         return view('initial-data.consumption-plans.index', $data);
     }
 

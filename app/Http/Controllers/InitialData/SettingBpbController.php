@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\InitialData;
 
 use App\BbmUsage;
+use App\BiomassaUsage;
 use App\Models\CoalUsage;
 use App\Models\SettingBpb;
 use Illuminate\Http\Request;
@@ -16,10 +17,11 @@ use App\Models\ElectricityProduction;
 class SettingBpbController extends Controller
 {
     public function index(Request $request){
-       
+
         $data['solar'] = BbmUsage::where('bbm_type','solar')->whereYear('use_date',date('Y'))->get()->count();
         $data['residu'] = BbmUsage::where('bbm_type','residu')->whereYear('use_date',date('Y'))->get()->count();
         $data['coal'] = CoalUsage::whereYear('usage_date',date('Y'))->get()->count();
+        $data['biomassa'] = BiomassaUsage::whereYear('usage_date', date('Y'))->get()->count();
         $data['year'] = date('Y');
         return view('initial-data.bpbs.index', $data);
     }

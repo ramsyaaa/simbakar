@@ -8,15 +8,12 @@
         <div class="w-full py-10 px-8">
             <div class="flex items-end justify-between mb-2">
                 <div>
-                    <div class="text-[#135F9C] text-[40px] font-bold">
-                        Tambah Rencana Pemakaian
-                    </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
-                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('initial-data.consuption-plan.index') }}" class="cursor-pointer">Rencana Pemakaian</a> / <span class="text-[#2E46BA] cursor-pointer">Update</span>
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('initial-data.biomassa-receipt-plan.index') }}" class="cursor-pointer">Rencana Penerimaan Biomassa</a> / <span class="text-[#2E46BA] cursor-pointer">Create</span>
                     </div>
                 </div>
             </div>
-            <form action="{{ route('initial-data.consuption-plan.store') }}" method="POST">
+            <form action="{{ route('initial-data.biomassa-receipt-plan.store') }}" method="POST">
                 @csrf
                 <div class="bg-white rounded-lg p-6">
                     <div class="w-full">
@@ -30,28 +27,12 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="w-full">
-                        <label for="type" class="font-bold text-[#232D42] text-[16px]">Jenis</label>
-                        <div class="relative">
-                            <select name="type" class="w-full lg:w-3/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                <option value="batubara">Batubara</option>
-                                <option value="solar">Solar / HSD</option>
-                                <option value="residu">Residu / MFO</option>
-                                <option value="biomassa">Biomassa</option>
-                            </select>
-                            @error('type')
-                            <div class="absolute -bottom-1 left-1 text-red-500">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                    </div>
                     <div class="overflow-auto hide-scrollbar max-w-full">
                         <table class="w-full">
                             <thead>
                                 <tr>
                                     <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Bulan</th>
-                                    <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana Pemakaian </th>
+                                    <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana (Kg)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,7 +45,7 @@
                                 <tr>
                                     <td class="h-[36px] text-[16px] font-normal border px-2">Februari</td>
                                     <td class="h-[36px] text-[16px] font-normal border px-2">
-                                        <input type="text" name="planning_february" value="{{ old('planning_february')}}" class="w-full border">
+                                        <input type="text" name="planning_february" value="{{ old('planning_february') }}" class="w-full border">
                                     </td>
                                 </tr>
                                 <tr>

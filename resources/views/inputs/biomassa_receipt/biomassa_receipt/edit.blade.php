@@ -121,7 +121,7 @@
                                     </div>
                                     <!-- Input volume -->
                                     <div class="mb-4">
-                                        <label for="volume" class="block text-gray-700">Volume</label>
+                                        <label for="volume" class="block text-gray-700">Volume/DO</label>
                                         <input type="text" name="volume[]" class="w-full border border-gray-300 p-2 rounded mt-1" placeholder="Masukkan Volume">
                                     </div>
                                     <!-- Input number_of_shipper -->
@@ -154,7 +154,7 @@
                                         </div>
                                         <!-- Input volume -->
                                         <div class="mb-4">
-                                            <label for="volume" class="block text-gray-700">Volume</label>
+                                            <label for="volume" class="block text-gray-700">Volume/DO</label>
                                             <input type="text" name="volume[]" value="{{ $detail->volume }}" class="w-full border border-gray-300 p-2 rounded mt-1" placeholder="Masukkan Volume">
                                         </div>
                                         <!-- Input number_of_shipper -->
