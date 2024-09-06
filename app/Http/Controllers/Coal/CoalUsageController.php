@@ -35,7 +35,7 @@ class CoalUsageController extends Controller
      */
     public function index(Request $request)
     {
-        
+        $data['units'] = Unit::all();
         if ($request->has('date')){
 
             $usages = CoalUsage::query();

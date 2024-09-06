@@ -38,12 +38,14 @@
                         <input name="date" type="month" value="{{ request()->date ?? '' }}" class="w-full lg:w-3/12 h-[44px] rounded-md border px-2" placeholder="Cari Data" autofocus>
                         <select id="day" name="day" class="w-[350px] h-[44px] rounded-md border px-2" autofocus>
                             <option selected disabled>Pilih Index Tanggal</option>
+                            <option value="">Semua Tanggal</option>
                             @for ($i = 1; $i <= 31; $i++)
                                 <option {{request()->day == $i ? 'selected' :''}}>{{ $i }}</option>
                             @endfor
                         </select>
                         <select name="unit_id" id="" class=" w-[350px] h-[44px] rounded-md border px-2">
                             <option selected disabled>Pilih Unit</option>
+                            <option value="">Semua Unit</option>
                             @foreach ($units as $unit)
                                 <option value="{{$unit->id}}" {{request('unit_id') == $unit->id ? 'selected' : ''}}> {{$unit->name}}</option>
                             @endforeach
