@@ -95,7 +95,7 @@ class CoalUsageController extends Controller
                 'type_fuel' => 'Batu Bara',
                 'coal_usage_id' => $usage->id,
             ]);
-
+            //test usage
             DB::commit();
             return redirect(route('coals.usages.index'))->with('success', 'Pemakaian Batu Bara berhasil di buat.');
 
