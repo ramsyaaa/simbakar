@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Contract;
 
 use App\Supplier;
-use App\Models\CoalContract;
+use App\Models\BiomassaContract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\DeliveryClause;
+use App\Models\BiomassaDeliveryClause;
 
 class BiomassaDeliveryClauseController extends Controller
 {
@@ -18,12 +18,12 @@ class BiomassaDeliveryClauseController extends Controller
      */
     public function index(Request $request,$contractId)
     {
-        $deliveries = DeliveryClause::query();
+        $deliveries = BiomassaDeliveryClause::query();
 
-        $data['contract'] = CoalContract::where('id', $contractId)->first();
+        $data['contract'] = BiomassaContract::where('id', $contractId)->first();
         $data['deliveries'] = $deliveries->where('contract_id',$contractId)->latest()->paginate(10)->appends(request()->query());
         // dd($data);
-        return view('contracts.coal-contracts.delivery-clause.index',$data);
+        return view('contracts.biomassa-contracts.delivery-clause.index',$data);
 
     }
 
@@ -34,8 +34,8 @@ class BiomassaDeliveryClauseController extends Controller
      */
     public function create($contractId)
     {
-        $data['contract'] = CoalContract::where('id', $contractId)->first();
-        return view('contracts.coal-contracts.delivery-clause.create',$data);
+        $data['contract'] = BiomassaContract::where('id', $contractId)->first();
+        return view('contracts.biomassa-contracts.delivery-clause.create',$data);
     }
 
     /**
@@ -51,7 +51,7 @@ class BiomassaDeliveryClauseController extends Controller
         try {
             $date = explode('-',$request->delivery_date);
 
-            DeliveryClause::create([
+            BiomassaDeliveryClause::create([
                 'contract_id' => $contractId,
                 'month' => $date[1],
                 'year' => $date[0],
@@ -60,7 +60,7 @@ class BiomassaDeliveryClauseController extends Controller
             ]);
 
             DB::commit();
-            return redirect(route('contracts.coal-contracts.delivery-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul pengirim kontrak baru berhasil di buat.');
+            return redirect(route('contracts.biomassa-contracts.delivery-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul pengirim kontrak baru berhasil di buat.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -89,9 +89,9 @@ class BiomassaDeliveryClauseController extends Controller
      */
     public function edit($contractId,$id)
     {
-        $data['contract'] = CoalContract::where('id', $contractId)->first();
-        $data['delivery'] = DeliveryClause::where('id', $id)->first();
-        return view('contracts.coal-contracts.delivery-clause.edit',$data);
+        $data['contract'] = BiomassaContract::where('id', $contractId)->first();
+        $data['delivery'] = BiomassaDeliveryClause::where('id', $id)->first();
+        return view('contracts.biomassa-contracts.delivery-clause.edit',$data);
     }
 
     /**
@@ -108,7 +108,7 @@ class BiomassaDeliveryClauseController extends Controller
         try {
 
             $date = explode('-',$request->delivery_date);
-            DeliveryClause::where('id',$id)->update([
+            BiomassaDeliveryClause::where('id',$id)->update([
                 'contract_id' => $contractId,
                 'month' => $date[1],
                 'year' => $date[0],
@@ -117,7 +117,7 @@ class BiomassaDeliveryClauseController extends Controller
             ]);
 
             DB::commit();
-            return redirect(route('contracts.coal-contracts.delivery-clause.index',['contractId'=>$contractId]))->with('success', 'Spesifikasi kontrak baru berhasil di ubah.');
+            return redirect(route('contracts.biomassa-contracts.delivery-clause.index',['contractId'=>$contractId]))->with('success', 'Spesifikasi kontrak baru berhasil di ubah.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -134,7 +134,7 @@ class BiomassaDeliveryClauseController extends Controller
      */
     public function destroy($contractId,$id)
     {
-        DeliveryClause::where('id', $id)->delete();
-        return redirect(route('contracts.coal-contracts.delivery-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul Pengiriman Kontrak Batu Bara berhasil di hapus.');
+        BiomassaDeliveryClause::where('id', $id)->delete();
+        return redirect(route('contracts.biomassa-contracts.delivery-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul Pengiriman Kontrak Batu Bara berhasil di hapus.');
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Contract;
 
 use App\Supplier;
-use App\Models\CoalContract;
+use App\Models\BiomassaContract;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,14 +16,14 @@ class BiomassaContractController extends Controller
      */
     public function index(Request $request)
     {
-        $coals = CoalContract::query();
+        $biomassas = BiomassaContract::query();
 
-        $coals->when($request->supplier_id, function ($query) use ($request) {
+        $biomassas->when($request->supplier_id, function ($query) use ($request) {
             $query->where('supplier_id', $request->supplier_id);
         });
         $data['suppliers'] = Supplier::all();
-        $data['coals'] = $coals->latest()->paginate(10)->appends(request()->query());
-        return view('contracts.coal-contracts.index',$data);
+        $data['biomassas'] = $biomassas->latest()->paginate(10)->appends(request()->query());
+        return view('contracts.biomassa-contracts.index',$data);
     }
 
     /**
@@ -34,7 +34,7 @@ class BiomassaContractController extends Controller
     public function create()
     {
         $data['suppliers'] = Supplier::all();
-        return view('contracts.coal-contracts.create',$data);
+        return view('contracts.biomassa-contracts.create',$data);
     }
 
     /**
@@ -68,7 +68,7 @@ class BiomassaContractController extends Controller
                 'contract_end_date.required' => 'Tanggal Selesai Kontrak wajib diisi.',
             ]);
     
-            CoalContract::create([
+            BiomassaContract::create([
                 'supplier_id' => $request->supplier_id,
                 'contract_number' => $request->contract_number,
                 'contract_date' => $request->contract_date,
@@ -80,7 +80,7 @@ class BiomassaContractController extends Controller
                 'contract_end_date' => $request->contract_end_date,
             ]);
     
-            return redirect(route('contracts.coal-contracts.index'))->with('success', 'Kontrak Batu Bara berhasil dibuat.');
+            return redirect(route('contracts.biomassa-contracts.index'))->with('success', 'Kontrak Biomassa berhasil dibuat.');
             
         } catch (\ValidationException $th) {
             throw $th;
@@ -107,9 +107,9 @@ class BiomassaContractController extends Controller
      */
     public function edit($uuid)
     {
-        $data['coal'] = CoalContract::where('uuid', $uuid)->first();
+        $data['coal'] = BiomassaContract::where('uuid', $uuid)->first();
         $data['suppliers'] = Supplier::all();
-        return view('contracts.coal-contracts.edit',$data);
+        return view('contracts.biomassa-contracts.edit',$data);
     }
 
     /**
@@ -121,8 +121,8 @@ class BiomassaContractController extends Controller
      */
     public function update(Request $request, $uuid)
     {
-        CoalContract::where('uuid', $uuid)->update([
-            'supplier_uuid' => $request->supplier_uuid,
+        BiomassaContract::where('uuid', $uuid)->update([
+            'supplier_id' => $request->supplier_id,
             'contract_number' => $request->contract_number,
             'contract_date' => $request->contract_date,
             'type_contract' => $request->type_contract,
@@ -132,7 +132,7 @@ class BiomassaContractController extends Controller
             'contract_start_date' => $request->contract_start_date,
             'contract_end_date' => $request->contract_end_date,
         ]);
-        return redirect(route('contracts.coal-contracts.index'))->with('success', 'Kontrak Batu Bara berhasil di ubah.');
+        return redirect(route('contracts.biomassa-contracts.index'))->with('success', 'Kontrak Biomassa berhasil di ubah.');
     }
 
     /**
@@ -143,7 +143,7 @@ class BiomassaContractController extends Controller
      */
     public function destroy($uuid)
     {
-        CoalContract::where('uuid', $uuid)->delete();
-        return redirect(route('contracts.coal-contracts.index'))->with('success', 'Kontrak Batu Bara berhasil di hapus.');
+        BiomassaContract::where('uuid', $uuid)->delete();
+        return redirect(route('contracts.biomassa-contracts.index'))->with('success', 'Kontrak Biomassa berhasil di hapus.');
     }
 }

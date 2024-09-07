@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Contract;
 
 use App\Supplier;
-use App\Models\BiomassaContract;
 use Illuminate\Http\Request;
+use App\Models\BiomassaContract;
 use Illuminate\Support\Facades\DB;
+use App\Models\BiomassaSubSupplier;
 use App\Http\Controllers\Controller;
-use App\Models\SpesificationContractBiomassa;
 
-class SpesificationBiomassaContractController extends Controller
+class BiomassaSubSupplierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +18,12 @@ class SpesificationBiomassaContractController extends Controller
      */
     public function index(Request $request,$contractId)
     {
-        $biomassas = SpesificationContractBiomassa::query();
-
+        $sub = BiomassaSubSupplier::query();
+        $data['suppliers'] = Supplier::all();
         $data['contract'] = BiomassaContract::where('id', $contractId)->first();
-        $data['biomassas'] = $biomassas->where('contract_id',$contractId)->latest()->paginate(10)->appends(request()->query());
+        $data['subs'] = $sub->where('contract_id',$contractId)->latest()->paginate(10)->appends(request()->query());
         // dd($data);
-        return view('contracts.biomassa-contracts.spesification.index',$data);
+        return view('contracts.biomassa-contracts.sub-supplier.index',$data);
 
     }
 
@@ -34,8 +34,9 @@ class SpesificationBiomassaContractController extends Controller
      */
     public function create($contractId)
     {
+        $data['suppliers'] = Supplier::all();
         $data['contract'] = BiomassaContract::where('id', $contractId)->first();
-        return view('contracts.biomassa-contracts.spesification.create',$data);
+        return view('contracts.biomassa-contracts.sub-supplier.create',$data);
     }
 
     /**
@@ -44,21 +45,24 @@ class SpesificationBiomassaContractController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$contractId)
     {
         DB::beginTransaction();
         
         try {
-            
-            SpesificationContractBiomassa::create($request->all());
+
+            BiomassaSubSupplier::create([
+                'contract_id' => $contractId,
+                'supplier_id' => $request->supplier_id,
+            ]);
 
             DB::commit();
-            return redirect(route('contracts.biomassa-contracts.spesification.index',['contractId'=>$request->contract_id]))->with('success', 'Spesifikasi kontrak baru gagal di buat.');
+            return redirect(route('contracts.biomassa-contracts.sub-supplier.index',['contractId'=>$contractId]))->with('success', 'Sub Supplier kontrak baru berhasil di buat.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
 
-            return redirect()->back()->with('error','Spesifikasi kontrak baru gagal di buat');
+            return redirect()->back()->with('error','Sub Supplier kontrak baru gagal di buat');
         }
        
     }
@@ -82,9 +86,10 @@ class SpesificationBiomassaContractController extends Controller
      */
     public function edit($contractId,$id)
     {
+        $data['suppliers'] = Supplier::all();
         $data['contract'] = BiomassaContract::where('id', $contractId)->first();
-        $data['biomassa'] = SpesificationContractBiomassa::where('id', $id)->first();
-        return view('contracts.biomassa-contracts.spesification.edit',$data);
+        $data['sub'] = BiomassaSubSupplier::where('id', $id)->first();
+        return view('contracts.biomassa-contracts.sub-supplier.edit',$data);
     }
 
     /**
@@ -99,16 +104,19 @@ class SpesificationBiomassaContractController extends Controller
         // dd($request);
         DB::beginTransaction();
         try {
-            
-            SpesificationContractBiomassa::where('id',$id)->update($request->except(['_token','_method']));
+
+            BiomassaSubSupplier::where('id',$id)->update([
+                'contract_id' => $contractId,
+                'supplier_id' => $request->supplier_id,
+            ]);
 
             DB::commit();
-            return redirect(route('contracts.biomassa-contracts.spesification.index',['contractId'=>$request->contract_id]))->with('success', 'Spesifikasi kontrak baru berhasil di ubah.');
+            return redirect(route('contracts.biomassa-contracts.sub-supplier.index',['contractId'=>$contractId]))->with('success', 'Sub Supplier kontrak baru berhasil di ubah.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
 
-            return redirect()->back()->with('error','Spesifikasi kontrak baru gagal di ubah');
+            return redirect()->back()->with('error','Sub Supplier kontrak baru gagal di ubah');
         }
     }
 
@@ -120,7 +128,7 @@ class SpesificationBiomassaContractController extends Controller
      */
     public function destroy($contractId,$id)
     {
-        SpesificationContractBiomassa::where('id', $id)->delete();
-        return redirect(route('contracts.biomassa-contracts.spesification.index',['contractId'=>$contractId]))->with('success', 'Spesifikasi Kontrak Batu Bara berhasil di hapus.');
+        BiomassaSubSupplier::where('id', $id)->delete();
+        return redirect(route('contracts.biomassa-contracts.sub-supplier.index',['contractId'=>$contractId]))->with('success', 'Sub Supplier Kontrak Biomassa berhasil di hapus.');
     }
 }

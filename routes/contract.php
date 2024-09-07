@@ -9,6 +9,7 @@ use App\Http\Controllers\Contract\DeliveryClauseController;
 use App\Http\Controllers\Contract\AdjusmentClauseController;
 use App\Http\Controllers\Contract\BbmBookContractController;
 use App\Http\Controllers\Contract\BiomassaContractController;
+use App\Http\Controllers\Contract\BiomassaSubSupplierController;
 use App\Http\Controllers\Contract\BiomassaPenaltyClauseController;
 use App\Http\Controllers\Contract\BiomassaDeliveryClauseController;
 use App\Http\Controllers\Contract\BiomassaAdjusmentClauseController;
@@ -109,6 +110,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'contracts', 'as' => 'contra
         Route::get('/penalty-clause/{contractId}/edit/{id}', [BiomassaPenaltyClauseController::class,'edit'])->name('penalty-clause.edit');
         Route::patch('/penalty-clause/{contractId}/edit/{id}', [BiomassaPenaltyClauseController::class,'update'])->name('penalty-clause.update');
         Route::delete('/penalty-clause/{contractId}/delete/{id}', [BiomassaPenaltyClauseController::class,'destroy'])->name('penalty-clause.destroy');
+
+        Route::get('/sub-supplier/{contractId}', [BiomassaSubSupplierController::class,'index'])->name('sub-supplier.index');
+        Route::get('/sub-supplier/{contractId}/create', [BiomassaSubSupplierController::class,'create'])->name('sub-supplier.create');
+        Route::post('/sub-supplier/{contractId}/store', [BiomassaSubSupplierController::class,'store'])->name('sub-supplier.store');
+        Route::get('/sub-supplier/{contractId}/edit/{id}', [BiomassaSubSupplierController::class,'edit'])->name('sub-supplier.edit');
+        Route::patch('/sub-supplier/{contractId}/edit/{id}', [BiomassaSubSupplierController::class,'update'])->name('sub-supplier.update');
+        Route::delete('/sub-supplier/{contractId}/delete/{id}', [BiomassaSubSupplierController::class,'destroy'])->name('sub-supplier.destroy');
         
     });
 });

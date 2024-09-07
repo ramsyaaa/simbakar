@@ -9,15 +9,15 @@
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        ubah Kontrak Batu Bara
+                        Ubah Kontrak Biomassa
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
-                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('contracts.coal-contracts.index') }}" class="cursor-pointer">Kontrak Batu Bara</a> / <span class="text-[#2E46BA] cursor-pointer">Create</span>
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('contracts.biomassa-contracts.index') }}" class="cursor-pointer">Kontrak Biomassa</a> / <span class="text-[#2E46BA] cursor-pointer">Create</span>
                     </div>
                 </div>
             </div>
             <div class="bg-white rounded-lg p-6">
-                <form onsubmit="return confirmSubmit(this, 'Ubah Kontrak Batubara?')" action="{{ route('contracts.coal-contracts.update',['uuid' => $coal->uuid]) }}" method="POST">
+                <form onsubmit="return confirmSubmit(this, 'Ubah Kontrak Biomassa?')" action="{{ route('contracts.biomassa-contracts.update',['uuid' => $coal->uuid]) }}" method="POST">
                     @csrf
                     @method('PATCH')
                     <div class="p-4 bg-white rounded-lg w-full">
@@ -135,8 +135,8 @@
                             </div>
                         </div>       
 
-                        <a href="{{route('contracts.coal-contracts.index')}}" class="bg-[#C03221] w-full lg:w-[600px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
-                        <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Ubah Kontrak Batu Bara</button>
+                        <a href="{{route('contracts.biomassa-contracts.index')}}" class="bg-[#C03221] w-full lg:w-[600px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+                        <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Ubah Kontrak Biomassa</button>
                     </div>
                 </form>
             </div>

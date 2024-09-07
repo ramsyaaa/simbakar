@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Contract;
 
 use App\Supplier;
 use App\Models\UnitPenalty;
-use App\Models\CoalContract;
+use App\Models\BiomassaContract;
 use Illuminate\Http\Request;
-use App\Models\PenaltyClause;
+use App\Models\BiomassaPenaltyClause;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
@@ -19,12 +19,12 @@ class BiomassaPenaltyClauseController extends Controller
      */
     public function index(Request $request,$contractId)
     {
-        $penalties = PenaltyClause::query();
+        $penalties = BiomassaPenaltyClause::query();
 
-        $data['contract'] = CoalContract::where('id', $contractId)->first();
+        $data['contract'] = BiomassaContract::where('id', $contractId)->first();
         $data['penalties'] = $penalties->where('contract_id',$contractId)->latest()->paginate(10)->appends(request()->query());
         // dd($data);
-        return view('contracts.coal-contracts.penalty-clause.index',$data);
+        return view('contracts.biomassa-contracts.penalty-clause.index',$data);
 
     }
 
@@ -35,9 +35,9 @@ class BiomassaPenaltyClauseController extends Controller
      */
     public function create($contractId)
     {
-        $data['contract'] = CoalContract::where('id', $contractId)->first();
+        $data['contract'] = BiomassaContract::where('id', $contractId)->first();
         $data['units'] = UnitPenalty::all();
-        return view('contracts.coal-contracts.penalty-clause.create',$data);
+        return view('contracts.biomassa-contracts.penalty-clause.create',$data);
     }
 
     /**
@@ -51,10 +51,10 @@ class BiomassaPenaltyClauseController extends Controller
         DB::beginTransaction();
         try {
 
-            PenaltyClause::create($request->all());
+            BiomassaPenaltyClause::create($request->all());
 
             DB::commit();
-            return redirect(route('contracts.coal-contracts.penalty-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul denda penolakan kontrak baru berhasil di buat.');
+            return redirect(route('contracts.biomassa-contracts.penalty-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul denda penolakan kontrak baru berhasil di buat.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -83,10 +83,10 @@ class BiomassaPenaltyClauseController extends Controller
      */
     public function edit($contractId,$id)
     {
-        $data['contract'] = CoalContract::where('id', $contractId)->first();
-        $data['penalty'] = PenaltyClause::where('id', $id)->first();
+        $data['contract'] = BiomassaContract::where('id', $contractId)->first();
+        $data['penalty'] = BiomassaPenaltyClause::where('id', $id)->first();
         $data['units'] = UnitPenalty::all();
-        return view('contracts.coal-contracts.penalty-clause.edit',$data);
+        return view('contracts.biomassa-contracts.penalty-clause.edit',$data);
     }
 
     /**
@@ -100,10 +100,10 @@ class BiomassaPenaltyClauseController extends Controller
     {
         DB::beginTransaction();
         try {
-            PenaltyClause::where('id',$id)->update($request->except(['_token','_method']));
+            BiomassaPenaltyClause::where('id',$id)->update($request->except(['_token','_method']));
 
             DB::commit();
-            return redirect(route('contracts.coal-contracts.penalty-clause.index',['contractId'=>$contractId]))->with('success', 'Spesifikasi kontrak baru berhasil di ubah.');
+            return redirect(route('contracts.biomassa-contracts.penalty-clause.index',['contractId'=>$contractId]))->with('success', 'Spesifikasi kontrak baru berhasil di ubah.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -120,7 +120,7 @@ class BiomassaPenaltyClauseController extends Controller
      */
     public function destroy($contractId,$id)
     {
-        PenaltyClause::where('id', $id)->delete();
-        return redirect(route('contracts.coal-contracts.penalty-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul Penyesuaian Kontrak Batu Bara berhasil di hapus.');
+        BiomassaPenaltyClause::where('id', $id)->delete();
+        return redirect(route('contracts.biomassa-contracts.penalty-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul Penyesuaian Kontrak Batu Bara berhasil di hapus.');
     }
 }

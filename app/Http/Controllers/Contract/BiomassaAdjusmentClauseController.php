@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Contract;
 
 use App\Supplier;
 use App\Models\UnitPenalty;
-use App\Models\CoalContract;
+use App\Models\BiomassaContract;
 use Illuminate\Http\Request;
-use App\Models\AdjusmentClause;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\BiomassaAdjusmentClause;
 
 class BiomassaAdjusmentClauseController extends Controller
 {
@@ -19,12 +19,12 @@ class BiomassaAdjusmentClauseController extends Controller
      */
     public function index(Request $request,$contractId)
     {
-        $adjusments = AdjusmentClause::query();
+        $adjusments = BiomassaAdjusmentClause::query();
 
-        $data['contract'] = CoalContract::where('id', $contractId)->first();
+        $data['contract'] = BiomassaContract::where('id', $contractId)->first();
         $data['adjusments'] = $adjusments->where('contract_id',$contractId)->latest()->paginate(10)->appends(request()->query());
         // dd($data);
-        return view('contracts.coal-contracts.adjusment-clause.index',$data);
+        return view('contracts.biomassa-contracts.adjusment-clause.index',$data);
 
     }
 
@@ -35,9 +35,9 @@ class BiomassaAdjusmentClauseController extends Controller
      */
     public function create($contractId)
     {
-        $data['contract'] = CoalContract::where('id', $contractId)->first();
+        $data['contract'] = BiomassaContract::where('id', $contractId)->first();
         $data['units'] = UnitPenalty::all();
-        return view('contracts.coal-contracts.adjusment-clause.create',$data);
+        return view('contracts.biomassa-contracts.adjusment-clause.create',$data);
     }
 
     /**
@@ -51,10 +51,10 @@ class BiomassaAdjusmentClauseController extends Controller
         DB::beginTransaction();
         try {
 
-            AdjusmentClause::create($request->all());
+            BiomassaAdjusmentClause::create($request->all());
 
             DB::commit();
-            return redirect(route('contracts.coal-contracts.adjusment-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul penyesuaian kontrak baru berhasil di buat.');
+            return redirect(route('contracts.biomassa-contracts.adjusment-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul penyesuaian kontrak baru berhasil di buat.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -83,10 +83,10 @@ class BiomassaAdjusmentClauseController extends Controller
      */
     public function edit($contractId,$id)
     {
-        $data['contract'] = CoalContract::where('id', $contractId)->first();
-        $data['adjusment'] = AdjusmentClause::where('id', $id)->first();
+        $data['contract'] = BiomassaContract::where('id', $contractId)->first();
+        $data['adjusment'] = BiomassaAdjusmentClause::where('id', $id)->first();
         $data['units'] = UnitPenalty::all();
-        return view('contracts.coal-contracts.adjusment-clause.edit',$data);
+        return view('contracts.biomassa-contracts.adjusment-clause.edit',$data);
     }
 
     /**
@@ -100,10 +100,10 @@ class BiomassaAdjusmentClauseController extends Controller
     {
         DB::beginTransaction();
         try {
-            AdjusmentClause::where('id',$id)->update($request->except(['_token','_method']));
+            BiomassaAdjusmentClause::where('id',$id)->update($request->except(['_token','_method']));
 
             DB::commit();
-            return redirect(route('contracts.coal-contracts.adjusment-clause.index',['contractId'=>$contractId]))->with('success', 'Spesifikasi kontrak baru berhasil di ubah.');
+            return redirect(route('contracts.biomassa-contracts.adjusment-clause.index',['contractId'=>$contractId]))->with('success', 'Spesifikasi kontrak baru berhasil di ubah.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -120,7 +120,7 @@ class BiomassaAdjusmentClauseController extends Controller
      */
     public function destroy($contractId,$id)
     {
-        AdjusmentClause::where('id', $id)->delete();
-        return redirect(route('contracts.coal-contracts.adjusment-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul Penyesuaian Kontrak Batu Bara berhasil di hapus.');
+        BiomassaAdjusmentClause::where('id', $id)->delete();
+        return redirect(route('contracts.biomassa-contracts.adjusment-clause.index',['contractId'=>$contractId]))->with('success', 'Klausul Penyesuaian Kontrak Batu Bara berhasil di hapus.');
     }
 }
