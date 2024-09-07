@@ -12,6 +12,7 @@ use App\Models\HeadWarehouse;
 use App\Models\GeneralManager;
 use App\Models\KindDisruption;
 use App\Models\UserInspection;
+use App\Models\BiomassaSubSupplier;
 use App\Http\Controllers\Controller;
 
 
@@ -130,6 +131,14 @@ class ApiFetchController extends Controller
     ->whereNotNull('analysis_labor_id')
     ->get();
 
+   }
+
+   public function getSubSupplier(Request $request){
+
+   return BiomassaSubSupplier::where('contract_id', $request->id)
+    ->join('suppliers', 'suppliers.id','biomassa_sub_suppliers.supplier_id')
+    ->get();
+    
    }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Supplier;
 use Ramsey\Uuid\Uuid;
 use App\Models\BiomassaSubSupplier;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +24,12 @@ class BiomassaContract extends Model
     {
         return $this->hasOne(SpesificationContractBiomassa::class, "contract_id", 'id');
     }
-
+    
+    public function supplier()
+    {
+        return $this->hasOne(Supplier::class, 'id', 'supplier_id');
+    }
+    
     protected static function boot()
      {
          parent::boot();
