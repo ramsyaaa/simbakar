@@ -39,7 +39,7 @@
                                 <div class="w-full">
                                     <label for="load_company_id" class="font-bold text-[#232D42] text-[16px]">Nama PBM</label>
                                     <div class="relative">
-                                        <select name="load_company_id" id="load_company_id" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="load_company_id" id="load_company_id" class="select-2 w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Nama PBM</option>
                                             @foreach ($companies as $company)
                                                 <option value="{{ $company->id }}">{{ $company->name }}</option>
@@ -55,7 +55,7 @@
                                 <div class="w-full">
                                     <label for="supplier_id" class="font-bold text-[#232D42] text-[16px]">Pemasok</label>
                                     <div class="relative">
-                                        <select name="supplier_id" id="supplier_id" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="supplier_id" id="supplier_id" class="select-2 w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Pemasok</option>
                                             @foreach ($suppliers as $supplier)
                                                 <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
