@@ -248,6 +248,7 @@
 
         })
     </script>
+    
     <script>
         $('.select-disruption').change(function() {
             let name = $(this).val();

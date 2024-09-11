@@ -122,19 +122,19 @@ class CoalReceiptController extends Controller
     public function edit($id)
     {
         $receipt = CoalUnloading::where('id', $id)->first();
-        $data['companies'] = LoadingCompany::all();
-        $data['suppliers'] = Supplier::all();
-        $data['docks'] = Dock::all();
-        $data['ships'] = Ship::all();
-        $data['harbors'] = Harbor::all();
-        $data['surveyors'] = Surveyor::all();
-        $data['transporters'] = Transporter::all();
-        $data['agents'] = ShipAgent::all();
-        $data['heads'] = HeadWarehouse::all();
-        $data['inspections'] = UserInspection::all();
-        $data['loadings'] = Loading::all();
-        $data['unloadings'] = Unloading::all();
-        $data['labors'] = Labor::all();
+        $data['company'] = LoadingCompany::where('id',$receipt->load_company_id)->first();
+        $data['supplier'] = Supplier::where('id',$receipt->supplier_id)->first();
+        $data['docks'] = Dock::get();
+        $data['ship'] = Ship::where('id',$receipt->ship_id)->first();
+        $data['harbors'] = Harbor::get();
+        $data['surveyors'] = Surveyor::get();
+        $data['transporters'] = Transporter::get();
+        $data['agents'] = ShipAgent::get();
+        $data['heads'] = HeadWarehouse::get();
+        $data['inspections'] = UserInspection::get();
+        $data['loading'] = Loading::where('id',$receipt->analysis_loading_id)->first();
+        $data['unloading'] = Unloading::where('id',$receipt->analysis_unloading_id)->first();
+        $data['labor'] = Labor::where('id',$receipt->analysis_labor_id)->first();
         $data['contracts'] = CoalContract::where('supplier_id', $receipt->supplier_id)->get();
         $data['receipt'] = $receipt;
 
