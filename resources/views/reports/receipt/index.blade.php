@@ -20,7 +20,7 @@
         <div class="w-full flex flex-col gap-4 my-4 mt-4 px-8">
             @php
                 $dataReport = [
-                    ['text' => 'Rekapitulasi Penerimaan Batubara','url' => '#'],
+                    ['text' => 'Rekapitulasi Penerimaan Batubara','url' => route('reports.receipt.coal-recapitulation.index')],
                     ['text' => 'Rekapitulasi Penerimaan HSD','url' => route('reports.receipt.bbm-receipt.index', ['type_bbm' => 'HSD'])],
                     ['text' => 'Rekapitulasi Penerimaan MFO','url' => route('reports.receipt.bbm-receipt.index', ['type_bbm' => 'MFO'])],
                     ['text' => 'Perbandingan Penerimaan Batubara (B/L, D/L, B/W, TUG, 3)','url' => '#'],
