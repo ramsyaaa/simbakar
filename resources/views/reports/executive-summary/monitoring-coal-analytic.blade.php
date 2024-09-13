@@ -49,7 +49,7 @@
                     </div>
                     <div id="kontrak-fields" class="filter-field mb-6" style="display: none;">
                         <div class="mb-4">
-                            <select name="contract_id" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-contract">
+                            <select name="contract_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-contract">
                                 @if (request('contract_id'))
                                     @isset($numbers)
                                         @foreach ($numbers as $number)
@@ -152,7 +152,7 @@
                                         @if (request('filter_type') != 'kontrak')
                                             <td class="border  text-center">{{$coal->contract->contract_number}}</td>       
                                         @endif
-                                        <td class="border text-center">{{$coal->ship->name}}</td>
+                                        <td class="border text-center">{{$coal->ship->name ?? ''}}</td>
                                         <td class="border text-center">{{number_format($coal->tug_3_accept)}}</td>
                                         <td class="border text-center">{{$coal->loading}}</td>
                                         <td class="border text-center">{{$coal->unloading}}</td>

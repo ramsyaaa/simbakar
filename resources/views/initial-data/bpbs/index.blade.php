@@ -26,6 +26,7 @@
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">BPB terakir batubara</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">BPB terakir solar</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">BPB terakir residu</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">BPB terakir biomassa</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
@@ -36,6 +37,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$solar }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$residu }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$biomassa }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                 </td>
                             </tr>

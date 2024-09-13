@@ -28,24 +28,33 @@
                         Tambah Data
                     </a>
                 </div>
-              
+
             </div>
-            
+
             <div class="bg-white rounded-lg p-6 h-full">
                 <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('coals.usages.index') }}" method="GET" id="filterForm">
                     <div class="lg:flex items-center gap-5 w-full mb-3">
-                        <label for="" class="font-bold text-[#232D42] text-[16px]">Pemakaian Batu Bara </label>
+                        <label for="" class="font-bold text-[#232D42] text-[16px]">Pemakaian Batu Bara </label>                        
                         <input name="date" type="month" value="{{ request()->date ?? '' }}" class="w-full lg:w-3/12 h-[44px] rounded-md border px-2" placeholder="Cari Data" autofocus>
                         <select id="day" name="day" class="w-[350px] h-[44px] rounded-md border px-2" autofocus>
                             <option selected disabled>Pilih Index Tanggal</option>
+                            <option value="">Semua Tanggal</option>
                             @for ($i = 1; $i <= 31; $i++)
                                 <option {{request()->day == $i ? 'selected' :''}}>{{ $i }}</option>
                             @endfor
                         </select>
+                        <select name="unit_id" id="" class=" w-[350px] h-[44px] rounded-md border px-2">
+                            <option selected disabled>Pilih Unit</option>
+                            <option value="">Semua Unit</option>
+                            @foreach ($units as $unit)
+                                <option value="{{$unit->id}}" {{request('unit_id') == $unit->id ? 'selected' : ''}}> {{$unit->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <button type="submit" class="hidden">Search</button>
                 </form>
-
+                @isset($usages)
+                    
                 <div class="overflow-auto hide-scrollbar max-w-full">
                     <table class="w-full">
                         <thead>
@@ -62,7 +71,7 @@
                             @foreach ($usages as $usage)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->usage_date }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ \Carbon\Carbon::parse($usage->usage_date)->format('d/m/Y') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->tug_9_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ number_format($usage->amount_use) }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->unit_id }}</td>
@@ -84,6 +93,8 @@
                     </table>
                     {{ $usages->links() }}
                 </div>
+                @endisset
+
             </div>
         </div>
     </div>

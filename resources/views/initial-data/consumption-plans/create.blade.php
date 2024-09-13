@@ -37,6 +37,7 @@
                                 <option value="batubara">Batubara</option>
                                 <option value="solar">Solar / HSD</option>
                                 <option value="residu">Residu / MFO</option>
+                                <option value="biomassa">Biomassa</option>
                             </select>
                             @error('type')
                             <div class="absolute -bottom-1 left-1 text-red-500">

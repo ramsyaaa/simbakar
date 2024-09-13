@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InitialData\SettingBpbController;
 use App\Http\Controllers\InitialData\YearStartDataController;
 use App\Http\Controllers\InitialData\BbmReceiptPlanController;
+use App\Http\Controllers\InitialData\BiomassaReceiptController;
 use App\Http\Controllers\InitialData\CoalReceiptPlanController;
 use App\Http\Controllers\InitialData\ConsumptionPlanController;
 use App\Http\Controllers\InitialData\ElectricityProductionController;
@@ -52,5 +53,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'initial-data', 'as' => 'ini
         Route::post('store', [BbmReceiptPlanController::class, 'store'])->name('store');
         Route::get('/{uuid}', [BbmReceiptPlanController::class, 'edit'])->name('edit');
         Route::put('/{uuid}', [BbmReceiptPlanController::class, 'update'])->name('update');
+    });
+    Route::group(['prefix' => 'biomassa-receipt-plan', 'as' => 'biomassa-receipt-plan.', 'middleware' => 'permission:inisiasi-penerimaan-batu-bara'], function () {
+        Route::get('', [BiomassaReceiptController::class, 'index'])->name('index');
+        Route::get('create', [BiomassaReceiptController::class, 'create'])->name('create');
+        Route::post('store', [BiomassaReceiptController::class, 'store'])->name('store');
+        Route::get('/{uuid}', [BiomassaReceiptController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}', [BiomassaReceiptController::class, 'update'])->name('update');
     });
 });

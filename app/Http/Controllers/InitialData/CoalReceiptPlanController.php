@@ -82,6 +82,7 @@ class CoalReceiptPlanController extends Controller
             'planning_september' => $request->planning_september,
             'planning_october' => $request->planning_october,
             'planning_november' => $request->planning_november,
+            'planning_december' => $request->planning_december,
             'year' => $request->year,
         ]);
 

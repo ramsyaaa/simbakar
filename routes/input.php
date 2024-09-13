@@ -17,6 +17,7 @@ use App\Http\Controllers\Input\AnalysisBbm\BeforeController;
 use App\Http\Controllers\Input\Analysis\PreloadingController;
 use App\Http\Controllers\Input\BbmReceipt\BbmReceiptController;
 use App\Http\Controllers\Input\BiomassaReceipt\BiomassaReceiptController;
+use App\Http\Controllers\Input\AnalysisBiomassa\AnalyticBiomassaController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.'], function () {
     Route::group(['prefix' => 'stock-opnames', 'as' => 'stock-opnames.','middleware' => 'permission:inputan-stock-opname'], function () {
@@ -81,6 +82,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
             Route::delete('/{id}', [AfterController::class, 'destroy'])->name('destroy');
         });
     });
+ 
 
     Route::group(['prefix' => 'bbm_receipts/{shipment_type}', 'as' => 'bbm_receipts.'], function () {
         Route::get('', [BbmReceiptController::class, 'index'])->name('index');
@@ -136,5 +138,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
     });
     Route::group(['prefix' => 'tug-12', 'as' => 'tug-12.'], function () {
         Route::get('/index', [TugTwelveController::class, 'index'])->name('index');
+    });
+
+    Route::group(['prefix' => 'analysis-biomassa', 'as' => 'analysis-biomassa.'], function () {
+        Route::get('', [AnalyticBiomassaController::class, 'index'])->name('index');
+        Route::get('/create', [AnalyticBiomassaController::class, 'create'])->name('create');
+        Route::post('', [AnalyticBiomassaController::class, 'store'])->name('store');
+        Route::get('/{id}', [AnalyticBiomassaController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [AnalyticBiomassaController::class, 'update'])->name('update');
+        Route::delete('/{id}', [AnalyticBiomassaController::class, 'destroy'])->name('destroy');
     });
 });

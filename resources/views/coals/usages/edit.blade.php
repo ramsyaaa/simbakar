@@ -26,7 +26,7 @@
                                     <div class="w-full">
                                         <label for="tug_9_number" class="font-bold text-[#232D42] text-[16px]">No TUG 9</label>
                                         <div class="relative">
-                                            <input required type="text" name="tug_9_number" value="{{$usage->tug_9_number}}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <input required type="text" name="tug_9_number" value="{{ old('tug_9_number', $usage->tug_9_number ?? '')}}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             @error('tug_9_number')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -37,7 +37,7 @@
                                     <div class="w-full">
                                         <label for="usage_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Pakai</label>
                                         <div class="relative">
-                                            <input required type="date" name="usage_date" value="{{$usage->usage_date}}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <input required type="date" name="usage_date" value="{{ old('usage_date', $usage->usage_date ?? '') }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             @error('usage_date')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -50,7 +50,7 @@
                                     <div class="w-full">
                                         <label for="amount_use" class="font-bold text-[#232D42] text-[16px]">Jumlah Pakai</label>
                                         <div class="relative">
-                                            <input required type="text" name="amount_use" value="{{$usage->amount_use}}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <input required type="text" name="amount_use" value="{{old('amount_use', $usage->amount_use ?? '')}}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             @error('amount_use')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -64,7 +64,7 @@
                                             <select name="unit_id" id="unit_id" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                                 <option selected disabled>Pilih Unit</option>
                                                 @foreach ($units as $unit)
-                                                    <option value="{{$unit->id}}" {{$usage->unit_id == $unit->id ? 'selected' : ''}}>{{ $unit->name }}</option>
+                                                    <option value="{{$unit->id}}" {{old('unit_id', $usage->unit_id ?? '') == $unit->id ? 'selected' : ''}}>{{ $unit->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('unit_id')

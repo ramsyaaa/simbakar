@@ -38,7 +38,7 @@
                                     @if ($receipt->loading)
                                         <div class="lg:flex gap-3">
                                             <a href="#" class="text-sky-700 hover:text-sky-800">[ Detail ]</a>
-                                            <a href="#" class="text-sky-700 hover:text-sky-800">[ Hasil Perbandingan Kontrak ]</a>
+                                            <a href="{{route('coals.receipts.analytic-loading',['id'=>$receipt->id])}}" class="text-sky-700 hover:text-sky-800">[ Hasil Perbandingan Kontrak ]</a>
                                         </div>
                                     @else
                                         <span class="text-red-700"> Belum Ada</span>
@@ -58,7 +58,7 @@
                                     @if ($receipt->unloading)
                                         <div class="lg:flex gap-3">
                                             <a href="#" class="text-sky-700 hover:text-sky-800">[ Detail ]</a>
-                                            <a href="#" class="text-sky-700 hover:text-sky-800">[ Hasil Perbandingan Kontrak ]</a>
+                                            <a href="{{route('coals.receipts.analytic-unloading',['id'=>$receipt->id])}}" class="text-sky-700 hover:text-sky-800">[ Hasil Perbandingan Kontrak ]</a>
                                         </div>
                                     @else
                                         <span class="text-red-700"> Belum Ada</span>
@@ -78,7 +78,7 @@
                                     @if ($receipt->labor)
                                         <div class="lg:flex gap-3">
                                             <a href="#" class="text-sky-700 hover:text-sky-800">[ Detail ]</a>
-                                            <a href="#" class="text-sky-700 hover:text-sky-800">[ Hasil Perbandingan Kontrak ]</a>
+                                            <a href="{{route('coals.receipts.analytic-labor',['id'=>$receipt->id])}}" class="text-sky-700 hover:text-sky-800">[ Hasil Perbandingan Kontrak ]</a>
                                         </div>
                                     @else
                                         <span class="text-red-700"> Belum Ada</span>

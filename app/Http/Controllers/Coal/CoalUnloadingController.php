@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Coal;
 
 use App\Dock;
 use App\Ship;
+use App\Loading;
 use App\Supplier;
+use App\Unloading;
 use Carbon\Carbon;
 use App\Models\Tug;
 use App\LoadingCompany;
@@ -12,7 +14,6 @@ use Illuminate\Http\Request;
 use App\Models\CoalUnloading;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Unloading;
 
 class CoalUnloadingController extends Controller
 {
@@ -121,11 +122,13 @@ class CoalUnloadingController extends Controller
      */
     public function edit($id)
     {
+        $unloading = CoalUnloading::where('id', $id)->first();
         $data['companies'] = LoadingCompany::all();
         $data['suppliers'] = Supplier::all();
         $data['docks'] = Dock::all();
-        $data['ships'] = Ship::all();
-        $data['unloading'] = CoalUnloading::where('id', $id)->first();
+        $data['ship'] = Ship::where('id',$unloading->ship_id)->first();
+        $data['loading'] = Loading::where('id',$unloading->analysis_loading_id)->first();
+        $data['unloading'] = $unloading;
         return view('coals.unloadings.edit',$data);
     }
 
@@ -138,6 +141,7 @@ class CoalUnloadingController extends Controller
      */
     public function update(Request $request,$id)
     {
+        dd($request);
         DB::beginTransaction();
         try {
             CoalUnloading::where('id',$id)->update($request->except(['_token','_method']));

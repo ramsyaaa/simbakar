@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Ship;
 use App\Labor;
 use App\Loading;
 use App\Unloading;
+use App\LoadingCompany;
 use App\Models\CoalContract;
 use Illuminate\Http\Request;
 use App\Models\CoalUnloading;
@@ -12,6 +14,7 @@ use App\Models\HeadWarehouse;
 use App\Models\GeneralManager;
 use App\Models\KindDisruption;
 use App\Models\UserInspection;
+use App\Models\BiomassaSubSupplier;
 use App\Http\Controllers\Controller;
 
 
@@ -130,6 +133,73 @@ class ApiFetchController extends Controller
     ->whereNotNull('analysis_labor_id')
     ->get();
 
+   }
+
+   public function getSubSupplier(Request $request){
+
+   return BiomassaSubSupplier::where('contract_id', $request->id)
+    ->join('suppliers', 'suppliers.id','biomassa_sub_suppliers.supplier_id')
+    ->get();
+    
+   }
+
+   public function getLoadingCompany(Request $request){
+
+        try {
+            return LoadingCompany::where('name', 'like', '%' . $request->key . '%')
+        ->get();
+        
+        } catch (\Throwable $th) {
+            return $th;
+        }
+   
+   }
+
+   public function getAnalyticLoading(Request $request){
+
+        try {
+            return Loading::where('analysis_number', 'like', '%' . $request->key . '%')
+            ->limit(100)->get();
+        
+        } catch (\Throwable $th) {
+            return $th;
+        }
+   
+   }
+   public function getAnalyticUnloading(Request $request){
+
+        try {
+            return Unloading::where('analysis_number', 'like', '%' . $request->key . '%')
+            ->limit(100)->get();
+        
+        } catch (\Throwable $th) {
+            return $th;
+        }
+   
+   }
+
+   public function getAnalyticLabor(Request $request){
+
+        try {
+            return Labor::where('analysis_number', 'like', '%' . $request->key . '%')
+            ->limit(100)->get();
+        
+        } catch (\Throwable $th) {
+            return $th;
+        }
+   
+   }
+
+   public function getShip(Request $request){
+
+        try {
+            return Ship::where('name', 'like', '%' . $request->key . '%')
+            ->limit(100)->get();
+        
+        } catch (\Throwable $th) {
+            return $th;
+        }
+   
    }
 
 }

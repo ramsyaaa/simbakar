@@ -31,7 +31,7 @@
                     <div class="mb-4  text-[#6C757D] font-normal no-select">
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="cursor-pointer">TUG 11</span>
                     </div>
-                </div>      
+                </div>
             </div>
             <div class="bg-white rounded-lg p-6 h-full">
                 <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.tug-11.index') }}" method="GET" id="filterForm">
@@ -332,68 +332,68 @@
                                    <td class=" font-normal border px-2 text-center">Biomassa</td>
                                    <td class=" font-normal border px-2 text-center">Unit 1</td>
                                    <td class=" font-normal border px-2 text-center" rowspan="4">18.01.0306</td>
-                                   <td class=" font-normal border px-2 text-center">Liter</td>
+                                   <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">0</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center">Unit 2</td>
-                                   <td class=" font-normal border px-2 text-center">Liter</td>
+                                   <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">0</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center">Unit 3</td>
-                                   <td class=" font-normal border px-2 text-center">Liter</td>
+                                   <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">0</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center">Unit 4</td>
-                                   <td class=" font-normal border px-2 text-center">Liter</td>
+                                   <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">0</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
-                                   <td class=" font-normal border px-2 text-center">Liter</td>
+                                   <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">0</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center">Unit 5</td>
                                    <td class=" font-normal border px-2 text-center" rowspan="3">18.01.0306</td>
-                                   <td class=" font-normal border px-2 text-center">Liter</td>
+                                   <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">0</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center">Unit 6</td>
-                                   <td class=" font-normal border px-2 text-center">Liter</td>
+                                   <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">0</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center">Unit 7</td>
-                                   <td class=" font-normal border px-2 text-center">Liter</td>
+                                   <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">0</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 7 </td>
-                                   <td class=" font-normal border px-2 text-center">Liter</td>
+                                   <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">0</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Biomassa Lainnya </td>
-                                   <td class=" font-normal border px-2 text-center">Liter</td>
+                                   <td class=" font-normal border px-2 text-center">Kg  </td>
                                    <td class=" font-normal border px-2 text-center">0</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Biomassa </td>
-                                   <td class=" font-normal border px-2 text-center">Liter</td>
+                                   <td class=" font-normal border px-2 text-center">Kg  </td>
                                    <td class=" font-normal border px-2 text-center">0</td>
                               </tr>
                          </tbody>
