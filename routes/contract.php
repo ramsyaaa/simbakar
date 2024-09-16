@@ -9,12 +9,17 @@ use App\Http\Controllers\Contract\DeliveryClauseController;
 use App\Http\Controllers\Contract\AdjusmentClauseController;
 use App\Http\Controllers\Contract\BbmBookContractController;
 use App\Http\Controllers\Contract\BiomassaContractController;
+use App\Http\Controllers\Contract\Adendum\CoalAdendumController;
 use App\Http\Controllers\Contract\BiomassaSubSupplierController;
 use App\Http\Controllers\Contract\BiomassaPenaltyClauseController;
 use App\Http\Controllers\Contract\BiomassaDeliveryClauseController;
 use App\Http\Controllers\Contract\BiomassaAdjusmentClauseController;
 use App\Http\Controllers\Contract\SpesificationCoalContractController;
+use App\Http\Controllers\Contract\Adendum\AdendumPenaltyClauseController;
+use App\Http\Controllers\Contract\Adendum\AdendumDeliveryClauseController;
 use App\Http\Controllers\Contract\SpesificationBiomassaContractController;
+use App\Http\Controllers\Contract\Adendum\AdendumAdjusmentClauseController;
+use App\Http\Controllers\Contract\Adendum\AdendumSpesificationCoalContractController;
 
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'contracts', 'as' => 'contracts.'], function () {
@@ -54,6 +59,46 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'contracts', 'as' => 'contra
         Route::get('/penalty-clause/{contractId}/edit/{id}', [PenaltyClauseController::class,'edit'])->name('penalty-clause.edit');
         Route::patch('/penalty-clause/{contractId}/edit/{id}', [PenaltyClauseController::class,'update'])->name('penalty-clause.update');
         Route::delete('/penalty-clause/{contractId}/delete/{id}', [PenaltyClauseController::class,'destroy'])->name('penalty-clause.destroy');
+        
+    });
+    Route::group(['prefix' => 'adendum-coal-contracts', 'as' => 'adendum-coal-contracts.' ,'middleware' => 'permission:kontrak-batu-bara'], function () {
+        
+        Route::get('{contractId}', [CoalAdendumController::class,'index'])->name('index');
+        Route::get('/{contractId}/create', [CoalAdendumController::class,'create'])->name('create');
+        Route::get('/{contractId}/create/{adendumId}', [CoalAdendumController::class,'createContract'])->name('createContract');
+        Route::post('/{contractId}/store', [CoalAdendumController::class,'store'])->name('store');
+        Route::post('/{contractId}/store/{adendumId}', [CoalAdendumController::class,'storeContract'])->name('storeContract');
+        Route::get('/{contractId}/edit/{id}', [CoalAdendumController::class,'edit'])->name('edit');
+        Route::patch('/{contractId}/edit/{id}', [CoalAdendumController::class,'update'])->name('update');
+        Route::delete('{contractId}/delete/{id}', [CoalAdendumController::class,'destroy'])->name('destroy');
+
+        Route::get('/spesification/{adendumId}', [AdendumSpesificationCoalContractController::class,'index'])->name('spesification.index');
+        Route::get('/spesification/{adendumId}/create', [AdendumSpesificationCoalContractController::class,'create'])->name('spesification.create');
+        Route::post('/spesification/adendumId}/store{', [AdendumSpesificationCoalContractController::class,'store'])->name('spesification.store');
+        Route::get('/spesification/{adendumId}/edit/{id}', [AdendumSpesificationCoalContractController::class,'edit'])->name('spesification.edit');
+        Route::patch('/spesification/{adendumId}/edit/{id}', [AdendumSpesificationCoalContractController::class,'update'])->name('spesification.update');
+        Route::delete('/spesification/{adendumId}/delete/{id}', [AdendumSpesificationCoalContractController::class,'destroy'])->name('spesification.destroy');
+
+        Route::get('/delivery-clause/{adendumId}', [AdendumDeliveryClauseController::class,'index'])->name('delivery-clause.index');
+        Route::get('/delivery-clause/{adendumId}/create', [AdendumDeliveryClauseController::class,'create'])->name('delivery-clause.create');
+        Route::post('/delivery-clause/{adendumId}/store', [AdendumDeliveryClauseController::class,'store'])->name('delivery-clause.store');
+        Route::get('/delivery-clause/{adendumId}/edit/{id}', [AdendumDeliveryClauseController::class,'edit'])->name('delivery-clause.edit');
+        Route::patch('/delivery-clause/{adendumId}/edit/{id}', [AdendumDeliveryClauseController::class,'update'])->name('delivery-clause.update');
+        Route::delete('/delivery-clause/{adendumId}/delete/{id}', [AdendumDeliveryClauseController::class,'destroy'])->name('delivery-clause.destroy');
+
+        Route::get('/adjusment-clause/{adendumId}', [AdendumAdjusmentClauseController::class,'index'])->name('adjusment-clause.index');
+        Route::get('/adjusment-clause/{adendumId}/create', [AdendumAdjusmentClauseController::class,'create'])->name('adjusment-clause.create');
+        Route::post('/adjusment-clause/{adendumId}/store', [AdendumAdjusmentClauseController::class,'store'])->name('adjusment-clause.store');
+        Route::get('/adjusment-clause/{adendumId}/edit/{id}', [AdendumAdjusmentClauseController::class,'edit'])->name('adjusment-clause.edit');
+        Route::patch('/adjusment-clause/{adendumId}/edit/{id}', [AdendumAdjusmentClauseController::class,'update'])->name('adjusment-clause.update');
+        Route::delete('/adjusment-clause/{adendumId}/delete/{id}', [AdendumAdjusmentClauseController::class,'destroy'])->name('adjusment-clause.destroy');
+
+        Route::get('/penalty-clause/{adendumId}', [AdendumPenaltyClauseController::class,'index'])->name('penalty-clause.index');
+        Route::get('/penalty-clause/{adendumId}/create', [AdendumPenaltyClauseController::class,'create'])->name('penalty-clause.create');
+        Route::post('/penalty-clause/{adendumId}/store', [AdendumPenaltyClauseController::class,'store'])->name('penalty-clause.store');
+        Route::get('/penalty-clause/{adendumId}/edit/{id}', [AdendumPenaltyClauseController::class,'edit'])->name('penalty-clause.edit');
+        Route::patch('/penalty-clause/{adendumId}/edit/{id}', [AdendumPenaltyClauseController::class,'update'])->name('penalty-clause.update');
+        Route::delete('/penalty-clause/{adendumId}/delete/{id}', [AdendumPenaltyClauseController::class,'destroy'])->name('penalty-clause.destroy');
         
     });
    

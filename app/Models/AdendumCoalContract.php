@@ -9,7 +9,8 @@ use App\Models\AdendumSpesificationContractCoal;
 class AdendumCoalContract extends Model
 {
     protected $guarded = ['id'];
-
+    protected $table = 'adendum_coal_contracts';
+    
     public function spesifications()
     {
         return $this->hasMany(AdendumSpesificationContractCoal::class, "adendum_id", 'id');

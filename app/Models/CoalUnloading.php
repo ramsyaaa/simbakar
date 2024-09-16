@@ -10,6 +10,7 @@ use App\Loading;
 use App\Supplier;
 use App\Unloading;
 use App\LoadingCompany;
+use App\Models\Adendum;
 use App\Models\CoalContract;
 use Illuminate\Database\Eloquent\Model;
 
@@ -62,6 +63,11 @@ class CoalUnloading extends Model
     public function supplier()
     {
         return $this->hasOne(Supplier::class, 'id', 'supplier_id');
+    }
+
+    public function adendums()
+    {
+        return $this->hasMany(Adendum::class, "id", 'contract_id');
     }
 
 }

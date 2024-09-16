@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AdendumSpesificationContractCoal extends Model
 {
     protected $guarded = ['id'];
-    protected $table = 'adendum_spesification_contract_coals';
+    protected $table = 'adendum_spesfication_contract_coals';
 
     protected static function boot()
      {
