@@ -52,7 +52,7 @@
                             <tr>
                                 <th rowspan="2" class="border border-gray-400 p-2">Kontrak</th>
                                 <th rowspan="2" colspan="2" class="border border-gray-400 p-2">Rencana dan realisasi</th>
-                                <th colspan="12" class="border border-gray-400 p-2">Tahun 2024</th>
+                                <th colspan="12" class="border border-gray-400 p-2">Tahun {{request('year') ?? ''}}</th>
                                 <th rowspan="2" class="border border-gray-400 p-2">Jumlah</th>
                             </tr>
                             <tr>

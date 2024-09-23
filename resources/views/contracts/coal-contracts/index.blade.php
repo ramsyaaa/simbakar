@@ -57,9 +57,17 @@
                                     <br/>
                                     <span>Jenis : {{$coal->kind_contract}}</span>
                                     <br/>
-                                    [Ada Adendum]
+                                    <a href="{{ route('contracts.adendum-coal-contracts.index',['contractId'=>$coal->id]) }}" class="text-sky-700">
+                                        {{ $coal->adendums()->exists() ? '[ Ada Adendum ]' : '[ Belum Ada Adendum ]' }}
+                                    </a>
+                                   
                                     <br/>
-                                    <span>Jenis Kontrak Baru : {{$coal->kind_contract}}</span>
+                                    @if ($coal->adendums()->exists())
+                                        <span>Jenis Kontrak Baru : {{$coal->adendums()->latest()->first()->contract->kind_contract ?? ''}}</span>
+
+                                    @else   
+                                        <span>Jenis Kontrak Baru : - </span>
+                                    @endif
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">
                                     <ul class="text-center">
