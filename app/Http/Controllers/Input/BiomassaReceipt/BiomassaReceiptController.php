@@ -116,16 +116,14 @@ class BiomassaReceiptController extends Controller
             DetailUnloadingBiomassaReceipt::insert($unloading_biomassa);
         }
 
-        // Tug::create([
-        //     'tug' => 3,
-        //     'tug_number' => $tugNumber,
-        //     'bpb_number' => $bpbNumber,
-        //     'type_tug' => 'bbm-receipt',
-        //     'usage_amount' => $request->amount_receipt,
-        //     'unit' => 'L',
-        //     'type_fuel' => $request->bbm_type,
-        //     'biomassa_receipt_id' => $bbm->id,
-        // ]);
+        Tug::create([
+            'tug' => 3,
+            'tug_number' => $tugNumber,
+            'bpb_number' => $bpbNumber,
+            'type_tug' => 'biomassa-receipt',
+            'unit' => 'Kg',
+            'biomassa_receipt_id' => $biomassa->id,
+        ]);
 
         return redirect(route('inputs.biomassa_receipts.index'))->with('success', 'Penerimaan Biomassa baru baru berhasil dibuat.');
     }
