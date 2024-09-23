@@ -85,7 +85,7 @@
                                             @endif
                                             
                                         </select>
-                                        <small>Jenis kontrak akan terisi ,kalau nomor kontrak sudah di pilih    </small>
+                                        {{-- <small>Jenis kontrak akan terisi ,kalau nomor kontrak sudah di pilih    </small> --}}
                                         @error('kind_contract')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -211,14 +211,14 @@
                                 @csrf
                                 @method('PATCH')
                                 <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Tambahan Detail TUG 3</div>
-                                <div class="w-full">
+                                <div class="w-full mb-3">
                                     <label for="load_company_id" class="font-bold text-[#232D42] text-[16px]">Nama PBM</label>
                                     <div class="relative">
-                                        <select name="load_company_id" id="load_company_id" class="w-full lg:w-1/2 lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="load_company_id" id="load_company_id" class="select-company w-full lg:w-1/2 lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Nama PBM</option>
-                                            @foreach ($companies as $company)
-                                            <option value="{{ $company->id }}" {{$receipt->load_company_id == $company->id ? 'selected' :''}}>{{ $company->name }}</option>
-                                            @endforeach
+                                            @if ($company)
+                                                <option value="{{$company->id}}" selected> {{$company->name}}</option>
+                                            @endif
                                         </select>
                                         @error('load_company_id')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
@@ -258,10 +258,10 @@
                                     <div class="w-full">
                                         <label for="origin_harbor_id" class="font-bold text-[#232D42] text-[16px]">Pelabuhan Asal</label>
                                         <div class="relative">
-                                            <select name="origin_harbor_id" id="origin_harbor_id" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="origin_harbor_id" id="origin_harbor_id" class="select-2 w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                                 <option selected disabled>Pilih Pelabuhan</option>
                                                 @foreach ($harbors as $harbor)
-                                                <option value="{{ $harbor->id }}" {{$receipt->origin_harbor_id == $harbor->id ? 'selected' :''}}>{{ $harbor->name }}</option>
+                                                    <option value="{{ $harbor->id }}" {{$receipt->origin_harbor_id == $harbor->id ? 'selected' :''}}>{{ $harbor->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('origin_harbor_id')
@@ -274,10 +274,10 @@
                                     <div class="w-full">
                                         <label for="destination_harbor_id" class="font-bold text-[#232D42] text-[16px]">Pelabuhan Tujuan</label>
                                         <div class="relative">
-                                            <select name="destination_harbor_id" id="destination_harbor_id" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="destination_harbor_id" id="destination_harbor_id" class="select-2 w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                                 <option selected disabled>Pilih Pelabuhan</option>
                                                 @foreach ($harbors as $harbor)
-                                                <option value="{{ $harbor->id }}" {{$receipt->destination_harbor_id == $harbor->id ? 'selected' :''}}>{{ $harbor->name }}</option>
+                                                    <option value="{{ $harbor->id }}" {{$receipt->destination_harbor_id == $harbor->id ? 'selected' :''}}>{{ $harbor->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('destination_harbor_id')
@@ -292,10 +292,10 @@
                                     <div class="w-full">
                                         <label for="dock_id" class="font-bold text-[#232D42] text-[16px]">Dermaga</label>
                                         <div class="relative">
-                                            <select name="dock_id" id="dock_id" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="dock_id" id="dock_id" class="select-2 w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                                 <option selected disabled>Pilih Dermaga</option>
                                                 @foreach ($docks as $dock)
-                                                <option value="{{ $dock->id }}" {{$receipt->dock_id == $dock->id ? 'selected' :''}}>{{ $dock->name }}</option>
+                                                    <option value="{{ $dock->id }}" {{$receipt->dock_id == $dock->id ? 'selected' :''}}>{{ $dock->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('dock_id')
@@ -308,10 +308,10 @@
                                     <div class="w-full">
                                         <label for="agent_ship_id" class="font-bold text-[#232D42] text-[16px]">Agent Kapal</label>
                                         <div class="relative">
-                                            <select name="agent_ship_id" id="agent_ship_id" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="agent_ship_id" id="agent_ship_id" class="select-2 w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                                 <option selected disabled>Pilih Agen Kapal</option>
                                                 @foreach ($agents as $agent)
-                                                <option value="{{ $agent->id }}" {{$receipt->agent_ship_id == $agent->id ? 'selected' :''}}>{{ $agent->name }}</option>
+                                                    <option value="{{ $agent->id }}" {{$receipt->agent_ship_id == $agent->id ? 'selected' :''}}>{{ $agent->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('agent_ship_id')
@@ -328,9 +328,9 @@
                                         <div class="relative">
                                             <select name="ship_id" id="ship_id" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                                 <option selected disabled>Pilih Kapal</option>
-                                                @foreach ($ships as $dock)
-                                                <option value="{{ $dock->id }}" {{$receipt->ship_id == $dock->id ? 'selected' :''}}>{{ $dock->name }}</option>
-                                                @endforeach
+                                                @if ($ship)
+                                                    <option value="{{$ship->id}}" selected> {{$ship->name}}</option>
+                                                @endif
                                             </select>
                                             @error('ship_id')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
@@ -354,7 +354,7 @@
                                 <div class="w-full">
                                     <label for="transporter_id" class="font-bold text-[#232D42] text-[16px]">Transportir</label>
                                     <div class="relative">
-                                        <select name="transporter_id" id="transporter_id" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="transporter_id" id="transporter_id" class="select-2 w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Transportir</option>
                                             @foreach ($transporters as $transporter)
                                             <option value="{{ $transporter->id }}" {{$receipt->transporter_id == $transporter->id ? 'selected' :''}}>{{ $transporter->name }}</option>
@@ -367,14 +367,14 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="w-full">
+                                <div class="w-full mb-3">
                                     <label for="analysis_loading_id" class="font-bold text-[#232D42] text-[16px]">Analisa Loading</label>
                                     <div class="relative">
                                         <select name="analysis_loading_id" id="analysis_loading_id" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Analisa Loading</option>
-                                            @foreach ($loadings as $loading)
-                                            <option value="{{ $loading->id }}" {{$receipt->analysis_loading_id == $loading->id ? 'selected' :''}}>{{ $loading->analysis_number }}</option>
-                                            @endforeach
+                                            @if ($loading)
+                                                <option value="{{$loading->id}}" selected> {{$loading->analysis_number}}</option>
+                                            @endif
                                         </select>
                                         @error('analysis_loading_id')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
@@ -383,14 +383,14 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="w-full">
+                                <div class="w-full mb-3">
                                     <label for="analysis_unloading_id" class="font-bold text-[#232D42] text-[16px]">Analisa Unloading</label>
                                     <div class="relative">
                                         <select name="analysis_unloading_id" id="analysis_unloading_id" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Analisa Unloading</option>
-                                            @foreach ($unloadings as $unloading)
-                                            <option value="{{ $unloading->id }}" {{$receipt->analysis_unloading_id == $unloading->id ? 'selected' :''}}>{{ $unloading->analysis_number }}</option>
-                                            @endforeach
+                                            @if ($unloading)
+                                            <option value="{{$unloading->id}}" selected> {{$unloading->analysis_number}}</option>
+                                        @endif
                                         </select>
                                         @error('analysis_unloading_id')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
@@ -399,14 +399,14 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="w-full">
+                                <div class="w-full mb-3">
                                     <label for="analysis_labor_id" class="font-bold text-[#232D42] text-[16px]">Analisa Labor</label>
                                     <div class="relative">
                                         <select name="analysis_labor_id" id="analysis_labor_id" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Analisa Labor</option>
-                                            @foreach ($labors as $labor)
-                                            <option value="{{ $labor->id }}" {{$receipt->analysis_labor_id == $labor->id ? 'selected' :''}}>{{ $labor->analysis_number }}</option>
-                                            @endforeach
+                                            @if ($labor)
+                                                <option value="{{$labor->id}}" selected> {{$labor->analysis_number}}</option>
+                                            @endif
                                         </select>
                                         @error('analysis_labor_id')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
@@ -595,4 +595,154 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $('#load_company_id').select2({
+            placeholder: 'Pilih PBM',
+            ajax: {
+                type: 'POST',  // Menggunakan POST request
+                url: '{{ route("getLoadingCompany") }}',  // Route ke controller Laravel
+                dataType: 'json',
+                delay: 250,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF Laravel
+                },
+                data: function (params) {
+                    return {
+                        key: params.term,               // Term pencarian dari Select2
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(function(item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#analysis_loading_id').select2({
+            placeholder: 'Pilih Analisa Loading',
+            ajax: {
+                type: 'POST',  // Menggunakan POST request
+                url: '{{ route("getAnalyticLoading") }}',  // Route ke controller Laravel
+                dataType: 'json',
+                delay: 250,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF Laravel
+                },
+                data: function (params) {
+                    return {
+                        key: params.term,               // Term pencarian dari Select2
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(function(item) {
+                            return {
+                                id: item.id,
+                                text: item.analysis_number
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#analysis_unloading_id').select2({
+            placeholder: 'Pilih Analisa Unloading',
+            ajax: {
+                type: 'POST',  // Menggunakan POST request
+                url: '{{ route("getAnalyticUnloading") }}',  // Route ke controller Laravel
+                dataType: 'json',
+                delay: 250,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF Laravel
+                },
+                data: function (params) {
+                    return {
+                        key: params.term,               // Term pencarian dari Select2
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(function(item) {
+                            return {
+                                id: item.id,
+                                text: item.analysis_number
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+        $('#analysis_labor_id').select2({
+            placeholder: 'Pilih Analisa Labor',
+            ajax: {
+                type: 'POST',  // Menggunakan POST request
+                url: '{{ route("getAnalyticLabor") }}',  // Route ke controller Laravel
+                dataType: 'json',
+                delay: 250,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF Laravel
+                },
+                data: function (params) {
+                    return {
+                        key: params.term,               // Term pencarian dari Select2
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(function(item) {
+                            return {
+                                id: item.id,
+                                text: item.analysis_number
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+        $('#ship_id').select2({
+            placeholder: 'Pilih Kapal',
+            ajax: {
+                type: 'POST',  // Menggunakan POST request
+                url: '{{ route("getShip") }}',  // Route ke controller Laravel
+                dataType: 'json',
+                delay: 250,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF Laravel
+                },
+                data: function (params) {
+                    return {
+                        key: params.term,               // Term pencarian dari Select2
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(function(item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+    });
+
+  
+</script>
 @endsection

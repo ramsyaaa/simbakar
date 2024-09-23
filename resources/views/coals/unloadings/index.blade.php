@@ -56,26 +56,26 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                     <span>Pemasok : {{$unloading->supplier->name}}</span><br/>
                                     <span>Kapal : <span class="text-sky-700 cursor-pointer hover:text-sky-800 ship-modal"
-                                    data-nama_kapal="{{$unloading->ship->name}}" 
-                                    data-bendera="{{$unloading->ship->flag}}"
-                                    data-grt="{{$unloading->ship->grt}}"
-                                    data-dwt="{{$unloading->ship->dwt}}"
-                                    data-loa="{{$unloading->ship->loa}}"
+                                    data-nama_kapal="{{$unloading->ship->name ?? ''}}" 
+                                    data-bendera="{{$unloading->ship->flag ?? ''}}"
+                                    data-grt="{{$unloading->ship->grt ?? ''}}"
+                                    data-dwt="{{$unloading->ship->dwt ?? ''}}"
+                                    data-loa="{{$unloading->ship->loa ?? ''}}"
                                     >
-                                    {{$unloading->ship->name}}</span></span><br/>
+                                    {{$unloading->ship->name ?? ''}}</span></span><br/>
                                     <span>BL : {{ number_format($unloading->bl)}}</span>
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                    {{ $unloading->dock->name }}
+                                    {{ $unloading->dock->name  ?? ''}}
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                     <span>TUG3 : {{$unloading->tug_number}}</span><br/>
                                         <a href="#" class="text-sky-700 hover:text-sky-800 unloading-modal"
                                         data-analysis="{{$unloading->analysis_loading_id}}"
-                                        data-company="{{$unloading->company->name}}"
-                                        data-dock="{{$unloading->dock->name}}"
-                                        data-supplier="{{$unloading->supplier->name}}"
-                                        data-ship="{{$unloading->ship->name}}"
+                                        data-company="{{$unloading->company->name ?? ''}}"
+                                        data-dock="{{$unloading->dock->name ?? ''}}"
+                                        data-supplier="{{$unloading->supplier->name ?? ''}}"
+                                        data-ship="{{$unloading->ship->name ?? ''}}"
                                         data-bl="{{$unloading->bl}}"
                                         data-loading_date="{{$unloading->loading_date}}"
                                         data-arrived_date="{{$unloading->arrived_date}}"

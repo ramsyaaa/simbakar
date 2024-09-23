@@ -51,7 +51,9 @@
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">
-                                    <span class="text-sky-700 cursor-pointer" data-tooltip-target="tooltip-light-{{$loop->iteration}}">{{ $coal->contract_number }}</span> 
+                                    <a href="{{ route('contracts.coal-contracts.edit',['uuid'=>$coal->uuid]) }}" class="text-sky-700">
+                                        {{ $coal->contract_number }}
+                                    </a>
                                     <br/>
                                     <span>Jenis : {{$coal->kind_contract}}</span>
                                     <br/>

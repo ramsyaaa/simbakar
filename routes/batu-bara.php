@@ -38,6 +38,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'coals', 'as' => 'coals.'], 
         Route::patch('/tug/{id}', [CoalReceiptController::class, 'updateTug'])->name('update-tug');
         Route::patch('/detail/{id}', [CoalReceiptController::class, 'updateDetail'])->name('update-detail');
         Route::delete('/{id}', [CoalReceiptController::class, 'destroy'])->name('destroy');
+        Route::get('/loading/{id}', [CoalReceiptController::class, 'analyticLoading'])->name('analytic-loading');
+        Route::get('/unloading/{id}', [CoalReceiptController::class, 'analyticUnloading'])->name('analytic-unloading');
+        Route::get('/labor/{id}', [CoalReceiptController::class, 'analyticLabor'])->name('analytic-labor');
     });
 
     Route::group(['prefix' => 'usages', 'as' => 'usages.','middleware' => 'permission:batu-bara-pemakaian'], function () {

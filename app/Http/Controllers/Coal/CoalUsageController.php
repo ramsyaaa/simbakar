@@ -35,24 +35,23 @@ class CoalUsageController extends Controller
      */
     public function index(Request $request)
     {
-        $usages = CoalUsage::query();
+        $data['units'] = Unit::all();
+        if ($request->has('date')){
 
-        $date = Carbon::now()->format('Y-m-d');
-        if(isset($request->date)){
-            $date = $request->date;
+            $usages = CoalUsage::query();
+            $usages->when($request->date, function ($query) use ($request) {
+                $date = explode('-', $request->date);
+                $query->whereYear('usage_date', $date[0]);
+                $query->whereMonth('usage_date', $date[1]);
+            })
+            ->when($request->unit_id, function($query) use ($request){
+                $query->where('unit_id',$request->unit_id);
+            })
+            ->when($request->day, function ($query) use ($request) {
+                $query->where(DB::raw('DAY(usage_date)'), $request->day);
+            });
+            $data['usages'] = $usages->orderBy('unit_id','asc')->latest()->paginate(7)->appends(request()->query());
         }
-        $usages->where('usage_date', $date);
-        $data['date'] = $date;
-
-        $data['units'] = Unit::get();
-
-        if(isset($request->unit_id)){
-            $usages->where(['unit_id' => $request->unit_id]);
-            $data['unit_id'] = $request->unit_id;
-        }
-
-        $data['usages'] = $usages->orderBy('unit_id', 'asc')->latest()->paginate(10)->appends(request()->query());
-        // dd($data);
         return view('coals.usages.index',$data);
 
     }
@@ -78,15 +77,13 @@ class CoalUsageController extends Controller
     {
         DB::beginTransaction();
         try {
-        $request->validate([
-            'tug_9_number' => ['required', 'unique:tugs,tug_number'],
-        ], [
-            'tug_9_number.required' => 'No TUG9 wajib diisi',
-            'tug_9_number.unique' => 'No TUG9 sudah digunakan',
-        ]);
 
             $requestData = $request->all();
 
+            $checkUsage = CoalUsage::where('tug_9_number',$requestData['tug_9_number'])->first();
+            if($checkUsage){
+                return redirect(route('coals.usages.index'))->with('danger', 'Nomor nota sudah pernah di input pada tanggal '.$checkUsage->usage_date);
+            }
             $usage = CoalUsage::create($requestData);
 
             Tug::create([
@@ -98,7 +95,7 @@ class CoalUsageController extends Controller
                 'type_fuel' => 'Batu Bara',
                 'coal_usage_id' => $usage->id,
             ]);
-
+            //test usage
             DB::commit();
             return redirect(route('coals.usages.index'))->with('success', 'Pemakaian Batu Bara berhasil di buat.');
 

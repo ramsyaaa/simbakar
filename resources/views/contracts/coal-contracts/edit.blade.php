@@ -9,7 +9,7 @@
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Tambah Kontrak Batu Bara
+                        ubah Kontrak Batu Bara
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('contracts.coal-contracts.index') }}" class="cursor-pointer">Kontrak Batu Bara</a> / <span class="text-[#2E46BA] cursor-pointer">Create</span>

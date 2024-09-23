@@ -44,3 +44,9 @@ Route::post('get-number', [ApiFetchController::class, 'getNumber'])->name('getNu
 Route::post('get-supplier-contract', [ApiFetchController::class, 'getSupplierContract'])->name('getSupplierContract');
 Route::post('get-certificate', [ApiFetchController::class, 'getCertificate'])->name('getCertificate');
 Route::post('get-contract-ship', [ApiFetchController::class, 'getContractShip'])->name('getContractShip');
+Route::post('get-sub-supplier', [ApiFetchController::class, 'getSubSupplier'])->name('getSubSupplier');
+Route::post('get-loading-company', [ApiFetchController::class, 'getLoadingCompany'])->name('getLoadingCompany');
+Route::post('get-analytic-loading', [ApiFetchController::class, 'getAnalyticLoading'])->name('getAnalyticLoading');
+Route::post('get-analytic-unloading', [ApiFetchController::class, 'getAnalyticUnloading'])->name('getAnalyticUnloading');
+Route::post('get-analytic-labor', [ApiFetchController::class, 'getAnalyticLabor'])->name('getAnalyticLabor');
+Route::post('get-ship', [ApiFetchController::class, 'getShip'])->name('getShip');

@@ -72,14 +72,14 @@
                                     </div>
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                    {{ $receipt->dock->name }}
+                                    {{ $receipt->dock->name ?? '' }}
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                     <span>TUG3 : {{$receipt->tug_number}}</span><br/>
                                         <a href="#" class="text-sky-700 hover:text-sky-800 unloading-modal"
                                         data-analysis="{{$receipt->analysis_loading_id}}"
                                         data-company="{{$receipt->company->name}}"
-                                        data-dock="{{$receipt->dock->name}}"
+                                        data-dock="{{$receipt->dock->name ?? ''}}"
                                         data-supplier="{{$receipt->supplier->name}}"
                                         data-ship="{{$receipt->ship->name}}"
                                         data-bl="{{$receipt->bl}}"

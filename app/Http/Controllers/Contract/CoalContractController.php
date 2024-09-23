@@ -122,7 +122,7 @@ class CoalContractController extends Controller
     public function update(Request $request, $uuid)
     {
         CoalContract::where('uuid', $uuid)->update([
-            'supplier_uuid' => $request->supplier_uuid,
+            'supplier_id' => $request->supplier_id,
             'contract_number' => $request->contract_number,
             'contract_date' => $request->contract_date,
             'type_contract' => $request->type_contract,
