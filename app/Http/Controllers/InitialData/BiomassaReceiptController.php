@@ -4,6 +4,7 @@ namespace App\Http\Controllers\InitialData;
 
 use App\BiomassaReceiptPlan;
 use App\Http\Controllers\Controller;
+use App\Models\BiomassaContract;
 use App\Models\SettingBpb;
 use Illuminate\Http\Request;
 
@@ -30,6 +31,7 @@ class BiomassaReceiptController extends Controller
         $data['biomassa_receipt_plan'] = BiomassaReceiptPlan::where([
             'uuid' => $uuid,
         ])->first();
+
         return view('initial-data.biomassa-receipt-plans.edit', $data);
     }
 

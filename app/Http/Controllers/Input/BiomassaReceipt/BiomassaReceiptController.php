@@ -12,6 +12,7 @@ use App\Harbor;
 use App\Http\Controllers\Controller;
 use App\LoadingCompany;
 use App\Models\BbmBookContract;
+use App\Models\BiomassaContract;
 use App\Models\HeadWarehouse;
 use App\Models\Tug;
 use App\Models\UserInspection;
@@ -44,6 +45,7 @@ class BiomassaReceiptController extends Controller
     public function create()
     {
         $data['suppliers'] = Supplier::get();
+        $data['contracts'] = BiomassaContract::get();
 
         return view('inputs.biomassa_receipt.biomassa_receipt.create', $data);
     }
@@ -70,6 +72,7 @@ class BiomassaReceiptController extends Controller
             'main_supplier_uuid' => $request->main_supplier_uuid,
             'note' => $request->note,
             'tug3_number' => $tugNumber,
+            'contract_id' => $request->contract_id,
         ]);
 
         $detail_biomassa = [];
@@ -153,6 +156,7 @@ class BiomassaReceiptController extends Controller
     {
         $data['biomassa'] = BiomassaReceipt::where('id', $id)->first();
         $data['suppliers'] = Supplier::get();
+        $data['contracts'] = BiomassaContract::get();
 
         return view('inputs.biomassa_receipt.biomassa_receipt.edit',$data);
     }
@@ -170,6 +174,7 @@ class BiomassaReceiptController extends Controller
             'faktur_number' => $request->faktur_number,
             'main_supplier_uuid' => $request->main_supplier_uuid,
             'note' => $request->note,
+            'contract_id' => $request->contract_id,
         ]);
 
         $biomassa = BiomassaReceipt::where(['id' => $id])->first();
