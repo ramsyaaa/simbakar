@@ -14,7 +14,7 @@ class AddAnalyticsIdToBiomassaReceiptsTable extends Migration
     public function up()
     {
         Schema::table('biomassa_receipts', function (Blueprint $table) {
-            //
+            $table->integer('analytic_biomassa_id')->nullable();
         });
     }
 

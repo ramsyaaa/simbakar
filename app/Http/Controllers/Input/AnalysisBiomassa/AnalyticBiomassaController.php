@@ -6,6 +6,7 @@ use App\Ship;
 use App\Labor;
 use App\Supplier;
 use App\BbmReceipt;
+use App\BiomassaReceipt;
 use Illuminate\Http\Request;
 use App\Models\AnalyticBiomassa;
 use App\Models\BiomassaContract;
@@ -34,6 +35,7 @@ class AnalyticBiomassaController extends Controller
     public function create()
     {
         $data['contracts'] = BiomassaContract::all();
+        $data['biomassa_receipt'] = BiomassaReceipt::where([['analytic_biomassa_id', '=', null]])->get();
         return view('inputs.analysis-biomassa.create', $data);
     }
 
@@ -47,9 +49,15 @@ class AnalyticBiomassaController extends Controller
     {
         $checkAnalytic = AnalyticBiomassa::where('analysis_number',$request->analysis_number)->first();
         if($checkAnalytic){
-            return redirect(route('inputs.analysis-biomassa.index'))->with('danger', 'Nomor analisa sudah pernah di input pada tanggal '.$checkAnalytic->analysis_date); 
+            return redirect(route('inputs.analysis-biomassa.index'))->with('danger', 'Nomor analisa sudah pernah di input pada tanggal '.$checkAnalytic->analysis_date);
         }
-        AnalyticBiomassa::create($request->all());
+        $analytic = AnalyticBiomassa::create($request->all());
+
+        BiomassaReceipt::where([
+            'id' => $request->faktur_number,
+        ])->update([
+            'analytic_biomassa_id' => $analytic->id,
+        ]);
 
 
         return redirect(route('inputs.analysis-biomassa.index'))->with('success', 'Analisa baru baru berhasil dibuat.');
@@ -75,7 +83,7 @@ class AnalyticBiomassaController extends Controller
     public function edit($id)
     {
         $analytic = AnalyticBiomassa::where('id', $id)->first();
-        
+
         $data['contracts'] = BiomassaContract::all();
         $data['suppliers'] = BiomassaSubSupplier::where('contract_id', $analytic->contract_id)
         ->join('suppliers', 'suppliers.id','biomassa_sub_suppliers.supplier_id')
