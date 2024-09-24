@@ -28,20 +28,20 @@ class ReceiptRecapitulationController extends Controller
 
                     // Ambil semua data yang diperlukan dalam satu query
                     $contracts = CoalUnloading::select(
-                            'coal_contracts.id as contract_id',
-                            'coal_contracts.contract_number',
-                            'suppliers.name',
-                            'coal_contracts.total_volume',
-                            DB::raw('DAY(receipt_date) as hari'),
-                            DB::raw('SUM(tug_3_accept) as total_per_hari')
-                        )
-                        ->join('coal_contracts', 'coal_contracts.id', '=', 'coal_unloadings.contract_id')
-                        ->join('suppliers', 'suppliers.id', '=', 'coal_contracts.supplier_id')
-                        ->whereMonth('receipt_date', $bulan)
-                        ->whereYear('receipt_date', $tahun)
-                        ->groupBy('coal_contracts.id', 'hari')
-                        ->get()
-                        ->groupBy('contract_id');
+                        'coal_contracts.id as contract_id',
+                        'coal_contracts.contract_number',
+                        'suppliers.name',
+                        'coal_contracts.total_volume',
+                        DB::raw('DAY(receipt_date) as hari'),
+                        DB::raw('SUM(tug_3_accept) as total_per_hari')
+                    )
+                    ->join('coal_contracts', 'coal_contracts.id', '=', 'coal_unloadings.contract_id')
+                    ->join('suppliers', 'suppliers.id', '=', 'coal_contracts.supplier_id')
+                    ->whereMonth('receipt_date', '=', $bulan) // Jika bulan dinamis, bisa gunakan $bulan
+                    ->whereYear('receipt_date', '=', $tahun) // Jika tahun dinamis, bisa gunakan $tahun
+                    ->groupBy('coal_contracts.id', 'coal_contracts.contract_number', 'suppliers.name', 'coal_contracts.total_volume', 'hari') // Tambahkan semua kolom non-agregat di sini
+                    ->get()
+                    ->groupBy('contract_id');
 
                     // Memproses data hasil query untuk mengelompokkan per kontrak
                     $processedContracts = $contracts->map(function($items) use ($daysInMonth) {
@@ -89,19 +89,19 @@ class ReceiptRecapitulationController extends Controller
 
                     // Mengambil semua data dalam satu query untuk mengurangi beban query berulang
                     $contracts = CoalUnloading::select(
-                            'coal_contracts.id as contract_id',
-                            'coal_contracts.contract_number',
-                            'suppliers.name',
-                            'coal_contracts.total_volume',
-                            DB::raw('MONTH(receipt_date) as bulan'),
-                            DB::raw('SUM(tug_3_accept) as total_per_bulan')
-                        )
-                        ->join('coal_contracts', 'coal_contracts.id', '=', 'coal_unloadings.contract_id')
-                        ->join('suppliers', 'suppliers.id', '=', 'coal_contracts.supplier_id')
-                        ->whereYear('receipt_date', $tahunInput)
-                        ->groupBy('coal_contracts.id', 'bulan')
-                        ->get()
-                        ->groupBy('contract_id');
+                        'coal_contracts.id as contract_id',
+                        'coal_contracts.contract_number',
+                        'suppliers.name',
+                        'coal_contracts.total_volume',
+                        DB::raw('MONTH(receipt_date) as bulan'),
+                        DB::raw('SUM(tug_3_accept) as total_per_bulan')
+                    )
+                    ->join('coal_contracts', 'coal_contracts.id', '=', 'coal_unloadings.contract_id')
+                    ->join('suppliers', 'suppliers.id', '=', 'coal_contracts.supplier_id')
+                    ->whereYear('receipt_date', '=', $tahunInput)
+                    ->groupBy('coal_contracts.id', 'coal_contracts.contract_number', 'suppliers.name', 'coal_contracts.total_volume', 'bulan') // Tambahkan semua kolom non-agregat di sini
+                    ->get()
+                    ->groupBy('contract_id');
 
                     // Memproses data hasil query untuk mengelompokkan per kontrak
                     $processedContracts = $contracts->map(function($items) {
@@ -151,20 +151,20 @@ class ReceiptRecapitulationController extends Controller
 
                     // Mengambil semua data dalam satu query
                     $contracts = CoalUnloading::select(
-                            'coal_contracts.id as contract_id',
-                            'coal_contracts.contract_number',
-                            'suppliers.name',
-                            'coal_contracts.total_volume',
-                            DB::raw('YEAR(receipt_date) as tahun'),
-                            DB::raw('SUM(tug_3_accept) as total_per_tahun')
-                        )
-                        ->join('coal_contracts', 'coal_contracts.id', '=', 'coal_unloadings.contract_id')
-                        ->join('suppliers', 'suppliers.id', '=', 'coal_contracts.supplier_id')
-                        ->whereYear('receipt_date', '>=', $startYear)
-                        ->whereYear('receipt_date', '<=', $endYear)
-                        ->groupBy('coal_contracts.id', 'tahun')
-                        ->get()
-                        ->groupBy('contract_id');
+                        'coal_contracts.id as contract_id',
+                        'coal_contracts.contract_number',
+                        'suppliers.name',
+                        'coal_contracts.total_volume',
+                        DB::raw('YEAR(receipt_date) as tahun'),
+                        DB::raw('SUM(tug_3_accept) as total_per_tahun')
+                    )
+                    ->join('coal_contracts', 'coal_contracts.id', '=', 'coal_unloadings.contract_id')
+                    ->join('suppliers', 'suppliers.id', '=', 'coal_contracts.supplier_id')
+                    ->whereYear('receipt_date', '>=', $startYear)
+                    ->whereYear('receipt_date', '<=', $endYear)
+                    ->groupBy('coal_contracts.id', 'coal_contracts.contract_number', 'suppliers.name', 'coal_contracts.total_volume', 'tahun') // Tambahkan semua kolom non-agregat di sini
+                    ->get()
+                    ->groupBy('contract_id');
 
                     // Memproses data hasil query untuk mengelompokkan per kontrak dan per tahun
                     $processedContracts = $contracts->map(function($items) use($startYear, $endYear) {
