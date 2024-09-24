@@ -20,12 +20,14 @@ class CoalComparisonController extends Controller
         $data['suppliers'] = Supplier::all();
         $data['ships'] = Ship::all();
 
-        if($request->has('supplier_id')){
+        if($request->has('contract_id')){
           $data['loading'] = $this->analytic($request,1);
           $data['unloading'] = $this->analytic($request,2);
           $data['labor'] = $this->analytic($request,3);
           $data['pemasok'] = Supplier::where('id',$request->get('supplier_id'))->first();
           $data['kapal'] = Ship::where('id',$request->get('ship_id'))->first();
+          $coal = CoalUnloading::select('ship_id')->where('supplier_id', '=', $request->supplier_id)->get()->toArray();
+          $data['getShips'] = Ship::whereIn('id',$coal)->get();
           $data['contract'] = CoalUnloading::where('id',$request->contract_id)->first();
           $data['numbers'] = CoalUnloading::where('supplier_id', $request->supplier_id)->where('ship_id',$request->ship_id)->get();
         }
@@ -56,10 +58,14 @@ class CoalComparisonController extends Controller
             $total_base = $certificate->cao + $certificate->mgo + $certificate->fe2o3 + $certificate->na2o + $certificate->k2o ;
             
             $total_acid = $certificate->sio2 + $certificate->al2o3 + $certificate->tlo2;
-            
-            $total_slagging = ($total_base / $total_acid ) * $sulfur_db;
-            $total_fouling = ($total_base / $total_acid ) * $certificate->na2o;
-            
+            if($total_acid == 0){
+                $total_slagging = 0;
+                $total_fouling = 0;
+            }else{
+                $total_slagging = ($total_base / $total_acid ) * $sulfur_db;
+                $total_fouling = ($total_base / $total_acid ) * $certificate->na2o;
+            }
+        
             $check = $certificate->cao + $certificate->mgo;
             
             $slagging_index = $certificate->fe2o3 > $check ?  $total_slagging: '' ;

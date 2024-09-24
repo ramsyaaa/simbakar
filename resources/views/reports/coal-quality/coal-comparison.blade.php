@@ -21,9 +21,14 @@
                     <div class="mb-4">
                         <select name="ship_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md ship-select">
                             <option selected disabled>Pilih Kapal</option>
-                            @foreach ($ships as $ship)
-                                <option value="{{$ship->id}}" {{request('ship_id') == $ship->id ? 'selected' : ''}}> {{$ship->name}}</option>
-                            @endforeach
+                            @if (request('ship_id'))
+                                @isset($getShips)
+                                    @foreach ($getShips as $item)
+                                        <option value="{{$item->id}}"{{request('ship_id') == $item->id ? 'selected' : ''}}> {{$item->name}}</option>
+                                    @endforeach
+                                @endisset
+                                
+                            @endif
                         </select>
                     </div>
                     <div class="mb-4">
@@ -56,7 +61,7 @@
                             <p class="text-right">UBP SURALAYA</p>
                         </div>
                         <div class="text-center text-[20px] font-bold">
-                            <p>Perbandingan Hasil Analisa Kualitas Batu Bara Kapal {{$ship->name ?? ''}}</p>
+                            <p>Perbandingan Hasil Analisa Kualitas Batu Bara Kapal {{$kapal->name ?? ''}}</p>
                             <p>{{$pemasok->name ?? ''}} Tanggal {{date('d F Y', strtotime($contract->receipt_date))}}</p>
                             {{-- <p>No: {{$tug->bpb_number}}/IBPB/UBPSLA/PBB/{{date('Y')}}</p> --}}
                         </div>
@@ -280,37 +285,63 @@
 <script>
     $('.supplier-select').change(function(){  
         $(".select-contract").empty()
+        $(".ship-select").empty()
+
+        let supplier_id  =  $('.supplier-select').find(":selected").val();
+        let token = "{{ csrf_token() }}"
+        $(".select-contract").empty()
+        $.ajax({
+            method: "post",
+            url: "{{route('getShipComparison')}}",
+            data: {
+                _token:token,
+                supplier_id:supplier_id,
+                },
+            success: function (response) {
+                var ship = response
+                console.log(ship)
+                $(".ship-select").append(
+                            `<option selected disabled>Pilih Kapal</option>`
+                            )
+                ship.forEach(ship=>{
+                    $(".ship-select").append(
+                            `<option value="${ship.id}">${ship.name}</option>`
+                            )
+                        })
+                    
+            }
+            })
     })
 </script>
-    <script>
-        $('.ship-select').change(function(){  
-            let supplier_id  =  $('.supplier-select').find(":selected").val();
-            let ship_id  = $(this).val();
-            let token = "{{ csrf_token() }}"
-            $(".select-contract").empty()
-            $.ajax({
-                method: "post",
-                url: "{{route('getContractShip')}}",
-                data: {
-                    _token:token,
-                    supplier_id:supplier_id,
-                    ship_id:ship_id,
-                    },
-                success: function (response) {
-                    var contracts = response
-                    console.log(contracts)
+<script>
+    $('.ship-select').change(function(){  
+        let supplier_id  =  $('.supplier-select').find(":selected").val();
+        let ship_id  = $(this).val();
+        let token = "{{ csrf_token() }}"
+        $(".select-contract").empty()
+        $.ajax({
+            method: "post",
+            url: "{{route('getContractShip')}}",
+            data: {
+                _token:token,
+                supplier_id:supplier_id,
+                ship_id:ship_id,
+                },
+            success: function (response) {
+                var contracts = response
+                console.log(contracts)
+                $(".select-contract").append(
+                            `<option selected disabled>Pilih Tanggal</option>`
+                            )
+                contracts.forEach(contract=>{
                     $(".select-contract").append(
-                             `<option selected disabled>Pilih Tanggal</option>`
-                                )
-                    contracts.forEach(contract=>{
-                        $(".select-contract").append(
-                             `<option value="${contract.id}">${contract.receipt_date}</option>`
-                                )
-                            })
-                        
-                }
-                })
+                            `<option value="${contract.id}">${contract.receipt_date}</option>`
+                            )
+                        })
+                    
+            }
             })
+        })
 
-    </script>
+</script>
 @endsection
