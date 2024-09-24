@@ -205,7 +205,7 @@ class ApiFetchController extends Controller
    public function getShipComparison(Request $request){
 
         try {
-            $coal = CoalUnloading::select('ship_id')->where('supplier_id', '=', $request->supplier_id)->get()->toArray();
+            $coal = CoalUnloading::select('ship_id')->distinct()->where('supplier_id', '=', $request->supplier_id)->get()->toArray();
             $ship = Ship::whereIn('id',$coal)->get();
             return $ship;
         
