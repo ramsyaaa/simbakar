@@ -19,16 +19,24 @@ class CoalComparisonController extends Controller
     {
         $data['suppliers'] = Supplier::all();
 
-        if($request->has('contract_id')){
-          $data['loading'] = $this->analytic($request,1);
-          $data['unloading'] = $this->analytic($request,2);
-          $data['labor'] = $this->analytic($request,3);
-          $data['pemasok'] = Supplier::where('id',$request->get('supplier_id'))->first();
-          $data['kapal'] = Ship::where('id',$request->get('ship_id'))->first();
-          $coal = CoalUnloading::select('ship_id')->distinct()->where('supplier_id', '=', $request->supplier_id)->get()->toArray();
-          $data['getShips'] = Ship::whereIn('id',$coal)->get();
-          $data['contract'] = CoalUnloading::where('id',$request->contract_id)->first();
-          $data['numbers'] = CoalUnloading::where('supplier_id', $request->supplier_id)->where('ship_id',$request->ship_id)->get();
+        if($request->has('supplier_id')){
+
+            if(!$request->has('ship_id')){
+                return redirect()->back()->with('danger','Kapal harus di isi!');
+            }
+            if(!$request->has('contract_id')){
+                return redirect()->back()->with('danger','Tanggal harus di isi!');
+            }
+            
+            $data['loading'] = $this->analytic($request,1);
+            $data['unloading'] = $this->analytic($request,2);
+            $data['labor'] = $this->analytic($request,3);
+            $data['pemasok'] = Supplier::where('id',$request->get('supplier_id'))->first();
+            $data['kapal'] = Ship::where('id',$request->get('ship_id'))->first();
+            $coal = CoalUnloading::select('ship_id')->distinct()->where('supplier_id', '=', $request->supplier_id)->get()->toArray();
+            $data['getShips'] = Ship::whereIn('id',$coal)->get();
+            $data['contract'] = CoalUnloading::where('id',$request->contract_id)->first();
+            $data['numbers'] = CoalUnloading::where('supplier_id', $request->supplier_id)->where('ship_id',$request->ship_id)->get();
         }
         return view('reports.coal-quality.coal-comparison',$data);
     }

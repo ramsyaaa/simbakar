@@ -11,16 +11,16 @@
             <div class="w-full flex justify-center mb-6">
                 <form method="get" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
                     <div class="mb-4">
-                        <select name="supplier_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md supplier-select">
-                            <option selected disabled>Pilih Supplier</option>
+                        <select name="supplier_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md supplier-select" required>
+                            <option value="">Pilih Supplier</option>
                             @foreach ($suppliers as $supplier)
                                 <option value="{{$supplier->id}}" {{request('supplier_id') == $supplier->id ? 'selected' : ''}}> {{$supplier->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="ship_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md ship-select">
-                            <option selected disabled>Pilih Kapal</option>
+                        <select name="ship_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md ship-select" required>
+                            <option value="">Pilih Kapal</option>
                             @if (request('ship_id'))
                                 @isset($getShips)
                                     @foreach ($getShips as $item)
@@ -32,7 +32,8 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="contract_id" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-contract">
+                        <select name="contract_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-contract" required>
+                            <option value="">Pilih Tanggal</option>
                             @if (request('contract_id'))
                                 @isset($numbers)
                                     @foreach ($numbers as $number)
@@ -301,7 +302,7 @@
                 var ship = response
                 console.log(ship)
                 $(".ship-select").append(
-                            `<option selected disabled>Pilih Kapal</option>`
+                            `<option value="">Pilih Kapal</option>`
                             )
                 ship.forEach(ship=>{
                     $(".ship-select").append(
@@ -331,7 +332,7 @@
                 var contracts = response
                 console.log(contracts)
                 $(".select-contract").append(
-                            `<option selected disabled>Pilih Tanggal</option>`
+                            `<option value="">Pilih Tanggal</option>`
                             )
                 contracts.forEach(contract=>{
                     $(".select-contract").append(
