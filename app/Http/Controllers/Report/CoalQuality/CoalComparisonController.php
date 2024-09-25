@@ -18,7 +18,6 @@ class CoalComparisonController extends Controller
     public function index(Request $request)
     {
         $data['suppliers'] = Supplier::all();
-        $data['ships'] = Ship::all();
 
         if($request->has('contract_id')){
           $data['loading'] = $this->analytic($request,1);
@@ -26,7 +25,7 @@ class CoalComparisonController extends Controller
           $data['labor'] = $this->analytic($request,3);
           $data['pemasok'] = Supplier::where('id',$request->get('supplier_id'))->first();
           $data['kapal'] = Ship::where('id',$request->get('ship_id'))->first();
-          $coal = CoalUnloading::select('ship_id')->where('supplier_id', '=', $request->supplier_id)->get()->toArray();
+          $coal = CoalUnloading::select('ship_id')->distinct()->where('supplier_id', '=', $request->supplier_id)->get()->toArray();
           $data['getShips'] = Ship::whereIn('id',$coal)->get();
           $data['contract'] = CoalUnloading::where('id',$request->contract_id)->first();
           $data['numbers'] = CoalUnloading::where('supplier_id', $request->supplier_id)->where('ship_id',$request->ship_id)->get();
