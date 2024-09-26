@@ -110,7 +110,7 @@
                             <p class="text-right">UBP SURALAYA</p>
                         </div>
                         <div class="text-center text-[20px] font-bold">
-                           <p>Monitoring Perbandingan Analisa Kualitas Batu Bara <br> PT OKTASAN BARUNA PERSADA <br>
+                           <p>Monitoring Perbandingan Analisa Kualitas Batu Bara <br> {{$pemasok->name}} <br>
                             @if (request('filter_type') == 'kontrak')
                             No Kontrak {{$contract->contract_number }}
                             @endif

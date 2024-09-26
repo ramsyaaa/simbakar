@@ -14,6 +14,7 @@ use App\Models\UnitPenalty;
 use App\Models\CoalContract;
 use Illuminate\Http\Request;
 use App\Models\CoalUnloading;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class MonitoringSupplierController extends Controller
@@ -25,7 +26,7 @@ class MonitoringSupplierController extends Controller
         $data['suppliers'] = Supplier::all();
         $data['units'] = UnitPenalty::where('is_true',0)->get();
         $data['filter_type'] = $filterType;
-        $bulanTahun = $request->input('bulan_tahun', date('Y-m'));
+        $bulanTahun = $request->input('bulan_tahun', date('Y-m')) ?? date('Y-m') ;
         list($tahun, $bulan) = explode('-', $bulanTahun);
         $data['tahun'] = $tahun;
         $data['bulan'] = $bulan;
@@ -45,33 +46,44 @@ class MonitoringSupplierController extends Controller
             switch ($filterType) {
 
                 case 'day':
-                    $coals = CoalUnloading::with('ship')->where('supplier_id',$request->supplier_id)->whereMonth('unloading_date',$bulan)
-                    ->whereYear('unloading_date',$tahun)
-                    ->whereNotNull('analysis_loading_id')
-                    ->whereNotNull('analysis_unloading_id')
-                    ->whereNotNull('analysis_labor_id')
-                    ->get()
-                    ->map(function($item) use ($parameter,$request){
-                        if($request->basis == 'AR'){
+                    $coals = CoalUnloading::with('ship')
+                        ->where('supplier_id', $request->supplier_id)
+                        ->whereMonth('unloading_date', $bulan)
+                        ->whereYear('unloading_date', $tahun)
+                        ->whereNotNull('analysis_loading_id')
+                        ->whereNotNull('analysis_unloading_id')
+                        ->whereNotNull('analysis_labor_id')
+                        ->get();
 
-                            $unloading = Unloading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_unloading_id)->first();
-                            $loading = Loading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_loading_id)->first();
-                            $labor = Labor::select($parameter->unit.' AS parameter')->where('id',$item->analysis_labor_id)->first();
+                    // Collect all related IDs to avoid repeated queries
+                    $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();
+                    $loadingIds = $coals->pluck('analysis_loading_id')->unique();
+                    $laborIds = $coals->pluck('analysis_labor_id')->unique();
 
-                            $item->unloading = $unloading['parameter'];
-                            $item->loading = $loading['parameter'];
-                            $item->labor = $labor['parameter'];
-                        }else{
-                            $unloading = Unloading::select($parameter->unit)->where('id',$item->analysis_unloading_id)->first();
-                            $loading = Loading::select($parameter->unit)->where('id',$item->analysis_loading_id)->first();
-                            $labor = Labor::select($parameter->unit)->where('id',$item->analysis_labor_id)->first();
 
-                            $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture ) * $unloading[$parameter->unit];
-                            $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture ) * $unloading[$parameter->unit];
-                            $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture ) * $labor[$parameter->unit];
-                            
+                    // Fetch all related data in one go
+                    $unloadings = Unloading::whereIn('id', $unloadingIds)->get()->keyBy('id');
+                    $loadings = Loading::whereIn('id', $loadingIds)->get()->keyBy('id');
+                    $labors = Labor::whereIn('id', $laborIds)->get()->keyBy('id');
+
+
+                    // Now map the data
+                    $coals = $coals->map(function ($item) use ($parameter, $request, $unloadings, $loadings, $labors) {
+                        $unloading = $unloadings->get($item->analysis_unloading_id);
+                        $loading = $loadings->get($item->analysis_loading_id);
+                        $labor = $labors->get($item->analysis_labor_id);
+
+                        if ($request->basis == 'AR') {
+                            $item->unloading = $unloading->{$parameter->unit};
+                            $item->loading = $loading->{$parameter->unit};
+                            $item->labor = $labor->{$parameter->unit};
+                        } else {
+                            $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit};
+                            $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $unloading->{$parameter->unit};
+                            $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit};
                         }
-                        $item->origin = Loading::select('origin_of_goods')->where('id',$item->analysis_loading_id)->first();
+
+                        $item->origin = $loading->origin_of_goods;  // Use already fetched loading data
                         return $item;
                     });
 
@@ -81,106 +93,142 @@ class MonitoringSupplierController extends Controller
 
                 case 'month':
                     $coals = [];
-                    for ($i = 1; $i <=12 ; $i++){
-                        $coal = CoalUnloading::where('supplier_id',$request->supplier_id)
-                        ->whereMonth('unloading_date',$i)
-                        ->whereYear('unloading_date',$tahunInput)
+                    // Load all the data for the entire year
+                    $coalData = CoalUnloading::where('supplier_id', $request->supplier_id)
+                        ->whereYear('unloading_date', $tahunInput)
                         ->whereNotNull('analysis_loading_id')
                         ->whereNotNull('analysis_unloading_id')
                         ->whereNotNull('analysis_labor_id')
-                        ->get()
-                        ->map(function($item) use ($parameter,$request){
-                            if($request->basis == 'AR'){
-
-                                $unloading = Unloading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_unloading_id)->first();
-                                $loading = Loading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_loading_id)->first();
-                                $labor = Labor::select($parameter->unit.' AS parameter')->where('id',$item->analysis_labor_id)->first();
-    
-                                $item->unloading = $unloading['parameter'];
-                                $item->loading = $loading['parameter'];
-                                $item->labor = $labor['parameter'];
-                            }else{
-                                $unloading = Unloading::select($parameter->unit)->where('id',$item->analysis_unloading_id)->first();
-                                $loading = Loading::select($parameter->unit)->where('id',$item->analysis_loading_id)->first();
-                                $labor = Labor::select($parameter->unit)->where('id',$item->analysis_labor_id)->first();
-    
-                                $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture ) * $unloading[$parameter->unit];
-                                $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture ) * $unloading[$parameter->unit];
-                                $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture ) * $labor[$parameter->unit];
+                        ->get();
+                    
+                    // Collect all related IDs to avoid repeated queries
+                    $unloadingIds = $coalData->pluck('analysis_unloading_id')->unique();
+                    $loadingIds = $coalData->pluck('analysis_loading_id')->unique();
+                    $laborIds = $coalData->pluck('analysis_labor_id')->unique();
+                    
+                    // Fetch all related data in one go
+                    $unloadings = Unloading::whereIn('id', $unloadingIds)->get()->keyBy('id');
+                    $loadings = Loading::whereIn('id', $loadingIds)->get()->keyBy('id');
+                    $labors = Labor::whereIn('id', $laborIds)->get()->keyBy('id');
+                    
+                    // Iterate over each month
+                    for ($i = 1; $i <= 12; $i++) {
+                        // Filter data for the current month
+                        $coalForMonth = $coalData->filter(function ($item) use ($i) {
+                            // Convert unloading_date to Carbon instance if it's not already one
+                            $unloadingDate = $item->unloading_date instanceof Carbon ? $item->unloading_date : Carbon::parse($item->unloading_date);
+                            return $unloadingDate->month == $i;
+                        });
+                    
+                        // Map data to include the needed values
+                        $coalForMonth = $coalForMonth->map(function ($item) use ($parameter, $request, $unloadings, $loadings, $labors) {
+                            $unloading = $unloadings->get($item->analysis_unloading_id);
+                            $loading = $loadings->get($item->analysis_loading_id);
+                            $labor = $labors->get($item->analysis_labor_id);
+                    
+                            if ($request->basis == 'AR') {
+                                $item->unloading = $unloading->{$parameter->unit};
+                                $item->loading = $loading->{$parameter->unit};
+                                $item->labor = $labor->{$parameter->unit};
+                            } else {
+                                $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit};
+                                $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit};
+                                $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit};
                             }
                             return $item;
                         });
-                        if(!empty($coal)){
-                            $coals [] = [
+                    
+                        // Prepare the output for each month
+                        if ($coalForMonth->isNotEmpty()) {
+                            $coals[] = [
                                 'month' => $monthNames[$i],
-                                'tug_3_accept' => $coal->sum('tug_3_accept') ?? 0,
-                                'unloading' => $coal->pluck('unloading')->avg() ?? null,
-                                'loading' => $coal->pluck('loading')->avg() ?? null,
-                                'labor' => $coal->pluck('labor')->avg() ?? null
+                                'tug_3_accept' => $coalForMonth->sum('tug_3_accept') ?? 0,
+                                'unloading' => number_format($coalForMonth->pluck('unloading')->avg(),2) ?? null,
+                                'loading' => number_format($coalForMonth->pluck('loading')->avg(),2) ?? null,
+                                'labor' => number_format($coalForMonth->pluck('labor')->avg(),2) ?? null
                             ];
-                        }else{
-                            $coals [] = [
+                        } else {
+                            $coals[] = [
                                 'month' => $monthNames[$i],
                                 'tug_3_accept' => 0,
                                 'unloading' => null,
                                 'loading' => null,
-                                'labor' =>  null,
+                                'labor' => null,
                             ];
                         }
                     }
+                    
+                    // Set the final data output
                     $data['coals'] = $coals;
                     break;
 
 
                 case 'year':
                     $coals = [];
-                    for ($i = $startYear; $i <=$endYear ; $i++){
-                        $coal = CoalUnloading::where('supplier_id',$request->supplier_id)
-                        ->whereYear('unloading_date',$i)
+                    // Load all coal data for the range of years
+                    $coalData = CoalUnloading::where('supplier_id', $request->supplier_id)
+                        ->whereBetween(DB::raw('YEAR(unloading_date)'), [$startYear, $endYear])
                         ->whereNotNull('analysis_loading_id')
                         ->whereNotNull('analysis_unloading_id')
                         ->whereNotNull('analysis_labor_id')
-                        ->get()
-                        ->map(function($item) use ($parameter,$request){
-                            if($request->basis == 'AR'){
-
-                                $unloading = Unloading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_unloading_id)->first();
-                                $loading = Loading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_loading_id)->first();
-                                $labor = Labor::select($parameter->unit.' AS parameter')->where('id',$item->analysis_labor_id)->first();
-    
-                                $item->unloading = $unloading['parameter'];
-                                $item->loading = $loading['parameter'];
-                                $item->labor = $labor['parameter'];
-                            }else{
-                                $unloading = Unloading::select($parameter->unit)->where('id',$item->analysis_unloading_id)->first();
-                                $loading = Loading::select($parameter->unit)->where('id',$item->analysis_loading_id)->first();
-                                $labor = Labor::select($parameter->unit)->where('id',$item->analysis_labor_id)->first();
-    
-                                $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture ) * $unloading[$parameter->unit];
-                                $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture ) * $unloading[$parameter->unit];
-                                $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture ) * $labor[$parameter->unit];
+                        ->get();
+                    
+                    // Collect all related IDs to avoid repeated queries
+                    $unloadingIds = $coalData->pluck('analysis_unloading_id')->unique();
+                    $loadingIds = $coalData->pluck('analysis_loading_id')->unique();
+                    $laborIds = $coalData->pluck('analysis_labor_id')->unique();
+                    
+                    // Fetch all related data in one go
+                    $unloadings = Unloading::whereIn('id', $unloadingIds)->get()->keyBy('id');
+                    $loadings = Loading::whereIn('id', $loadingIds)->get()->keyBy('id');
+                    $labors = Labor::whereIn('id', $laborIds)->get()->keyBy('id');
+                    
+                    // Iterate over each year
+                    for ($i = $startYear; $i <= $endYear; $i++) {
+                        // Filter data for the current year
+                        $coalForYear = $coalData->filter(function ($item) use ($i) {
+                            return Carbon::parse($item->unloading_date)->year == $i;
+                        });
+                    
+                        // Map data to include the needed values
+                        $coalForYear = $coalForYear->map(function ($item) use ($parameter, $request, $unloadings, $loadings, $labors) {
+                            $unloading = $unloadings->get($item->analysis_unloading_id);
+                            $loading = $loadings->get($item->analysis_loading_id);
+                            $labor = $labors->get($item->analysis_labor_id);
+                    
+                            if ($request->basis == 'AR') {
+                                $item->unloading = $unloading->{$parameter->unit};
+                                $item->loading = $loading->{$parameter->unit};
+                                $item->labor = $labor->{$parameter->unit};
+                            } else {
+                                $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit};
+                                $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit};
+                                $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit};
                             }
                             return $item;
                         });
-                        if(!empty($coal)){
-        
-                            $coals [] = [
-                                'month' => $i,
-                                'tug_3_accept' => $coal->sum('tug_3_accept') ?? 0,
-                                'unloading' => $coal->pluck('unloading')->avg() ?? null,
-                                'loading' => $coal->pluck('loading')->avg() ?? null,
-                                'labor' => $coal->pluck('labor')->avg() ?? null
+                    
+                        // Prepare the output for each year
+                        if ($coalForYear->isNotEmpty()) {
+                            $coals[] = [
+                                'month' => $i,  // Changed from 'month' to 'year'
+                                'tug_3_accept' => $coalForYear->sum('tug_3_accept') ?? 0,
+                                'unloading' => number_format($coalForYear->pluck('unloading')->avg(),2) ?? null,
+                                'loading' => number_format($coalForYear->pluck('loading')->avg(),2) ?? null,
+                                'labor' => number_format($coalForYear->pluck('labor')->avg(),2) ?? null,
                             ];
-                        }else{
-                            $coals [] = [
-                                'month' => $i,
+                        } else {
+                            $coals[] = [
+                                'month' => $i,  // Changed from 'month' to 'year'
                                 'tug_3_accept' => 0,
                                 'unloading' => null,
                                 'loading' => null,
-                                'labor' =>  null,
+                                'labor' => null,
                             ];
                         }
                     }
+                    
+                    // Set the final data output
                     $data['coals'] = $coals;
                 
                     break;
