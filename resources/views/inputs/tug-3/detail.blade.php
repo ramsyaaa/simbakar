@@ -112,21 +112,21 @@
                                     <div class="flex justify-between">
                                         <div>
                                             @if ($tug->type_fuel == 'Batu Bara')          
-                                                <p>Diterima tanggal: {{$tug->coal->receipt_date}}</p>
+                                                <p>Diterima tanggal: {{$tug->coal->receipt_date ?? ''}}</p>
                                                 <p>Dari: UBP SURALAYA</p>
-                                                <p>Dengan: {{$tug->coal->ship->name}}</p>
+                                                <p>Dengan: {{$tug->coal->ship->name ?? ''}}</p>
                                             @endif
                                             @if ($tug->type_fuel == 'solar')          
-                                                <p>Diterima tanggal: {{$tug->bbm->date_receipt}}</p>
+                                                <p>Diterima tanggal: {{$tug->bbm->date_receipt ?? ''}}</p>
                                                 <p>Dari: UBP SURALAYA</p>
-                                                <p>Dengan: {{$tug->bbm->ship->name}}</p>
+                                                <p>Dengan: {{$tug->bbm->ship->name ?? ''}}</p>
                                             @endif
                                         </div>
                                         <div class="text-left">
                                             @if ($tug->type_fuel == 'Batu Bara')          
                                                 <p>Pembelian ditempat lihat faktur / bukti kas no:</p>
                                                 <p>Diterima bon pengeluaran/surat pengantar no:</p>
-                                                <p>Menurut surat pesanan/daftar permintaan no : {{$tug->coal->contract->contract_number}} / {{$tug->coal->receipt_date}}</p>
+                                                <p>Menurut surat pesanan/daftar permintaan no : {{$tug->coal->contract->contract_number ?? ''}} / {{$tug->coal->receipt_date ?? ''}}</p>
                                             @endif
                                             @if ($tug->type_fuel == 'solar')          
                                             <p>Pembelian ditempat lihat faktur / bukti kas no:</p>
@@ -158,7 +158,7 @@
                                                     <p>Jenis Bahan Bakar: Batubara</p>
                                                     <p>ex. {{$tug->coal->supplier->name}}</p>
                                                     <p>Penerimaan Untuk Unit 1-7</p>
-                                                    <p>Pelabuhan Asal: {{$tug->coal->originHarbor->name}}</p>
+                                                    <p>Pelabuhan Asal: {{$tug->coal->originHarbor->name ?? ''}}</p>
                                                     <p>Draft Survey: {{ number_format($tug->coal->ds)}} Kg</p>
                                                     <p>Belt Weiger: 0 Kg</p>
                                                     <p>Bill of Lading: {{ number_format($tug->coal->bl)}} Kg</p>
@@ -166,7 +166,7 @@
                                                 </td>
                                                 <td class="px-4 py-2 border border-slate-700">18.01.0009</td>
                                                 <td class="px-4 py-2 border border-slate-700">Kg</td>
-                                                <td class="px-4 py-2 border border-slate-700">{{ number_format($tug->coal->tug_3_accept)}}</td>
+                                                <td class="px-4 py-2 border border-slate-700">{{ number_format($tug->coal->tug_3_accept ?? 0)}}</td>
                                                 <td class="px-4 py-2 border border-slate-700"></td>
                                             </tr>   
                                         @endif
@@ -175,9 +175,9 @@
                                                 <td class="px-4 py-2 border border-slate-700"></td>
                                                 <td class="px-4 py-2 border border-slate-700">
                                                     <p>Jenis Bahan Bakar: {{$tug->type_fuel == 'Solar' ? 'Solar / HSD' : 'Residu MFO'}}</p>
-                                                    <p>{{$tug->bbm->note}}</p>
-                                                    <p>Nama Agen : {{$tug->bbm->shipAgent->name}}</p>
-                                                    <p>Volume Faktur: {{ number_format($tug->bbm->amount_receipt)}} Kg</p>
+                                                    <p>{{$tug->bbm->note ?? ''}}</p>
+                                                    <p>Nama Agen : {{$tug->bbm->shipAgent->name ?? ''}}</p>
+                                                    <p>Volume Faktur: {{ number_format($tug->bbm->amount_receipt ?? 0)}} Kg</p>
                                                 </td>
                                                 <td class="px-4 py-2 border border-slate-700">18.01.0323</td>
                                                 <td class="px-4 py-2 border border-slate-700">L</td>

@@ -42,6 +42,8 @@
                     </div>
                     <button type="submit" class="hidden">Search</button>
                 </form>
+                @isset($coal)
+                    
                 <div id="my-pdf">
 
                     <div class="overflow-auto hide-scrollbar max-w-full text-sm p-10" style="font-size:0.8em">
@@ -401,6 +403,8 @@
                     </div>
                 </div>
             </div>
+            @endisset
+
         </div>
     </div>
 </div>

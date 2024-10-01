@@ -38,7 +38,7 @@ class CoalAllContractController extends Controller
                 ->when($request->type, function ($query) use ($request) {
                     $query->where('coal_contracts.type_contract', $request->type);
                 })
-                ->groupBy('contract_id', 'year')
+                ->groupBy('contract_id', 'year', 'suppliers.name', 'coal_contracts.contract_number', 'coal_contracts.total_volume', 'coal_contracts.contract_end_date', 'coal_contracts.supplier_id')
                 ->get()
                 ->groupBy('contract_id')
                 ->map(function($items) use($start_year, $end_year) {
