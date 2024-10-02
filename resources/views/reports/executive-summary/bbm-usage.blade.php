@@ -17,7 +17,7 @@
                 <form method="POST" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
                     @csrf
                     <div class="mb-4">
-                        <input type="number" name="tahunInput" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('tahun', $tahunInput) }}" min="1980" max="2200">
+                        <input type="number" name="tahunInput" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('tahun', $tahunInput) }}" placeholder="2024" min="1980" max="2200">
                     </div>
 
                     <div class="w-full flex justify-end gap-4">
@@ -27,7 +27,7 @@
                 </form>
             </div>
 
-
+            @if($tahunInput != null)
             <div id="my-pdf" class="bg-white rounded-lg p-6">
                 <div class="flex justify-between items-center mb-4">
                     <div>
@@ -98,6 +98,7 @@
                     </table>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>

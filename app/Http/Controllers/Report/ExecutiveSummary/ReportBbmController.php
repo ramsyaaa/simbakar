@@ -44,7 +44,7 @@ class ReportBbmController extends Controller
     public function index(Request $request, $type_bbm)
     {
         $filterType = 'day';
-        $data['filter_type'] = $filterType;
+        $data['filter_type'] = null;
         $validFilterTypes = ['day', 'month', 'year'];
         $validBbmTypes = ['HSD', 'MFO'];
         if ($request->has('filter_type') && in_array($request->filter_type, $validFilterTypes)) {
@@ -199,15 +199,16 @@ class ReportBbmController extends Controller
 
                 $data['bbm_receipt'] = $yearlyReceipts;
                 $data['bbm_usage'] = $yearlyUsages;
+                ksort($data['bbm_usage']);
+                ksort($data['bbm_receipt']);
                 break;
         }
-
         return view('reports.executive-summary.bbm-receipt-usage-report', $data);
     }
 
     public function bbmUsageReport(Request $request, $type, $type_bbm)
     {
-        $tahunInput = $request->input('tahunInput', 2024);
+        $tahunInput = $request->input('tahunInput', null);
         $data['tahunInput'] = $tahunInput;
         $validBbmTypes = ['HSD', 'MFO'];
         if (in_array($type_bbm, $validBbmTypes)) {
@@ -237,90 +238,92 @@ class ReportBbmController extends Controller
 
         $data['bbm_usage'] = [];
 
-        if ($type == 'albes' || $type == 'all') {
-            $bbm_usage = BbmUsage::selectRaw('heavy_equipment_uuid, MONTH(use_date) as month, SUM(amount) as total_amount')
-                ->where([
-                    'bbm_use_for' => 'heavy_equipment',
-                    'bbm_type' => $type_bbm
-                ])
-                ->whereYear('use_date', $tahunInput)
-                ->groupBy('heavy_equipment_uuid', 'month')
-                ->get();
+        if($tahunInput != null){
+            if ($type == 'albes' || $type == 'all') {
+                $bbm_usage = BbmUsage::selectRaw('heavy_equipment_uuid, MONTH(use_date) as month, SUM(amount) as total_amount')
+                    ->where([
+                        'bbm_use_for' => 'heavy_equipment',
+                        'bbm_type' => $type_bbm
+                    ])
+                    ->whereYear('use_date', $tahunInput)
+                    ->groupBy('heavy_equipment_uuid', 'month')
+                    ->get();
 
-            // Mengelompokkan data berdasarkan heavy_equipment_uuid
-            $groupedData = $bbm_usage->groupBy('heavy_equipment_uuid');
+                // Mengelompokkan data berdasarkan heavy_equipment_uuid
+                $groupedData = $bbm_usage->groupBy('heavy_equipment_uuid');
 
-            // Membuat struktur data untuk setiap heavy_equipment_uuid
-            $finalData = [];
-            foreach ($groupedData as $uuid => $records) {
-                $monthlyData = array_fill(1, 12, 0.0); // Mengisi nilai default 0.0 untuk setiap bulan
-                foreach ($records as $record) {
-                    $monthlyData[$record->month] = $record->total_amount;
+                // Membuat struktur data untuk setiap heavy_equipment_uuid
+                $finalData = [];
+                foreach ($groupedData as $uuid => $records) {
+                    $monthlyData = array_fill(1, 12, 0.0); // Mengisi nilai default 0.0 untuk setiap bulan
+                    foreach ($records as $record) {
+                        $monthlyData[$record->month] = $record->total_amount;
+                    }
+                    $finalData[$uuid] = $monthlyData;
                 }
-                $finalData[$uuid] = $monthlyData;
-            }
 
-            $getHeavyEquipment = HeavyEquipment::get();
+                $getHeavyEquipment = HeavyEquipment::get();
 
-            foreach ($getHeavyEquipment as $index => $item) {
-                if (isset($finalData[$item->uuid])) {
-                    $data['bbm_usage'][$item->name] = $finalData[$item->uuid];
-                } else {
-                    $data['bbm_usage'][$item->name] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                }
-            }
-        }
-        if ($type == 'unit' || $type == 'all') {
-            $bbm_usage = BbmUsage::selectRaw('unit_uuid, MONTH(use_date) as month, SUM(amount) as total_amount')
-                ->where([
-                    'bbm_use_for' => 'unit',
-                    'bbm_type' => $type_bbm
-                ])
-                ->whereYear('use_date', $tahunInput)
-                ->groupBy('unit_uuid', 'month')
-                ->get();
-
-            // Mengelompokkan data berdasarkan unit_uuid
-            $groupedData = $bbm_usage->groupBy('unit_uuid');
-
-            // Membuat struktur data untuk setiap unit_uuid
-            $finalData = [];
-            foreach ($groupedData as $uuid => $records) {
-                $monthlyData = array_fill(1, 12, 0.0); // Mengisi nilai default 0.0 untuk setiap bulan
-                foreach ($records as $record) {
-                    $monthlyData[$record->month] = $record->total_amount;
-                }
-                $finalData[$uuid] = $monthlyData;
-            }
-
-            $getUnit = Unit::get();
-
-            foreach ($getUnit as $index => $item) {
-                if (isset($finalData[$item->uuid])) {
-                    $data['bbm_usage'][$item->name] = $finalData[$item->uuid];
-                } else {
-                    $data['bbm_usage'][$item->name] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                foreach ($getHeavyEquipment as $index => $item) {
+                    if (isset($finalData[$item->uuid])) {
+                        $data['bbm_usage'][$item->name] = $finalData[$item->uuid];
+                    } else {
+                        $data['bbm_usage'][$item->name] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    }
                 }
             }
-        }
-        if ($type == 'other' || $type == 'all') {
-            $bbm_usage = BbmUsage::selectRaw('MONTH(use_date) as month, SUM(amount) as total_amount')
-                ->where([
-                    'bbm_use_for' => 'other',
-                    'bbm_type' => $type_bbm
-                ])
-                ->whereYear('use_date', $tahunInput)
-                ->groupBy('month')
-                ->get();
+            if ($type == 'unit' || $type == 'all') {
+                $bbm_usage = BbmUsage::selectRaw('unit_uuid, MONTH(use_date) as month, SUM(amount) as total_amount')
+                    ->where([
+                        'bbm_use_for' => 'unit',
+                        'bbm_type' => $type_bbm
+                    ])
+                    ->whereYear('use_date', $tahunInput)
+                    ->groupBy('unit_uuid', 'month')
+                    ->get();
 
-            // Membuat struktur data untuk setiap heavy_equipment_uuid
-            $finalData = [];
-            foreach ($bbm_usage as $uuid => $records) {
-                $monthlyData = array_fill(1, 12, 0.0); // Mengisi nilai default 0.0 untuk setiap bulan
-                $monthlyData[$records->month] = $records->total_amount;
-                $finalData[] = $monthlyData;
+                // Mengelompokkan data berdasarkan unit_uuid
+                $groupedData = $bbm_usage->groupBy('unit_uuid');
+
+                // Membuat struktur data untuk setiap unit_uuid
+                $finalData = [];
+                foreach ($groupedData as $uuid => $records) {
+                    $monthlyData = array_fill(1, 12, 0.0); // Mengisi nilai default 0.0 untuk setiap bulan
+                    foreach ($records as $record) {
+                        $monthlyData[$record->month] = $record->total_amount;
+                    }
+                    $finalData[$uuid] = $monthlyData;
+                }
+
+                $getUnit = Unit::get();
+
+                foreach ($getUnit as $index => $item) {
+                    if (isset($finalData[$item->uuid])) {
+                        $data['bbm_usage'][$item->name] = $finalData[$item->uuid];
+                    } else {
+                        $data['bbm_usage'][$item->name] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    }
+                }
             }
-            $data['bbm_usage']['lainnya'] = $finalData[0];
+            if ($type == 'other' || $type == 'all') {
+                $bbm_usage = BbmUsage::selectRaw('MONTH(use_date) as month, SUM(amount) as total_amount')
+                    ->where([
+                        'bbm_use_for' => 'other',
+                        'bbm_type' => $type_bbm
+                    ])
+                    ->whereYear('use_date', $tahunInput)
+                    ->groupBy('month')
+                    ->get();
+
+                // Membuat struktur data untuk setiap heavy_equipment_uuid
+                $finalData = [];
+                foreach ($bbm_usage as $uuid => $records) {
+                    $monthlyData = array_fill(1, 12, 0.0); // Mengisi nilai default 0.0 untuk setiap bulan
+                    $monthlyData[$records->month] = $records->total_amount;
+                    $finalData[] = $monthlyData;
+                }
+                $data['bbm_usage']['lainnya'] = $finalData[0];
+            }
         }
 
         return view('reports.executive-summary.bbm-usage', $data);

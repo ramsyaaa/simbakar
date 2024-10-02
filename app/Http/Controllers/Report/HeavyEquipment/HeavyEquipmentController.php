@@ -17,7 +17,7 @@ class HeavyEquipmentController extends Controller
 
     public function index(Request $request, $type, $type_bbm)
     {
-        $filterType = 'day';
+        $filterType = null;
         $data['filter_type'] = $filterType;
         $validFilterTypes = ['day', 'month', 'year'];
         $validBbmTypes = ['HSD', 'MFO'];
@@ -75,132 +75,134 @@ class HeavyEquipmentController extends Controller
 
         $queryBbmUsage = BbmUsage::query();
         $data['bbm_usage'] = [];
-        switch ($filterType) {
-            case 'day':
-                $bbmUsageResults = $queryBbmUsage->select('heavy_equipment_uuid', DB::raw('DATE(use_date) as date'), DB::raw('SUM(amount) as total_amount'))
-                    ->where('bbm_use_for', $type)
-                    ->whereYear('use_date', $tahun)
-                    ->whereMonth('use_date', $bulan)
-                    ->groupBy('heavy_equipment_uuid', 'date')
-                    ->get();
+        if($filterType != null){
+            switch ($filterType) {
+                case 'day':
+                    $bbmUsageResults = $queryBbmUsage->select('heavy_equipment_uuid', DB::raw('DATE(use_date) as date'), DB::raw('SUM(amount) as total_amount'))
+                        ->where('bbm_use_for', $type)
+                        ->whereYear('use_date', $tahun)
+                        ->whereMonth('use_date', $bulan)
+                        ->groupBy('heavy_equipment_uuid', 'date')
+                        ->get();
 
-                // Menghitung jumlah hari dalam bulan tersebut
-                $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
+                    // Menghitung jumlah hari dalam bulan tersebut
+                    $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
 
-                // Menginisialisasi array hasil akhir
-                $groupedData = [];
+                    // Menginisialisasi array hasil akhir
+                    $groupedData = [];
 
-                // Menginisialisasi array dengan semua tanggal pada bulan tersebut
-                foreach ($bbmUsageResults as $result) {
-                    $uuid = $result->heavy_equipment_uuid;
+                    // Menginisialisasi array dengan semua tanggal pada bulan tersebut
+                    foreach ($bbmUsageResults as $result) {
+                        $uuid = $result->heavy_equipment_uuid;
 
-                    if (!isset($groupedData[$uuid])) {
-                        // Buat array untuk setiap heavy_equipment_uuid dengan semua tanggal diisi dengan 0.0
-                        $groupedData[$uuid] = array_fill(0, $daysInMonth, 0.0);
+                        if (!isset($groupedData[$uuid])) {
+                            // Buat array untuk setiap heavy_equipment_uuid dengan semua tanggal diisi dengan 0.0
+                            $groupedData[$uuid] = array_fill(0, $daysInMonth, 0.0);
+                        }
+
+                        // Ambil hari dari tanggal (format YYYY-MM-DD)
+                        $day = (int)date('j', strtotime($result->date));
+                        $groupedData[$uuid][$day] = $result->total_amount;
                     }
-
-                    // Ambil hari dari tanggal (format YYYY-MM-DD)
-                    $day = (int)date('j', strtotime($result->date));
-                    $groupedData[$uuid][$day] = $result->total_amount;
-                }
-
-                $getHeavyEquipment = HeavyEquipment::get();
-
-                foreach ($getHeavyEquipment as $key => $value) {
-                    if(isset($groupedData[$value->uuid])){
-                        $data['bbm_usage'][$value->name] = array_values($groupedData[$value->uuid]);
-                    }else{
-                        $data['bbm_usage'][$value->name] = array_fill(0, $daysInMonth, 0.0);
-                    }
-                }
-
-                break;
-
-            case 'month':
-                $bbmUsageResults = $queryBbmUsage->select('heavy_equipment_uuid', DB::raw('YEAR(use_date) as year'), DB::raw('MONTH(use_date) as month'), DB::raw('SUM(amount) as total_amount'))
-                    ->where('bbm_use_for', 'heavy_equipment')
-                    ->whereYear('use_date', $tahunInput)
-                    ->groupBy('heavy_equipment_uuid', 'year', 'month')
-                    ->get();
-
-                // Menginisialisasi array hasil akhir
-                $groupedData = [];
-
-                // Menginisialisasi array dengan semua bulan pada tahun tersebut
-                foreach ($bbmUsageResults as $result) {
-                    $uuid = $result->heavy_equipment_uuid;
-
-                    if (!isset($groupedData[$uuid])) {
-                        // Buat array untuk setiap heavy_equipment_uuid dengan semua bulan diisi dengan 0.0
-                        $groupedData[$uuid] = array_fill(0, 11, 0.0);
-                    }
-
-                    // Ambil bulan dari hasil query
-                    $month = $result->month;
-                    $groupedData[$uuid][$month] = $result->total_amount;
 
                     $getHeavyEquipment = HeavyEquipment::get();
 
                     foreach ($getHeavyEquipment as $key => $value) {
                         if(isset($groupedData[$value->uuid])){
-                            $data['bbm_usage'][$value->name] = $groupedData[$value->uuid];
+                            $data['bbm_usage'][$value->name] = array_values($groupedData[$value->uuid]);
                         }else{
+                            $data['bbm_usage'][$value->name] = array_fill(0, $daysInMonth, 0.0);
+                        }
+                    }
+
+                    break;
+
+                case 'month':
+                    $bbmUsageResults = $queryBbmUsage->select('heavy_equipment_uuid', DB::raw('YEAR(use_date) as year'), DB::raw('MONTH(use_date) as month'), DB::raw('SUM(amount) as total_amount'))
+                        ->where('bbm_use_for', 'heavy_equipment')
+                        ->whereYear('use_date', $tahunInput)
+                        ->groupBy('heavy_equipment_uuid', 'year', 'month')
+                        ->get();
+
+                    // Menginisialisasi array hasil akhir
+                    $groupedData = [];
+
+                    // Menginisialisasi array dengan semua bulan pada tahun tersebut
+                    foreach ($bbmUsageResults as $result) {
+                        $uuid = $result->heavy_equipment_uuid;
+
+                        if (!isset($groupedData[$uuid])) {
+                            // Buat array untuk setiap heavy_equipment_uuid dengan semua bulan diisi dengan 0.0
+                            $groupedData[$uuid] = array_fill(0, 11, 0.0);
+                        }
+
+                        // Ambil bulan dari hasil query
+                        $month = $result->month;
+                        $groupedData[$uuid][$month] = $result->total_amount;
+
+                        $getHeavyEquipment = HeavyEquipment::get();
+
+                        foreach ($getHeavyEquipment as $key => $value) {
+                            if(isset($groupedData[$value->uuid])){
+                                $data['bbm_usage'][$value->name] = $groupedData[$value->uuid];
+                            }else{
+                                $data['bbm_usage'][$value->name] = array_fill(0, 11, 0.0);
+                            }
+                        }
+                    }
+
+                    $getHeavyEquipment = HeavyEquipment::get();
+
+                    foreach ($getHeavyEquipment as $key => $value) {
+                        if (isset($groupedData[$value->uuid])) {
+                            $data['bbm_usage'][$value->name] = array_values($groupedData[$value->uuid]);
+                        } else {
                             $data['bbm_usage'][$value->name] = array_fill(0, 11, 0.0);
                         }
                     }
-                }
-
-                $getHeavyEquipment = HeavyEquipment::get();
-
-                foreach ($getHeavyEquipment as $key => $value) {
-                    if (isset($groupedData[$value->uuid])) {
-                        $data['bbm_usage'][$value->name] = array_values($groupedData[$value->uuid]);
-                    } else {
-                        $data['bbm_usage'][$value->name] = array_fill(0, 11, 0.0);
-                    }
-                }
-                break;
+                    break;
 
 
-            case 'year':
-                $startDate = $startYear . '-01-01';
-                $endDate = $endYear . '-12-31 23:59:59';
+                case 'year':
+                    $startDate = $startYear . '-01-01';
+                    $endDate = $endYear . '-12-31 23:59:59';
 
-                // Query untuk usage berdasarkan range tahun
-                $bbmUsageResults = $queryBbmUsage->select('heavy_equipment_uuid', DB::raw('YEAR(use_date) as year'), DB::raw('SUM(amount) as total_amount'))
-                    ->whereBetween('use_date', [$startDate, $endDate])
-                    ->where('bbm_use_for', 'heavy_equipment')
-                    ->groupBy('heavy_equipment_uuid', 'year')
-                    ->get();
+                    // Query untuk usage berdasarkan range tahun
+                    $bbmUsageResults = $queryBbmUsage->select('heavy_equipment_uuid', DB::raw('YEAR(use_date) as year'), DB::raw('SUM(amount) as total_amount'))
+                        ->whereBetween('use_date', [$startDate, $endDate])
+                        ->where('bbm_use_for', 'heavy_equipment')
+                        ->groupBy('heavy_equipment_uuid', 'year')
+                        ->get();
 
-                // Menginisialisasi array hasil akhir
-                $groupedData = [];
+                    // Menginisialisasi array hasil akhir
+                    $groupedData = [];
 
-                // Inisialisasi array dengan semua tahun dalam range yang diberikan
-                foreach ($bbmUsageResults as $result) {
-                    $uuid = $result->heavy_equipment_uuid;
+                    // Inisialisasi array dengan semua tahun dalam range yang diberikan
+                    foreach ($bbmUsageResults as $result) {
+                        $uuid = $result->heavy_equipment_uuid;
 
-                    if (!isset($groupedData[$uuid])) {
-                        // Buat array untuk setiap heavy_equipment_uuid dengan semua tahun diisi dengan 0.0
-                        $groupedData[$uuid] = array_fill($startYear, ($endYear - $startYear + 1), 0.0);
+                        if (!isset($groupedData[$uuid])) {
+                            // Buat array untuk setiap heavy_equipment_uuid dengan semua tahun diisi dengan 0.0
+                            $groupedData[$uuid] = array_fill($startYear, ($endYear - $startYear + 1), 0.0);
+                        }
+
+                        // Ambil tahun dari hasil query
+                        $year = $result->year;
+                        $groupedData[$uuid][$year] = $result->total_amount;
                     }
 
-                    // Ambil tahun dari hasil query
-                    $year = $result->year;
-                    $groupedData[$uuid][$year] = $result->total_amount;
-                }
+                    $getHeavyEquipment = HeavyEquipment::get();
 
-                $getHeavyEquipment = HeavyEquipment::get();
-
-                foreach ($getHeavyEquipment as $key => $value) {
-                    if (isset($groupedData[$value->uuid])) {
-                        $data['bbm_usage'][$value->name] = array_values($groupedData[$value->uuid]);
-                    } else {
-                        // Jika tidak ada data untuk equipment tertentu, isi dengan 0.0 untuk setiap tahun dalam range
-                        $data['bbm_usage'][$value->name] = array_fill(0, ($endYear - $startYear + 1), 0.0);
+                    foreach ($getHeavyEquipment as $key => $value) {
+                        if (isset($groupedData[$value->uuid])) {
+                            $data['bbm_usage'][$value->name] = array_values($groupedData[$value->uuid]);
+                        } else {
+                            // Jika tidak ada data untuk equipment tertentu, isi dengan 0.0 untuk setiap tahun dalam range
+                            $data['bbm_usage'][$value->name] = array_fill(0, ($endYear - $startYear + 1), 0.0);
+                        }
                     }
-                }
-                break;
+                    break;
+            }
         }
         return view('reports.heavy-equipment.index', $data);
     }

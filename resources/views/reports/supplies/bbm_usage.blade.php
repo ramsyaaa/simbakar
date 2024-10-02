@@ -55,7 +55,7 @@
                 </form>
             </div>
 
-
+            @if($filter_type != null)
             <div class="bg-white rounded-lg p-6" id="my-pdf">
                  <div class="flex justify-between items-center mb-4">
                     <div>
@@ -135,6 +135,7 @@
                     </table>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>
