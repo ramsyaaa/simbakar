@@ -58,8 +58,13 @@ class EvaluationCoalController extends Controller
                 
                 $total_acid = $certificate->sio2 + $certificate->al2o3 + $certificate->tlo2;
                 
-                $total_slagging = ($total_base / $total_acid ) * $sulfur_db;
-                $total_fouling = ($total_base / $total_acid ) * $certificate->na2o;
+                if($total_acid == 0){
+                    $total_slagging = 0;
+                    $total_fouling = 0;
+                }else{
+                    $total_slagging = ($total_base / $total_acid ) * $sulfur_db;
+                    $total_fouling = ($total_base / $total_acid ) * $certificate->na2o;
+                }
                 
                 $check = $certificate->cao + $certificate->mgo;
                 

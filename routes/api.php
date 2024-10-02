@@ -50,3 +50,4 @@ Route::post('get-analytic-loading', [ApiFetchController::class, 'getAnalyticLoad
 Route::post('get-analytic-unloading', [ApiFetchController::class, 'getAnalyticUnloading'])->name('getAnalyticUnloading');
 Route::post('get-analytic-labor', [ApiFetchController::class, 'getAnalyticLabor'])->name('getAnalyticLabor');
 Route::post('get-ship', [ApiFetchController::class, 'getShip'])->name('getShip');
+Route::post('get-ship-comparisan', [ApiFetchController::class, 'getShipComparison'])->name('getShipComparison');

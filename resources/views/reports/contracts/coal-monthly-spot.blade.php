@@ -11,7 +11,7 @@
             <div class="w-full flex justify-center mb-6">
                 <form method="get" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
                     <div class="mb-4">
-                        <select name="supplier" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                        <select name="supplier" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md" required>
                             <option value="0" {{request('supplier') == 0 ? 'selected' : ''}}>Semua Pemasok</option>
                             @foreach ($suppliers as $supplier)
                                 <option value="{{$supplier->id}}" {{request('supplier') == $supplier->id ? 'selected' : ''}}>{{$supplier->name}}</option>
@@ -19,7 +19,7 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                        <select name="year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md" required>
                             <option value="">Tahun</option>
                             @for ($i = date('Y'); $i >= 2000; $i--)
                                 <option {{request()->year == $i ? 'selected' :''}}>{{ $i }}</option>
@@ -33,6 +33,7 @@
                     </div>
                 </form>
             </div>
+            @isset($contracts)
 
             <div id="my-pdf">
                 <div class="bg-white rounded-lg p-6">
@@ -42,11 +43,12 @@
                             <p class="text-right">UBP SURALAYA</p>
                         </div>
                         <div class="text-center text-[20px] font-bold">
-                            <p class="uppercase">rekapitulasi rencana & simulasi kontrak spot batu bara {{request('supplier') == 0  ? 'Semua Pemasok' : $name->name}} tahun {{$year}}</p>
+                            <p class="uppercase">rekapitulasi rencana & simulasi batu bara {{request('supplier') == 0  ? 'Semua Pemasok' : $name->name}} tahun {{$year ?? ''}}</p>
                         </div>
                         <div></div>
                     </div>
                     <div class="overflow-auto hide-scrollbar max-w-full">
+
                         <table class="w-full">
                             <thead>
                                 <tr>
@@ -65,42 +67,48 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                    
                                 @php
                                 $sumTon = 0;
                                 $sumPlan = 0;
                                 $sumAdendum = 0;
                                 @endphp
-                            @foreach ($contracts as $key => $contract)     
-                            @php
-                                $sumTon = $sumTon + $contract['ton'];
-                                $sumPlan = $sumPlan + $contract['plan_realisasi'];
-                                $sumAdendum = $sumAdendum + $contract['adendum_realisasi'];
-                                @endphp      
-                                <tr>
-                                    <td class="border border-gray-400 p-2">{{$contract['month']}}</td>
-                                    <td class="border border-gray-400 p-2">{{$contract['plan_kontrak']}}</td>
-                                    <td class="border border-gray-400 p-2">{{$contract['adendum_kontrak']}}</td>
-                                    <td class="border border-gray-400 p-2">{{ number_format($contract['ton'])}}</td>
-                                    <td class="border border-gray-400 p-2">{{$contract['%']}}</td>
-                                    <td class="border border-gray-400 p-2">{{ number_format($contract['plan_realisasi'])}}</td>
-                                    <td class="border border-gray-400 p-2">{{ number_format($contract['adendum_realisasi'])}}</td>
-                                </tr>
-                                @endforeach
-                                <tr>
-                                    <td class="border border-gray-400 p-2">Total</td>
-                                    <td class="border border-gray-400 p-2"></td>
-                                    <td class="border border-gray-400 p-2"></td>
-                                    <td class="border border-gray-400 p-2">{{ number_format($sumTon)}}</td>
-                                    <td class="border border-gray-400 p-2">0</td>
-                                    <td class="border border-gray-400 p-2">{{ number_format($sumPlan)}}</td>
-                                    <td class="border border-gray-400 p-2">{{ number_format($sumAdendum)}}</td>
-                                </tr>
+
+                                @foreach ($contracts as $key => $contract)     
+                                @php
+                                    $sumTon = $sumTon + $contract['ton'];
+                                    $sumPlan = $sumPlan + $contract['plan_realisasi'];
+                                    $sumAdendum = $sumAdendum + $contract['adendum_realisasi'];
+                                    @endphp      
+                                    <tr>
+                                        <td class="border border-gray-400 p-2">{{$contract['month']}}</td>
+                                        <td class="border border-gray-400 p-2">{{$contract['plan_kontrak']}}</td>
+                                        <td class="border border-gray-400 p-2">{{$contract['adendum_kontrak']}}</td>
+                                        <td class="border border-gray-400 p-2">{{ number_format($contract['ton'])}}</td>
+                                        <td class="border border-gray-400 p-2">{{$contract['%']}}</td>
+                                        <td class="border border-gray-400 p-2">{{ number_format($contract['plan_realisasi'])}}</td>
+                                        <td class="border border-gray-400 p-2">{{ number_format($contract['adendum_realisasi'])}}</td>
+                                    </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td class="border border-gray-400 p-2">Total</td>
+                                        <td class="border border-gray-400 p-2"></td>
+                                        <td class="border border-gray-400 p-2"></td>
+                                        <td class="border border-gray-400 p-2">{{ number_format($sumTon)}}</td>
+                                        <td class="border border-gray-400 p-2">0</td>
+                                        <td class="border border-gray-400 p-2">{{ number_format($sumPlan)}}</td>
+                                        <td class="border border-gray-400 p-2">{{ number_format($sumAdendum)}}</td>
+                                    </tr>
+
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
+            @endisset
         </div>
+
     </div>
 </div>
     @endsection

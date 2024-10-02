@@ -11,15 +11,15 @@
             <div class="w-full flex justify-center mb-6">
                 <form method="get" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
                     <div class="mb-4">
-                        <select name="supplier_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md supplier-select">
-                            <option selected disabled>Pilih Supplier</option>
+                        <select name="supplier_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md supplier-select" required>
+                            <option value="">Pilih Supplier</option>
                             @foreach ($suppliers as $supplier)
                                 <option value="{{$supplier->id}}" {{request('supplier_id') == $supplier->id ? 'selected' : ''}}> {{$supplier->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="contract_id" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-contract">
+                        <select name="contract_id" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-contract" required>
                             @if (request('contract_id'))
                                 @isset($numbers)
                                     @foreach ($numbers as $number)
@@ -43,6 +43,8 @@
                     </div>
                 </form>
             </div>
+            @isset($contracts)
+
             <div id="my-pdf">
 
                 <div class="bg-white rounded-lg p-6">
@@ -74,7 +76,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @isset($contracts)
                                 
                                     @foreach ($contracts as $contract)
                                     <tr>
@@ -96,12 +97,13 @@
                                         <td class="border border-gray-400 p-2">{{ number_format($tug)}}</td>
                                         <td class="border border-gray-400 p-2"></td>
                                     </tr>
-                                @endisset
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+            @endisset
+
         </div>
     </div>
 </div>
@@ -124,7 +126,7 @@
                 success: function (response) {
                     var contracts = response
                     $(".select-contract").append(
-                             `<option selected disabled>Pilih nomor kontrak</option>`
+                             `<option value="">Pilih nomor kontrak</option>`
                                 )
                     contracts.forEach(contract=>{
                         $(".select-contract").append(

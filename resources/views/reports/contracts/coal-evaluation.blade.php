@@ -11,8 +11,8 @@
             <div class="w-full flex justify-center mb-6">
                 <form method="get" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
                     <div class="mb-4">
-                        <select name="supplier_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md supplier-select">
-                            <option selected disabled>Pilih Supplier</option>
+                        <select name="supplier_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md supplier-select" required>
+                            <option value="">Pilih Supplier</option>
                             @foreach ($suppliers as $supplier)
                                 <option value="{{$supplier->id}}" {{request('supplier_id') == $supplier->id ? 'selected' : ''}}> {{$supplier->name}}</option>
                             @endforeach
@@ -31,8 +31,8 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="type" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-type">
-                            <option selected disabled>Pilih</option>
+                        <select name="type" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-type" required>
+                            <option value="">Pilih</option>
                             <option value="1"  {{request('type') == 1 ? 'selected' : ''}}>Loading</option>
                             <option value="2"  {{request('type') == 2 ? 'selected' : ''}}>Unloading</option>
                             <option value="3"  {{request('type') == 3 ? 'selected' : ''}}>Labor</option>
