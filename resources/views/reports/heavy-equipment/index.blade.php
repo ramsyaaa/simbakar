@@ -107,6 +107,8 @@
                                 @php
                                     if(isset($totalData[$index1])){
                                         $totalData[$index1] = $totalData[$index1] + $item1;
+                                    }else{
+                                        $totalData[$index1] =  $item1;
                                     }
                                 @endphp
                                 @endforeach
