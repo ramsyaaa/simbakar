@@ -105,7 +105,9 @@
                                 @foreach ($item as $index1 => $item1)
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item1 }}</td>
                                 @php
-                                    $totalData[$index1] = $totalData[$index1] + $item1;
+                                    if(isset($totalData[$index1])){
+                                        $totalData[$index1] = $totalData[$index1] + $item1;
+                                    }
                                 @endphp
                                 @endforeach
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{array_sum($item) }}</td>
