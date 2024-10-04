@@ -20,6 +20,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/tailwind.min.js') }}"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     <link rel="stylesheet" href="{{ asset('src/css/style.css') }}">
     <script defer src="{{ asset('js/alpine.min.js') }}"></script>
 

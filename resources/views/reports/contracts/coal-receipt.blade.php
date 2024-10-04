@@ -41,14 +41,14 @@
                         <div></div>
                     </div>
                     <div class="overflow-auto hide-scrollbar max-w-full">
-                        <table class="w-full">
+                        <table class="min-w-max">
                             <thead>
                                 <tr>
                                     <th rowspan="2" class="border border-gray-400 p-2">No</th>
                                     <th rowspan="2" class="border border-gray-400 p-2">Pemasok</th>
                                     <th rowspan="2" class="border border-gray-400 p-2">Kontrak</th>
                                     <th rowspan="2" class="border border-gray-400 p-2">Volume Kontrak ( Ton )</th>
-                                    <th colspan="12" class="border border-gray-400 p-2">Realisasi Tahun {{request('tahun') ?? ''}}</th> 
+                                    <th colspan="12" class="border border-gray-400 p-2">Realisasi Tahun {{request('year') ?? ''}}</th> 
                                     <th rowspan="2" class="border border-gray-400 p-2">Jumlah</th>
                                 </tr>
  

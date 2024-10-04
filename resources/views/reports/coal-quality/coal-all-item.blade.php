@@ -92,10 +92,10 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="overflow-auto hide-scrollbar max-w-full">
-                        <table class="w-full">
+                    <div class="overflow-x-auto hide-scrollbar max-w-full" style="font-size:10px;">
+                        <table class="min-w-max" style="font-size: 10px;">
                             <thead>
-                                <tr>
+                                <tr class="text-center">
                                     <th class="border border-gray-400" rowspan="2">Nama Pemasok</th>
                                     <th class="border border-gray-400" rowspan="2">Kapal</th>
                                     <th class="border border-gray-400" rowspan="2">Tanggal Tiba</th>
@@ -147,121 +147,121 @@
                                 @foreach ($coals as $coal)
                                     
                                    <tr>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->supplier->name ?? ''}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->ship->name ?? ''}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->arrived_date}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->end_date}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->supplier->name ?? ''}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->ship->name ?? ''}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->arrived_date}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->end_date}}</td>
                                    </tr>
                                    @if (in_array('loading',$analytic))
                                    <tr>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">Loading : {{$coal->loading->surveyor->name}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->moisture_total}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->air_dried_moisture}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->ash}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->volatile_matter}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->fixed_carbon}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->total_sulfur}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->calor}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->carbon}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->hydrogen}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->nitrogen}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->oxygen}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->initial_deformation}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->softening}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->hemispherical}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->fluid}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->sio2}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->al2o3}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->fe2o3}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->cao}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->mgo}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->na2o}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->k2o}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->tlo2}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->so3}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->p2o5}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->mn3o4}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->butiran_70}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->butiran_50}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->butiran_32_50}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->butiran_32_50}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->butiran_238}}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->loading->hgi}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">Loading : {{$coal->loading->surveyor->name}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->moisture_total}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->air_dried_moisture}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->ash}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->volatile_matter}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->fixed_carbon}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->total_sulfur}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->calor}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->carbon}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->hydrogen}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->nitrogen}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->oxygen}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->initial_deformation}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->softening}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->hemispherical}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->fluid}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->sio2}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->al2o3}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->fe2o3}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->cao}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->mgo}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->na2o}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->k2o}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->tlo2}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->so3}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->p2o5}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->mn3o4}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->butiran_70}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->butiran_50}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->butiran_32_50}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->butiran_32_50}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->butiran_238}}</td>
+                                        <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->loading->hgi}}</td>
                                     </tr>
                                     @endif
                                    @if (in_array('unloading',$analytic))
                                    <tr>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">Unloading : {{$coal->unloading->surveyor->name}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->moisture_total}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->air_dried_moisture}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->ash}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->volatile_matter}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->fixed_carbon}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->total_sulfur}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->calor}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->carbon}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->hydrogen}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->nitrogen}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->oxygen}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->initial_deformation}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->softening}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->hemispherical}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->fluid}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->sio2}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->al2o3}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->fe2o3}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->cao}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->mgo}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->na2o}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->k2o}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->tlo2}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->so3}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->p2o5}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->mn3o4}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->butiran_70}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->butiran_50}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->butiran_32_50}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->butiran_32_50}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->butiran_238}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->unloading->hgi}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">Unloading : {{$coal->unloading->surveyor->name}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->moisture_total}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->air_dried_moisture}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->ash}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->volatile_matter}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->fixed_carbon}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->total_sulfur}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->calor}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->carbon}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->hydrogen}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->nitrogen}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->oxygen}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->initial_deformation}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->softening}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->hemispherical}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->fluid}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->sio2}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->al2o3}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->fe2o3}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->cao}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->mgo}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->na2o}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->k2o}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->tlo2}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->so3}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->p2o5}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->mn3o4}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->butiran_70}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->butiran_50}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->butiran_32_50}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->butiran_32_50}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->butiran_238}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->unloading->hgi}}</td>
                                 </tr>
                                @endif
 
                                @if (in_array('labor',$analytic))
                                 <tr>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">Labor : </td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->moisture_total}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->air_dried_moisture}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->ash}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->volatile_matter}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->fixed_carbon}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->total_sulfur}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->calor}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->carbon}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->hydrogen}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->nitrogen}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->oxygen}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->initial_deformation}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->softening}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->hemispherical}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->fluid}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->sio2}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->al2o3}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->fe2o3}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->cao}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->mgo}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->na2o}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->k2o}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->tlo2}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->so3}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->p2o5}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->mn3o4}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->butiran_70}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->butiran_50}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->butiran_32_50}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->butiran_32_50}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->butiran_238}}</td>
-                                    <td class="h-[36px] text-[16px] font-normal border border-gray-400">{{$coal->labor->hgi}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">Labor : </td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->moisture_total}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->air_dried_moisture}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->ash}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->volatile_matter}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->fixed_carbon}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->total_sulfur}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->calor}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->carbon}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->hydrogen}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->nitrogen}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->oxygen}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->initial_deformation}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->softening}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->hemispherical}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->fluid}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->sio2}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->al2o3}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->fe2o3}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->cao}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->mgo}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->na2o}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->k2o}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->tlo2}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->so3}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->p2o5}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->mn3o4}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->butiran_70}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->butiran_50}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->butiran_32_50}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->butiran_32_50}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->butiran_238}}</td>
+                                    <td class="h-[36px] text-[10px] font-normal border border-gray-400">{{$coal->labor->hgi}}</td>
                                 </tr>
                                @endif
 
