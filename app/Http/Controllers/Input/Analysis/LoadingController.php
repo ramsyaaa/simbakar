@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Loading;
 use App\Models\CoalContract;
 use App\Ship;
+use App\Supplier;
 use App\Surveyor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LoadingController extends Controller
@@ -14,10 +16,13 @@ class LoadingController extends Controller
     public function index(Request $request)
     {
         $loadings = Loading::query();
+        $year = isset($request->year) ? $request->year : date('Y');
 
-        $loadings->when($request->year, function ($query) use ($request) {
-            $query->whereYear('created_at', $request->year);
+        $loadings->when($year, function ($query) use ($year) {
+            $query->whereYear('analysis_date', $year);
         });
+
+        $loadings->orderBy('created_at', 'desc');
 
         $data['loadings'] = $loadings->paginate(10)->appends(request()->query());
         return view('inputs.analysis.loading.index',$data);
@@ -30,9 +35,10 @@ class LoadingController extends Controller
      */
     public function create()
     {
-        $data['contracts'] = CoalContract::get();
+        $data['contracts'] = [];
         $data['surveyors'] = Surveyor::get();
         $data['ships'] = Ship::get();
+        $data['suppliers'] = Supplier::get();
         return view('inputs.analysis.loading.create', $data);
     }
 
@@ -45,6 +51,7 @@ class LoadingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'supplier_id' => 'required',
             'contract_uuid' => 'required',
             'surveyor_uuid' => 'required',
             'ship_uuid' => 'required',
@@ -87,6 +94,7 @@ class LoadingController extends Controller
             'butiran_238' => 'required',
             'hgi' => 'required',
         ], [
+            'supplier_id.required' => 'Supplier wajib diisi',
             'contract_uuid.required' => 'No Kontrak wajib diisi',
             'surveyor_uuid.required' => 'Surveyor wajib diisi',
             'ship_uuid.required' => 'Kapal wajib diisi',
@@ -131,13 +139,14 @@ class LoadingController extends Controller
         ]);
 
         Loading::create([
+            'supplier_id' => $request->supplier_id,
             'contract_uuid' => $request->contract_uuid,
             'surveyor_uuid' => $request->surveyor_uuid,
             'ship_uuid' => $request->ship_uuid,
             'analysis_number' => $request->analysis_number,
             'analysis_date' => $request->analysis_date,
-            'start_loading' => $request->start_loading,
-            'end_loading' => $request->end_loading,
+            'start_loading' => Carbon::parse($request->start_loading)->startOfDay(),
+            'end_loading' => Carbon::parse($request->end_loading)->startOfDay(),
             'bill_of_ladding' => $request->bill_of_ladding,
             'origin_of_goods' => $request->origin_of_goods,
             'moisture_total' => $request->moisture_total,
@@ -197,9 +206,10 @@ class LoadingController extends Controller
     public function edit($id)
     {
         $data['loading'] = Loading::where('id', $id)->first();
-        $data['contracts'] = CoalContract::get();
+        $data['contracts'] = [];
         $data['surveyors'] = Surveyor::get();
         $data['ships'] = Ship::get();
+        $data['suppliers'] = Supplier::get();
         return view('inputs.analysis.loading.edit',$data);
     }
 
@@ -213,6 +223,7 @@ class LoadingController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'supplier_id' => 'required',
             'contract_uuid' => 'required',
             'surveyor_uuid' => 'required',
             'ship_uuid' => 'required',
@@ -255,6 +266,7 @@ class LoadingController extends Controller
             'butiran_238' => 'required',
             'hgi' => 'required',
         ], [
+            'supplier_id.required' => 'Supplier wajib diisi',
             'contract_uuid.required' => 'No Kontrak wajib diisi',
             'surveyor_uuid.required' => 'Surveyor wajib diisi',
             'ship_uuid.required' => 'Kapal wajib diisi',
@@ -299,13 +311,14 @@ class LoadingController extends Controller
         ]);
 
         Loading::where('id',$id)->update([
+            'supplier_id' => $request->supplier_id,
             'contract_uuid' => $request->contract_uuid,
             'surveyor_uuid' => $request->surveyor_uuid,
             'ship_uuid' => $request->ship_uuid,
             'analysis_number' => $request->analysis_number,
             'analysis_date' => $request->analysis_date,
-            'start_loading' => $request->start_loading,
-            'end_loading' => $request->end_loading,
+            'start_loading' => Carbon::parse($request->start_loading)->startOfDay(),
+            'end_loading' => Carbon::parse($request->end_loading)->startOfDay(),
             'bill_of_ladding' => $request->bill_of_ladding,
             'origin_of_goods' => $request->origin_of_goods,
             'moisture_total' => $request->moisture_total,
