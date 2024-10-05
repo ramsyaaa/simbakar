@@ -27,7 +27,8 @@
                                 <select name="supplier" id="suppliers" class="select-2 w-full">
                                     <option value="">Pilih Pemasok</option>
                                     @foreach ($suppliers as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        <option @if ($supplier == $item->id) selected @endif
+                                            value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
                                 </select>
                                 {{-- <input type="number" id="suppliers" name="suppliers"
@@ -50,7 +51,8 @@
                                 <select name="contract" id="contract" class="select-2 w-full">
                                     <option value="">Pilih Kontrak</option>
                                     @foreach ($contracts as $item)
-                                        <option value="{{ $item->id }}">{{ $item->type_contract }}</option>
+                                        <option @if ($contract == $item['id']) selected @endif
+                                            value="{{ $item['id'] }}">{{ $item['type_contract'] }}</option>
                                     @endforeach
                                 </select>
                                 {{-- <input type="number" id="contract" name="contract"
@@ -229,9 +231,8 @@
                         <div class="bg-white rounded-xl p-4 flex flex-col gap-4">
 
                             <div class="text-[#135F9C] text-xl text-center  font-bold">
-                                Grafik Perbandingan Penerimaan Batubara Bulanan (B/L, D/S, B/W, TUG, 3) Tahun
-                                {{ request('year', $year) }} <br>
-                                Per {{ date('d M Y', time()) }}
+                                Rencana Realisasi Kontrak Batubara Bulanan Tahun
+                                {{ request('year', $year) }}
                             </div>
                             <div class="chart">
                                 <canvas id="chart" class="h-[300px]"></canvas>

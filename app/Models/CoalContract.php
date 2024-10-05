@@ -21,17 +21,17 @@ class CoalContract extends Model
         return $this->hasMany(SpesificationContractCoal::class, "contract_id", 'id');
     }
 
-    public function spesification()
+    public function delivery_clauses()
     {
-        return $this->hasOne(SpesificationContractCoal::class, "contract_id", 'id');
+        return $this->hasMany(DeliveryClause::class, "contract_id", 'id');
     }
 
     protected static function boot()
-     {
-         parent::boot();
+    {
+        parent::boot();
 
-         static::creating(function ($model) {
-             $model->uuid = Uuid::uuid4()->toString();
-         });
-     }
+        static::creating(function ($model) {
+            $model->uuid = Uuid::uuid4()->toString();
+        });
+    }
 }
