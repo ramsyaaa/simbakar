@@ -79,7 +79,7 @@
                         <div></div>
                     </div>
                     <div class="overflow-auto hide-scrollbar max-w-full">
-                        <table class="w-full">
+                        <table class="min-w-max">
                             <thead>
                                 <tr>
                                     <th rowspan="2" class="border border-gray-400 p-2">No</th>
