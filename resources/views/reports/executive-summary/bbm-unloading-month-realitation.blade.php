@@ -64,25 +64,29 @@
                                 display: table-footer-group !important;
                             }
                         </style>
-                        <div class="overflow-auto hide-scrollbar max-w-full">
+                        <div class="overflow-auto max-w-full">
                             <table class="w-full">
                                 <thead>
                                     <tr>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nama Kapal</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal Terima</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Pemasok</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Lama Bongkar<br>(Jam)</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Lama Standard<br>(Jam)</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Lama Kapal<br>(Jam)</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Waktu Tunggu<br>(Jam)</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">No</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Nama Kapal</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Tanggal Terima</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Pemasok</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Lama Bongkar<br>(Jam)
+                                        </th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Lama Standard<br>(Jam)
+                                        </th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Lama Kapal<br>(Jam)
+                                        </th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Waktu Tunggu<br>(Jam)
+                                        </th>
 
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">B/L<br>(Ton)</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">D/S<br>(Ton)</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">B/W<br>(Ton)</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Diterima
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">B/L<br>(Ton)</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">D/S<br>(Ton)</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">B/W<br>(Ton)</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Diterima
                                             [TUG3](Ton)</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nama Dermaga</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Nama Dermaga</th>
 
                                     </tr>
                                 </thead>
@@ -95,42 +99,43 @@
                                             $i++;
                                         @endphp
                                         <tr>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{ $i }}
+                                            <td class="h-[36px] !min-w-[50px] text-[16px] font-normal border px-2">
+                                                {{ $i }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[200px] text-[16px] font-normal border px-2">
                                                 {{ $item['ship_name'] }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
                                                 {{ $item['receipt_date'] ?? '-' }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[200px] text-[16px] font-normal border px-2">
                                                 {{ $item['company_name'] ?? '-' }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[100px] text-[16px] font-normal border px-2">
                                                 {{ $item['unloading_duration'] ?? '-' }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[100px] text-[16px] font-normal border px-2">
                                                 {{ $item['standard_duration'] ?? '-' }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[100px] text-[16px] font-normal border px-2">
                                                 {{ $item['ship_duration'] ?? '-' }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[100px] text-[16px] font-normal border px-2">
                                                 {{ $item['waiting_time'] ?? '-' }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
                                                 {{ $item['bl'] ?? '-' }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
                                                 {{ $item['ds'] ?? '-' }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
                                                 {{ $item['bw'] ?? '-' }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
                                                 {{ $item['tug'] ?? '-' }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                            <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
                                                 {{ $item['dock_name'] ?? '-' }}
                                             </td>
                                         </tr>

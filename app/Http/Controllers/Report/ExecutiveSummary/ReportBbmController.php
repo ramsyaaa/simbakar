@@ -332,56 +332,60 @@ class ReportBbmController extends Controller
 
     public function bbmUnloadingMonthComparison(Request $request)
     {
-        $year = $request->get('year') ?? date('Y', time());
-        $bbm_unloading = CoalUnloading::whereRaw('receipt_date like ?', ["%" . $year . "%"])->get();
-        Carbon::setLocale('id');
+        $year = $request->get('year') ?? '';
+
         $processedData = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $processedData[Carbon::create()->month($i)->translatedFormat('F')] = [];
-        }
-        // Group by month
-        $grouped = $bbm_unloading->groupBy(function ($item) {
-            return \Carbon\Carbon::parse($item['receipt_date'])->translatedFormat('F'); // 'F' gives full month name
-        });
+        if ($year) {
+            $bbm_unloading = CoalUnloading::whereRaw('receipt_date like ?', ["%" . $year . "%"])->get();
+            Carbon::setLocale('id');
+            for ($i = 1; $i <= 12; $i++) {
+                $processedData[Carbon::create()->month($i)->translatedFormat('F')] = [];
+            }
+            // Group by month
+            $grouped = $bbm_unloading->groupBy(function ($item) {
+                return \Carbon\Carbon::parse($item['receipt_date'])->translatedFormat('F'); // 'F' gives full month name
+            });
 
-        // Convert to an array with month as keys
-        $groupedArray = $grouped->map(function ($items) {
-            return $items->values()->all(); // Convert the grouped collection to an array of values
-        })->toArray();
+            // Convert to an array with month as keys
+            $groupedArray = $grouped->map(function ($items) {
+                return $items->values()->all(); // Convert the grouped collection to an array of values
+            })->toArray();
 
 
-        foreach ($processedData as $month => $value) {
-            foreach ($groupedArray as $key => $value) {
-                if ($month == $key) {
+            foreach ($processedData as $month => $value) {
+                foreach ($groupedArray as $key => $value) {
+                    if ($month == $key) {
 
-                    $bl = collect($value)->pluck('bl')->sum();
-                    $ds = collect($value)->pluck('ds')->sum();
-                    $bw = collect($value)->pluck('bw')->sum();
-                    $tug = collect($value)->pluck('tug_3_accept')->sum();
-                    $ds_bl = abs($ds - $bl);
-                    $bw_ds = abs($bw - $ds);
-                    $bl_bw = abs($bl - $bw);
+                        $bl = collect($value)->pluck('bl')->sum();
+                        $ds = collect($value)->pluck('ds')->sum();
+                        $bw = collect($value)->pluck('bw')->sum();
+                        $tug = collect($value)->pluck('tug_3_accept')->sum();
+                        $ds_bl = abs($ds - $bl);
+                        $bw_ds = abs($bw - $ds);
+                        $bl_bw = abs($bl - $bw);
 
-                    $ds_bl_percentage = $ds > 0  ? $ds_bl / $ds * 100 . "%" : '100%';
-                    $bw_ds_percentage = $bw > 0  ? $bw_ds / $bw * 100 . "%" : '100%';
-                    $bl_bw_percentage = $bl > 0  ? $bl_bw / $bl * 100 . "%" : '100%';
+                        $ds_bl_percentage = $ds > 0  ? $ds_bl / $ds * 100 . "%" : '100%';
+                        $bw_ds_percentage = $bw > 0  ? $bw_ds / $bw * 100 . "%" : '100%';
+                        $bl_bw_percentage = $bl > 0  ? $bl_bw / $bl * 100 . "%" : '100%';
 
-                    $processedData[$month] = [
-                        'bl' => $bl,
-                        'ds' => $ds,
-                        'bw' => $bw,
-                        'tug' => $tug,
-                        'ds_bl' => $ds_bl,
-                        'bw_ds' => $bw_ds,
-                        'bl_bw' => $bl_bw,
+                        $processedData[$month] = [
+                            'bl' => $bl,
+                            'ds' => $ds,
+                            'bw' => $bw,
+                            'tug' => $tug,
+                            'ds_bl' => $ds_bl,
+                            'bw_ds' => $bw_ds,
+                            'bl_bw' => $bl_bw,
 
-                        'ds_bl_percentage' => $ds_bl_percentage,
-                        'bw_ds_percentage' => $bw_ds_percentage,
-                        'bl_bw_percentage' => $bl_bw_percentage,
-                    ];
+                            'ds_bl_percentage' => $ds_bl_percentage,
+                            'bw_ds_percentage' => $bw_ds_percentage,
+                            'bl_bw_percentage' => $bl_bw_percentage,
+                        ];
+                    }
                 }
             }
         }
+
         $data['bbm_unloading'] = $processedData;
         $data['year'] = $year;
         return view('reports.executive-summary.bbm-unloading-month-comparison', $data);
@@ -413,33 +417,36 @@ class ReportBbmController extends Controller
         {
             return number_format($val, 2);
         }
-        $year_month = $request->get('year_month') ?? date('Y-m', time());
-        $data['year_month'] = $year_month;
 
-
-
-        $bbm_unloading = CoalUnloading::with(['ship', 'dock', 'company'])->whereRaw('receipt_date like ?', ["%" . $year_month . "%"])->get();
-
+        $year_month = $request->get('year_month') ?? '';
         $processedData = [];
-        foreach ($bbm_unloading as $key => $value) {
-            $processedData[$key] = [];
-            $processedData[$key]['ship_name'] = $value->ship->name;
-            $processedData[$key]['dock_name'] = $value->dock->name;
-            $processedData[$key]['company_name'] = $value->company->name;
-            $processedData[$key]['receipt_date'] = date('d M Y', strtotime($value->receipt_date));
+        $data['year_month'] = $year_month;
+        if ($year_month) {
 
-            $processedData[$key]['unloading_duration'] = getTimeDifference($value->end_date, $value->receipt_date)['hours'] . "H " . getTimeDifference($value->end_date, $value->receipt_date)['minutes'] . "M";
 
-            $processedData[$key]['standard_duration'] = getTimeDifference($value->dock_ship_date, $value->departure_date)['hours'] . "H " . getTimeDifference($value->dock_ship_date, $value->departure_date)['minutes'] . "M";
 
-            $processedData[$key]['ship_duration'] = getTimeDifference($value->dock_ship_date, $value->departure_date)['hours'] . "H " . getTimeDifference($value->dock_ship_date, $value->departure_date)['minutes'] . "M";
+            $bbm_unloading = CoalUnloading::with(['ship', 'dock', 'company'])->whereRaw('receipt_date like ?', ["%" . $year_month . "%"])->get();
 
-            $processedData[$key]['waiting_time'] = getTimeDifference($value->arrived_date, $value->unloading_date)['hours'] . "H " . getTimeDifference($value->arrived_date, $value->unloading_date)['minutes'] . "M";
+            foreach ($bbm_unloading as $key => $value) {
+                $processedData[$key] = [];
+                $processedData[$key]['ship_name'] = $value->ship->name;
+                $processedData[$key]['dock_name'] = $value->dock->name;
+                $processedData[$key]['company_name'] = $value->company->name;
+                $processedData[$key]['receipt_date'] = date('d M Y', strtotime($value->receipt_date));
 
-            $processedData[$key]['bl'] = formatNumber($value->bl / 1000);
-            $processedData[$key]['ds'] = formatNumber($value->ds / 1000);
-            $processedData[$key]['bl'] = formatNumber($value->bw / 1000);
-            $processedData[$key]['tug'] = formatNumber($value->tug_3_accept / 1000);
+                $processedData[$key]['unloading_duration'] = getTimeDifference($value->end_date, $value->receipt_date)['hours'] . "H " . getTimeDifference($value->end_date, $value->receipt_date)['minutes'] . "M";
+
+                $processedData[$key]['standard_duration'] = getTimeDifference($value->dock_ship_date, $value->departure_date)['hours'] . "H " . getTimeDifference($value->dock_ship_date, $value->departure_date)['minutes'] . "M";
+
+                $processedData[$key]['ship_duration'] = getTimeDifference($value->dock_ship_date, $value->departure_date)['hours'] . "H " . getTimeDifference($value->dock_ship_date, $value->departure_date)['minutes'] . "M";
+
+                $processedData[$key]['waiting_time'] = getTimeDifference($value->arrived_date, $value->unloading_date)['hours'] . "H " . getTimeDifference($value->arrived_date, $value->unloading_date)['minutes'] . "M";
+
+                $processedData[$key]['bl'] = formatNumber($value->bl / 1000);
+                $processedData[$key]['ds'] = formatNumber($value->ds / 1000);
+                $processedData[$key]['bl'] = formatNumber($value->bw / 1000);
+                $processedData[$key]['tug'] = formatNumber($value->tug_3_accept / 1000);
+            }
         }
 
         $data['bbm_unloading'] = $processedData;
@@ -878,11 +885,11 @@ class ReportBbmController extends Controller
                 $processedData[0]['initial_stock_realitation'] = $initialStock->planning;
 
                 if (count($bbm_unloading) > 0) {
+                    $bbm_usage = CoalUsage::select('amount_use')->whereRaw('usage_date like ?', ['%' . "$year-$months[$i]" . '%'])->get();
                     foreach ($bbm_unloading as $key => $item) {
                         $receipt_date = date('Y-m', strtotime($item->receipt_date));
                         if ($receipt_date == ("$year-$months[$i]")) {
                             // Get BBM Usage with receipt date
-                            $bbm_usage = CoalUsage::select('amount_use')->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
                             // get All Unit Value
 
                             $processedData[$monthKey]['accept_plan'] = 0;

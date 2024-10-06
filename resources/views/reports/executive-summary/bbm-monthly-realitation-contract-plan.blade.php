@@ -162,7 +162,7 @@
                                             -
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['tug']) ? formatNumber($item['tug'] + $item['rakor']) : '-' }}
+                                            {{ isset($item['rakor']) ? formatNumber($item['rakor']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
                                             -
@@ -191,7 +191,7 @@
                                             0
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber((collect($bbm_unloading)->pluck('tug')->sum() + collect($bbm_unloading)->pluck('rakor')->sum()) / collect($bbm_unloading)->pluck('rakor')->count()) }}
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('rakor')->sum() / collect($bbm_unloading)->pluck('rakor')->count()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                             -
