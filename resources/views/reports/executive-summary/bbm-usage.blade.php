@@ -40,7 +40,7 @@
                     </div>
                     <div></div>
                 </div>
-                <div class="overflow-auto hide-scrollbar max-w-full">
+                <div class="overflow-auto max-w-full">
                     <table class="w-full">
                         <thead>
                             <tr>
@@ -76,13 +76,13 @@
                                     $i = 0;
                                 @endphp
                                 @foreach ($item as $index1 => $item1)
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item1 }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item1, 0, ',', '.') }}</td>
                                 @php
                                     $total_permonth[$i] = $total_permonth[$i] + $item1;
                                     $i = $i + 1;
                                 @endphp
                                 @endforeach
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ array_sum($item) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format(array_sum($item), 0, ',', '.') }}</td>
                                 @php
                                     $total_permonth[12] =  $total_permonth[12]+array_sum($item);
                                 @endphp
@@ -91,7 +91,7 @@
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">Jumlah</td>
                                 @foreach ($total_permonth as $item)
-                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{ $item }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{ number_format($item, 0, ',', '.') }}</td>
                                 @endforeach
                             </tr>
                         </tbody>

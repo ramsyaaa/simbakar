@@ -68,7 +68,7 @@
                     </div>
                     <div></div>
                 </div>
-                <div class="overflow-auto hide-scrollbar max-w-full">
+                <div class="overflow-auto max-w-full">
                     <table class="w-full">
                         <thead>
                             <tr>
@@ -110,27 +110,20 @@
                             @endphp
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day') {{ $index+1 }}-{{ $bulan }}-{{ $tahun }} @elseif($filter_type == 'month') {{ date('M', mktime(0, 0, 0, $index+1, 1)) }} @elseif($filter_type == 'year') {{ $start_year + $index }} @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt[$index] }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item['heavy_equipment'] }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm_receipt[$index], 0, ',', '.') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['heavy_equipment'], 0, ',', '.') }}</td>
                                 @foreach ($item['unit'] as $index1 => $item1)
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item1 }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item1, 0, ',', '.') }}</td>
                                 @php
                                     $sum = $sum + $item1;
                                 @endphp
                                 @endforeach
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item['other'] }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $sum + $item['other'] + $item['heavy_equipment'] }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['other'], 0, ',', '.') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format(($sum + $item['other'] + $item['heavy_equipment']), 0, ',', '.') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
                             </tr>
                             @endforeach
-                            {{-- <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">Jumlah</td>
-                                @foreach ($totalData as $index1 => $item1)
-                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{ $item1 }}</td>
-                                @endforeach
-                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{array_sum($totalData) }}</td>
-                            </tr> --}}
                         </tbody>
                     </table>
                 </div>
