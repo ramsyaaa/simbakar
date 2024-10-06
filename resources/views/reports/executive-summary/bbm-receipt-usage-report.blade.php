@@ -54,9 +54,9 @@
                 </form>
             </div>
 
-
+            @if($filter_type != null)
             <div class="bg-white rounded-lg p-6">
-                <div class="overflow-auto hide-scrollbar max-w-full">
+                <div class="overflow-auto max-w-full">
                     <table class="w-full">
                         <thead>
                             <tr>
@@ -108,6 +108,7 @@
                     </table>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Ramsey\Uuid\Uuid;
+use App\Models\Adendum;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\SpesificationContractCoal;
 
@@ -10,21 +11,27 @@ class CoalContract extends Model
 {
     protected $guarded = ['id'];
 
+    public function adendums()
+    {
+        return $this->hasMany(Adendum::class, "contract_id", 'id');
+    }
+
     public function spesifications()
     {
         return $this->hasMany(SpesificationContractCoal::class, "contract_id", 'id');
     }
-    public function spesification()
+
+    public function delivery_clauses()
     {
-        return $this->hasOne(SpesificationContractCoal::class, "contract_id", 'id');
+        return $this->hasMany(DeliveryClause::class, "contract_id", 'id');
     }
 
     protected static function boot()
-     {
-         parent::boot();
+    {
+        parent::boot();
 
-         static::creating(function ($model) {
-             $model->uuid = Uuid::uuid4()->toString();
-         });
-     }
+        static::creating(function ($model) {
+            $model->uuid = Uuid::uuid4()->toString();
+        });
+    }
 }

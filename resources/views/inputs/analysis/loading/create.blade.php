@@ -22,13 +22,27 @@
                     <div class="p-4 bg-white rounded-lg w-full">
                         <div class="w-full">
                             <div class="w-full">
+                                <label for="supplier_id" class="font-bold text-[#232D42] text-[16px]">Pilih Suppliers</label>
+                                <div class="relative">
+                                    <select name="supplier_id" id="supplier_id" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <option value="">Pilih</option>
+                                        @foreach ($suppliers as $item)
+                                            <option value="{{ $item->id }}" {{ old('supplier_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('supplier_id')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="w-full">
                                 <label for="contract_uuid" class="font-bold text-[#232D42] text-[16px]">No Kontrak</label>
                                 <div class="relative">
                                     <select name="contract_uuid" id="contract_uuid" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         <option value="">Pilih</option>
-                                        @foreach ($contracts as $item)
-                                            <option value="{{ $item->uuid }}" {{ old('contract_uuid') == $item->uuid ? 'selected' : '' }}>{{ $item->contract_number }}</option>
-                                        @endforeach
                                     </select>
                                     @error('contract_uuid')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
@@ -41,7 +55,7 @@
                                 <div class="w-full">
                                     <label for="start_loading" class="font-bold text-[#232D42] text-[16px]">Tanggal Mulai Loading</label>
                                     <div class="relative">
-                                        <input type="datetime-local" name="start_loading" value="{{ old('start_loading') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="date" name="start_loading" value="{{ old('start_loading') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('start_loading')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -52,7 +66,7 @@
                                 <div class="w-full">
                                     <label for="end_loading" class="font-bold text-[#232D42] text-[16px]">Tanggal Selesai Loading</label>
                                     <div class="relative">
-                                        <input type="datetime-local" name="end_loading" value="{{ old('end_loading') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="date" name="end_loading" value="{{ old('end_loading') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('end_loading')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -589,4 +603,37 @@
         </div>
     </div>
 </div>
+
+
+<script>
+document.getElementById('supplier_id').addEventListener('change', function() {
+    var supplierId = this.value; // Get selected supplier ID
+
+    if(supplierId) {
+        fetch(`/api/get-supplier-contract/${supplierId}`)
+        .then(response => response.json())  // Parsing JSON response
+        .then(data => {
+            var contractSelect = document.getElementById('contract_uuid');
+            contractSelect.innerHTML = ''; // Clear existing options
+
+            // Add a default "Pilih" option
+            var defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Pilih';
+            contractSelect.appendChild(defaultOption);
+
+            // Populate the contract select with data from API
+            data.forEach(contract => {
+                var option = document.createElement('option');
+                option.value = contract.uuid;
+                option.textContent = contract.contract_number; // Adjust based on your API response
+                contractSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching contracts:', error);
+        });
+    }
+});
+</script>
 @endsection

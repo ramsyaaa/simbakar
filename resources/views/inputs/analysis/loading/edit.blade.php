@@ -23,13 +23,27 @@
                     <div class="p-4 bg-white rounded-lg w-full">
                         <div class="w-full">
                             <div class="w-full">
+                                <label for="supplier_id" class="font-bold text-[#232D42] text-[16px]">Supplier</label>
+                                <div class="relative">
+                                    <select name="supplier_id" id="supplier_id" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <option value="">Pilih</option>
+                                        @foreach ($suppliers as $item)
+                                            <option value="{{ $item->id }}" {{ old('supplier_id', $loading->supplier_id ?? '') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('supplier_id')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="w-full">
                                 <label for="contract_uuid" class="font-bold text-[#232D42] text-[16px]">No Kontrak</label>
                                 <div class="relative">
                                     <select name="contract_uuid" id="contract_uuid" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         <option value="">Pilih</option>
-                                        @foreach ($contracts as $item)
-                                            <option value="{{ $item->uuid }}" {{ old('contract_uuid', $loading->contract_uuid ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->contract_number }}</option>
-                                        @endforeach
                                     </select>
                                     @error('contract_uuid')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
@@ -42,7 +56,7 @@
                                 <div class="w-full">
                                     <label for="start_loading" class="font-bold text-[#232D42] text-[16px]">Tanggal Mulai Loading</label>
                                     <div class="relative">
-                                        <input type="datetime-local" name="start_loading" value="{{ old('start_loading', $loading->start_loading ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="date" name="start_loading" value="{{ old('start_loading', (new DateTime($loading->start_loading))->format('Y-m-d') ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('start_loading')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -53,7 +67,7 @@
                                 <div class="w-full">
                                     <label for="end_loading" class="font-bold text-[#232D42] text-[16px]">Tanggal Selesai Loading</label>
                                     <div class="relative">
-                                        <input type="datetime-local" name="end_loading" value="{{ old('end_loading', $loading->end_loading ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="date" name="end_loading" value="{{ old('end_loading', (new DateTime($loading->end_loading))->format('Y-m-d') ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('end_loading')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -591,4 +605,47 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    // Fungsi untuk memuat kontrak berdasarkan supplier_id
+    function loadContracts(supplier_id, selected_contract_uuid = null) {
+        if (!supplier_id) {
+            document.getElementById('contract_uuid').innerHTML = '<option value="">Pilih</option>';
+            return;
+        }
+
+        fetch(`/api/get-supplier-contract/${supplier_id}`)
+            .then(response => response.json())
+            .then(data => {
+                let contractSelect = document.getElementById('contract_uuid');
+                contractSelect.innerHTML = '<option value="">Pilih</option>'; // Reset pilihan
+
+                data.forEach(contract => {
+                    let selected = (contract.uuid === selected_contract_uuid) ? 'selected' : '';
+                    contractSelect.innerHTML += `<option value="${contract.uuid}" ${selected}>${contract.contract_number}</option>`;
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Ketika halaman pertama kali di-load
+    document.addEventListener('DOMContentLoaded', function () {
+        let supplierId = document.getElementById('supplier_id').value;
+        let selectedContractUuid = '{{ $loading->contract_uuid }}'; // Dapatkan UUID kontrak yang sudah disimpan
+
+        // Jika ada supplier_id yang dipilih, muat kontrak terkait
+        if (supplierId) {
+            loadContracts(supplierId, selectedContractUuid);
+        }
+    });
+
+    // Ketika user mengganti supplier
+    document.getElementById('supplier_id').addEventListener('change', function () {
+        let supplierId = this.value;
+        loadContracts(supplierId); // Panggil API tanpa UUID terpilih
+    });
+</script>
 @endsection

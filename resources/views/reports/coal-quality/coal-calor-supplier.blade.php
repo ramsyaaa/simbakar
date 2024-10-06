@@ -131,8 +131,8 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="overflow-auto hide-scrollbar max-w-full">
-                        <table class="w-full">
+                    <div class="overflow-x-auto max-w-full">
+                        <table class="min-w-max">
                             @if ($filter_type == 'day')
                                     <thead>
                                         <tr>

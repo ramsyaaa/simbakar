@@ -32,7 +32,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-center gap-4">
+                            {{-- <div class="flex items-center gap-4">
                                 <label for="grafik" class="flex items-center gap-2">
                                     <input id="grafik" checked name="display" type="checkbox" value="grafik">
                                     Grafik
@@ -41,7 +41,7 @@
                                     <input id="table" checked name="display" type="checkbox" value="table">
                                     Tabel
                                 </label>
-                            </div>
+                            </div> --}}
 
                             <div class="w-full flex justify-end gap-2">
                                 <button type="button"

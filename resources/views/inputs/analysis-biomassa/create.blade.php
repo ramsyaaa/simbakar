@@ -20,6 +20,24 @@
                 <form onsubmit="return confirmSubmit(this, 'Tambahkan Analisa?')" action="{{ route('inputs.analysis-biomassa.store') }}" method="POST">
                     @csrf
                     <div class="p-4 bg-white rounded-lg w-full">
+                        <div class="w-full flex gap-4">
+                            <div class="w-full lg:w-6/12">
+                                <label for="faktur_number" class="font-bold text-[#232D42] text-[16px]">No Faktur Penerimaan</label>
+                                <div class="relative">
+                                    <select name="faktur_number" id="faktur_number" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <option value="">Pilih Penerimaan</option>
+                                        @foreach ($biomassa_receipt as $item)
+                                            <option value="{{ $item->id }}" {{ old('faktur_number') == $item->id ? 'selected' : '' }}>{{ $item->faktur_number }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('faktur_number')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                         <div class="w-full flex gap-4 mb-3">
                             <div class="w-full lg:w-6/12">
                                 <label for="order_number" class="font-bold text-[#232D42] text-[16px]">Kontrak</label>
@@ -41,7 +59,7 @@
                                 <label for="order_number" class="font-bold text-[#232D42] text-[16px]">Sub Supplier</label>
                                 <div class="relative">
                                     <select name="sub_supplier_id" id="sub_supplier_id" class="select-2 w-full border rounded-md mt-3 h-[40px] px-3 select-sub-supplier">
-                                       
+
                                     </select>
                                     @error('sub_supplier_id')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
@@ -146,7 +164,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>      
+                            </div>
                             <div class="w-full flex gap-4">
                                 <div class="w-full">
                                     <label for="calorivic_value" class="font-bold text-[#232D42] text-[16px]">Calorivic Value</label>
@@ -170,7 +188,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>      
+                            </div>
                             <div class="w-full flex gap-4">
                                 <div class="w-full">
                                     <label for="retained_5" class="font-bold text-[#232D42] text-[16px]">Retained 5</label>
@@ -194,7 +212,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>      
+                            </div>
                             <div class="w-full flex gap-4">
                                 <div class="w-full">
                                     <label for="passing_238" class="font-bold text-[#232D42] text-[16px]">Passing 2,38 </label>
@@ -207,7 +225,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>      
+                            </div>
                         </div>
 
                         <a href="{{ route('inputs.analysis-biomassa.index') }}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
@@ -221,7 +239,7 @@
 @endsection
 @section('scripts')
     <script>
-        $('.select-contract').change(function(){  
+        $('.select-contract').change(function(){
             let id  = $(this).val();
             let token = "{{ csrf_token() }}"
             $(".select-sub-supplier").empty()

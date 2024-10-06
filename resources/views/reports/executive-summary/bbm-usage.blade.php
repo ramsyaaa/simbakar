@@ -17,7 +17,7 @@
                 <form method="POST" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
                     @csrf
                     <div class="mb-4">
-                        <input type="number" name="tahunInput" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('tahun', $tahunInput) }}" min="1980" max="2200">
+                        <input type="number" name="tahunInput" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('tahun', $tahunInput) }}" placeholder="2024" min="1980" max="2200">
                     </div>
 
                     <div class="w-full flex justify-end gap-4">
@@ -27,7 +27,7 @@
                 </form>
             </div>
 
-
+            @if($tahunInput != null)
             <div id="my-pdf" class="bg-white rounded-lg p-6">
                 <div class="flex justify-between items-center mb-4">
                     <div>
@@ -40,7 +40,7 @@
                     </div>
                     <div></div>
                 </div>
-                <div class="overflow-auto hide-scrollbar max-w-full">
+                <div class="overflow-auto max-w-full">
                     <table class="w-full">
                         <thead>
                             <tr>
@@ -76,13 +76,13 @@
                                     $i = 0;
                                 @endphp
                                 @foreach ($item as $index1 => $item1)
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item1 }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item1, 0, ',', '.') }}</td>
                                 @php
                                     $total_permonth[$i] = $total_permonth[$i] + $item1;
                                     $i = $i + 1;
                                 @endphp
                                 @endforeach
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ array_sum($item) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format(array_sum($item), 0, ',', '.') }}</td>
                                 @php
                                     $total_permonth[12] =  $total_permonth[12]+array_sum($item);
                                 @endphp
@@ -91,13 +91,14 @@
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">Jumlah</td>
                                 @foreach ($total_permonth as $item)
-                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{ $item }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{ number_format($item, 0, ',', '.') }}</td>
                                 @endforeach
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>

@@ -11,14 +11,15 @@
             <div class="w-full flex justify-center mb-6">
                 <form method="get" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
                     <div class="mb-4">
-                        <select name="type" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
-                            <option>Jangka Panjang</option>
-                            <option>Jangka Menengah</option>
-                            <option>Spot</option>
+                        <select name="type" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md" required>
+                            <option value="">Pilih Jenis</option>
+                            <option {{request()->type == 'Jangka Panjang' ? 'selected' :''}}>Jangka Panjang</option>
+                            <option {{request()->type == 'Jangka Menengah' ? 'selected' :''}}>Jangka Menengah</option>
+                            <option {{request()->type == 'Spot' ? 'selected' :''}}>Spot</option>
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                        <select name="year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md" required>
                             <option value="">Tahun</option>
                             @for ($i = date('Y'); $i >= 2000; $i--)
                                 <option {{request()->year == $i ? 'selected' :''}}>{{ $i }}</option>
@@ -32,7 +33,7 @@
                     </div>
                 </form>
             </div>
-
+            @isset($contracts)
             <div id="my-pdf" class="bg-white rounded-lg p-6">
                 <div class="body">
 
@@ -46,13 +47,13 @@
                     </div>
                     <div></div>
                 </div>
-                <div class="overflow-auto hide-scrollbar max-w-full">
+                <div class="overflow-x-auto max-w-full">
                     <table class="w-full">
                         <thead>
                             <tr>
                                 <th rowspan="2" class="border border-gray-400 p-2">Kontrak</th>
                                 <th rowspan="2" colspan="2" class="border border-gray-400 p-2">Rencana dan realisasi</th>
-                                <th colspan="12" class="border border-gray-400 p-2">Tahun 2024</th>
+                                <th colspan="12" class="border border-gray-400 p-2">Tahun {{request('year') ?? ''}}</th>
                                 <th rowspan="2" class="border border-gray-400 p-2">Jumlah</th>
                             </tr>
                             <tr>
@@ -129,6 +130,7 @@
                     </table>
                 </div>
             </div>
+            @endisset
         </div>
 
         </div>

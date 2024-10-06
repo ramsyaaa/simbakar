@@ -39,7 +39,7 @@
                             'url' => route('reports.executive-summary.bbm-loading-unloading-efective-stock'),
                         ],
                         [
-                            'text' => 'Penerimaan, Pemakaian dan Oersediaan Efektif HSD',
+                            'text' => 'Penerimaan, Pemakaian dan Persediaan Efektif HSD',
                             'url' => route('reports.executive-summary.bbm-receipt-usage', ['type' => 'HSD']),
                         ],
                         [

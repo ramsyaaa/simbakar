@@ -91,6 +91,23 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="w-full">
+                                <label for="contract_id" class="font-bold text-[#232D42] text-[16px]">Nomor Kontrak</label>
+                                <div class="relative">
+                                    <select name="contract_id" id="contract_id" class="w-full lg:w-1/2 lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <option selected disabled>Pilih Nomor Kontrak</option>
+                                        @foreach ($contracts as $contract)
+                                        <option value="{{ $contract->id }}" {{old('contract_id') == $contract->id ? 'selected' :''}}>{{ $contract->contract_number }} - {{$contract->spesification->identification_number ?? '[ Identifikasi Kosong ]'}} - {{$contract->kind_contract}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('contract_id')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
                         <div class="w-full">

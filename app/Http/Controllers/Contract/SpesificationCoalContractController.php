@@ -53,7 +53,7 @@ class SpesificationCoalContractController extends Controller
             SpesificationContractCoal::create($request->all());
 
             DB::commit();
-            return redirect(route('contracts.coal-contracts.spesification.index',['contractId'=>$request->contract_id]))->with('success', 'Spesifikasi kontrak baru gagal di buat.');
+            return redirect(route('contracts.coal-contracts.spesification.index',['contractId'=>$request->contract_id]))->with('success', 'Spesifikasi kontrak baru berhasil di buat.');
             
         } catch (\ValidationException $th) {
             DB::rollback();

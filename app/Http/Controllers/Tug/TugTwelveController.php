@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Tug;
 
+use App\BbmUsage;
 use App\Models\Tug;
+use App\Models\CoalUsage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,14 +17,15 @@ class TugTwelveController extends Controller
      */
     public function index(Request $request)
     {
-        $tugs = Tug::query();
-        $tugs->where('tug',9)
-        ->when($request->date, function ($query) use ($request) {
-            $query->where('created_at', $request->date);
-        });
-        $data['tugs'] = $tugs->latest()->get()->chunk(6)->map(function ($item){
-            return $item->pad(6,null);
-        });
+        $data = [];
+        if($request->has('date')){
+           $coal = CoalUsage::select('tug_9_number')->where('usage_date', $request->date)->get();
+           $bbm = BbmUsage::select('tug9_number AS tug_9_number')->where('use_date', $request->date)->get();
+           $merged = $coal->concat($bbm);
+           $data['tugs'] = $merged->chunk(6)->map(function ($item){
+                return $item->pad(6,null);
+            });
+        }
         return view('inputs.tug-12.index',$data);
 
     }

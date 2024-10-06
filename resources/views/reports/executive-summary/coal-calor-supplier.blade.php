@@ -179,7 +179,7 @@
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->contract->contract_number}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->supplier->name}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->tug_3_accept)}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->origin->origin_of_goods}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->origin}}</td>
                                                 @if (in_array('unloading',$analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading}}</td>
                                                 @endif

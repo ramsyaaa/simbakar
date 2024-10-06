@@ -27,40 +27,54 @@ class MonitoringCoalAnalyticController extends Controller
     
         $data['filter_type'] = $filterType;
         if ($request->has('supplier_id')) {
+            $data['pemasok'] = Supplier::where('id',$request->supplier_id)->first();
             $parameter = UnitPenalty::where('id',$request->unit_id)->first();
             $data['parameter'] = $parameter;
             $data['numbers'] = CoalContract::all();
             switch ($filterType) {
 
                 case 'kontrak':
-                    $coals = CoalUnloading::with('ship','supplier')->where('supplier_id',$request->supplier_id)
-                    ->where('contract_id',$request->contract_id)
+                    $coals = CoalUnloading::with(['ship', 'supplier'])
+                    ->where('supplier_id', $request->supplier_id)
+                    ->where('contract_id', $request->contract_id)
                     ->whereNotNull('analysis_loading_id')
                     ->whereNotNull('analysis_unloading_id')
                     ->whereNotNull('analysis_labor_id')
-                    ->get()
-                    ->map(function($item) use ($parameter,$request) {
-                        if($request->basis == 'AR'){
-
-                            $unloading = Unloading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_unloading_id)->first();
-                            $loading = Loading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_loading_id)->first();
-                            $labor = Labor::select($parameter->unit.' AS parameter')->where('id',$item->analysis_labor_id)->first();
-
-                            $item->unloading = $unloading['parameter'];
-                            $item->loading = $loading['parameter'];
-                            $item->labor = $labor['parameter'];
-                        }else{
-                            $unloading = Unloading::select($parameter->unit)->where('id',$item->analysis_unloading_id)->first();
-                            $loading = Loading::select($parameter->unit)->where('id',$item->analysis_loading_id)->first();
-                            $labor = Labor::select($parameter->unit)->where('id',$item->analysis_labor_id)->first();
-
-                            $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture ) * $unloading[$parameter->unit];
-                            $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture ) * $unloading[$parameter->unit];
-                            $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture ) * $labor[$parameter->unit];
+                    ->get();
+                
+                    // Step 2: Collect all relevant analysis IDs to batch query related data
+                    $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();
+                    $loadingIds = $coals->pluck('analysis_loading_id')->unique();
+                    $laborIds = $coals->pluck('analysis_labor_id')->unique();
+                    
+                    // Step 3: Batch fetch all necessary analysis data in one go
+                    $unloadings = Unloading::whereIn('id', $unloadingIds)->get()->keyBy('id');
+                    $loadings = Loading::whereIn('id', $loadingIds)->get()->keyBy('id');
+                    $labors = Labor::whereIn('id', $laborIds)->get()->keyBy('id');
+                    
+                    // Step 4: Iterate over each item and map the necessary calculations
+                    $coals = $coals->map(function($item) use ($parameter, $request, $unloadings, $loadings, $labors) {
+                        // Get the corresponding analysis data
+                        $unloading = $unloadings->get($item->analysis_unloading_id);
+                        $loading = $loadings->get($item->analysis_loading_id);
+                        $labor = $labors->get($item->analysis_labor_id);
+                    
+                        if ($request->basis == 'AR') {
+                            // Direct assignment of the parameter values
+                            $item->unloading = $unloading->{$parameter->unit} ?? null;
+                            $item->loading = $loading->{$parameter->unit} ?? null;
+                            $item->labor = $labor->{$parameter->unit} ?? null;
+                        } else {
+                            // Perform moisture adjustment calculations
+                            $item->unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
+                            $item->loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
+                            $item->labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
                         }
+                    
                         return $item;
                     });
-
+                    
+                    // Step 5: Assign the final results to the data array
                     $data['coals'] = $coals;
                     $data['contract'] = CoalContract::where('id',$request->contract_id)->first();
                     break;
@@ -72,33 +86,48 @@ class MonitoringCoalAnalyticController extends Controller
                     ->whereNotNull('analysis_loading_id')
                     ->whereNotNull('analysis_unloading_id')
                     ->whereNotNull('analysis_labor_id')
-                    ->get()
-                    ->map(function($item) use ($parameter,$request) {
-                        if($request->basis == 'AR'){
-
-                            $unloading = Unloading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_unloading_id)->first();
-                            $loading = Loading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_loading_id)->first();
-                            $labor = Labor::select($parameter->unit.' AS parameter')->where('id',$item->analysis_labor_id)->first();
-
-                            $item->unloading = $unloading['parameter'];
-                            $item->loading = $loading['parameter'];
-                            $item->labor = $labor['parameter'];
-                        }else{
-                            $unloading = Unloading::select($parameter->unit)->where('id',$item->analysis_unloading_id)->first();
-                            $loading = Loading::select($parameter->unit)->where('id',$item->analysis_loading_id)->first();
-                            $labor = Labor::select($parameter->unit)->where('id',$item->analysis_labor_id)->first();
-
-                            $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture ) * $unloading[$parameter->unit];
-                            $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture ) * $unloading[$parameter->unit];
-                            $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture ) * $labor[$parameter->unit];
+                    ->get();
+                
+                    // Step 2: Collect all relevant analysis IDs to batch query related data
+                    $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();
+                    $loadingIds = $coals->pluck('analysis_loading_id')->unique();
+                    $laborIds = $coals->pluck('analysis_labor_id')->unique();
+                    
+                    // Step 3: Batch fetch all necessary analysis data in one go
+                    $unloadings = Unloading::whereIn('id', $unloadingIds)->get()->keyBy('id');
+                    $loadings = Loading::whereIn('id', $loadingIds)->get()->keyBy('id');
+                    $labors = Labor::whereIn('id', $laborIds)->get()->keyBy('id');
+                    
+                    // Step 4: Iterate over each item and map the necessary calculations
+                    $coals = $coals->map(function($item) use ($parameter, $request, $unloadings, $loadings, $labors) {
+                        // Get the corresponding analysis data
+                        $unloading = $unloadings->get($item->analysis_unloading_id);
+                        $loading = $loadings->get($item->analysis_loading_id);
+                        $labor = $labors->get($item->analysis_labor_id);
+                    
+                        if ($request->basis == 'AR') {
+                            // Direct assignment of the parameter values
+                            $item->unloading = $unloading->{$parameter->unit} ?? null;
+                            $item->loading = $loading->{$parameter->unit} ?? null;
+                            $item->labor = $labor->{$parameter->unit} ?? null;
+                        } else {
+                            // Perform moisture adjustment calculations
+                            $item->unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
+                            $item->loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
+                            $item->labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
                         }
+                    
                         return $item;
                     });
+                    
+                    // Step 5: Assign the final results to the data array
                     $data['coals'] = $coals;
+                    
                     break;
 
 
                 case 'periodik':
+
                     $monthStart = explode('-', $request->month_start);
                     $monthEnd = explode('-', $request->month_end);
                     $startDate = "{$monthStart[0]}-{$monthStart[1]}-01";
@@ -108,28 +137,41 @@ class MonitoringCoalAnalyticController extends Controller
                     ->whereNotNull('analysis_loading_id')
                     ->whereNotNull('analysis_unloading_id')
                     ->whereNotNull('analysis_labor_id')
-                    ->get()
-                    ->map(function($item) use ($parameter,$request) {
-                        if($request->basis == 'AR'){
-
-                            $unloading = Unloading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_unloading_id)->first();
-                            $loading = Loading::select($parameter->unit.' AS parameter')->where('id',$item->analysis_loading_id)->first();
-                            $labor = Labor::select($parameter->unit.' AS parameter')->where('id',$item->analysis_labor_id)->first();
-
-                            $item->unloading = $unloading['parameter'];
-                            $item->loading = $loading['parameter'];
-                            $item->labor = $labor['parameter'];
-                        }else{
-                            $unloading = Unloading::select($parameter->unit)->where('id',$item->analysis_unloading_id)->first();
-                            $loading = Loading::select($parameter->unit)->where('id',$item->analysis_loading_id)->first();
-                            $labor = Labor::select($parameter->unit)->where('id',$item->analysis_labor_id)->first();
-
-                            $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture ) * $unloading[$parameter->unit];
-                            $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture ) * $unloading[$parameter->unit];
-                            $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture ) * $labor[$parameter->unit];
+                    ->get();
+                
+                    // Step 2: Collect all relevant analysis IDs to batch query related data
+                    $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();
+                    $loadingIds = $coals->pluck('analysis_loading_id')->unique();
+                    $laborIds = $coals->pluck('analysis_labor_id')->unique();
+                    
+                    // Step 3: Batch fetch all necessary analysis data in one go
+                    $unloadings = Unloading::whereIn('id', $unloadingIds)->get()->keyBy('id');
+                    $loadings = Loading::whereIn('id', $loadingIds)->get()->keyBy('id');
+                    $labors = Labor::whereIn('id', $laborIds)->get()->keyBy('id');
+                    
+                    // Step 4: Iterate over each item and map the necessary calculations
+                    $coals = $coals->map(function($item) use ($parameter, $request, $unloadings, $loadings, $labors) {
+                        // Get the corresponding analysis data
+                        $unloading = $unloadings->get($item->analysis_unloading_id);
+                        $loading = $loadings->get($item->analysis_loading_id);
+                        $labor = $labors->get($item->analysis_labor_id);
+                    
+                        if ($request->basis == 'AR') {
+                            // Direct assignment of the parameter values
+                            $item->unloading = $unloading->{$parameter->unit} ?? null;
+                            $item->loading = $loading->{$parameter->unit} ?? null;
+                            $item->labor = $labor->{$parameter->unit} ?? null;
+                        } else {
+                            // Perform moisture adjustment calculations
+                            $item->unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
+                            $item->loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
+                            $item->labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
                         }
+                    
                         return $item;
                     });
+                    
+                    // Step 5: Assign the final results to the data array
                     $data['coals'] = $coals;
                     break;
             }

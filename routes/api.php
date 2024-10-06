@@ -29,7 +29,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1/user'], function () {
 Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
     Route::post('authenticate', 'AuthController@authenticate')->name('api.authenticate');
     Route::post('register', 'AuthController@register')->name('api.register');
-    
+
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
@@ -50,3 +50,5 @@ Route::post('get-analytic-loading', [ApiFetchController::class, 'getAnalyticLoad
 Route::post('get-analytic-unloading', [ApiFetchController::class, 'getAnalyticUnloading'])->name('getAnalyticUnloading');
 Route::post('get-analytic-labor', [ApiFetchController::class, 'getAnalyticLabor'])->name('getAnalyticLabor');
 Route::post('get-ship', [ApiFetchController::class, 'getShip'])->name('getShip');
+Route::post('get-ship-comparisan', [ApiFetchController::class, 'getShipComparison'])->name('getShipComparison');
+Route::get('get-supplier-contract/{supplier_id}', [ApiFetchController::class, 'getSupplierContract'])->name('getSupplierContract');
