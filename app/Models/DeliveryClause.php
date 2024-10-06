@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class DeliveryClause extends Model
 {
-    protected $guarded = ['id'];
+    protected $guarded = [];
     protected $table = 'delivery_clauses';
-
 }

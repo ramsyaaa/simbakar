@@ -40,7 +40,7 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="overflow-auto hide-scrollbar max-w-full">
+                    <div class="overflow-x-auto max-w-full">
                         <table class="min-w-max">
                             <thead>
                                 <tr>

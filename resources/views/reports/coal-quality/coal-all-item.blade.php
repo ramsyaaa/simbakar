@@ -93,7 +93,7 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="overflow-x-auto hide-scrollbar max-w-full" style="font-size:12px;">
+                    <div class="overflow-x-auto max-w-full" style="font-size:12px;">
                         <table class="min-w-max" style="font-size: 12px;" id="table">
                             <thead>
                                 <tr class="text-center">
