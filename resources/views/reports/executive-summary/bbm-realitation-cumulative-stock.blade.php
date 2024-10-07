@@ -7,7 +7,7 @@
 
     function getTotalUnit($item)
     {
-        if ($item) {
+        if (isset($item['unit_1'])) {
             return $item['unit_1'] +
                 $item['unit_2'] +
                 $item['unit_3'] +
