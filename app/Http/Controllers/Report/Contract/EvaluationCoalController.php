@@ -46,8 +46,8 @@ class EvaluationCoalController extends Controller
                 $certificate = Preloadinng::where('id',$request->analysis_id)->first();
                 $data['analysis_status'] = 'Preloading';
 
-                $contract = CoalContract::where('id', $request->id)->first();
-                $data['analysists'] = Preloadinng::select('id','analysis_number')->where('id',$contract->uuid)->get();
+                $contract = CoalContract::where('id', $request->contract_id)->first();
+                $data['analysists'] = Preloadinng::select('id','analysis_number')->where('contract_uuid',$contract->uuid)->get();
             }
 
             if($certificate){

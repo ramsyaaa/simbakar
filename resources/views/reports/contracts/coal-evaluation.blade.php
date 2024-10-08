@@ -262,13 +262,13 @@
                                                 </td>
                                                 
                                                 <td class="border border-slate-900 text-right">{{$certificate[$penalty->unit]}}   <span class="text-pink-900"> {{$sign}}</span></td>
-                                                <td class="border border-slate-900 text-right">wt%</td>
+                                                <td class="border border-slate-900 text-right">{{$penalty->satuan}}</td>
                                             </tr>
                                         @endforeach
                                         <tr>
                                             <td class="border border-slate-900">Slagging Index</td>
-                                            <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right">SEVERE</td>
+                                            <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> > 2,00</td>
                                             <td class="border border-slate-900 text-right">{{$certificate->slagging_index}}</td>
                                             <td class="border border-slate-900 text-right"></td>

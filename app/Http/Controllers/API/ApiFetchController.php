@@ -115,7 +115,7 @@ class ApiFetchController extends Controller
     if ($request->type == 3) {
 
         $contract = CoalContract::where('id', $request->id)->first();
-        return $certificate = Preloadinng::select('id','analysis_number')->where('id',$contract->uuid)->get();
+        return $certificate = Preloadinng::select('id','analysis_number')->where('contract_uuid',$contract->uuid)->get();
 
     }
 
