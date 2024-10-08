@@ -39,7 +39,9 @@
 
                     <div class="w-full flex justify-end gap-4">
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
+                        <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
+                        <a href="{{route('reports.contracts.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
                     </div>
                 </form>
             </div>
@@ -61,7 +63,7 @@
                         <div></div>
                     </div>
                     <div class="overflow-x-auto max-w-full">
-                        <table class="min-w-max">
+                        <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
                                     <th class="border border-gray-400 p-2">No</th>

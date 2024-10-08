@@ -65,6 +65,17 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="w-full">
+                            <label for="bedding" class="font-bold text-[#232D42] text-[16px]">Bedding ( Ton/M<sup>3</sup> )</label>
+                            <div class="relative">
+                                <input type="number" name="bedding" value="{{ $stock->bedding }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                @error('bedding')
+                                <div class="absolute -bottom-1 left-1 text-red-500">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
                         <a href="{{ route('inputs.stock-opnames.index') }}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                         <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Ubah Stock Opname</button>
                     </div>
