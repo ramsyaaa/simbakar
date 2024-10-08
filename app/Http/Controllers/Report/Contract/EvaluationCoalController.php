@@ -8,6 +8,7 @@ use App\Loading;
 use App\Supplier;
 use App\Unloading;
 use Carbon\Carbon;
+use App\Preloadinng;
 use App\Models\CoalContract;
 use Illuminate\Http\Request;
 use App\Models\CoalUnloading;
@@ -27,28 +28,26 @@ class EvaluationCoalController extends Controller
                 
                 $certificate = Loading::where('id',$request->analysis_id)->first();
                 $data['analysis_status'] = 'Loading';
-                $contracts = CoalUnloading::select('analysis_loading_id')->where('supplier_id',$request->supplier_id)->where('contract_id',$request->contract_id)->get()->toArray();
-                $data['analysists'] = Loading::select('id','analysis_number')->whereIn('id',$contracts)->get();
+
+                $contract = CoalContract::where('id', $request->contract_id)->first();
+                
+                $data['analysists'] = Loading::select('id','analysis_number')->where('contract_uuid',$contract->uuid)->get();
             }
             if ($request->type == 2) {
                 
                 $certificate = Unloading::where('id',$request->analysis_id)->first();
                 $data['analysis_status'] = 'Unloading';
+
                 $contracts = CoalUnloading::select('analysis_unloading_id')->where('supplier_id',$request->supplier_id)->where('contract_id',$request->contract_id)->get()->toArray();
                 $data['analysists'] = Unloading::select('id','analysis_number')->whereIn('id',$contracts)->get();
             }
             if ($request->type == 3) {
                 
-                $certificate = Labor::where('id',$request->analysis_id)->first();
-                $data['analysis_status'] = 'Labor';
+                $certificate = Preloadinng::where('id',$request->analysis_id)->first();
+                $data['analysis_status'] = 'Preloading';
 
-                $contracts = CoalUnloading::select('analysis_labor_id')->where('supplier_id',$request->supplier_id)->where('contract_id',$request->contract_id)->get()->toArray();
-                $data['analysists'] = Labor::select('id','analysis_number')->whereIn('id',$contracts)->get();
-            }
-            if ($request->type == 4) {
-                
-                $certificate = Loading::where('id',$request->analysis_id)->first();
-                
+                $contract = CoalContract::where('id', $request->id)->first();
+                $data['analysists'] = Preloadinng::select('id','analysis_number')->where('id',$contract->uuid)->get();
             }
 
             if($certificate){
