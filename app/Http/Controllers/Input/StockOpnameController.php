@@ -21,7 +21,7 @@ class StockOpnameController extends Controller
             $query->whereYear('measurement_date', $request->year);
         });
       
-        $data['stocks'] = $stocks->paginate(10)->appends(request()->query());
+        $data['stocks'] = $stocks->orderBy('measurement_date','desc')->paginate(10)->appends(request()->query());
         return view('inputs.stock-opnames.index',$data);
     }
 
@@ -48,11 +48,13 @@ class StockOpnameController extends Controller
             'stock_opname' => 'required',
             'loose_density' => 'required',
             'compact_density' => 'required',
+            'bedding' => 'required',
         ], [
             'measurement_date.required' => 'Tanggal Pengukuran Mulai wajib diisi.',
             'stock_opname.required' => 'Stock Opname wajib diisi.',
             'loose_density.required' => 'Loose Density wajib diisi.',
             'compact_density.required' => 'Compact Density wajib diisi.',
+            'bedding.required' => 'Bedding wajib diisi.',
         ]);
 
         StockOpname::create([
@@ -60,6 +62,7 @@ class StockOpnameController extends Controller
             'stock_opname' => $request->stock_opname,
             'loose_density' => $request->loose_density,
             'compact_density' => $request->compact_density,
+            'bedding' => $request->bedding,
         ]);
 
         return redirect(route('inputs.stock-opnames.index'))->with('success', 'Stock Opname baru berhasil dibuat.');
@@ -102,11 +105,13 @@ class StockOpnameController extends Controller
             'stock_opname' => 'required',
             'loose_density' => 'required',
             'compact_density' => 'required',
+            'bedding' => 'required',
         ], [
             'measurement_date.required' => 'Tanggal Pengukuran Mulai wajib diisi.',
             'stock_opname.required' => 'Stock Opname wajib diisi.',
             'loose_density.required' => 'Loose Density wajib diisi.',
             'compact_density.required' => 'Compact Density wajib diisi.',
+            'bedding.required' => 'Bedding wajib diisi.',
         ]);
 
         StockOpname::where('uuid',$uuid)->update([
@@ -114,6 +119,7 @@ class StockOpnameController extends Controller
             'stock_opname' => $request->stock_opname,
             'loose_density' => $request->loose_density,
             'compact_density' => $request->compact_density,
+            'bedding' => $request->bedding,
         ]);
 
         return redirect(route('inputs.stock-opnames.index'))->with('success', 'Stock Opname baru berhasil diubah.');
