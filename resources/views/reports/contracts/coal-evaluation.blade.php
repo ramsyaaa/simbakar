@@ -19,7 +19,7 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="contract_id" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-contract">
+                        <select name="contract_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-contract">
                             @if (request('contract_id'))
                                 @isset($numbers)
                                     @foreach ($numbers as $number)
@@ -35,11 +35,11 @@
                             <option value="">Pilih</option>
                             <option value="1"  {{request('type') == 1 ? 'selected' : ''}}>Loading</option>
                             <option value="2"  {{request('type') == 2 ? 'selected' : ''}}>Unloading</option>
-                            <option value="3"  {{request('type') == 3 ? 'selected' : ''}}>Labor</option>
+                            <option value="3"  {{request('type') == 3 ? 'selected' : ''}}>Preloading</option>
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="analysis_id" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-analysis">
+                        <select name="analysis_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-analysis">
                             @if (request('analysis_id'))
                                 @isset($analysists)
                                     @foreach ($analysists as $analysis)
@@ -53,6 +53,7 @@
                     <div class="w-full flex justify-end gap-4">
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
+                        <a href="{{route('reports.contracts.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
                     </div>
                 </form>
             </div>
@@ -94,7 +95,7 @@
                                         </tr>
                                         <tr>
                                             <th class="text-left">Nama Kapal</th>
-                                            <td>: PT. TRIYASA</td>
+                                            <td>: {{$certificate->ship->name ?? ''}}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">No. Sertifikat</th>
@@ -102,7 +103,7 @@
                                         </tr>
                                         <tr>
                                             <th class="text-left">Jumlah B/L</th>
-                                            <td>: {{number_format($certificate->bill_of_ladding)}}</td>
+                                            <td>: {{number_format($certificate->bill_of_ladding) ?? 0}}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">Tanggal Analisa</th>
@@ -261,13 +262,13 @@
                                                 </td>
                                                 
                                                 <td class="border border-slate-900 text-right">{{$certificate[$penalty->unit]}}   <span class="text-pink-900"> {{$sign}}</span></td>
-                                                <td class="border border-slate-900 text-right">wt%</td>
+                                                <td class="border border-slate-900 text-right">{{$penalty->satuan}}</td>
                                             </tr>
                                         @endforeach
                                         <tr>
                                             <td class="border border-slate-900">Slagging Index</td>
-                                            <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right">SEVERE</td>
+                                            <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> > 2,00</td>
                                             <td class="border border-slate-900 text-right">{{$certificate->slagging_index}}</td>
                                             <td class="border border-slate-900 text-right"></td>
@@ -392,17 +393,35 @@
                 })
     </script>
     <script>
+        $('.select-contract').change(function(){  
+            let id  = $(this).val();
+            let token = "{{ csrf_token() }}"
+            $(".select-type").empty()
+            $(".select-analysis").empty()
+            $(".select-type").append(
+                             ` <option value="">Pilih</option>
+                                <option value="1">Loading</option>
+                                <option value="2">Unloading</option>
+                                <option value="3">Preloading</option>
+                            `
+                                )
+           
+        })
+    </script>
+    <script>
         $('.select-type').change(function(){  
             let type  = $(this).val();
             let id  =  $('.select-contract').find(":selected").val();
+            let supplier  =  $('.supplier-select').find(":selected").val();
             let token = "{{ csrf_token() }}"
             $(".select-analysis").empty()
             $.ajax({
-                method: "post",
+                method: "get",
                 url: "{{route('getCertificate')}}",
                 data: {
                     _token:token,
                     type:type,
+                    supplier:supplier,
                     id:id,
                     },
                 success: function (response) {

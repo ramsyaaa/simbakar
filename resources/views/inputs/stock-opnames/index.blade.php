@@ -44,6 +44,7 @@
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Stock Opname ( Kg )</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Loose Density ( Ton/M<sup>3</sup> )</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Compact Density ( Ton/M<sup>3</sup> )</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Bedding ( Ton/M<sup>3</sup> )</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
@@ -55,6 +56,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $stock->stock_opname }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $stock->loose_density }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $stock->compact_density }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($stock->bedding) }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('inputs.stock-opnames.edit', ['uuid' => $stock->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit

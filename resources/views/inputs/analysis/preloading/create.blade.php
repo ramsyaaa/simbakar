@@ -65,7 +65,7 @@
                                 <div class="w-full">
                                     <label for="tonase" class="font-bold text-[#232D42] text-[16px]">Tonase ( Kg )</label>
                                     <div class="relative">
-                                        <input type="text" name="tonase" value="{{ old('tonase') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="tonase" value="{{ old('tonase') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('tonase')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}

@@ -41,18 +41,33 @@
                     </div>
 
                     <div id="month-fields" class="filter-field" style="display: none;">
-                        <input type="number" id="tahun" name="tahun" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('tahun', $tahunInput) }}" min="1980" max="2200">
+                        <select name="tahun" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                            <option value="">Tahun</option>
+                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                <option {{request()->tahun == $i ? 'selected' :''}}>{{ $i }}</option>
+                            @endfor
+                        </select>
                     </div>
 
                     <div id="year-fields" class="filter-field" style="display: none;">
                         <div class="w-full mb-4">
                             <label for="start_year">Tahun Awal:</label>
-                            <input type="number" id="start_year" class="border h-[40px] w-full rounded-lg px-3" name="start_year" value="{{ request('start_year', $start_year) }}" min="2000" max="2100">
+                            <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                <option value="">Tahun</option>
+                                @for ($i = date('Y'); $i >= 2000; $i--)
+                                    <option {{request()->start_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                @endfor
+                            </select>
                         </div>
 
                         <div class="w-full mb-4">
                             <label for="end_year">Tahun Akhir:</label>
-                            <input type="number" id="end_year" name="end_year" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('end_year', $end_year) }}" min="2000" max="2100">
+                            <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                <option value="">Tahun</option>
+                                @for ($i = date('Y'); $i >= 2000; $i--)
+                                    <option {{request()->end_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                @endfor
+                            </select>
                         </div>
                     </div>
                     <div class="flex gap-4 w-full mb-4">
@@ -100,7 +115,9 @@
                     </div>
                     <div class="w-full flex justify-end gap-3">
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
+                        <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
+                        <a href="{{route('reports.coal-quality.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
                     </div>
                 </form>
             </div>
@@ -132,7 +149,7 @@
                         <div></div>
                     </div>
                     <div class="overflow-x-auto max-w-full">
-                        <table class="min-w-max">
+                        <table class="min-w-max" id="table">
                             @if ($filter_type == 'day')
                                     <thead>
                                         <tr>

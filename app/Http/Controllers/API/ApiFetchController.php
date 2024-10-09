@@ -6,6 +6,7 @@ use App\Ship;
 use App\Labor;
 use App\Loading;
 use App\Unloading;
+use App\Preloadinng;
 use App\LoadingCompany;
 use App\Models\CoalContract;
 use Illuminate\Http\Request;
@@ -99,26 +100,22 @@ class ApiFetchController extends Controller
 
     if ($request->type == 1) {
 
-        $contract = CoalUnloading::select('analysis_loading_id')->where('contract_id', $request->id)->get()->toArray();
-        return $certificate = Loading::select('id','analysis_number')->whereIn('id',$contract)->get();
+        $contract = CoalContract::where('id', $request->id)->first();
+
+        return $certificate = Loading::select('id','analysis_number')->where('contract_uuid',$contract->uuid)->get();
 
     }
     if ($request->type == 2) {
 
         $contract = CoalUnloading::select('analysis_unloading_id')->where('contract_id', $request->id)->get()->toArray();
+
         return $certificate = Unloading::select('id','analysis_number')->whereIn('id',$contract)->get();
 
     }
     if ($request->type == 3) {
 
-        $contract = CoalUnloading::select('analysis_labor_id')->where('contract_id', $request->id)->get()->toArray();
-        return $certificate = Labor::select('id','analysis_number')->whereIn('id',$contract)->get();
-
-    }
-    if ($request->type == 4) {
-
-        $contract = CoalUnloading::select('analysis_loading_id')->where('contract_id', $request->id)->get()->toArray();
-        return $certificate = Loading::select('id','analysis_number')->whereIn('id',$contract)->get();
+        $contract = CoalContract::where('id', $request->id)->first();
+        return $certificate = Preloadinng::select('id','analysis_number')->where('contract_uuid',$contract->uuid)->get();
 
     }
 
