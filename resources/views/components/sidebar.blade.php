@@ -6,9 +6,9 @@
             <path d="M13.7249 19.7304L9.18735 15.2124L13.7249 10.6936" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </div>
-    <div x-cloak x-show.transition="sidebar" x-transition:enter="transition-transform ease-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition-transform ease-in duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="max-h-screen h-screen overflow-auto hide-scrollbar bg-white">
+    <div x-cloak x-show.transition="sidebar" x-transition:enter="transition-transform ease-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition-transform ease-in duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="max-h-screen h-screen overflow-auto hide-scrollbar bg-[#035B71]">
         <div class="w-full mb-4">
-            <div class="w-full flex justify-center border-b border-b-[#e9ecef] border-gray-500">
+            <div class="w-full flex justify-center border-b border-b-[#e9ecef] bg-white border-gray-500">
                 <svg width="257" height="76" viewBox="0 0 257 76" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <rect x="18" y="11.0066" width="226" height="46" fill="url(#pattern0_4665_565)"/>
                     <defs>
@@ -23,16 +23,16 @@
 
         <div class="px-6">
             <div>
-                <div class="py-2 text-[16px] text-[#ADB5BD] font-semibold">
+                <div class="py-2 text-[16px] text-[#ffffff] font-semibold">
                     Home
                 </div>
-                <div class="py-2 px-3 border-b">
+                <div class="py-2 px-3 hover:bg-[#047A96] rounded-lg {{ request()->routeIs('administration.dashboard') ? 'bg-[#047A96]' : 'hover:bg-[#047A96]' }}">
                     <a href="{{route('administration.dashboard')}}">
-                        <div class="text-[16px] text-[#8A92A6] flex items-center gap-4 cursor-pointer hover:scale-105 duration-300">
+                        <div class="text-[16px] text-[#ffffff] flex items-center gap-4 cursor-pointer hover:scale-105 duration-300">
                             <div>
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path opacity="0.4" d="M16.0755 2.01318H19.4615C20.8637 2.01318 22 3.15904 22 4.57315V7.98771C22 9.40182 20.8637 10.5477 19.4615 10.5477H16.0755C14.6732 10.5477 13.537 9.40182 13.537 7.98771V4.57315C13.537 3.15904 14.6732 2.01318 16.0755 2.01318Z" fill="#8A92A6"/>
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.53852 2.01318H7.92449C9.32676 2.01318 10.463 3.15904 10.463 4.57315V7.98771C10.463 9.40182 9.32676 10.5477 7.92449 10.5477H4.53852C3.13626 10.5477 2 9.40182 2 7.98771V4.57315C2 3.15904 3.13626 2.01318 4.53852 2.01318ZM4.53852 13.4787H7.92449C9.32676 13.4787 10.463 14.6245 10.463 16.0387V19.4532C10.463 20.8664 9.32676 22.0132 7.92449 22.0132H4.53852C3.13626 22.0132 2 20.8664 2 19.4532V16.0387C2 14.6245 3.13626 13.4787 4.53852 13.4787ZM19.4615 13.4787H16.0755C14.6732 13.4787 13.537 14.6245 13.537 16.0387V19.4532C13.537 20.8664 14.6732 22.0132 16.0755 22.0132H19.4615C20.8637 22.0132 22 20.8664 22 19.4532V16.0387C22 14.6245 20.8637 13.4787 19.4615 13.4787Z" fill="#8A92A6"/>
+                                    <path opacity="0.4" d="M16.0755 2.01318H19.4615C20.8637 2.01318 22 3.15904 22 4.57315V7.98771C22 9.40182 20.8637 10.5477 19.4615 10.5477H16.0755C14.6732 10.5477 13.537 9.40182 13.537 7.98771V4.57315C13.537 3.15904 14.6732 2.01318 16.0755 2.01318Z" fill="#ffffff"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.53852 2.01318H7.92449C9.32676 2.01318 10.463 3.15904 10.463 4.57315V7.98771C10.463 9.40182 9.32676 10.5477 7.92449 10.5477H4.53852C3.13626 10.5477 2 9.40182 2 7.98771V4.57315C2 3.15904 3.13626 2.01318 4.53852 2.01318ZM4.53852 13.4787H7.92449C9.32676 13.4787 10.463 14.6245 10.463 16.0387V19.4532C10.463 20.8664 9.32676 22.0132 7.92449 22.0132H4.53852C3.13626 22.0132 2 20.8664 2 19.4532V16.0387C2 14.6245 3.13626 13.4787 4.53852 13.4787ZM19.4615 13.4787H16.0755C14.6732 13.4787 13.537 14.6245 13.537 16.0387V19.4532C13.537 20.8664 14.6732 22.0132 16.0755 22.0132H19.4615C20.8637 22.0132 22 20.8664 22 19.4532V16.0387C22 14.6245 20.8637 13.4787 19.4615 13.4787Z" fill="#ffffff"/>
                                 </svg>
                             </div>
                             <div class="font-normal">
@@ -45,7 +45,7 @@
 
             <div>
 
-                <div class="py-2 text-[16px] text-[#ADB5BD] font-semibold">
+                <div class="py-2 text-[16px] text-white font-semibold">
                     Menu  {{Auth::user()->role->name ?? ''}}
                 </div>
                 @include('components.navbar.administrasi')
