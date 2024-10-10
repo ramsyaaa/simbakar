@@ -34,10 +34,11 @@ class SchedulingPlanController extends Controller
         $capacities = $request->input('capacity');
         $speeds = $request->input('speed');
         $dock = $request->input('dock');
-        // $calor = $request->input('dock');
+        $calor = $request->input('calor');
 
         $scheduling = SchedulingPlan::create([
             'ship_id' => $request->ship,
+            'calor' => $request->calor,
         ]);
 
         $result = $this->processDateData($scheduling, $startDate, $endDate, $capacities, $dock, $speeds);

@@ -55,6 +55,13 @@
                         </div>
                     </div>
 
+                    <div class="w-full lg:w-6/12 mt-4">
+                        <div class="w-full">
+                            <label for="calor" class="font-bold text-[#232D42] text-[16px]">Total Kalor</label>
+                            <input type="text" id="calor" class="w-full lg:w-46 border rounded-md mt-3 h-[40px] px-3" name="calor" required>
+                        </div>
+                    </div>
+
                     <div class="w-full flex gap-4 mt-4">
                         <div class="w-6/12">
                             <label for="start_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Mulai</label>
@@ -295,17 +302,22 @@
                             dayIndex++; // Pindah ke hari berikutnya
                         }
 
-                        // Membuat nama untuk speedInput dan capacityInput menggunakan formattedDate
-                        const speedInput = document.createElement('input');
-                        speedInput.name = `speed[${formattedDate}]`;
-
-                        const capacityInput = document.createElement('input');
-                        capacityInput.name = `capacity[${formattedDate}]`;
-
                         // Hitung jam dan menit dari totalHoursUsed
                         const getStartDate = new Date(startDate);
                         const totalHours = Math.floor(totalHoursUsed);
                         const totalMinutes = Math.round((totalHoursUsed - totalHours) * 60);
+
+                        const formattedDate = getStartDate.toLocaleDateString('en-GB', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                        });
+                        // Membuat nama untuk speedInput dan capacityInput menggunakan formattedDate
+                        const speedInput = document.createElement('input');
+                        speedInput.name = `speed[${formatDate}]`;
+
+                        const capacityInput = document.createElement('input');
+                        capacityInput.name = `capacity[${formatDate}]`;
 
                         // Tambahkan jam dan menit ke getStartDate
                         getStartDate.setHours(getStartDate.getHours() + totalHours);
@@ -336,6 +348,8 @@
                         // Hapus isi kapasitas-container sebelumnya
                         capacityContainer.innerHTML = '';
 
+                        const getStartDate1 = new Date(startDate);
+
                         // Iterasi melalui dailyTotals untuk menampilkan kapasitas dan speed
                         dailyTotals.forEach((dailyTotal, index) => {
                             const [totalCapacity, speed] = dailyTotal; // Destructure array untuk mendapatkan kapasitas dan speed
@@ -344,28 +358,34 @@
                             const dailyField = document.createElement('div');
                             dailyField.classList.add('w-full', 'mb-5', 'flex', 'items-center');
 
+                            const formattedDate1 = getStartDate1.toLocaleDateString('en-GB', {
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric'
+                            });
+
                             // Buat label untuk kapasitas
                             const capacityLabel = document.createElement('label');
                             capacityLabel.classList.add('font-bold', 'text-[#232D42]', 'text-[16px]', 'mr-2');
-                            capacityLabel.textContent = `Kapasitas Hari ${index + 1}:`; // Misalnya Hari 1, Hari 2, dll.
+                            capacityLabel.textContent = `Kapasitas Hari ${formattedDate1}:`; // Misalnya Hari 1, Hari 2, dll.
 
                             // Buat input untuk kapasitas
                             const capacityInput = document.createElement('input');
                             capacityInput.type = 'text';
-                            capacityInput.name = `capacity[day_${index + 1}]`;
+                            capacityInput.name = `capacity[${formattedDate1}]`;
                             capacityInput.value = totalCapacity; // Set nilai kapasitas
                             capacityInput.classList.add('w-full', 'lg:w-46', 'border', 'rounded-md', 'h-[40px]', 'px-3', 'mt-3', 'capacity');
-                            capacityInput.disabled = true; // Nonaktifkan input
+                            capacityInput.readOnly = true; // Nonaktifkan input
 
                             // Buat label untuk speed
                             const speedLabel = document.createElement('label');
                             speedLabel.classList.add('font-bold', 'text-[#232D42]', 'text-[16px]', 'mr-2', 'ml-3');
-                            speedLabel.textContent = `Speed Hari ${index + 1}:`;
+                            speedLabel.textContent = `Speed Hari ${formattedDate1}:`;
 
                             // Buat input untuk speed
                             const speedInput = document.createElement('input');
                             speedInput.type = 'text';
-                            speedInput.name = `speed[day_${index + 1}]`;
+                            speedInput.name = `speed[${formattedDate1}]`;
                             speedInput.value = speed; // Set nilai speed
                             speedInput.classList.add('ml-3', 'border', 'rounded-md', 'h-[40px]', 'px-3', 'speed');
                             speedInput.addEventListener('change', getCapacityValues);
@@ -378,6 +398,9 @@
 
                             // Tambahkan dailyField ke capacityContainer
                             capacityContainer.appendChild(dailyField);
+
+                            getStartDate1.setDate(getStartDate1.getDate() + 1);
+                            getStartDate1.setHours(0, 0, 0, 0);
                         });
 
 
