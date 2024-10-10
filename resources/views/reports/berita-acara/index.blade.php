@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full flex flex-col gap-4 my-4 mt-4 px-8">
+        <div class="w-full max-w-[600px] flex flex-col gap-4 my-4 mt-4 px-8">
             @php
                 $dataReport = [
                     ['text' => 'Berita Acara Serah Terima HSD/MFO','url' => '#'],
@@ -27,8 +27,8 @@
                 ]
             @endphp
             @foreach ($dataReport as $index => $report)
-                <a href="{{ $report['url'] }}" class="px-3 font-bold rounded-lg underline w-fit">
-                    {{ $index+1 }}. {{ $report['text'] }}
+                <a href="{{ $report['url'] }}" class="px-3 font-bold rounded-lg text-white py-2 bg-[#035B71] hover:scale-110 duration-500 w-full">
+                    {{ $report['text'] }}
                 </a>
             @endforeach
         </div>

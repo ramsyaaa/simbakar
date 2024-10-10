@@ -128,7 +128,7 @@
                             const capacityInput = document.createElement('input');
                             capacityInput.type = 'text';
                             capacityInput.name = `capacity[${formattedDate}]`;
-                            capacityInput.classList.add('w-full', 'lg:w-46', 'border', 'rounded-md', 'h-[40px]', 'px-3', 'mt-3');
+                            capacityInput.classList.add('w-full', 'lg:w-46', 'border', 'rounded-md', 'h-[40px]', 'px-3', 'mt-3', 'capacity');
                             capacityInput.required = true; // Add the required attribute
 
                             // Calculate capacity for this day
@@ -152,9 +152,10 @@
                             const speedField = document.createElement('input');
                             speedField.type = 'text';
                             speedField.name = `speed[${formattedDate}]`;
-                            speedField.value = '100%'; // Set the default speed value
-                            speedField.classList.add('ml-3', 'border', 'rounded-md', 'h-[40px]', 'px-3'); // Add styling
-                            speedField.disabled = true; // Disable the speed input field
+                            speedField.value = '100'; // Set the default speed value
+                            speedField.classList.add('ml-3', 'border', 'rounded-md', 'h-[40px]', 'px-3', 'speed');
+
+                            speedField.addEventListener('change', getCapacityValues);
 
                             capacityField.appendChild(label);
                             capacityField.appendChild(capacityInput);
@@ -167,12 +168,232 @@
                             start.setDate(start.getDate() + 1);
                             start.setHours(0, 0, 0, 0); // Reset to the start of the day to ensure we only get full days
                         }
+
+                        getCapacityValues();
+                    }
+
+                    function getCapacityValues() {
+                        // Get all elements with the class 'capacity'
+                        const capacityElements = document.querySelectorAll('.capacity');
+                        const speedElements = document.querySelectorAll('.speed');
+
+                        // Create an array to store the values
+                        const capacityValues = [];
+                        const speedValues = [];
+
+                        // Populate speedValues array with the values from speed input fields
+                        speedElements.forEach(element => {
+                            speedValues.push(parseFloat(element.value));
+                        });
+
+                        const dockSelect = document.getElementById('dock');
+                        const selectedDock = dockSelect.options[dockSelect.selectedIndex];
+                        const loadRate = parseFloat(selectedDock.getAttribute('data-rate')); // Load rate in tons per hour
+                        const totalCapacity = parseFloat(document.getElementById('total_capacity').value);
+                        const startDateValue = document.getElementById('start_date').value;
+
+                        // Parse the start date and extract the starting hour from datetime-local
+                        const startDate = new Date(startDateValue);
+                        const startHour = startDate.getHours(); // Get the hour from the start date
+
+                        // Buat objek Date untuk target waktu 23:59 pada hari yang sama
+                        const endOfDay = new Date(startDate);
+                        endOfDay.setHours(23, 59, 0, 0); // Set waktu ke 23:59:00 pada hari yang sama
+
+                        // Hitung selisih waktu dalam milidetik
+                        const timeDifference = endOfDay - startDate;
+
+                        const hourDecimal = (timeDifference / (1000 * 60 * 60)).toFixed(2);
+
+                        const result = []; // Array untuk menyimpan distribusi kapasitas per jam
+                        const dailyTotals = []; // Array untuk menyimpan total kapasitas dan speed yang digunakan per hari
+                        let remainingCapacity = totalCapacity;
+                        let totalHoursUsed = 0; // Variabel untuk melacak total jam yang digunakan
+
+                        // Mengambil bagian bulat dari hourDecimal
+                        const fullHours = Math.floor(hourDecimal);
+                        // Mengambil sisa jam dalam bentuk desimal
+                        const fractionalHour = hourDecimal - fullHours;
+
+                        // Menghitung kapasitas per hari
+                        let currentDailyTotal = 0; // Variabel untuk menyimpan total kapasitas harian
+                        let currentSpeed = speedValues[0]; // Mengambil nilai speed untuk hari pertama
+
+                        const start = new Date(startDate); // Mulai dari tanggal yang diberikan
+
+                        // Format tanggal dengan format yang diinginkan
+                        const formatDate = (date) => {
+                            return date.toLocaleDateString('en-GB', {
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric'
+                            });
+                        };
+
+                        // Melakukan perulangan untuk setiap jam penuh
+                        for (let i = 0; i < fullHours; i++) {
+                            const speedFactor = speedValues[0]; // Menggunakan speed untuk hari pertama
+                            const loadForThisHour = loadRate * (speedFactor / 100); // Hitung kapasitas untuk jam ini
+
+                            const loadUsed = Math.min(loadForThisHour, remainingCapacity);
+                            result.push([parseFloat(loadUsed.toFixed(2)), speedFactor]); // Menyimpan kapasitas dan speed
+                            remainingCapacity -= loadUsed; // Kurangi remainingCapacity
+                            totalHoursUsed++; // Tambahkan total jam yang digunakan
+
+                            // Tambahkan load yang digunakan ke total harian
+                            currentDailyTotal += loadUsed;
+
+                            // Jika kapasitas tersisa sudah habis, berhenti dari perulangan
+                            if (remainingCapacity <= 0) {
+                                break;
+                            }
+                        }
+
+                        // Jika ada sisa waktu dalam bentuk desimal, proses kapasitas tersebut
+                        if (fractionalHour > 0 && remainingCapacity > 0) {
+                            const speedFactor = speedValues[0]; // Menggunakan speed untuk hari pertama
+                            const loadForFractionalHour = loadRate * fractionalHour * (speedFactor / 100); // Hitung kapasitas untuk sisa waktu
+                            const loadUsed = Math.min(loadForFractionalHour, remainingCapacity);
+                            result.push([parseFloat(loadUsed.toFixed(2)), speedFactor]); // Menyimpan kapasitas dan speed
+                            remainingCapacity -= loadUsed; // Kurangi remainingCapacity
+                            totalHoursUsed += fractionalHour; // Tambahkan sisa jam yang digunakan
+
+                            // Tambahkan load yang digunakan ke total harian
+                            currentDailyTotal += loadUsed;
+                        }
+
+                        // Simpan total kapasitas dan speed harian ke dalam dailyTotals
+                        dailyTotals.push([currentDailyTotal, currentSpeed]);
+
+                        // Jika masih ada kapasitas yang tersisa setelah jam penuh berakhir, lanjutkan ke hari berikutnya
+                        let dayIndex = 1; // Mulai dari hari kedua
+                        while (remainingCapacity > 0) {
+                            let nextDayTotal = 0; // Variabel untuk menyimpan total kapasitas untuk hari berikutnya
+                            let nextDaySpeed = speedValues[dayIndex] !== undefined ? speedValues[dayIndex] : 100; // Mengambil nilai speed untuk hari berikutnya, jika tidak ada gunakan 100
+
+                            // Perbarui tanggal untuk hari berikutnya
+                            start.setDate(start.getDate() + 1);
+                            const formattedDate = formatDate(start); // Format tanggal sesuai dengan hari saat ini
+
+                            for (let i = 0; i < 24; i++) { // Lakukan perulangan 24 jam setiap hari
+                                const loadForNextHour = loadRate * (nextDaySpeed / 100); // Hitung kapasitas untuk jam berikutnya
+                                const loadUsed = Math.min(loadForNextHour, remainingCapacity);
+                                result.push([parseFloat(loadUsed.toFixed(2)), nextDaySpeed]); // Menyimpan kapasitas dan speed
+                                remainingCapacity -= loadUsed; // Kurangi remainingCapacity
+
+                                totalHoursUsed++; // Tambahkan total jam yang digunakan
+                                nextDayTotal += loadUsed; // Tambahkan ke total kapasitas hari berikutnya
+
+                                // Jika kapasitas tersisa sudah habis, berhenti dari perulangan
+                                if (remainingCapacity <= 0) {
+                                    break;
+                                }
+                            }
+
+                            // Simpan total kapasitas dan speed harian ke dalam dailyTotals untuk hari berikutnya
+                            dailyTotals.push([nextDayTotal, nextDaySpeed]);
+                            dayIndex++; // Pindah ke hari berikutnya
+                        }
+
+                        // Membuat nama untuk speedInput dan capacityInput menggunakan formattedDate
+                        const speedInput = document.createElement('input');
+                        speedInput.name = `speed[${formattedDate}]`;
+
+                        const capacityInput = document.createElement('input');
+                        capacityInput.name = `capacity[${formattedDate}]`;
+
+                        // Hitung jam dan menit dari totalHoursUsed
+                        const getStartDate = new Date(startDate);
+                        const totalHours = Math.floor(totalHoursUsed);
+                        const totalMinutes = Math.round((totalHoursUsed - totalHours) * 60);
+
+                        // Tambahkan jam dan menit ke getStartDate
+                        getStartDate.setHours(getStartDate.getHours() + totalHours);
+                        getStartDate.setMinutes(getStartDate.getMinutes() + totalMinutes);
+
+                        // Format tanggal dan waktu ke format YYYY-MM-DDTHH:MM
+                        const year = getStartDate.getFullYear();
+                        const month = String(getStartDate.getMonth() + 1).padStart(2, '0'); // Menambahkan 1 karena bulan dimulai dari 0
+                        const day = String(getStartDate.getDate()).padStart(2, '0');
+                        const hours = String(getStartDate.getHours()).padStart(2, '0');
+                        const minutes = String(getStartDate.getMinutes()).padStart(2, '0');
+
+                        // Menggabungkan menjadi format yang diinginkan
+                        const formattedEndDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+                        // Ubah nilai input datetime-local dengan id 'end_date'
+                        document.getElementById('end_date').value = formattedEndDate;
+
+                        console.log('Distribusi Load per Jam:', result);
+                        console.log('Total Jam yang Dibutuhkan:', totalHoursUsed);
+                        console.log('Total Kapasitas dan Speed per Hari:', dailyTotals);
+
+
+
+                        // Mengambil elemen kapasitas-container
+                        const capacityContainer = document.getElementById('capacity-container');
+
+                        // Hapus isi kapasitas-container sebelumnya
+                        capacityContainer.innerHTML = '';
+
+                        // Iterasi melalui dailyTotals untuk menampilkan kapasitas dan speed
+                        dailyTotals.forEach((dailyTotal, index) => {
+                            const [totalCapacity, speed] = dailyTotal; // Destructure array untuk mendapatkan kapasitas dan speed
+
+                            // Buat div untuk setiap entry
+                            const dailyField = document.createElement('div');
+                            dailyField.classList.add('w-full', 'mb-5', 'flex', 'items-center');
+
+                            // Buat label untuk kapasitas
+                            const capacityLabel = document.createElement('label');
+                            capacityLabel.classList.add('font-bold', 'text-[#232D42]', 'text-[16px]', 'mr-2');
+                            capacityLabel.textContent = `Kapasitas Hari ${index + 1}:`; // Misalnya Hari 1, Hari 2, dll.
+
+                            // Buat input untuk kapasitas
+                            const capacityInput = document.createElement('input');
+                            capacityInput.type = 'text';
+                            capacityInput.name = `capacity[day_${index + 1}]`;
+                            capacityInput.value = totalCapacity; // Set nilai kapasitas
+                            capacityInput.classList.add('w-full', 'lg:w-46', 'border', 'rounded-md', 'h-[40px]', 'px-3', 'mt-3', 'capacity');
+                            capacityInput.disabled = true; // Nonaktifkan input
+
+                            // Buat label untuk speed
+                            const speedLabel = document.createElement('label');
+                            speedLabel.classList.add('font-bold', 'text-[#232D42]', 'text-[16px]', 'mr-2', 'ml-3');
+                            speedLabel.textContent = `Speed Hari ${index + 1}:`;
+
+                            // Buat input untuk speed
+                            const speedInput = document.createElement('input');
+                            speedInput.type = 'text';
+                            speedInput.name = `speed[day_${index + 1}]`;
+                            speedInput.value = speed; // Set nilai speed
+                            speedInput.classList.add('ml-3', 'border', 'rounded-md', 'h-[40px]', 'px-3', 'speed');
+                            speedInput.addEventListener('change', getCapacityValues);
+
+                            // Tambahkan elemen ke dalam dailyField
+                            dailyField.appendChild(capacityLabel);
+                            dailyField.appendChild(capacityInput);
+                            dailyField.appendChild(speedLabel);
+                            dailyField.appendChild(speedInput);
+
+                            // Tambahkan dailyField ke capacityContainer
+                            capacityContainer.appendChild(dailyField);
+                        });
+
+
+
                     }
 
                     // Event listeners to detect changes in start_date, total_capacity, and dock selection
                     document.getElementById('start_date').addEventListener('change', calculateEndDateAndCapacity);
                     document.getElementById('total_capacity').addEventListener('input', calculateEndDateAndCapacity);
                     document.getElementById('dock').addEventListener('change', calculateEndDateAndCapacity);
+                    const speedElements = document.querySelectorAll('.speed');
+
+                    // Add an event listener to each 'speed' element
+                    speedElements.forEach(element => {
+                        element.addEventListener('change', getCapacityValues);
+                    });
                 </script>
 
 

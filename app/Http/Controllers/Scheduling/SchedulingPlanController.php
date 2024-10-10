@@ -32,13 +32,15 @@ class SchedulingPlanController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         $capacities = $request->input('capacity');
+        $speeds = $request->input('speed');
         $dock = $request->input('dock');
+        // $calor = $request->input('dock');
 
         $scheduling = SchedulingPlan::create([
             'ship_id' => $request->ship,
         ]);
 
-        $result = $this->processDateData($scheduling, $startDate, $endDate, $capacities, $dock);
+        $result = $this->processDateData($scheduling, $startDate, $endDate, $capacities, $dock, $speeds);
 
         if(count($result) > 0){
             SchedulingPlanDetail::insert($result);
@@ -56,8 +58,9 @@ class SchedulingPlanController extends Controller
         $endDate = $request->input('end_date');
         $capacities = $request->input('capacity');
         $dock = $request->input('dock');
+        $speeds = $request->input('speed');
 
-        $result = $this->processDateData($scheduling, $startDate, $endDate, $capacities, $dock);
+        $result = $this->processDateData($scheduling, $startDate, $endDate, $capacities, $dock, $speeds);
 
         SchedulingPlanDetail::where('scheduling_plan_id', $scheduling->id)
             ->where('start_date', '>', $startDate)
@@ -79,7 +82,7 @@ class SchedulingPlanController extends Controller
         return redirect(route('administration.dashboard'))->with('success', 'Rencana jadwal baru berhasil dibuat.');
     }
 
-    private function processDateData($scheduling, $startDate, $endDate, $capacities, $dock)
+    private function processDateData($scheduling, $startDate, $endDate, $capacities, $dock, $speed)
     {
         $startDate = Carbon::parse($startDate);
         $endDate = Carbon::parse($endDate);
@@ -99,6 +102,7 @@ class SchedulingPlanController extends Controller
                         'start_date' => $startDate->format('Y-m-d H:i:s'),
                         'end_date' => $endDate->format('Y-m-d H:i:s'),
                         'capacity' => $capacities[$formattedDate] ?? null,
+                        'speed' => $speed[$formattedDate] ?? null,
                         'dock_id' => $dock,
                     ];
                 } elseif ($date->isSameDay($startDate)) {
@@ -108,6 +112,7 @@ class SchedulingPlanController extends Controller
                         'start_date' => $startDate->format('Y-m-d H:i:s'),
                         'end_date' => $date->copy()->endOfDay()->format('Y-m-d H:i:s'),
                         'capacity' => $capacities[$formattedDate] ?? null,
+                        'speed' => $speed[$formattedDate] ?? null,
                         'dock_id' => $dock,
                     ];
                 } elseif ($date->isSameDay($endDate)) {
@@ -117,6 +122,7 @@ class SchedulingPlanController extends Controller
                         'start_date' => $date->copy()->startOfDay()->format('Y-m-d H:i:s'),
                         'end_date' => $endDate->format('Y-m-d H:i:s'),
                         'capacity' => $capacities[$formattedDate] ?? null,
+                        'speed' => $speed[$formattedDate] ?? null,
                         'dock_id' => $dock,
                     ];
                 } else {
@@ -126,6 +132,7 @@ class SchedulingPlanController extends Controller
                         'start_date' => $date->copy()->startOfDay()->format('Y-m-d H:i:s'),
                         'end_date' => $date->copy()->endOfDay()->format('Y-m-d H:i:s'),
                         'capacity' => $capacities[$formattedDate] ?? null,
+                        'speed' => $speed[$formattedDate] ?? null,
                         'dock_id' => $dock,
                     ];
                 }
