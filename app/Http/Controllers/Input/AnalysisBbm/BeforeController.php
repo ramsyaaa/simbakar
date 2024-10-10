@@ -17,10 +17,13 @@ class BeforeController extends Controller
     public function index(Request $request)
     {
         $befores = AnalyticBefore::query();
+        $year = isset($request->year) ? $request->year : \Carbon\Carbon::now()->year;
 
-        $befores->when($request->year, function ($query) use ($request) {
-            $query->whereYear('analysis_date', $request->year);
+        $befores->when($year, function ($query) use ($year) {
+            $query->whereYear('analysis_date', $year);
         });
+
+        $befores->orderBy('created_at', 'desc');
 
         $data['analytics'] = $befores->paginate(10)->appends(request()->query());
         return view('inputs.analysis-bbm.before.index',$data);

@@ -64,7 +64,7 @@
                             @foreach ($preloadings as $item)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->analysis_date)->format('d-m-Y') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->contract != null ? $item->contract->contract_number : '-' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->analysis_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
