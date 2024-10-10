@@ -49,7 +49,7 @@
                                     <div class="w-full">
                                         <label for="amount_use" class="font-bold text-[#232D42] text-[16px]">Jumlah Pakai</label>
                                         <div class="relative">
-                                            <input required type="text" value="{{ old('amount_use') }}" name="amount_use" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <input required type="text" value="{{ old('amount_use') }}" name="amount_use" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             @error('amount_use')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}

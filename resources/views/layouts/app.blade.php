@@ -116,10 +116,11 @@
     </script>
 
     <script>
+        function isValidNumber(value) {
+            return /^-?\d*\.?\d*$/.test(value); // Regex to allow valid numbers including negative, decimals
+        }
         $(document).ready(function() {
-            function isValidNumber(value) {
-                return /^-?\d*\.?\d*$/.test(value); // Regex to allow valid numbers including negative, decimals
-            }
+          
 
             // Apply formatting on all number inputs when losing focus
             $('.format-number').on('blur', function() {

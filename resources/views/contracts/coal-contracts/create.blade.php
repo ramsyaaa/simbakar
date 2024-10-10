@@ -92,7 +92,7 @@
                         <div class="w-full py-1">
                             <label for="total_volume" class="font-bold text-[#232D42] text-[16px]">Volume Total</label>
                             <div class="relative">
-                                <input type="text" name="total_volume" value="{{ old('total_volume') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                <input type="text" name="total_volume" value="{{ old('total_volume') }}" class="format-number w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                 @error('total_volume')
                                 <div class="absolute -bottom-1 left-1 text-red-500">
                                     {{ $message }}
@@ -103,7 +103,7 @@
                         <div class="w-full py-1">
                             <label for="price" class="font-bold text-[#232D42] text-[16px]">Harga Satuan per Kg</label>
                             <div class="relative">
-                                <input type="text" name="price" value="{{ old('price') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                <input type="text" name="price" value="{{ old('price') }}" class="format-number w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                 @error('price')
                                 <div class="absolute -bottom-1 left-1 text-red-500">
                                     {{ $message }}

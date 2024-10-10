@@ -97,7 +97,7 @@
                                 <div class="w-full">
                                     <label for="bl" class="font-bold text-[#232D42] text-[16px]">BL</label>
                                     <div class="relative">
-                                        <input required type="number" name="bl" value="{{ old('bl') }}" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input required type="text" name="bl" value="{{ old('bl') }}" class="format-number w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('bl')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
