@@ -51,6 +51,10 @@ class PenaltyClauseController extends Controller
         DB::beginTransaction();
         try {
 
+            $penalty = PenaltyClause::where('contract_id', $contractId)->where('unit_penalty_id', $request->unit_penalty_id)->first();
+            if ($penalty) {
+                return redirect()->back()->with('danger', 'Satuan sudah pernah di input sebelumnya!');
+            }
             PenaltyClause::create($request->all());
 
             DB::commit();

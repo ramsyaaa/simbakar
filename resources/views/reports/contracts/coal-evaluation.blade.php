@@ -103,7 +103,7 @@
                                         </tr>
                                         <tr>
                                             <th class="text-left">Jumlah B/L</th>
-                                            <td>: {{number_format($certificate->bill_of_ladding) ?? 0}}</td>
+                                            <td>: {{number_format($certificate->bill_of_ladding) ?? 0}} <b>MT<sup>3</sup></b></td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">Tanggal Analisa</th>
