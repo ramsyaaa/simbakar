@@ -71,7 +71,7 @@
                             @foreach ($usages as $usage)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ \Carbon\Carbon::parse($usage->usage_date)->format('d/m/Y') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ \Carbon\Carbon::parse($usage->usage_date)->format('d-m-Y') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->tug_9_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ number_format($usage->amount_use) }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->unit_id }}</td>

@@ -176,7 +176,7 @@
 
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$loop->iteration}}</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->ship->name}}</td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading_date}}</td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{  date('d-m-Y H:i:s', strtotime($coal->unloading_date))}}</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->tug_3_accept)}}</td>
                                             @if (in_array('unloading',$analytic))
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading->calorivic_value}}</td>

@@ -97,7 +97,7 @@
                                                 <td class="border border-gray-400 p-2" rowspan="4">{{$contract->name}}</td>
                                                 <td class="border border-gray-400 p-2" rowspan="4">{{$contract->contract_number}}</td>
                                                 <td class="border border-gray-400 p-2" rowspan="4">{{number_format($contract->total_volume)}}</td>
-                                                <td class="border border-gray-400 p-2" rowspan="4">2024-10-12</td>
+                                                <td class="border border-gray-400 p-2" rowspan="4">{{ date('d-m-Y', strtotime($contract->contract_end_date))}}</td>
                                                 <td class="border border-gray-400 p-2" rowspan="4"></td>
                                                 <td class="border border-gray-400 p-2">K</td>
                                                 @foreach ($contract->data['k'] as $k)
