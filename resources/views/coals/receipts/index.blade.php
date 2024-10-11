@@ -43,10 +43,17 @@
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
+<<<<<<< HEAD
                                     <span>Tiba : {{$receipt->arrived_date}}</span><br/>
                                     <span>Bongkar : {{$receipt->unloading_date}}</span><br/>
                                     <span>Selesai : {{$receipt->end_date}}</span>
 
+=======
+                                  <span>Tiba : {{date('d-m-Y H:i:s', strtotime($receipt->arrived_date))}}</span><br/>
+                                  <span>Bongkar : {{date('d-m-Y H:i:s', strtotime($receipt->unloading_date))}}</span><br/> 
+                                  <span>Selesai : {{date('d-m-Y H:i:s', strtotime($receipt->end_date))}}</span>
+                                    
+>>>>>>> baaeb297ce18bf5ed78fbc02a0c27cdd1f52f3d6
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                     <span>Pemasok : {{$receipt->supplier->name}}</span><br/>

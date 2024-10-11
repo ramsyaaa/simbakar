@@ -151,8 +151,8 @@
                                    <tr>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->supplier->name ?? ''}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->ship->name ?? ''}}</td>
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->arrived_date}}</td>
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->end_date}}</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{date('d-m-Y H:i:s', strtotime($coal->arrived_date))}}</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
                                    </tr>
                                    @if (in_array('loading',$analytic))
                                    <tr>

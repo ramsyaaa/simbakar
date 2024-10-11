@@ -83,8 +83,12 @@
                                     <tr>
                                         <td class="border border-gray-400 p-2">{{$loop->iteration}}</td>
                                         <td class="border border-gray-400 p-2">{{$contract->ship->name ?? ''}}</td>
-                                        <td class="border border-gray-400 p-2">{{$contract->unloading_date}}</td>
-                                        <td class="border border-gray-400 p-2">{{$contract->end_date}}</td>
+                                        <td class="border border-gray-400 p-2">{{ 
+                                         date('d-m-Y H:i:s', strtotime($contract->unloading_date))
+                                        }}</td>
+                                        <td class="border border-gray-400 p-2">{{
+                                         date('d-m-Y H:i:s', strtotime($contract->end_date))
+                                        }}</td>
                                         <td class="border border-gray-400 p-2">{{$contract->duration_time}}</td>
                                         <td class="border border-gray-400 p-2">{{ number_format($contract->ds)}}</td>
                                         <td class="border border-gray-400 p-2">{{ number_format($contract->bl)}}</td>

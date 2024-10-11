@@ -52,3 +52,4 @@ Route::post('get-analytic-labor', [ApiFetchController::class, 'getAnalyticLabor'
 Route::post('get-ship', [ApiFetchController::class, 'getShip'])->name('getShip');
 Route::post('get-ship-comparisan', [ApiFetchController::class, 'getShipComparison'])->name('getShipComparison');
 Route::get('get-supplier-contract/{supplier_id}', [ApiFetchController::class, 'getSupplierContract'])->name('getSupplierContract');
+Route::get('chart-data-receipt', [ApiFetchController::class, 'chartDataReceipt'])->name('chartDataReceipt');

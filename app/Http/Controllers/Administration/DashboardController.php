@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Administration;
 
-use App\Http\Controllers\Controller;
-use App\SchedulingPlanDetail;
+use App\Supplier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\SchedulingPlanDetail;
+use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
@@ -23,6 +24,7 @@ class DashboardController extends Controller
                 return $group->groupBy('scheduling_plan_id'); // Mengelompokkan ulang berdasarkan 'scheduling_plan_id'
             });
 
+        $data['suppliers'] = Supplier::get();
         return view('dashboard', $data);
     }
 }

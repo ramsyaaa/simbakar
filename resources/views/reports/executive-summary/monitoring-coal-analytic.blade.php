@@ -128,7 +128,7 @@
                         <div></div>
                     </div>
                     <div class="overflow-auto hide-scrollbar max-w-full">
-                        <table class="w-full" id="table">
+                        <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
                                     <th class="border bg-[#F5F6FA]" rowspan="2">No</th>
@@ -150,7 +150,9 @@
                                 @foreach ($coals as $coal)
                                     <tr>
                                         <td class="border text-center">{{$loop->iteration}}</td>
-                                        <td class="border text-center">{{$coal->receipt_date}}</td>
+                                        <td class="border text-center">
+                                            {{ date('d-m-Y', strtotime($coal->receipt_date))}} 
+                                        </td>
                                         @if (request('filter_type') != 'kontrak')
                                             <td class="border  text-center">{{$coal->contract->contract_number}}</td>
                                         @endif

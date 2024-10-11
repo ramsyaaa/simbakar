@@ -136,8 +136,72 @@
 
             </table>
         </div>
+
+        
+        <div class="w-full flex justify-center mb-6 bg-white">
+            <div class="p-4 rounded-lg shadow-sm w-[500px]">
+            <h1 class="text-center font-bold">Filter Pemakaian Permasok</h1>
+                <div class="flex gap-4 items-center mb-4">
+                    <label for="filter_type">Pemasok:</label>
+                    <select class="select-2 w-full border h-[40px] rounded-lg supplier-select" name="pemasok">
+                        <option value="">Pilih Supplier</option>
+                        @foreach ($suppliers as $supplier)
+                            <option value="{{$supplier->id}}">{{$supplier->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex gap-4 items-center mb-4">
+                    <label for="filter_type">Filter:</label>
+                    <select class="w-full border h-[40px] rounded-lg filter_type" id="filter_type" name="filter_type">
+                        <option value="month">Bulan</option>
+                        <option value="year">Tahun</option>
+                    </select>
+                </div>
+
+                <div id="month-fields" class="filter-field">
+                    <select name="tahun" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md month-input">
+                        <option value="">Tahun</option>
+                        @for ($i = date('Y'); $i >= 2000; $i--)
+                            <option>{{ $i }}</option>
+                        @endfor
+                    </select>
+                </div>
+
+                <div id="year-fields" class="filter-field" style="display: none;">
+                    <div class="w-full mb-4">
+                        <label for="start_year">Tahun Awal:</label>
+                        <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md start_year">
+                            <option value="">Tahun</option>
+                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                <option>{{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
+
+                    <div class="w-full mb-4">
+                        <label for="end_year">Tahun Akhir:</label>
+                        <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md end_year">
+                            <option value="">Tahun</option>
+                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                <option>{{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                </div>
+
+                <div class="w-full flex justify-end mt-3 gap-3">
+                    <button id="loadChart" type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg">Submit</button>
+                </div>
+            </div>
+            
+        </div>
+        <div class="w-full flex justify-center mb-6 bg-white chart-supplier" style="display:none">
+            <div class="p-4 rounded-lg shadow-sm">
+                <canvas id="myChart" width="700" height="600"></canvas>
+            </div>
+        </div>
+        </div>
     </div>
-</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -156,6 +220,86 @@
                     toggleButton.textContent = 'Tampilkan Kapasitas';
                 } else {
                     toggleButton.textContent = 'Sembunyikan Kapasitas';
+                }
+            });
+        });
+    });
+</script>
+@endsection
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterTypeSelect = document.getElementById('filter_type');
+        const monthFields = document.getElementById('month-fields');
+        const yearFields = document.getElementById('year-fields');
+
+        function updateFields() {
+            const filterType = filterTypeSelect.value;
+
+            // Sembunyikan semua input terlebih dahulu
+            monthFields.style.display = 'none';
+            yearFields.style.display = 'none';
+
+            // Tampilkan input yang sesuai dengan filter_type
+            if (filterType === 'month') {
+                monthFields.style.display = 'block';
+            } else if (filterType === 'year') {
+                yearFields.style.display = 'block';
+            }
+        }
+
+        // Inisialisasi tampilan berdasarkan nilai saat ini
+        updateFields();
+
+        // Perbarui tampilan saat filter_type berubah
+        filterTypeSelect.addEventListener('change', updateFields);
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        let chart;
+
+        $('#loadChart').click(function() {
+            let supplier_id  =  $('.supplier-select').find(":selected").val();
+            let type  =  $('.filter_type').find(":selected").val();
+            let month  = $('.month-input').val();
+            let startYear  = $('.start_year').val();
+            let endYear  = $('.end_year').val();
+            let token = "{{ csrf_token() }}"
+            console.log('ok');
+            if(chart) {
+                chart.destroy(); // Hancurkan chart sebelumnya jika ada
+            }
+
+            $.ajax({
+                url: '{{ route('chartDataReceipt') }}',
+                method: 'get',
+                data: {
+                    _token:token,
+                    supplier_id:supplier_id,
+                    type:type,
+                    year:month,
+                    startYear:startYear,
+                    endYear:endYear,
+                },
+                success: function(response) {
+                    $('.chart-supplier').show()
+    
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    chart = new Chart(ctx, {
+                        type: 'bar', // atau tipe lain sesuai kebutuhan
+                        data: response, // Menggunakan data dari response
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
                 }
             });
         });

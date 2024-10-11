@@ -47,7 +47,7 @@
                             @foreach ($bbms as $bbm)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm->order_date }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ date('d-m-Y', strtotime($bbm->order_date)) }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm->order_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm->total }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm->fleet_type }} : {{$bbm->ship->name ?? ''}}</td>
