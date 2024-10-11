@@ -307,6 +307,7 @@ class ApiFetchController extends Controller
                 )
                 ->join('coal_contracts', 'coal_contracts.id', '=', 'coal_unloadings.contract_id')
                 ->join('suppliers', 'suppliers.id', '=', 'coal_contracts.supplier_id')
+                ->where('coal_unloadings.supplier_id', '=',$request->supplier_id)
                 ->whereYear('receipt_date', '>=', $startYear)
                 ->whereYear('receipt_date', '<=', $endYear)
                 ->groupBy('coal_contracts.id', 'coal_contracts.contract_number', 'suppliers.name', 'coal_contracts.total_volume', 'tahun') // Tambahkan semua kolom non-agregat di sini
