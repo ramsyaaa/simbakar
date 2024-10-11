@@ -27,6 +27,8 @@
                                 </div>
                             </div>
                             <div class="w-full flex justify-end gap-2">
+                                <a href="{{ route('reports.executive-summary.index') }}" class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                                <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                                 <button type="button"
                                     class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg"
                                     onclick="printPDF()">Print</button>
@@ -65,7 +67,7 @@
                             }
                         </style>
                         <div class="overflow-auto max-w-full">
-                            <table class="w-full">
+                            <table class="w-full" id="table">
                                 <thead>
                                     <tr>
                                         <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">No</th>
@@ -106,7 +108,7 @@
                                                 {{ $item['ship_name'] }}
                                             </td>
                                             <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
-                                                {{ $item['receipt_date'] ?? '-' }}
+                                                {{ \Carbon\Carbon::createFromFormat('d M Y', $item['receipt_date'])->format('d-m-Y') ?? '-' }}
                                             </td>
                                             <td class="h-[36px] !min-w-[200px] text-[16px] font-normal border px-2">
                                                 {{ $item['company_name'] ?? '-' }}

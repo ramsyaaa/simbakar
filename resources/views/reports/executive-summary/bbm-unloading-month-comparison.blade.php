@@ -42,6 +42,8 @@
                         </div>
 
                         <div class="w-full flex justify-end gap-2">
+                            <a href="{{ route('reports.executive-summary.index') }}" class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                            <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                             <button type="button"
                                 class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg"
                                 onclick="handlePrint()">Print</button>
@@ -83,7 +85,7 @@
 
                 <div class="bg-white display-table rounded-lg p-6">
                     <div class="overflow-auto hide-scrollbar max-w-full">
-                        <table class="w-full">
+                        <table class="w-full" id="table">
                             <thead>
                                 <tr>
                                     <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">No</th>

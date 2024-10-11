@@ -17,10 +17,19 @@
                 <form method="POST" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
                     @csrf
                     <div class="mb-4">
-                        <input type="number" name="tahunInput" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('tahun', $tahunInput) }}" placeholder="2024" min="1980" max="2200">
+                        <div class="w-full mb-2 lg:mb-0">
+                            <select id="tahunInput" name="tahunInput" class="w-full h-[44px] rounded-md border px-2" autofocus>
+                                <option selected disabled>Pilih Tahun</option>
+                                @for ($i = date('Y'); $i >= 2000; $i--)
+                                    <option {{request()->tahunInput == $i ? 'selected' :''}}>{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
                     </div>
 
                     <div class="w-full flex justify-end gap-4">
+                        <a href="{{ route('reports.executive-summary.index') }}" class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                        <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
                     </div>
@@ -41,7 +50,7 @@
                     <div></div>
                 </div>
                 <div class="overflow-auto max-w-full">
-                    <table class="w-full">
+                    <table class="w-full" id="table">
                         <thead>
                             <tr>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Unit</th>
@@ -76,13 +85,13 @@
                                     $i = 0;
                                 @endphp
                                 @foreach ($item as $index1 => $item1)
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item1, 0, ',', '.') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item1, 0, '.', ',') }}</td>
                                 @php
                                     $total_permonth[$i] = $total_permonth[$i] + $item1;
                                     $i = $i + 1;
                                 @endphp
                                 @endforeach
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format(array_sum($item), 0, ',', '.') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format(array_sum($item), 0, '.', ',') }}</td>
                                 @php
                                     $total_permonth[12] =  $total_permonth[12]+array_sum($item);
                                 @endphp
@@ -91,7 +100,7 @@
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">Jumlah</td>
                                 @foreach ($total_permonth as $item)
-                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{ number_format($item, 0, ',', '.') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{ number_format($item, 0, '.', ',') }}</td>
                                 @endforeach
                             </tr>
                         </tbody>

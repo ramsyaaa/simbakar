@@ -16,7 +16,7 @@
                     <div class="flex items-end justify-between mb-2">
                         <div>
                             <div class="text-[#135F9C] text-[40px] font-bold">
-                                Rencana Realisasi Kontrak Batubara Bulanan
+                                Rencana Realisasi Pemakaian Batubara & Produksi Listrik Bulanan
                             </div>
                         </div>
                     </div>
@@ -26,9 +26,14 @@
                             <div id="year-fields" class="filter-field">
                                 <div class="w-full mb-4 flex flex-col gap-2">
                                     <label for="year">Tahun:</label>
-                                    <input type="number" id="year" name="year"
-                                        class="border h-[40px] w-full rounded-lg px-3" value="{{ request('year', $year) }}"
-                                        min="2000" max="2100">
+                                    <div class="w-full mb-2 lg:mb-0">
+                                        <select id="year" name="year" class="w-full h-[44px] rounded-md border px-2" autofocus>
+                                            <option selected disabled>Pilih Tahun</option>
+                                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                                <option {{request()->year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
 
@@ -44,6 +49,8 @@
                             </div> --}}
 
                             <div class="w-full flex justify-end gap-2">
+                                <a href="{{ route('reports.executive-summary.index') }}" class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                                <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                                 <button type="button"
                                     class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg"
                                     onclick="handlePrint()">Print</button>
@@ -85,7 +92,7 @@
 
                     <div class="bg-white display-table rounded-lg p-6">
                         <div class="overflow-auto hide-scrollbar max-w-full">
-                            <table class="w-full">
+                            <table class="w-full" id="table">
                                 <thead>
                                     <tr>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Bulan</th>

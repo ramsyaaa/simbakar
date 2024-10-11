@@ -63,16 +63,21 @@
                         </div>
                     </div>
 
-                    <div class="w-full flex justify-end">
+                    <div class="w-full flex justify-end gap-2">
+                        <a href="{{ route('reports.executive-summary.index') }}" class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                        <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
+                        <button type="button"
+                                class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg"
+                                onclick="handlePrint()">Print</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
                     </div>
                 </form>
             </div>
 
             @if($filter_type != null)
-            <div class="bg-white rounded-lg p-6">
+            <div class="bg-white rounded-lg p-6" id="my-pdf">
                 <div class="overflow-auto max-w-full">
-                    <table class="w-full">
+                    <table class="w-full" id="table">
                         <thead>
                             <tr>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">@if($filter_type == 'day')Tanggal @elseif($filter_type == 'month') Bulan @elseif($filter_type == 'year') Tahun @endif</th>
@@ -109,10 +114,10 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
 
                                 <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_receipt[$index] }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm_receipt[$index], 0, ',', '.') }}</td>
 
                                 <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm_usage[$index] }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm_usage[$index], 0, ',', '.') }}</td>
 
                                 <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
@@ -159,6 +164,10 @@
         // Perbarui tampilan saat filter_type berubah
         filterTypeSelect.addEventListener('change', updateFields);
     });
+
+    function handlePrint() {
+        printPDF()
+    }
 </script>
 
 @endsection

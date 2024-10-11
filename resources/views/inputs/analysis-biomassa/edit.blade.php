@@ -12,14 +12,14 @@
                         Ubah Analisa Biomassa
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
-                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('inputs.analysis-biomassa.index') }}">Analisa</a> / <a href="{{ route('inputs.analysis-biomassa.index') }}" class="cursor-pointer">Sebelum Bongkar</a>  / <span class="text-[#2E46BA] cursor-pointer">Create</span>
+                        <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('inputs.analysis-biomassa.index') }}">Analisa</a> / <a href="{{ route('inputs.analysis-biomassa.index') }}" class="cursor-pointer">Sebelum Bongkar</a>  / <span class="text-[#2E46BA] cursor-pointer">Update</span>
                     </div>
                 </div>
             </div>
             <div class="bg-white rounded-lg p-6">
                 <form onsubmit="return confirmSubmit(this, 'Ubah Analisa?')" action="{{ route('inputs.analysis-biomassa.update',['id'=> $analytic->id]) }}" method="POST">
                     @csrf
-                    @method('PATCH')
+                    @method('PUT')
                     <div class="p-4 bg-white rounded-lg w-full">
                         <div class="w-full flex gap-4 mb-3">
                             <div class="w-6/12 flex items-center mt-2 gap-2">
