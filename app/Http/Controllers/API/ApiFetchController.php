@@ -280,7 +280,7 @@ class ApiFetchController extends Controller
                 $result->labels = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'September', 'Oktober', 'November', 'Desember'];
                 $result->datasets = []; // Pastikan datasets adalah array
                 $result->datasets[] = [
-                    'label' => 'Penerimaan Batubara'. $supplier->name.' tahun ' .$request->year,
+                    'label' => 'Penerimaan Batubara '. $supplier->name.' tahun ' .$request->year,
                     'data' => $processedContracts->pluck('data')->flatten(),
                     'backgroundColor' => 'rgba(3, 91, 113, 1)',
                     'borderColor' => 'rgba(3, 91, 113, 1)',
