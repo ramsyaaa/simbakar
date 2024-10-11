@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -42,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @isset ($start_years['batubara'])   
+                            @isset ($start_years['batubara'])
                                 @foreach ($start_years['batubara'] as $start_data)
                                 <tr>
                                     <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $start_data->year }}</td>
@@ -68,7 +68,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @isset ($start_years['solar'])  
+                                @isset ($start_years['solar'])
                                     @foreach ($start_years['solar'] as $start_data)
                                     <tr>
                                         <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $start_data->year }}</td>
@@ -95,7 +95,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @isset ($start_years['residu'])  
+                                @isset ($start_years['residu'])
                                     @foreach ($start_years['residu'] as $start_data)
                                     <tr>
                                         <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $start_data->year }}</td>

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -20,7 +20,7 @@
                         Tambah Data
                     </a>
                 </div>
-              
+
             </div>
             <div class="bg-white rounded-lg p-6 h-full">
                 <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('coals.unloadings.index') }}" method="GET" id="filterForm">
@@ -50,13 +50,13 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                     <span>Tiba : {{$unloading->arrived_date}}</span><br/>
-                                    <span>Bongkar : {{$unloading->unloading_date}}</span><br/> 
+                                    <span>Bongkar : {{$unloading->unloading_date}}</span><br/>
                                     <span>Selesai : {{$unloading->end_date}}</span>
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                     <span>Pemasok : {{$unloading->supplier->name}}</span><br/>
                                     <span>Kapal : <span class="text-sky-700 cursor-pointer hover:text-sky-800 ship-modal"
-                                    data-nama_kapal="{{$unloading->ship->name ?? ''}}" 
+                                    data-nama_kapal="{{$unloading->ship->name ?? ''}}"
                                     data-bendera="{{$unloading->ship->flag ?? ''}}"
                                     data-grt="{{$unloading->ship->grt ?? ''}}"
                                     data-dwt="{{$unloading->ship->dwt ?? ''}}"
@@ -86,7 +86,7 @@
                                         data-note="{{$unloading->note}}"
                                         data-tug_number="{{$unloading->tug_number}}"
                                         > Detail Pembongkaran</a><br/>
-                                       
+
                                     </div>
                                     <a href="{{route('coals.unloadings.disruptions.index',['unloadingId'=>$unloading->id])}}" class="text-sky-700"> Gangguan Pembongkaran</a><br/>
                                 </td>
@@ -123,7 +123,7 @@
       </button>
     </div>
   </div>
-  
+
   <!-- Modal -->
   <div id="unloading-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="bg-white rounded-lg shadow-lg p-6 lg:w-1/2 w-full">
@@ -134,7 +134,7 @@
       </button>
     </div>
   </div>
-  
+
   <script>
     // Get all open modal buttons
     const openModalBtns = document.querySelectorAll('.ship-modal');
@@ -152,10 +152,10 @@
         // Set modal content based on button data attributes
         document.getElementById('modalContent').innerHTML = `
         <span>Nama Kapal : ${name} </span><br/>
-        <span>Flag : ${flag}</span><br/> 
-        <span>Grt : ${grt}</span><br/> 
-        <span>Dwt : ${dwt}</span><br/> 
-        <span>Loa : ${loa}</span><br/> 
+        <span>Flag : ${flag}</span><br/>
+        <span>Grt : ${grt}</span><br/>
+        <span>Dwt : ${dwt}</span><br/>
+        <span>Loa : ${loa}</span><br/>
         `;
 
         // Show the modal
@@ -219,7 +219,7 @@
         <span>Tanggal Berangkat : ${departure_date} </span><br/>
         <span>Catatan : ${note} </span><br/>
         <span>TUG : ${tug_number} </span><br/>
-  
+
         `;
 
         // Show the modal

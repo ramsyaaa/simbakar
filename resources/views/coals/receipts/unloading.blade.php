@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div id="my-pdf">
-                @isset($certificate)        
+                @isset($certificate)
                 <div class="body bg-white rounded-lg p-6">
                     <div class="flex justify-between items-center mb-4">
                         <div>
@@ -112,7 +112,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <table class="w-full border-collapse">
                                     <thead>
@@ -137,7 +137,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <table class="w-full border-collapse">
                                     <thead>
@@ -161,9 +161,9 @@
                                                 <td class="border border-slate-900 text-right"></td>
                                                 @php
                                                     $sign ='';
-                                                    $condition = $penalty->penalty_will_get_if_sign 
+                                                    $condition = $penalty->penalty_will_get_if_sign
                                                 @endphp
-                                            
+
                                                 <td class="border border-slate-900 text-right">
                                                     {{$penalty->penalty_will_get_if_sign}} {{$penalty->penalty_will_get_if_number}}
                                                     @switch($condition)
@@ -207,9 +207,9 @@
                                                                 $sign = '';
                                                             @endphp
                                                     @endswitch
-                                                  
+
                                                 </td>
-                                                
+
                                                 <td class="border border-slate-900 text-right">{{$certificate[$penalty->unit]}}   <span class="text-pink-900"> {{$sign}}</span></td>
                                                 <td class="border border-slate-900 text-right">wt%</td>
                                             </tr>
@@ -249,7 +249,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             <div class="mt-8">
                                 <h2 class="text-lg font-semibold">Keterangan</h2>
                                 <div class="flex gap-6">
@@ -262,7 +262,7 @@
                                             <li>6 &lt; Rs = Severe</li>
                                         </ul>
                                     </div>
-                                    
+
                                     <div class="keterangan">
                                         <p class="mt-2">Lignitic Ash (Rs):</p>
                                         <ul class="list-disc ml-6">
@@ -282,7 +282,7 @@
                                         </ul>
                                     </div>
 
-                                    
+
                                     <div class="keterangan">
                                         <p class="mt-2">Bituminous Ash (Rs):</p>
                                         <ul class="list-disc ml-6">
@@ -305,7 +305,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     @endisset
                 </div>
             </div>
@@ -315,7 +315,7 @@
 @endsection
 @section('scripts')
     <script>
-        $('.supplier-select').change(function(){  
+        $('.supplier-select').change(function(){
             let id  = $(this).val();
             let token = "{{ csrf_token() }}"
             $(".select-contract").empty()
@@ -342,7 +342,7 @@
                 })
     </script>
     <script>
-        $('.select-type').change(function(){  
+        $('.select-type').change(function(){
             let type  = $(this).val();
             let id  =  $('.select-contract').find(":selected").val();
             let token = "{{ csrf_token() }}"
@@ -367,7 +367,7 @@
                                 )
                     })
 
-                    
+
                     // $(".tonase").append(numberWithCommas(contract.total_volume) + " ton")
                     // $(".masa-berlaku").append(contract.contract_start_date + " s/d "+ contract.contract_end_date)
                 }

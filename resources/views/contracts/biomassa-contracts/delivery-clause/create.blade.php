@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -40,7 +40,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                           {{-- fouling Potensial --}}
                             <div class="load">
                                 <label for="load" class="font-bold text-[#232D42] text-[16px]">Muatan</label>
@@ -67,7 +67,7 @@
                         <div class="flex gap-3">
                             <a href="{{route('contracts.biomassa-contracts.delivery-clause.index',['contractId'=>$contract->id])}}" class="bg-[#C03221] w-full h-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3 text-center">Back</a>
                             <button class="bg-[#2E46BA] h-full w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah</button>
-                        </div>     
+                        </div>
                     </div>
                 </form>
             </div>

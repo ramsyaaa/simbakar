@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -134,7 +134,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            
+
                                 <tr class="border">
                                     <td class="border border-gray-900 p-2" colspan="4">Pekerjaan</td>
                                     <td class="border border-gray-900">No. P.P.</td>
@@ -161,7 +161,7 @@
                                     <th class="border border-gray-900 px-5 text-left" >Kode Perkiraan</th>
                                     <th class="border border-gray-900 px-5 text-left"  colspan="3">Tanggal {{date('d F Y')}}</th>
                                 </tr>
-                
+
                                 <tr>
                                     <th style="padding-bottom: 100px;padding-top: 30px;">Setuju</th>
                                     <th style="padding-bottom: 100px;padding-top: 30px;">Kepala Gudang</th>

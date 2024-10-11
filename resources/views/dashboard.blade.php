@@ -21,11 +21,11 @@
         return sprintf('#%02x%02x%02x', $red, $green, $blue);
     }
 @endphp
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div>
                 <a href="{{ route('scheduling.create') }}" class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg">Tambah Data</a>
                 <!-- Tombol untuk Hide/Show -->

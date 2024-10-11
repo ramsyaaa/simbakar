@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -124,7 +124,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="air_dried_moisture" class="w-4/12 font-bold text-[#232D42] text-[16px]">Air Dried Moisture</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="air_dried_moisture" value="{{ old('air_dried_moisture') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="air_dried_moisture" value="{{ old('air_dried_moisture') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('air_dried_moisture')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -138,7 +138,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="ash" class="w-4/12 font-bold text-[#232D42] text-[16px]">Ash</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="ash" value="{{ old('ash') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="ash" value="{{ old('ash') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('ash')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -149,7 +149,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="volatile_matter" class="w-4/12 font-bold text-[#232D42] text-[16px]">Volatile Matter</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="volatile_matter" value="{{ old('volatile_matter') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="volatile_matter" value="{{ old('volatile_matter') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('volatile_matter')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -163,7 +163,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="fixed_carbon" class="w-4/12 font-bold text-[#232D42] text-[16px]">Fixed Carbon</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="fixed_carbon" value="{{ old('fixed_carbon') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="fixed_carbon" value="{{ old('fixed_carbon') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('fixed_carbon')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -174,7 +174,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="total_sulfur" class="w-4/12 font-bold text-[#232D42] text-[16px]">Total Sulfur</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="total_sulfur" value="{{ old('total_sulfur') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="total_sulfur" value="{{ old('total_sulfur') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('total_sulfur')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -188,7 +188,7 @@
                                 <div class="w-6/12 flex gap-4 mt-2">
                                     <label for="calorivic_value" class="w-4/12 font-bold text-[#232D42] text-[16px]">Calorivic Value</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="calorivic_value" value="{{ old('calorivic_value') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="calorivic_value" value="{{ old('calorivic_value') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('calorivic_value')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -207,7 +207,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="carbon" class="w-4/12 font-bold text-[#232D42] text-[16px]">Carbon</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="carbon" value="{{ old('carbon') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="carbon" value="{{ old('carbon') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('carbon')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -218,7 +218,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="hydrogen" class="w-4/12 font-bold text-[#232D42] text-[16px]">Hydrogen</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="hydrogen" value="{{ old('hydrogen') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="hydrogen" value="{{ old('hydrogen') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('hydrogen')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -232,7 +232,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="nitrogen" class="w-4/12 font-bold text-[#232D42] text-[16px]">Nitrogen</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="nitrogen" value="{{ old('nitrogen') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="nitrogen" value="{{ old('nitrogen') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('nitrogen')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -243,7 +243,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="oxygen" class="w-4/12 font-bold text-[#232D42] text-[16px]">Oxygen</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="oxygen" value="{{ old('oxygen') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="oxygen" value="{{ old('oxygen') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('oxygen')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -262,7 +262,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="initial_deformation" class="w-4/12 font-bold text-[#232D42] text-[16px]">Initial Deformation</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="initial_deformation" value="{{ old('initial_deformation') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="initial_deformation" value="{{ old('initial_deformation') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('initial_deformation')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -273,7 +273,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="softening" class="w-4/12 font-bold text-[#232D42] text-[16px]">Softening</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="softening" value="{{ old('softening') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="softening" value="{{ old('softening') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('softening')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -287,7 +287,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="hemispherical" class="w-4/12 font-bold text-[#232D42] text-[16px]">Hemispherical</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="hemispherical" value="{{ old('hemispherical') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="hemispherical" value="{{ old('hemispherical') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('hemispherical')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -298,7 +298,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="fluid" class="w-4/12 font-bold text-[#232D42] text-[16px]">Fluid</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="fluid" value="{{ old('fluid') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="fluid" value="{{ old('fluid') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('fluid')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -317,7 +317,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="sio2" class="w-4/12 font-bold text-[#232D42] text-[16px]">SiO2</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="sio2" value="{{ old('sio2') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="sio2" value="{{ old('sio2') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('sio2')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -328,7 +328,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="al2o3" class="w-4/12 font-bold text-[#232D42] text-[16px]">Al2O3</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="al2o3" value="{{ old('al2o3') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="al2o3" value="{{ old('al2o3') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('al2o3')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -342,7 +342,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="fe2o3" class="w-4/12 font-bold text-[#232D42] text-[16px]">Fe2O3</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="fe2o3" value="{{ old('fe2o3') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="fe2o3" value="{{ old('fe2o3') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('fe2o3')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -353,7 +353,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="cao" class="w-4/12 font-bold text-[#232D42] text-[16px]">CaO</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="cao" value="{{ old('cao') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="cao" value="{{ old('cao') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('cao')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -367,7 +367,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="mgo" class="w-4/12 font-bold text-[#232D42] text-[16px]">MgO</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="mgo" value="{{ old('mgo') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="mgo" value="{{ old('mgo') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('mgo')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -378,7 +378,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="na2o" class="w-4/12 font-bold text-[#232D42] text-[16px]">Na2O</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="na2o" value="{{ old('na2o') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="na2o" value="{{ old('na2o') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('na2o')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -392,7 +392,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="k2o" class="w-4/12 font-bold text-[#232D42] text-[16px]">K2O</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="k2o" value="{{ old('k2o') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="k2o" value="{{ old('k2o') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('k2o')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -403,7 +403,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="tlo2" class="w-4/12 font-bold text-[#232D42] text-[16px]">TlO2</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="tlo2" value="{{ old('tlo2') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="tlo2" value="{{ old('tlo2') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('tlo2')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -417,7 +417,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="so3" class="w-4/12 font-bold text-[#232D42] text-[16px]">SO3</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="so3" value="{{ old('so3') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="so3" value="{{ old('so3') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('so3')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -428,7 +428,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="p2o5" class="w-4/12 font-bold text-[#232D42] text-[16px]">P2O5</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="p2o5" value="{{ old('p2o5') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="p2o5" value="{{ old('p2o5') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('p2o5')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -442,7 +442,7 @@
                                 <div class="w-6/12 flex gap-4 mt-2">
                                     <label for="mn3o4" class="w-4/12 font-bold text-[#232D42] text-[16px]">Mn3O4</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="mn3o4" value="{{ old('mn3o4') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="mn3o4" value="{{ old('mn3o4') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('mn3o4')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -461,7 +461,7 @@
                                 <div class="w-6/12 flex gap-4 mt-2">
                                     <label for="butiran_70" class="w-4/12 font-bold text-[#232D42] text-[16px]">Butiran > 70 mm</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="butiran_70" value="{{ old('butiran_70') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="butiran_70" value="{{ old('butiran_70') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('butiran_70')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -475,7 +475,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="butiran_50" class="w-4/12 font-bold text-[#232D42] text-[16px]">Butiran > 50 mm</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="butiran_50" value="{{ old('butiran_50') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="butiran_50" value="{{ old('butiran_50') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('butiran_50')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -486,7 +486,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="butiran_32_50" class="w-4/12 font-bold text-[#232D42] text-[16px]">Butiran 32 - 50 mm</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="butiran_32_50" value="{{ old('butiran_32_50') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="butiran_32_50" value="{{ old('butiran_32_50') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('butiran_32_50')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -500,7 +500,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="butiran_32" class="w-4/12 font-bold text-[#232D42] text-[16px]">Butiran < 32 mm</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="butiran_32" value="{{ old('butiran_32') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="butiran_32" value="{{ old('butiran_32') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('butiran_32')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -511,7 +511,7 @@
                                 <div class="w-full flex gap-4 mt-2">
                                     <label for="butiran_238" class="w-4/12 font-bold text-[#232D42] text-[16px]">Butiran < 2,38 mm</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="butiran_238" value="{{ old('butiran_238') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="butiran_238" value="{{ old('butiran_238') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('butiran_238')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -530,7 +530,7 @@
                                 <div class="w-6/12 flex gap-4 mt-2">
                                     <label for="hgi" class="w-4/12 font-bold text-[#232D42] text-[16px]">HGI</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="hgi" value="{{ old('hgi') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="hgi" value="{{ old('hgi') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('hgi')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}

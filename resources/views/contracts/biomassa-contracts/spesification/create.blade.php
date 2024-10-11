@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -36,7 +36,7 @@
                                 </div>
                                 @enderror
                             </div>
-                        </div>     
+                        </div>
                         <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Harga & Nilai Kurs</div>
                         <div class="w-full py-1 flex gap-5">
                             <div class="price">
@@ -61,7 +61,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Keterangan</div>
                         {{-- Total Moisure --}}
                         <div class="w-full py-1 flex gap-3">
@@ -98,7 +98,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         {{-- Moisure In Analysis --}}
                         <div class="w-full py-1 flex gap-3">
                             <div class="airdried_moisure">
@@ -134,8 +134,8 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div> 
-                         
+                        </div>
+
                         {{-- Ash --}}
                         <div class="w-full py-1 flex gap-3">
                             <div class="ash">
@@ -171,7 +171,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div> 
+                        </div>
 
                         {{-- Volatile Matter --}}
                         <div class="w-full py-1 flex gap-3">
@@ -208,7 +208,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>  
+                        </div>
                         <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Butiran</div>
                           {{-- Butiran > 70 mm --}}
                           <div class="w-full py-1 flex gap-3">
@@ -245,7 +245,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="w-full py-1 flex gap-3">
                             <div class="retained_238">
                                 <label for="retained_238_min" class="font-bold text-[#232D42] text-[16px]">Retained 2.38 Min</label>
@@ -280,7 +280,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="w-full py-1 flex gap-3">
                             <div class="passing_238">
                                 <label for="passing_238_min" class="font-bold text-[#232D42] text-[16px]">Passing 2.38 Min</label>
@@ -315,13 +315,13 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div> 
-                       
-                         
+                        </div>
+
+
                         <div class="flex gap-3">
                             <a href="{{route('contracts.biomassa-contracts.spesification.index',['contractId'=>$contract->id])}}" class="bg-[#C03221] w-full h-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3 text-center">Back</a>
                             <button class="bg-[#2E46BA] h-full w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah</button>
-                        </div>     
+                        </div>
                     </div>
                 </form>
             </div>

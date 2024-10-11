@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
             </div>
             <div class="w-full flex justify-center mb-6">
@@ -20,7 +20,7 @@
                                 @endfor
                             </select>
                         </div>
-    
+
                         <div class="w-full mb-4">
                             <label for="end_year">Tahun Akhir:</label>
                             <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md" required>
@@ -31,7 +31,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="mb-4">
                         <select name="type" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md" required>
                             <option value="0" {{request('type') == 0 ? 'selected' : ''}}>Semua Kontrak</option>
@@ -91,7 +91,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($contracts as $contract)    
+                                        @foreach ($contracts as $contract)
                                             <tr>
                                                 <td class="border border-gray-400 p-2" rowspan="4">{{$loop->iteration}}</td>
                                                 <td class="border border-gray-400 p-2" rowspan="4">{{$contract->name}}</td>

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
             </div>
             <div class="w-full flex justify-center mb-6">
@@ -26,7 +26,7 @@
                                         <option value="{{$number->id}}"  {{request('contract_id') == $number->id ? 'selected' : ''}}>{{$number->contract_number}}</option>
                                     @endforeach
                                 @endisset
-                                
+
                             @endif
                         </select>
                     </div>
@@ -78,7 +78,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
+
                                     @foreach ($contracts as $contract)
                                     <tr>
                                         <td class="border border-gray-400 p-2">{{$loop->iteration}}</td>
@@ -112,7 +112,7 @@
 @endsection
 @section('scripts')
     <script>
-        $('.supplier-select').change(function(){  
+        $('.supplier-select').change(function(){
             let id  = $(this).val();
             let token = "{{ csrf_token() }}"
             $(".select-contract").empty()
@@ -140,7 +140,7 @@
                 })
     </script>
     <script>
-        $('.select-contract').change(function(){  
+        $('.select-contract').change(function(){
             let id  = $(this).val();
             let token = "{{ csrf_token() }}"
             $(".tonase").empty()

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -40,7 +40,7 @@
                             @foreach ($penalties as $penalty)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Bila {{$penalty->unit->name}} {{$penalty->penalty_will_get_if_sign}} {{$penalty->penalty_will_get_if_number}} sehingga harga turun 
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">Bila {{$penalty->unit->name}} {{$penalty->penalty_will_get_if_sign}} {{$penalty->penalty_will_get_if_number}} sehingga harga turun
                                     @if ($penalty->penalty_price_type_number == 'percentage')
                                     {{ $penalty->penalty_price_number}} %
                                     @else
