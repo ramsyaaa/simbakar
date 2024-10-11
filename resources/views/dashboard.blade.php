@@ -25,7 +25,7 @@
     @include('components.sidebar')
     <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
+        <div class="w-full py-10 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div>
                 <a href="{{ route('scheduling.create') }}" class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg">Tambah Data</a>
                 <!-- Tombol untuk Hide/Show -->
@@ -135,73 +135,75 @@
                 </tbody>
 
             </table>
-        </div>
 
-        
-        <div class="w-full flex justify-center mb-6 bg-white">
-            <div class="p-4 rounded-lg shadow-sm w-[500px]">
-            <h1 class="text-center font-bold">Filter Pemakaian Permasok</h1>
-                <div class="flex gap-4 items-center mb-4">
-                    <label for="filter_type">Pemasok:</label>
-                    <select class="select-2 w-full border h-[40px] rounded-lg supplier-select" name="pemasok">
-                        <option value="">Pilih Supplier</option>
-                        @foreach ($suppliers as $supplier)
-                            <option value="{{$supplier->id}}">{{$supplier->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="flex gap-4 items-center mb-4">
-                    <label for="filter_type">Filter:</label>
-                    <select class="w-full border h-[40px] rounded-lg filter_type" id="filter_type" name="filter_type">
-                        <option value="month">Bulan</option>
-                        <option value="year">Tahun</option>
-                    </select>
-                </div>
+            <div>
+                <div class="w-full flex justify-center mb-6 bg-white">
+                    <div class="p-4 rounded-lg shadow-sm w-[500px]">
+                        <h1 class="text-center font-bold">Filter Pemakaian Permasok</h1>
+                        <div class="flex gap-4 items-center mb-4">
+                            <label for="filter_type">Pemasok:</label>
+                            <select class="select-2 w-full border h-[40px] rounded-lg supplier-select" name="pemasok">
+                                <option value="">Pilih Supplier</option>
+                                @foreach ($suppliers as $supplier)
+                                    <option value="{{$supplier->id}}">{{$supplier->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="flex gap-4 items-center mb-4">
+                            <label for="filter_type">Filter:</label>
+                            <select class="w-full border h-[40px] rounded-lg filter_type" id="filter_type" name="filter_type">
+                                <option value="month">Bulan</option>
+                                <option value="year">Tahun</option>
+                            </select>
+                        </div>
 
-                <div id="month-fields" class="filter-field">
-                    <select name="tahun" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md month-input">
-                        <option value="">Tahun</option>
-                        @for ($i = date('Y'); $i >= 2000; $i--)
-                            <option>{{ $i }}</option>
-                        @endfor
-                    </select>
-                </div>
+                        <div id="month-fields" class="filter-field">
+                            <select name="tahun" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md month-input">
+                                <option value="">Tahun</option>
+                                @for ($i = date('Y'); $i >= 2000; $i--)
+                                    <option>{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
 
-                <div id="year-fields" class="filter-field" style="display: none;">
-                    <div class="w-full mb-4">
-                        <label for="start_year">Tahun Awal:</label>
-                        <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md start_year">
-                            <option value="">Tahun</option>
-                            @for ($i = date('Y'); $i >= 2000; $i--)
-                                <option>{{ $i }}</option>
-                            @endfor
-                        </select>
+                        <div id="year-fields" class="filter-field" style="display: none;">
+                            <div class="w-full mb-4">
+                                <label for="start_year">Tahun Awal:</label>
+                                <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md start_year">
+                                    <option value="">Tahun</option>
+                                    @for ($i = date('Y'); $i >= 2000; $i--)
+                                        <option>{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+
+                            <div class="w-full mb-4">
+                                <label for="end_year">Tahun Akhir:</label>
+                                <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md end_year">
+                                    <option value="">Tahun</option>
+                                    @for ($i = date('Y'); $i >= 2000; $i--)
+                                        <option>{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="w-full flex justify-end mt-3 gap-3">
+                            <button id="loadChart" type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg">Submit</button>
+                        </div>
                     </div>
 
-                    <div class="w-full mb-4">
-                        <label for="end_year">Tahun Akhir:</label>
-                        <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md end_year">
-                            <option value="">Tahun</option>
-                            @for ($i = date('Y'); $i >= 2000; $i--)
-                                <option>{{ $i }}</option>
-                            @endfor
-                        </select>
+                </div>
+                <div class="w-full flex justify-center mb-6 bg-white chart-supplier" style="display:none">
+                    <div class="p-4 rounded-lg shadow-sm">
+                        <canvas id="myChart" width="700" height="600"></canvas>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="w-full flex justify-end mt-3 gap-3">
-                    <button id="loadChart" type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg">Submit</button>
-                </div>
-            </div>
-            
-        </div>
-        <div class="w-full flex justify-center mb-6 bg-white chart-supplier" style="display:none">
-            <div class="p-4 rounded-lg shadow-sm">
-                <canvas id="myChart" width="700" height="600"></canvas>
-            </div>
-        </div>
-        </div>
     </div>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -284,7 +286,7 @@
                 },
                 success: function(response) {
                     $('.chart-supplier').show()
-    
+
                     const ctx = document.getElementById('myChart').getContext('2d');
                     chart = new Chart(ctx, {
                         type: 'bar', // atau tipe lain sesuai kebutuhan
