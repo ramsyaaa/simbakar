@@ -139,7 +139,7 @@
             <div>
                 <div class="w-full flex justify-center mb-6 bg-white">
                     <div class="p-4 rounded-lg shadow-sm w-[500px]">
-                        <h1 class="text-center font-bold">Filter Pemakaian Permasok</h1>
+                        <h1 class="text-center font-bold">Filter Penerimaan Permasok</h1>
                         <div class="flex gap-4 items-center mb-4">
                             <label for="filter_type">Pemasok:</label>
                             <select class="select-2 w-full border h-[40px] rounded-lg supplier-select" name="pemasok">
@@ -197,6 +197,32 @@
                 <div class="w-full flex justify-center mb-6 bg-white chart-supplier" style="display:none">
                     <div class="p-4 rounded-lg shadow-sm">
                         <canvas id="myChart" width="700" height="600"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="w-full flex justify-center mb-6 bg-white">
+                    <div class="p-4 rounded-lg shadow-sm w-[500px]">
+                        <h1 class="text-center font-bold">Filter Pasokan</h1>
+                        <div class="field">
+                            <select name="tahun" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md year-pasokan">
+                                <option value="">Tahun</option>
+                                @for ($i = date('Y'); $i >= 2000; $i--)
+                                    <option>{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+
+
+                        <div class="w-full flex justify-end mt-3 gap-3">
+                            <button id="loadPasokan" type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg">Submit</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="w-full flex justify-center mb-6 bg-white chart-pasokan" style="display:none">
+                    <div class="p-4 rounded-lg shadow-sm">
+                        <canvas id="pasokanChart" width="700" height="600"></canvas>
                     </div>
                 </div>
             </div>
@@ -291,6 +317,52 @@
                     chart = new Chart(ctx, {
                         type: 'bar', // atau tipe lain sesuai kebutuhan
                         data: response, // Menggunakan data dari response
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        let chartPasokan;
+
+        $('#loadPasokan').click(function() {
+            let year  = $('.year-pasokan').val();
+            let token = "{{ csrf_token() }}"
+            console.log('ok');
+            if(chartPasokan) {
+                chartPasokan.destroy(); // Hancurkan chart sebelumnya jika ada
+            }
+
+            $.ajax({
+                url: '{{ route('chartDataPasokan') }}',
+                method: 'get',
+                data: {
+                    _token:token,
+                    year:year,
+                },
+                success: function(response) {
+                    $('.chart-pasokan').show()
+
+                    const ctx = document.getElementById('pasokanChart').getContext('2d');
+                    chartPasokan = new Chart(ctx, {
+                        type: 'bar', // atau tipe lain sesuai kebutuhan
+                        data: {
+                            labels: response.labels, // Nama-nama bulan
+                            datasets: response.datasets // Dua dataset: Penerimaan dan Penggunaan Batubara
+                        },
+
                         options: {
                             scales: {
                                 y: {
