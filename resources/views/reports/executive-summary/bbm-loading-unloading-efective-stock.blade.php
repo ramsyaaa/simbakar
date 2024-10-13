@@ -308,10 +308,10 @@
                                             @endif
                                             @if (isset($type) && $type == 'day')
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(getTotalSumUnit($bbm_unloading)) }}
+                                                    {{ formatNumber(collect($bbm_unloading)->pluck('unit_1_7')->sum()) }}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(getTotalSumUnit($bbm_unloading)) }}
+                                                    {{ formatNumber(collect($bbm_unloading)->pluck('efective')->sum()) }}
                                                 </th>
                                             @endif
                                         </tr>
