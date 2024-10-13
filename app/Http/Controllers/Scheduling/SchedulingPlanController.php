@@ -22,7 +22,21 @@ class SchedulingPlanController extends Controller
 
     public function edit($id){
         $data['detail'] = SchedulingPlanDetail::with(['schedulingPlan.ship'])->findOrFail($id);
+        $data['scheduling'] = SchedulingPlanDetail::where([['id', '>=', $id], ['scheduling_plan_id', '=', $data['detail']->scheduling_plan_id]])->get();
         $data['docks'] = Dock::orderBy('name', 'asc')->get();
+
+        $data['total'] = 0;
+        $data['start_date'] = null;
+        $data['end_date'] = null;
+        if (!empty($data['scheduling'])) {
+            $data['start_date'] = $data['scheduling'][0]->start_date;
+            $data['end_date'] = $data['scheduling'][count($data['scheduling']) - 1]->end_date;
+
+            // Hitung total kapasitas
+            foreach ($data['scheduling'] as $scheduling) {
+                $data['total'] += $scheduling->capacity;
+            }
+        }
         return view('scheduling.edit', $data);
     }
 
@@ -55,29 +69,36 @@ class SchedulingPlanController extends Controller
         // Ambil data dari request
         $detail = SchedulingPlanDetail::findOrFail($id);
         $scheduling = SchedulingPlan::where('id', $detail->scheduling_plan_id)->first();
+
+        SchedulingPlanDetail::where('scheduling_plan_id', $scheduling->id)
+            ->where('id', '>=', $id)
+            ->delete();
+
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         $capacities = $request->input('capacity');
-        $dock = $request->input('dock');
+        $dock = $detail->dock_id;
         $speeds = $request->input('speed');
 
         $result = $this->processDateData($scheduling, $startDate, $endDate, $capacities, $dock, $speeds);
 
-        SchedulingPlanDetail::where('scheduling_plan_id', $scheduling->id)
-            ->where('start_date', '>', $startDate)
-            ->delete();
-
-        if($detail->start_date == $startDate){
-            SchedulingPlanDetail::where('id', $id)->delete();
-        }else{
-            SchedulingPlanDetail::where('id', $id)->update([
-                'end_date' => $startDate
-            ]);
-        }
-
 
         if(count($result) > 0){
             SchedulingPlanDetail::insert($result);
+        }
+
+        $startDate = $request->input('start_date_new');
+        $endDate = $request->input('end_date_new');
+        $capacities = $request->input('capacity_new');
+        $dock = $request->input('new_dock');
+        $speeds = $request->input('speed_new');
+
+        if($startDate != null && $endDate != null){
+            $result = $this->processDateData($scheduling, $startDate, $endDate, $capacities, $dock, $speeds);
+
+            if(count($result) > 0){
+                SchedulingPlanDetail::insert($result);
+            }
         }
 
         return redirect(route('administration.dashboard'))->with('success', 'Rencana jadwal baru berhasil dibuat.');
@@ -91,11 +112,16 @@ class SchedulingPlanController extends Controller
         $result = [];
 
         // Loop through each day in the date range
-        for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
-                // Mengatur format tanggal agar sesuai dengan kunci di array kapasitas
-                $formattedDate = $date->translatedFormat('j F Y'); // e.g., "8 Oktober 2024"
+        for ($date = $startDate->copy(); $date->lt($endDate->copy()->addDay()); $date->addDay()) {
+            // Mengatur format tanggal agar sesuai dengan kunci di array kapasitas
+            $formattedDate = $date->translatedFormat('j F Y'); // e.g., "13 Oktober 2024"
+            if (!isset($capacities[$formattedDate]) || $capacities[$formattedDate] == null ||
+                !isset($speed[$formattedDate]) || $speed[$formattedDate] == null) {
+                    continue;
+            }
 
-                // Menentukan waktu mulai dan waktu selesai tergantung pada posisi tanggal
+            if (isset($capacities[$formattedDate]) && $capacities[$formattedDate] !== null &&
+                isset($speed[$formattedDate]) && $speed[$formattedDate] !== null) {
                 if ($date->isSameDay($startDate) && $date->isSameDay($endDate)) {
                     // Jika tanggal mulai dan akhir pada hari yang sama
                     $result[] = [
@@ -107,7 +133,7 @@ class SchedulingPlanController extends Controller
                         'dock_id' => $dock,
                     ];
                 } elseif ($date->isSameDay($startDate)) {
-                    // Untuk hari mulai
+                    // Untuk hari mulai (tanggal pertama)
                     $result[] = [
                         'scheduling_plan_id' => $scheduling->id,
                         'start_date' => $startDate->format('Y-m-d H:i:s'),
@@ -117,7 +143,7 @@ class SchedulingPlanController extends Controller
                         'dock_id' => $dock,
                     ];
                 } elseif ($date->isSameDay($endDate)) {
-                    // Untuk hari akhir
+                    // Untuk hari akhir (tanggal terakhir)
                     $result[] = [
                         'scheduling_plan_id' => $scheduling->id,
                         'start_date' => $date->copy()->startOfDay()->format('Y-m-d H:i:s'),
@@ -127,7 +153,7 @@ class SchedulingPlanController extends Controller
                         'dock_id' => $dock,
                     ];
                 } else {
-                    // Untuk hari di antara tanggal mulai dan tanggal akhir
+                    // Untuk hari di antara tanggal mulai dan tanggal akhir (hari penuh)
                     $result[] = [
                         'scheduling_plan_id' => $scheduling->id,
                         'start_date' => $date->copy()->startOfDay()->format('Y-m-d H:i:s'),
@@ -138,7 +164,11 @@ class SchedulingPlanController extends Controller
                     ];
                 }
             }
+        }
 
         return $result;
+
+
+
     }
 }
