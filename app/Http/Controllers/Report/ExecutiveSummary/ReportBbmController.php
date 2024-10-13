@@ -11,6 +11,7 @@ use App\Models\CoalReceiptPlan;
 use App\Models\CoalUnloading;
 use App\Models\CoalUsage;
 use App\Models\DeliveryClause;
+use App\Models\StockOpname;
 use App\Models\YearStartData;
 use App\Supplier;
 use App\Unit;
@@ -456,7 +457,6 @@ class ReportBbmController extends Controller
 
     public function bbmLoadingUnloadingEfectiveStock(Request $request)
     {
-
         $type = isset($_GET['type']) ? $_GET['type'] : 'day';
         $start_year = $request->get('start_year') ?? '';
         $end_year = $request->get('end_year') ?? '';
@@ -465,10 +465,11 @@ class ReportBbmController extends Controller
 
         $years = [];
         if ($start_year && $end_year) {
-            for ($i = $start_year; $i <= $end_year; $i++) {
+            for ($i = intval($start_year); $i <= intval($end_year); $i++) {
                 array_push($years, $i);
             }
         }
+
 
         $type = $request->get('type') ?? '';
         $data['type'] = $type;
@@ -523,6 +524,9 @@ class ReportBbmController extends Controller
                 $year = $dayArray[0];
                 $month = $dayArray[1];
 
+                $year_start_data = YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
+                if ($year_start_data) $year_start_data = $year_start_data->actual;
+
                 $daysInMonth = Carbon::createFromDate($year, $month, 1)->daysInMonth;
                 $daysArray = [];
 
@@ -573,6 +577,8 @@ class ReportBbmController extends Controller
                                     $processedData[$day]['unit_7']
                                 ]);
                                 $processedData[$day]['stock'] = $coal_plans + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
+                                $processedData[$day]['efective'] = $year_start_data + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
+                                $year_start_data = $processedData[$day]['efective'];
                             }
                         }
                     }
@@ -586,6 +592,9 @@ class ReportBbmController extends Controller
         {
             $processedData = [];
             $months = [];
+            $year_start_data = YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
+            if ($year_start_data) $year_start_data = $year_start_data->actual;
+
             if ($year) {
                 for ($i = 1; $i <= 12; $i++) {
                     array_push($months, Carbon::create()->month($i)->translatedFormat('m'));
@@ -635,11 +644,44 @@ class ReportBbmController extends Controller
 
                     $bbm_unloading = CoalUnloading::select('receipt_date', 'tug_3_accept')->whereRaw('receipt_date like ?', ["%" . ("$receipt_date") . "%"])->get();
                     $processedData[$month]['stock'] = $coal_plans ? getStock($coal_plans, $i) : 0;
-                    $bbm_usage = CoalUsage::select('unit_id', 'amount_use')->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
+                    $bbm_usage = CoalUsage::select('unit_id', 'amount_use', 'usage_date')->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
                     if (count($bbm_unloading) > 0) {
                         // Get BBM Usage with receipt date
                         foreach ($bbm_unloading as $key => $item) {
                             if ($receipt_date == ("$year-$months[$i]")) {
+
+                                $receipt_date = date('Y-m-d', strtotime($item->receipt_date));
+                                for ($j = 1; $j <= 31; $j++) {
+                                    if ($receipt_date == "$year-$months[$i]-" . str_pad($j, 2, "0", STR_PAD_LEFT)) {
+                                        $bbmUsage = collect($bbm_usage)->filter(function ($bbm) use ($receipt_date) {
+                                            return Str::contains($bbm->usage_date, $receipt_date);
+                                        });
+                                        foreach ($units as $unit_key => $unit) {
+                                            $index = "unit_" . ($unit_key + 1);
+                                            $data_daily[$j][$index] = 0;
+                                            foreach ($bbmUsage as $usage) {
+                                                if ($unit->id == $usage->unit_id) {
+                                                    $data_daily[$j][$index] = $data_daily[$j][$index] + $usage->amount_use;
+                                                }
+                                            }
+                                            $data_daily[$j][$index] = $data_daily[$j][$index] ?? 0;
+                                        }
+                                        $realization = $item->tug_3_accept;
+                                        $actual = array_sum([
+                                            $data_daily[$j]['unit_1'],
+                                            $data_daily[$j]['unit_2'],
+                                            $data_daily[$j]['unit_3'],
+                                            $data_daily[$j]['unit_4'],
+                                            $data_daily[$j]['unit_5'],
+                                            $data_daily[$j]['unit_6'],
+                                            $data_daily[$j]['unit_7']
+                                        ]);
+                                        $year_start_data = intval($year_start_data) + $realization - $actual;
+                                    }
+                                }
+                                // dd(number_format($year_start_data));
+
+
                                 // get All Unit Value
                                 foreach ($units as $unit_key => $unit) {
                                     $index = "unit_" . ($unit_key + 1);
@@ -653,6 +695,7 @@ class ReportBbmController extends Controller
 
                                 $processedData[$month]['receipt_date'] = date('d M Y', strtotime($item->receipt_date));
                                 $processedData[$month]['tug'] = $bbm_unloading->pluck('tug_3_accept')->sum();
+                                $processedData[$month]['efective'] = $year_start_data;
                                 $processedData[$month]['unit_5_7'] = array_sum([
                                     $processedData[$month]['unit_5'],
                                     $processedData[$month]['unit_6'],
@@ -687,6 +730,7 @@ class ReportBbmController extends Controller
             for ($i = 0; $i <= count($years); $i++) {
                 if (isset($years[$i])) $processedData[$years[$i]] = [];
             }
+
             function getStock($coal_plans)
             {
                 if ($coal_plans) {
@@ -700,6 +744,7 @@ class ReportBbmController extends Controller
                 $coal_plans = CoalReceiptPlan::where('year', $year)->first();
                 $processedData[$year]['stock'] = $coal_plans ? getStock($coal_plans) : 0;
                 if (count($bbm_unloading) > 0) {
+
                     $bbmUsage = collect($bbm_usage)->filter(function ($bbm) use ($year) {
                         return Str::contains($bbm->usage_date, $year);
                     });
@@ -759,6 +804,7 @@ class ReportBbmController extends Controller
                     break;
 
                 case 'year':
+
                     if ($start_year && $end_year) {
                         $processedData = getDataByYear($years);
                     }
@@ -928,6 +974,15 @@ class ReportBbmController extends Controller
                 return 0;
             }
 
+            $year_start_actual = 0;
+            $year_start_planning = 0;
+            $year_start_data =
+                YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
+            if ($year_start_data) $year_start_actual = $year_start_data->actual;
+            if ($year_start_data) $year_start_planning = $year_start_data->planning;
+
+            $stock_opnames = StockOpname::all();
+
             foreach ($processedData as $monthKey => $value) {
                 $bbm_unloading = CoalUnloading::select('receipt_date', 'tug_3_accept')->whereRaw('receipt_date like ?', ["%" . ("$year-$months[$i]") . "%"]);
                 $bbm_unloading = $bbm_unloading->get();
@@ -937,14 +992,26 @@ class ReportBbmController extends Controller
                 $processedData[$monthKey]['cumulative_stock_plan'] = $initialStock->planning;
                 $processedData[$monthKey]['efective_stock_plan'] = $initialStock->planning - 158000;
                 $processedData[0]['initial_stock_realitation'] = $initialStock->planning;
+                $monthlyBedding = 0;
 
                 if (count($bbm_unloading) > 0) {
                     $bbm_usage = CoalUsage::select('amount_use')->whereRaw('usage_date like ?', ['%' . "$year-$months[$i]" . '%'])->get();
                     foreach ($bbm_unloading as $key => $item) {
                         $receipt_date = date('Y-m', strtotime($item->receipt_date));
+
                         if ($receipt_date == ("$year-$months[$i]")) {
                             // Get BBM Usage with receipt date
                             // get All Unit Value
+                            for ($j = 1; $j <= 31; $j++) {
+                                $newDate =  "$year-$months[$i]-" . str_pad($j, 2, "0", STR_PAD_LEFT);
+                                $opnames = collect($stock_opnames)->filter(function ($opnames) use ($newDate) {
+                                    return Str::contains($opnames->measurement_date, $newDate);
+                                })->first();
+
+                                if ($opnames) {
+                                    $monthlyBedding = $opnames->bedding;
+                                }
+                            }
 
                             $processedData[$monthKey]['accept_plan'] = 0;
                             $processedData[$monthKey]['accept_realitation'] = intval($bbm_unloading->pluck('tug_3_accept')->sum());
@@ -954,14 +1021,22 @@ class ReportBbmController extends Controller
                         }
                     }
                 }
+
                 $initial_stock_realitation = $initial_stock_realitation + ($processedData[$monthKey]['accept_realitation'] ?? 0);
                 if (isset($processedData[$monthKey + 1])) {
                     $processedData[$monthKey + 1]['initial_stock_realitation'] = $initial_stock_realitation;
                 }
 
-                $processedData[$monthKey]['cumulative_stock_realitation'] = $initial_stock_realitation;
+                $year_start_planning = $year_start_planning + ($processedData[$monthKey]['usage_realitation'] ?? 0) - ($processedData[$monthKey]['accept_realitation'] ?? 0);
+                $year_start_actual = $year_start_actual + ($processedData[$monthKey]['usage_realitation'] ?? 0) - ($processedData[$monthKey]['accept_realitation'] ?? 0);
 
-                $processedData[$monthKey]['efective_stock_realitation'] = $initial_stock_realitation - 150000;
+
+
+                $processedData[$monthKey]['efective_stock_planning'] = $year_start_planning;
+                $processedData[$monthKey]['efective_stock_actual'] = $year_start_actual;
+
+                $processedData[$monthKey]['cumulative_stock_realitation'] = ($processedData[$monthKey]['cumulative_stock_realitation'] ?? 0) + $processedData[$monthKey]['efective_stock_actual'] + $monthlyBedding;
+                $processedData[$monthKey]['cumulative_stock_plan'] = ($processedData[$monthKey]['cumulative_stock_plan'] ?? 0) + $processedData[$monthKey]['efective_stock_planning'] + $monthlyBedding;
 
                 $i++;
             }
@@ -981,10 +1056,11 @@ class ReportBbmController extends Controller
 
         $years = [];
         if ($start_year && $end_year) {
-            for ($i = $start_year; $i <= $end_year; $i++) {
+            for ($i = intval($start_year); $i <= intval($end_year); $i++) {
                 array_push($years, $i);
             }
         }
+
 
         $type = $request->get('type') ?? '';
         $data['type'] = $type;
@@ -1039,6 +1115,9 @@ class ReportBbmController extends Controller
                 $year = $dayArray[0];
                 $month = $dayArray[1];
 
+                $year_start_data = YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
+                if ($year_start_data) $year_start_data = $year_start_data->actual;
+
                 $daysInMonth = Carbon::createFromDate($year, $month, 1)->daysInMonth;
                 $daysArray = [];
 
@@ -1089,6 +1168,8 @@ class ReportBbmController extends Controller
                                     $processedData[$day]['unit_7']
                                 ]);
                                 $processedData[$day]['stock'] = $coal_plans + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
+                                $processedData[$day]['efective'] = $year_start_data + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
+                                $year_start_data = $processedData[$day]['efective'];
                             }
                         }
                     }
@@ -1102,6 +1183,9 @@ class ReportBbmController extends Controller
         {
             $processedData = [];
             $months = [];
+            $year_start_data = YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
+            if ($year_start_data) $year_start_data = $year_start_data->actual;
+
             if ($year) {
                 for ($i = 1; $i <= 12; $i++) {
                     array_push($months, Carbon::create()->month($i)->translatedFormat('m'));
@@ -1151,11 +1235,45 @@ class ReportBbmController extends Controller
 
                     $bbm_unloading = CoalUnloading::select('receipt_date', 'tug_3_accept')->whereRaw('receipt_date like ?', ["%" . ("$receipt_date") . "%"])->get();
                     $processedData[$month]['stock'] = $coal_plans ? getStock($coal_plans, $i) : 0;
-                    $bbm_usage = CoalUsage::select('unit_id', 'amount_use')->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
+                    $bbm_usage = CoalUsage::select('unit_id', 'amount_use', 'usage_date')->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
                     if (count($bbm_unloading) > 0) {
                         // Get BBM Usage with receipt date
                         foreach ($bbm_unloading as $key => $item) {
                             if ($receipt_date == ("$year-$months[$i]")) {
+
+                                $receipt_date = date('Y-m-d', strtotime($item->receipt_date));
+
+                                for ($j = 1; $j <= 31; $j++) {
+                                    if ($receipt_date == "$year-$months[$i]-" . str_pad($j, 2, "0", STR_PAD_LEFT)) {
+                                        $bbmUsage = collect($bbm_usage)->filter(function ($bbm) use ($receipt_date) {
+                                            return Str::contains($bbm->usage_date, $receipt_date);
+                                        });
+                                        foreach ($units as $unit_key => $unit) {
+                                            $index = "unit_" . ($unit_key + 1);
+                                            $data_daily[$j][$index] = 0;
+                                            foreach ($bbmUsage as $usage) {
+                                                if ($unit->id == $usage->unit_id) {
+                                                    $data_daily[$j][$index] = $data_daily[$j][$index] + $usage->amount_use;
+                                                }
+                                            }
+                                            $data_daily[$j][$index] = $data_daily[$j][$index] ?? 0;
+                                        }
+                                        $realization = $item->tug_3_accept;
+                                        $actual = array_sum([
+                                            $data_daily[$j]['unit_1'],
+                                            $data_daily[$j]['unit_2'],
+                                            $data_daily[$j]['unit_3'],
+                                            $data_daily[$j]['unit_4'],
+                                            $data_daily[$j]['unit_5'],
+                                            $data_daily[$j]['unit_6'],
+                                            $data_daily[$j]['unit_7']
+                                        ]);
+                                        $year_start_data = intval($year_start_data) + $realization - $actual;
+                                    }
+                                }
+                                // dd(number_format($year_start_data));
+
+
                                 // get All Unit Value
                                 foreach ($units as $unit_key => $unit) {
                                     $index = "unit_" . ($unit_key + 1);
@@ -1169,6 +1287,7 @@ class ReportBbmController extends Controller
 
                                 $processedData[$month]['receipt_date'] = date('d M Y', strtotime($item->receipt_date));
                                 $processedData[$month]['tug'] = $bbm_unloading->pluck('tug_3_accept')->sum();
+                                $processedData[$month]['efective'] = $year_start_data;
                                 $processedData[$month]['unit_5_7'] = array_sum([
                                     $processedData[$month]['unit_5'],
                                     $processedData[$month]['unit_6'],
@@ -1203,6 +1322,7 @@ class ReportBbmController extends Controller
             for ($i = 0; $i <= count($years); $i++) {
                 if (isset($years[$i])) $processedData[$years[$i]] = [];
             }
+
             function getStock($coal_plans)
             {
                 if ($coal_plans) {
@@ -1216,6 +1336,7 @@ class ReportBbmController extends Controller
                 $coal_plans = CoalReceiptPlan::where('year', $year)->first();
                 $processedData[$year]['stock'] = $coal_plans ? getStock($coal_plans) : 0;
                 if (count($bbm_unloading) > 0) {
+
                     $bbmUsage = collect($bbm_usage)->filter(function ($bbm) use ($year) {
                         return Str::contains($bbm->usage_date, $year);
                     });
@@ -1275,6 +1396,7 @@ class ReportBbmController extends Controller
                     break;
 
                 case 'year':
+
                     if ($start_year && $end_year) {
                         $processedData = getDataByYear($years);
                     }
