@@ -210,14 +210,14 @@
                         </div>
                         <div class="flex gap-4 items-center mb-4">
                             <label for="filter_type">Filter:</label>
-                            <select class="w-full border h-[40px] rounded-lg filter_type" id="filter_type" name="filter_type">
+                            <select class="w-full border h-[40px] rounded-lg filter_type_pemasok" id="filter_type" name="filter_type">
                                 <option value="month">Bulan</option>
                                 <option value="year">Tahun</option>
                             </select>
                         </div>
 
                         <div id="month-fields" class="filter-field">
-                            <select name="tahun" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md month-input">
+                            <select name="tahun" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md month-input-pemasok">
                                 <option value="">Tahun</option>
                                 @for ($i = date('Y'); $i >= 2000; $i--)
                                     <option>{{ $i }}</option>
@@ -377,8 +377,8 @@
 
         $('#loadChart').click(function() {
             let supplier_id  =  $('.supplier-select').find(":selected").val();
-            let type  =  $('.filter_type').find(":selected").val();
-            let month  = $('.month-input').val();
+            let type  =  $('.filter_type_pemasok').find(":selected").val();
+            let month  = $('.month-input-pemasok').val();
             let startYear  = $('.start_year').val();
             let endYear  = $('.end_year').val();
             let token = "{{ csrf_token() }}"
