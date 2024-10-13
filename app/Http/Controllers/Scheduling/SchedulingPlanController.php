@@ -22,7 +22,7 @@ class SchedulingPlanController extends Controller
 
     public function edit($id){
         $data['detail'] = SchedulingPlanDetail::with(['schedulingPlan.ship'])->findOrFail($id);
-        $data['scheduling'] = SchedulingPlanDetail::where([['id', '>=', $id], ['scheduling_plan_id', '=', $data['detail']->scheduling_plan_id]])->get();
+        $data['scheduling'] = SchedulingPlanDetail::where([['id', '>=', $id], ['scheduling_plan_id', '=', $data['detail']->scheduling_plan_id], ['dock_id', '=', $data['detail']->dock_id]])->get();
         $data['docks'] = Dock::orderBy('name', 'asc')->get();
 
         $data['total'] = 0;
@@ -53,6 +53,7 @@ class SchedulingPlanController extends Controller
         $scheduling = SchedulingPlan::create([
             'ship_id' => $request->ship,
             'calor' => $request->calor,
+            'supplier_id' => $request->supplier,
         ]);
 
         $result = $this->processDateData($scheduling, $startDate, $endDate, $capacities, $dock, $speeds);

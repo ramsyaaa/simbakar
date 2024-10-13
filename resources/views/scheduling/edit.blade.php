@@ -19,7 +19,7 @@
                     @method('PUT')
                     <div class="flex gap-4">
                         <div class="w-full">
-                            <label for="dock" class="font-bold text-[#232D42] text-[16px]">Pilih Dermaga</label>
+                            <label for="dock" class="font-bold text-[#232D42] text-[16px]">Dermaga Awal</label>
                             <select id="dock" disabled name="dock" class="select-2 w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                 <option selected>Pilih Dermaga</option>
                                 @foreach ($docks as $dock)
@@ -68,7 +68,10 @@
                         <div class="w-full flex gap-4 mt-4">
                             <div class="w-6/12">
                                 <div class="w-full">
-                                    <label for="new_dock" class="font-bold text-[#232D42] text-[16px]">Pilih Dermaga</label>
+                                    <label for="new_dock" class="font-bold text-[#232D42] text-[16px]">Pilih Dermaga Baru</label>
+                                    <div>
+                                    Jika dermaga tidak dapat di pilih, maka anda harus mengisi load rate dermaga dulu di <a class="text-blue-500 underline" href="{{ route('master-data.docks.index') }}" target="_blank">sini</a>
+                                </div>
                                     <select id="new_dock" name="new_dock" class="select-2 w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         <option selected>Pilih Dermaga</option>
                                         @foreach ($docks as $dock)

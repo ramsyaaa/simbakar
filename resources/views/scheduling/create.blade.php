@@ -29,6 +29,9 @@
 
                         <div class="w-full">
                             <label for="dock" class="font-bold text-[#232D42] text-[16px]">Pilih Dermaga</label>
+                            <div>
+                                Jika dermaga tidak dapat di pilih, maka anda harus mengisi load rate dermaga dulu di <a class="text-blue-500 underline" href="{{ route('master-data.docks.index') }}" target="_blank">sini</a>
+                            </div>
                             <select id="dock" name="dock" class="select-2 w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                 <option selected>Pilih Dermaga</option>
                                 @foreach ($docks as $dock)
