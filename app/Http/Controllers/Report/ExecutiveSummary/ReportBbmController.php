@@ -6,10 +6,12 @@ use App\BbmReceipt;
 use App\BbmUsage;
 use App\HeavyEquipment;
 use App\Http\Controllers\Controller;
+use App\Models\BbmReceiptPlan;
 use App\Models\CoalContract;
 use App\Models\CoalReceiptPlan;
 use App\Models\CoalUnloading;
 use App\Models\CoalUsage;
+use App\Models\ConsumptionPlan;
 use App\Models\DeliveryClause;
 use App\Models\StockOpname;
 use App\Models\YearStartData;
@@ -82,127 +84,183 @@ class ReportBbmController extends Controller
 
         $queryBbmReceipt = BbmReceipt::query();
         $queryBbmUsage = BbmUsage::query();
+
+        $bulanArray = [
+            '01' => 'planning_january',
+            '02' => 'planning_february',
+            '03' => 'planning_march',
+            '04' => 'planning_april',
+            '05' => 'planning_may',
+            '06' => 'planning_june',
+            '07' => 'planning_july',
+            '08' => 'planning_august',
+            '09' => 'planning_september',
+            '10' => 'planning_october',
+            '11' => 'planning_november',
+            '12' => 'planning_december',
+        ];
+
         switch ($filterType) {
             case 'day':
-                $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
-                $daysBbmReceiptArray = [];
-                $daysBbmUsageArray = [];
-
-                for ($day = 1; $day <= $daysInMonth; $day++) {
-                    $date = sprintf('%04d-%02d-%02d', $tahun, $bulan, $day);
-                    $daysBbmReceiptArray[$date] = 0.0;
-                    $daysBbmUsageArray[$date] = 0.0;
+                // Mendapatkan nama kolom sesuai dengan bulan yang dipilih
+                $namaKolomBulan = $bulanArray[$bulan] ?? null;
+                $data['bbm_receipt_plan'] = [];
+                $data['usage_plan'] = [];
+                if ($namaKolomBulan) {
+                    // Query untuk mendapatkan data dari tabel bbmreceiptplan
+                    $data['bbm_receipt_plan'] = BbmReceiptPlan::where('year', $tahun)
+                        ->select('id', 'year', $namaKolomBulan . ' as planning') // Hanya memilih kolom yang relevan
+                        ->first();
+                    $data['usage_plan'] = ConsumptionPlan::where(['year' => $tahun, 'type' => $type_bbm])
+                        ->select('id', 'year', $namaKolomBulan . ' as planning') // Hanya memilih kolom yang relevan
+                        ->first();
                 }
 
-                $queryBbmReceipt->selectRaw('DATE(date_receipt) as date, SUM(amount_receipt) as total_amount')
-                    ->whereYear('date_receipt', $tahun)
-                    ->whereMonth('date_receipt', $bulan)
-                    ->where('bbm_type', $type_bbm)
-                    ->groupBy('date');
 
-                $queryBbmUsage->selectRaw('DATE(use_date) as date, SUM(amount) as total_amount')
-                    ->whereYear('use_date', $tahun)
-                    ->whereMonth('use_date', $bulan)
-                    ->where('bbm_type', $type_bbm)
-                    ->groupBy('date');
+                $data = array_merge_recursive($data, $this->getKumulatif($tahun, $type_bbm));
+                $data['bbm_receipt'] = $data['bbm_receipt'][ltrim($bulan, '0')];
+                $data['bbm_usage'] = $data['bbm_usage'][ltrim($bulan, '0')];
 
-                $bbmReceiptResults = $queryBbmReceipt->get();
-                $bbmUsageResults = $queryBbmUsage->get();
-
-                foreach ($bbmReceiptResults as $result) {
-                    $daysBbmReceiptArray[$result->date] = $result->total_amount;
+                if(ltrim($bulan, '0') > 1){
+                    $data['start_year_data_actual'] = end($data['cumulative'][ltrim($bulan, '0') - 1]);
                 }
-
-                foreach ($bbmUsageResults as $result) {
-                    $daysBbmUsageArray[$result->date] = $result->total_amount;
-                }
-
-                $data['bbm_receipt'] = array_values($daysBbmReceiptArray);
-                $data['bbm_usage'] = array_values($daysBbmUsageArray);
+                $data['cumulative'] = $data['cumulative'][ltrim($bulan, '0')];
                 break;
 
             case 'month':
-                $queryBbmReceipt->selectRaw('YEAR(date_receipt) as year, MONTH(date_receipt) as month, SUM(amount_receipt) as total_amount')
-                    ->whereYear('date_receipt', $tahunInput)
-                    ->where('bbm_type', $type_bbm)
-                    ->groupBy('year', 'month');
-
-                $queryBbmUsage->selectRaw('YEAR(use_date) as year, MONTH(use_date) as month, SUM(amount) as total_amount')
-                    ->whereYear('use_date', $tahunInput)
-                    ->where('bbm_type', $type_bbm)
-                    ->groupBy('year', 'month');
-
-                $bbmReceiptResults = $queryBbmReceipt->get();
-                $bbmUsageResults = $queryBbmUsage->get();
-
-                // Initialize arrays for each month
-                $monthlyReceipts = array_fill(1, 12, 0.0);
-                $monthlyUsages = array_fill(1, 12, 0.0);
-
-                // Populate receipt data
-                foreach ($bbmReceiptResults as $result) {
-                    $monthlyReceipts[$result->month] = $result->total_amount;
+                // Mendapatkan nama kolom sesuai dengan bulan yang dipilih
+                $namaKolomBulan = $bulanArray[$bulan] ?? null;
+                $data['bbm_receipt_plan'] = [];
+                $data['usage_plan'] = [];
+                if ($namaKolomBulan) {
+                    // Query untuk mendapatkan data dari tabel bbmreceiptplan
+                    $data['bbm_receipt_plan'] = BbmReceiptPlan::where('year', $tahun)
+                        ->select('id', 'year', $namaKolomBulan . ' as planning') // Hanya memilih kolom yang relevan
+                        ->first();
+                    $data['usage_plan'] = ConsumptionPlan::where(['year' => $tahun, 'type' => $type_bbm])
+                        ->select('id', 'year', $namaKolomBulan . ' as planning') // Hanya memilih kolom yang relevan
+                        ->first();
                 }
 
-                // Populate usage data
-                foreach ($bbmUsageResults as $result) {
-                    $monthlyUsages[$result->month] = $result->total_amount;
+
+                $data = array_merge_recursive($data, $this->getKumulatif($tahunInput, $type_bbm));
+                $bbm_receipt = [];
+                $bbm_usage = [];
+                $cumulative = [];
+                foreach ($data['bbm_receipt'] as $key => $bbm) {
+                    $bbm_receipt[] = end($bbm);
+                    $bbm_usage[] = end($data['bbm_usage'][$key]);
+                    $cumulative[] = end($data['cumulative'][$key]);
                 }
 
-                $data['bbm_receipt'] = array_values($monthlyReceipts);
-                $data['bbm_usage'] = array_values($monthlyUsages);
+                $data['bbm_receipt'] = $bbm_receipt;
+                $data['bbm_usage'] = $bbm_usage;
+                $data['cumulative'] = $cumulative;
                 break;
 
 
             case 'year':
-                // Set the start and end dates for the year range
-                $startDate = $startYear . '-01-01';
-                $endDate = $endYear . '-12-31 23:59:59'; // Ensure the end date includes the entire last day of the year
+                // // Set the start and end dates for the year range
+                // $startDate = $startYear . '-01-01';
+                // $endDate = $endYear . '-12-31 23:59:59'; // Ensure the end date includes the entire last day of the year
 
-                // Query for receipts
-                $queryBbmReceipt->selectRaw('YEAR(date_receipt) as year, SUM(amount_receipt) as total_amount')
-                    ->whereBetween('date_receipt', [$startDate, $endDate])
-                    ->where('bbm_type', $type_bbm)
-                    ->groupBy('year');
+                // // Query for receipts
+                // $queryBbmReceipt->selectRaw('YEAR(date_receipt) as year, SUM(amount_receipt) as total_amount')
+                //     ->whereBetween('date_receipt', [$startDate, $endDate])
+                //     ->where('bbm_type', $type_bbm)
+                //     ->groupBy('year');
 
-                // Query for usage
-                $queryBbmUsage->selectRaw('YEAR(use_date) as year, SUM(amount) as total_amount')
-                    ->whereBetween('use_date', [$startDate, $endDate])
-                    ->where('bbm_type', $type_bbm)
-                    ->groupBy('year');
+                // // Query for usage
+                // $queryBbmUsage->selectRaw('YEAR(use_date) as year, SUM(amount) as total_amount')
+                //     ->whereBetween('use_date', [$startDate, $endDate])
+                //     ->where('bbm_type', $type_bbm)
+                //     ->groupBy('year');
 
-                // Execute the queries
-                $bbmReceiptResults = $queryBbmReceipt->get();
-                $bbmUsageResults = $queryBbmUsage->get();
+                // // Execute the queries
+                // $bbmReceiptResults = $queryBbmReceipt->get();
+                // $bbmUsageResults = $queryBbmUsage->get();
 
-                // Initialize arrays for each year
-                $yearlyReceipts = [];
-                $yearlyUsages = [];
+                // // Initialize arrays for each year
+                // $yearlyReceipts = [];
+                // $yearlyUsages = [];
 
-                // Populate receipt data
-                foreach ($bbmReceiptResults as $result) {
-                    $yearlyReceipts[$result->year] = $result->total_amount;
+                // // Populate receipt data
+                // foreach ($bbmReceiptResults as $result) {
+                //     $yearlyReceipts[$result->year] = $result->total_amount;
+                // }
+
+                // // Populate usage data
+                // foreach ($bbmUsageResults as $result) {
+                //     $yearlyUsages[$result->year] = $result->total_amount;
+                // }
+
+                // // Fill in missing years
+                // for ($year = $startYear; $year <= $endYear; $year++) {
+                //     if (!isset($yearlyReceipts[$year])) {
+                //         $yearlyReceipts[$year] = 0.0;
+                //     }
+                //     if (!isset($yearlyUsages[$year])) {
+                //         $yearlyUsages[$year] = 0.0;
+                //     }
+                // }
+
+                // $data['bbm_receipt'] = $yearlyReceipts;
+                // $data['bbm_usage'] = $yearlyUsages;
+                // ksort($data['bbm_usage']);
+                // ksort($data['bbm_receipt']);
+
+
+                $perYear = [];
+                for ($i=$startYear; $i <= $endYear; $i++) {
+                    $dataPerYear = $this->getKumulatif($i, $type_bbm);
+                    $perYear[$i]['start_year_data_actual'] = $dataPerYear['start_year_data_actual'];
+                    $perYear[$i]['bbm_receipt'] = end($dataPerYear['bbm_receipt']);
+                    $perYear[$i]['bbm_receipt'] = end($perYear[$i]['bbm_receipt']);
+
+                    $perYear[$i]['bbm_usage'] = end($dataPerYear['bbm_usage']);
+                    $perYear[$i]['bbm_usage'] = end($perYear[$i]['bbm_usage']);
+
+                    $perYear[$i]['cumulative'] = end($dataPerYear['cumulative']);
+                    $perYear[$i]['cumulative'] = end($perYear[$i]['cumulative']);
+
+                    $perYear[$i]['bbm_receipt_plan'] = BbmReceiptPlan::where('year', $i)
+                        ->selectRaw('year,
+                            SUM(planning_january) AS planning_january,
+                            SUM(planning_february) AS planning_february,
+                            SUM(planning_march) AS planning_march,
+                            SUM(planning_april) AS planning_april,
+                            SUM(planning_may) AS planning_may,
+                            SUM(planning_june) AS planning_june,
+                            SUM(planning_july) AS planning_july,
+                            SUM(planning_august) AS planning_august,
+                            SUM(planning_september) AS planning_september,
+                            SUM(planning_october) AS planning_october,
+                            SUM(planning_november) AS planning_november,
+                            SUM(planning_december) AS planning_december,
+                            SUM(planning_january + planning_february + planning_march + planning_april + planning_may + planning_june + planning_july + planning_august + planning_september + planning_october + planning_november + planning_december) AS total_planning')
+                        ->groupBy('year') // Tambahkan GROUP BY di sini
+                        ->first();
+
+                    $perYear[$i]['bbm_usage_plan'] = ConsumptionPlan::where(['year' => $i, 'type' => $type_bbm])
+                        ->selectRaw('year,
+                            SUM(planning_january) AS planning_january,
+                            SUM(planning_february) AS planning_february,
+                            SUM(planning_march) AS planning_march,
+                            SUM(planning_april) AS planning_april,
+                            SUM(planning_may) AS planning_may,
+                            SUM(planning_june) AS planning_june,
+                            SUM(planning_july) AS planning_july,
+                            SUM(planning_august) AS planning_august,
+                            SUM(planning_september) AS planning_september,
+                            SUM(planning_october) AS planning_october,
+                            SUM(planning_november) AS planning_november,
+                            SUM(planning_december) AS planning_december,
+                            SUM(planning_january + planning_february + planning_march + planning_april + planning_may + planning_june + planning_july + planning_august + planning_september + planning_october + planning_november + planning_december) AS total_planning')
+                        ->groupBy('year') // Tambahkan GROUP BY di sini
+                        ->first();
+
                 }
-
-                // Populate usage data
-                foreach ($bbmUsageResults as $result) {
-                    $yearlyUsages[$result->year] = $result->total_amount;
-                }
-
-                // Fill in missing years
-                for ($year = $startYear; $year <= $endYear; $year++) {
-                    if (!isset($yearlyReceipts[$year])) {
-                        $yearlyReceipts[$year] = 0.0;
-                    }
-                    if (!isset($yearlyUsages[$year])) {
-                        $yearlyUsages[$year] = 0.0;
-                    }
-                }
-
-                $data['bbm_receipt'] = $yearlyReceipts;
-                $data['bbm_usage'] = $yearlyUsages;
-                ksort($data['bbm_usage']);
-                ksort($data['bbm_receipt']);
+                $data['bbm_usage'] = $perYear;
                 break;
         }
         return view('reports.executive-summary.bbm-receipt-usage-report', $data);
@@ -1413,4 +1471,82 @@ class ReportBbmController extends Controller
         $data['bbm_unloading'] = $processedData;
         return view('reports.executive-summary.bbm-realitation-cumulative-stock', $data);
     }
+
+
+    public function getKumulatif($tahun = 2024, $type='solar')
+    {
+        $data = [];
+
+        $getStartYearData = YearStartData::where([
+            'type' => $type,
+            'year' => $tahun,
+        ])->first();
+
+        $start_data_planning = isset($getStartYearData->planning) ? $getStartYearData->planning : 0;
+        $start_data_actual = isset($getStartYearData->actual) ? $getStartYearData->actual : 0;
+
+        $data['start_year_data_planning'] = $start_data_planning;
+        $data['start_year_data_actual'] = $start_data_actual;
+
+        // Loop untuk setiap bulan dari Januari hingga Desember
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+
+            $queryBbmReceipt = BbmReceipt::query();
+            $queryBbmUsage = BbmUsage::query();
+            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
+            $daysBbmReceiptArray = [];
+            $daysBbmUsageArray = [];
+
+            // Inisialisasi array untuk setiap hari dalam bulan
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $date = sprintf('%04d-%02d-%02d', $tahun, $bulan, $day);
+                $daysBbmReceiptArray[$date] = 0.0;
+                $daysBbmUsageArray[$date] = 0.0;
+            }
+
+            // Query untuk penerimaan BBM
+            $queryBbmReceipt->selectRaw('DATE(date_receipt) as date, SUM(amount_receipt) as total_amount')
+                ->whereYear('date_receipt', $tahun)
+                ->whereMonth('date_receipt', $bulan)
+                ->where('bbm_type', $type)
+                ->groupBy('date');
+
+            // Query untuk penggunaan BBM
+            $queryBbmUsage->selectRaw('DATE(use_date) as date, SUM(amount) as total_amount')
+                ->whereYear('use_date', $tahun)
+                ->whereMonth('use_date', $bulan)
+                ->where('bbm_type', $type)
+                ->groupBy('date');
+
+            $bbmReceiptResults = $queryBbmReceipt->get();
+            $bbmUsageResults = $queryBbmUsage->get();
+
+            // Mengisi array penerimaan BBM dengan hasil query
+            foreach ($bbmReceiptResults as $result) {
+                $daysBbmReceiptArray[$result->date] = $result->total_amount;
+            }
+
+            // Mengisi array penggunaan BBM dengan hasil query
+            foreach ($bbmUsageResults as $result) {
+                $daysBbmUsageArray[$result->date] = $result->total_amount;
+            }
+
+            // Memasukkan data ke dalam array hasil untuk bulan saat ini
+            $data['bbm_receipt'][$bulan] = array_values($daysBbmReceiptArray);
+            $data['bbm_usage'][$bulan] = array_values($daysBbmUsageArray);
+
+            $efective_actual = [];
+            $cumulative_actual = [];
+            foreach ($data['bbm_receipt'][$bulan] as $date => $receipt) {
+                $efective_actual[$date] = $start_data_actual + $receipt - $data['bbm_usage'][$bulan][$date];
+                $cumulative_actual[$date] = $efective_actual[$date];
+                $start_data_actual = $efective_actual[$date];
+            }
+            $data['efective'][$bulan] = array_values($efective_actual);
+            $data['cumulative'][$bulan] = array_values($cumulative_actual);
+        }
+
+        return $data;
+    }
+
 }

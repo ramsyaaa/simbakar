@@ -9,7 +9,7 @@
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Edit Rencana Pemakaian {{ ucfirst($bbm_receipt_plan->type) }} {{ $bbm_receipt_plan->settingBpb->year }}
+                        Edit Rencana Pemakaian {{ ucfirst($bbm_receipt_plan->type) }} {{ isset($bbm_receipt_plan->settingBpb->year) ? $bbm_receipt_plan->settingBpb->year : '' }}
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('initial-data.bbm-receipt-plan.index') }}" class="cursor-pointer">Rencana Penerimaan BBM</a> / <span class="text-[#2E46BA] cursor-pointer">Update</span>
