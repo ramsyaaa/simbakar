@@ -49,15 +49,9 @@
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-<<<<<<< HEAD
-                                    <span>Tiba : {{$unloading->arrived_date}}</span><br/>
-                                    <span>Bongkar : {{$unloading->unloading_date}}</span><br/>
-                                    <span>Selesai : {{$unloading->end_date}}</span>
-=======
                                     <span>Tiba : {{date('d-m-Y H:i:s', strtotime($unloading->arrived_date))}}</span><br/>
                                     <span>Bongkar : {{date('d-m-Y H:i:s', strtotime($unloading->unloading_date))}}</span><br/> 
                                     <span>Selesai : {{date('d-m-Y H:i:s', strtotime($unloading->end_date))}}</span>
->>>>>>> baaeb297ce18bf5ed78fbc02a0c27cdd1f52f3d6
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                     <span>Pemasok : {{$unloading->supplier->name}}</span><br/>
