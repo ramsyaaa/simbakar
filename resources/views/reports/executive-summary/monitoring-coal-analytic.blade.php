@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     {{-- <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
@@ -56,7 +56,7 @@
                                             <option value="{{$number->id}}"  {{request('contract_id') == $number->id ? 'selected' : ''}}>{{$number->contract_number}}</option>
                                         @endforeach
                                     @endisset
-                                    
+
                                 @endif
                             </select>
                         </div>
@@ -69,7 +69,7 @@
                                 <label for="start_year">Tahun Awal:</label>
                                 <input type="number" id="start_year" class="border h-[40px] w-full rounded-lg px-3" name="start_year" min="2000" max="2100" value="{{request('start_year')}}">
                             </div>
-                            
+
                             <div class="w-full mb-4">
                                 <label for="end_year">Tahun Akhir:</label>
                                 <input type="number" id="end_year" name="end_year" class="border h-[40px] w-full rounded-lg px-3"  min="2000" max="2100" value="{{request('end_year')}}">
@@ -84,23 +84,25 @@
                                 <label for="start_year">Tanggal Awal:</label>
                                 <input type="month" id="start_year" class="border h-[40px] w-full rounded-lg px-3" name="month_start"  min="2000" max="2100" value="{{request('month_start')}}">
                             </div>
-                            
+
                             <div class="w-full mb-4">
                                 <label for="end_year">Tanggal Akhir:</label>
                                 <input type="month" id="end_year" name="month_end" class="border h-[40px] w-full rounded-lg px-3"  min="2000" max="2100" value="{{request('month_end')}}">
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="w-full flex justify-end gap-3">
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
+                        <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
+                        <a href="{{route('reports.executive-summary.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
                     </div>
                 </form>
             </div>
 
             @isset($coals)
-                
+
             <div id="my-pdf">
 
                 <div class="bg-white rounded-lg p-6 body">
@@ -120,37 +122,39 @@
                             @if (request('filter_type') == 'periodik')
                             {{request('month_start')}} s/d {{request('month_end')}}
                             @endif
-                             
+
                         </p>
                         </div>
                         <div></div>
                     </div>
                     <div class="overflow-auto hide-scrollbar max-w-full">
-                        <table class="w-full">
+                        <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
                                     <th class="border bg-[#F5F6FA]" rowspan="2">No</th>
                                     <th class="border bg-[#F5F6FA]" rowspan="2">Tanggal Selesai Bongkar</th>
                                     @if (request('filter_type') != 'kontrak')
-                                        <th class="border bg-[#F5F6FA]" rowspan="2">Kontrak</th>       
+                                        <th class="border bg-[#F5F6FA]" rowspan="2">Kontrak</th>
                                     @endif
                                     <th class="border bg-[#F5F6FA]" rowspan="2">Kapal</th>
                                     <th class="border bg-[#F5F6FA]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
                                     <th class="border bg-[#F5F6FA]" colspan="3">{{$parameter->name}} ( {{request('basis')}} )</th>
                                 </tr>
                                 <tr>
-                                    <th class="border bg-[#F5F6FA]">Loading</th> 
-                                    <th class="border bg-[#F5F6FA]">Unloading</th> 
-                                    <th class="border bg-[#F5F6FA]">Labor</th> 
+                                    <th class="border bg-[#F5F6FA]">Loading</th>
+                                    <th class="border bg-[#F5F6FA]">Unloading</th>
+                                    <th class="border bg-[#F5F6FA]">Labor</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($coals as $coal)
                                     <tr>
                                         <td class="border text-center">{{$loop->iteration}}</td>
-                                        <td class="border text-center">{{$coal->receipt_date}}</td>
+                                        <td class="border text-center">
+                                            {{ date('d-m-Y', strtotime($coal->receipt_date))}} 
+                                        </td>
                                         @if (request('filter_type') != 'kontrak')
-                                            <td class="border  text-center">{{$coal->contract->contract_number}}</td>       
+                                            <td class="border  text-center">{{$coal->contract->contract_number}}</td>
                                         @endif
                                         <td class="border text-center">{{$coal->ship->name ?? ''}}</td>
                                         <td class="border text-center">{{number_format($coal->tug_3_accept)}}</td>
@@ -205,7 +209,7 @@
 @endsection
 @section('scripts')
 <script>
-    $('.supplier-select').change(function(){  
+    $('.supplier-select').change(function(){
         let id  = $(this).val();
         let token = "{{ csrf_token() }}"
         $(".select-contract").empty()
@@ -231,5 +235,5 @@
                  })
             })
 </script>
-    
+
 @endsection

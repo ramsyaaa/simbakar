@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -269,13 +269,13 @@
                                                     <label class="form-check-label" for="inputanstock-opname">
                                                     Stock Opname
                                                     </label>
-                                                </div>        
+                                                </div>
                                                 <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="inputantug" name="inputan[]" value="inputan-tug">
                                                     <label class="form-check-label" for="inputantug">
                                                     TUG
                                                     </label>
-                                                </div>        
+                                                </div>
                                                 {{-- <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="inputanjadwal-kapal" name="inputan[]" value="inputan-jadwal-kapal">
                                                     <label class="form-check-label" for="inputanjadwal-kapal">
@@ -528,7 +528,7 @@
                                 </div>
                             </div>
                         </div>
-                      
+
                         <a href="{{route('administration.roles.index')}}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                         <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Role</button>
                     </div>

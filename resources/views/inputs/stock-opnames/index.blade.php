@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -44,6 +44,7 @@
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Stock Opname ( Kg )</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Loose Density ( Ton/M<sup>3</sup> )</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Compact Density ( Ton/M<sup>3</sup> )</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Bedding ( Ton/M<sup>3</sup> )</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
@@ -55,6 +56,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $stock->stock_opname }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $stock->loose_density }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $stock->compact_density }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($stock->bedding) }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('inputs.stock-opnames.edit', ['uuid' => $stock->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit

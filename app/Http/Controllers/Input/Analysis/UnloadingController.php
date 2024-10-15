@@ -15,12 +15,15 @@ class UnloadingController extends Controller
     public function index(Request $request)
     {
         $unloadings = Unloading::query();
+        $year = isset($request->year) ? $request->year : \Carbon\Carbon::now()->year;
 
-        $unloadings->when($request->year, function ($query) use ($request) {
-            $query->whereYear('created_at', $request->year);
+        $unloadings->when($year, function ($query) use ($year) {
+            $query->whereYear('analysis_date', $year);
         });
 
         $unloadings = $unloadings->with(['coal_unloading']);
+
+        $unloadings->orderBy('created_at', 'desc');
 
         $data['unloadings'] = $unloadings->paginate(10)->appends(request()->query());
         return view('inputs.analysis.unloading.index',$data);

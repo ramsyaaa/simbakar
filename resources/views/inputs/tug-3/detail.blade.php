@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
+
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -16,7 +17,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="bg-white rounded-lg p-6">
                         <div class="unloadings">
                             <div class="p-4 bg-white rounded-lg w-full">
@@ -38,7 +39,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                
+
                                     <div class="w-full">
                                         <label for="tug_number" class="font-bold text-[#232D42] text-[16px]">Nomor TUG</label>
                                         <div class="relative">
@@ -84,7 +85,7 @@
 
                                 <button type="button" class="bg-[#2E46BA] text-center w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3" onclick="printPDF()">Print</button>
                             </div>
-                            
+
                     </div>
                     <div id="my-pdf" style="display:none;">
                         <div class="p-8" style="font-size: 0.9em;">
@@ -107,38 +108,38 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="mt-6">
                                     <div class="flex justify-between">
                                         <div>
-                                            @if ($tug->type_fuel == 'Batu Bara')          
+                                            @if ($tug->type_fuel == 'Batu Bara')
                                                 <p>Diterima tanggal: {{$tug->coal->receipt_date ?? ''}}</p>
                                                 <p>Dari: UBP SURALAYA</p>
                                                 <p>Dengan: {{$tug->coal->ship->name ?? ''}}</p>
                                             @endif
-                                            @if ($tug->type_fuel == 'solar')          
+                                            @if ($tug->type_fuel == 'solar')
                                                 <p>Diterima tanggal: {{$tug->bbm->date_receipt ?? ''}}</p>
                                                 <p>Dari: UBP SURALAYA</p>
                                                 <p>Dengan: {{$tug->bbm->ship->name ?? ''}}</p>
                                             @endif
                                         </div>
                                         <div class="text-left">
-                                            @if ($tug->type_fuel == 'Batu Bara')          
+                                            @if ($tug->type_fuel == 'Batu Bara')
                                                 <p>Pembelian ditempat lihat faktur / bukti kas no:</p>
                                                 <p>Diterima bon pengeluaran/surat pengantar no:</p>
                                                 <p>Menurut surat pesanan/daftar permintaan no : {{$tug->coal->contract->contract_number ?? ''}} / {{$tug->coal->receipt_date ?? ''}}</p>
                                             @endif
-                                            @if ($tug->type_fuel == 'solar')          
+                                            @if ($tug->type_fuel == 'solar')
                                             <p>Pembelian ditempat lihat faktur / bukti kas no:</p>
                                             <p>Diterima bon pengeluaran/surat pengantar no:</p>
                                             <p>Menurut surat pesanan/daftar permintaan no : </p>
                                             @endif
                                         </div>
                                         <div></div>
-                                        
+
                                     </div>
                                 </div>
-                                
+
                                 <table class="mt-6 bg-white w-full">
                                     <thead>
                                         <tr>
@@ -168,7 +169,7 @@
                                                 <td class="px-4 py-2 border border-slate-700">Kg</td>
                                                 <td class="px-4 py-2 border border-slate-700">{{ number_format($tug->coal->tug_3_accept ?? 0)}}</td>
                                                 <td class="px-4 py-2 border border-slate-700"></td>
-                                            </tr>   
+                                            </tr>
                                         @endif
                                         @if ($tug->type_tug == 'bbm-receipt')
                                             <tr>
@@ -183,9 +184,9 @@
                                                 <td class="px-4 py-2 border border-slate-700">L</td>
                                                 <td class="px-4 py-2 border border-slate-700">{{ number_format($tug->bbm->amount_receipt)}}</td>
                                                 <td class="px-4 py-2 border border-slate-700"></td>
-                                            </tr>   
+                                            </tr>
                                         @endif
-                                       
+
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -206,7 +207,7 @@
                                             </td>
                                         </tr>
                                     </tfoot>
-                                </table>                       
+                                </table>
                                 <div class="mt-6 flex justify-between">
                                     <div></div>
                                     <div class="text-center">

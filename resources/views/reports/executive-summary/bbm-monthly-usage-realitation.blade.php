@@ -6,17 +6,17 @@
     }
 @endphp
 @section('content')
-    <div x-data="{ sidebar: true }" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+    <div x-data="{ sidebar: true }" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
         @include('components.sidebar')
-        <div :class="sidebar ? 'w-10/12' : 'w-full'">
+        <div class="max-h-screen overflow-hidden" :class="sidebar ? 'w-10/12' : 'w-full'">
             @include('components.header')
-            <div class="h-screen overflow-y-auto">
+            <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
 
                 <div class="w-full py-10 px-8">
                     <div class="flex items-end justify-between mb-2">
                         <div>
                             <div class="text-[#135F9C] text-[40px] font-bold">
-                                Rencana Realisasi Kontrak Batubara Bulanan
+                                Rencana Realisasi Pemakaian Batubara & Produksi Listrik Bulanan
                             </div>
                         </div>
                     </div>
@@ -26,9 +26,16 @@
                             <div id="year-fields" class="filter-field">
                                 <div class="w-full mb-4 flex flex-col gap-2">
                                     <label for="year">Tahun:</label>
-                                    <input type="number" id="year" name="year"
-                                        class="border h-[40px] w-full rounded-lg px-3" value="{{ request('year', $year) }}"
-                                        min="2000" max="2100">
+                                    <div class="w-full mb-2 lg:mb-0">
+                                        <select id="year" name="year" class="w-full h-[44px] rounded-md border px-2"
+                                            autofocus>
+                                            <option selected disabled>Pilih Tahun</option>
+                                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                                <option {{ request()->year == $i ? 'selected' : '' }}>{{ $i }}
+                                                </option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
 
@@ -44,6 +51,11 @@
                             </div> --}}
 
                             <div class="w-full flex justify-end gap-2">
+                                <a href="{{ route('reports.executive-summary.index') }}"
+                                    class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                                <button type="button"
+                                    class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg"
+                                    onclick="ExportToExcel('xlsx')">Download</button>
                                 <button type="button"
                                     class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg"
                                     onclick="handlePrint()">Print</button>
@@ -85,13 +97,15 @@
 
                     <div class="bg-white display-table rounded-lg p-6">
                         <div class="overflow-auto hide-scrollbar max-w-full">
-                            <table class="w-full">
+                            <table class="w-full" id="table">
                                 <thead>
                                     <tr>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Bulan</th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
                                             rowspan="1">
                                             Stok Awal</th>
+                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                            rowspan="1">Produksi</th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
                                             rowspan="1">
                                             Penerimaan</th>
@@ -108,6 +122,9 @@
                                     <tr>
                                         <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
                                         <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
+
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(GWH)</th>
+                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(GWH)</th>
 
                                         <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
                                         <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
@@ -143,6 +160,12 @@
                                                 {{ isset($item['initial_stock_realitation']) ? formatNumber($item['initial_stock_realitation']) : '-' }}
                                             </td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                0
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                0
+                                            </td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
                                                 {{ isset($item['accept_plan']) ? formatNumber($item['accept_plan']) : '-' }}
                                             </td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">
@@ -161,10 +184,10 @@
                                                 {{ isset($item['cumulative_stock_realitation']) ? formatNumber($item['cumulative_stock_realitation']) : '-' }}
                                             </td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                {{ isset($item['efective_stock_plan']) ? formatNumber($item['efective_stock_plan']) : '-' }}
+                                                {{ isset($item['efective_stock_planning']) ? formatNumber($item['efective_stock_planning']) : '-' }}
                                             </td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                {{ isset($item['efective_stock_realitation']) ? formatNumber($item['efective_stock_realitation']) : '-' }}
+                                                {{ isset($item['efective_stock_actual']) ? formatNumber($item['efective_stock_actual']) : '-' }}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -179,6 +202,12 @@
                                             </th>
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                                 {{ formatNumber(collect($bbm_unloading)->pluck('initial_stock_realitation')->sum() / collect($bbm_unloading)->pluck('initial_stock_realitation')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                0
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                0
                                             </th>
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                                 {{ formatNumber(collect($bbm_unloading)->pluck('accept_plan')->sum() / collect($bbm_unloading)->pluck('accept_plan')->count()) }}
@@ -201,10 +230,10 @@
                                                 {{ formatNumber(collect($bbm_unloading)->pluck('cumulative_stock_realitation')->sum() / collect($bbm_unloading)->pluck('cumulative_stock_realitation')->count()) }}
                                             </th>
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_plan')->sum() / collect($bbm_unloading)->pluck('efective_stock_plan')->count()) }}
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_planning')->sum() / collect($bbm_unloading)->pluck('efective_stock_planning')->count()) }}
                                             </th>
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_realitation')->sum() / collect($bbm_unloading)->pluck('efective_stock_realitation')->count()) }}
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_actual')->sum() / collect($bbm_unloading)->pluck('efective_stock_actual')->count()) }}
                                             </th>
                                         </tr>
                                         <tr>
@@ -215,6 +244,12 @@
                                             </th>
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                                 {{ formatNumber(collect($bbm_unloading)->pluck('initial_stock_realitation')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                0
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                0
                                             </th>
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                                 {{ formatNumber(collect($bbm_unloading)->pluck('accept_plan')->sum()) }}
@@ -236,10 +271,10 @@
                                                 {{ formatNumber(collect($bbm_unloading)->pluck('cumulative_stock_realitation')->sum()) }}
                                             </th>
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_plan')->sum()) }}
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_planning')->sum()) }}
                                             </th>
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_realitation')->sum()) }}
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('efective_stock_actual')->sum()) }}
                                             </th>
                                         </tr>
                                     </tfoot>

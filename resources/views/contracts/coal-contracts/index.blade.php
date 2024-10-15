@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -60,12 +60,12 @@
                                     <a href="{{ route('contracts.adendum-coal-contracts.index',['contractId'=>$coal->id]) }}" class="text-sky-700">
                                         {{ $coal->adendums()->exists() ? '[ Ada Adendum ]' : '[ Belum Ada Adendum ]' }}
                                     </a>
-                                   
+
                                     <br/>
                                     @if ($coal->adendums()->exists())
                                         <span>Jenis Kontrak Baru : {{$coal->adendums()->latest()->first()->contract->kind_contract ?? ''}}</span>
 
-                                    @else   
+                                    @else
                                         <span>Jenis Kontrak Baru : - </span>
                                     @endif
                                 </td>
@@ -80,13 +80,13 @@
                                             <a href="{{route('contracts.coal-contracts.delivery-clause.index',['contractId' => $coal->id])}}" class="text-sky-700 hover:text-sky-900">
                                                 Klausul Pengiriman
                                             </a>
-                                           
+
                                         </li>
                                         <li>
                                             <a href="{{route('contracts.coal-contracts.adjusment-clause.index',['contractId' => $coal->id])}}" class="text-sky-700 hover:text-sky-900">
                                                 Klausul Penyesuaian
                                             </a>
-                                           
+
                                         </li>
                                     </ul>
                                 </td>
@@ -96,14 +96,14 @@
                                             <a href="{{route('contracts.coal-contracts.penalty-clause.index',['contractId' => $coal->id])}}" class="text-sky-700 hover:text-sky-900">
                                                 Klausul Denda Penolakan
                                             </a>
-                                            
+
                                         </li>
                                     </ul>
                                 </td>
 
                                 <td class="h-[36px] text-[16px] font-normal border px-2 ">
                                     <div class="flex items-center justify-center gap-2">
-{{-- 
+{{--
                                         <a href="{{ route('contracts.coal-contracts.edit', ['uuid' => $coal->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                             Edit
                                         </a> --}}

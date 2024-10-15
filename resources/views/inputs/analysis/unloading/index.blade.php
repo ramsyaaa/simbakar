@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -65,7 +65,7 @@
                             @foreach ($unloadings as $item)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">Tiba : {{ isset($item->coal_unloading->departure_date) ? \Carbon\Carbon::parse($item->coal_unloading->departure_date)->format('d F Y') : '-' }} <br>Bongkar : {{ isset($item->coal_unloading->unloading_date) ? \Carbon\Carbon::parse($item->coal_unloading->unloading_date)->format('d F Y') : '-' }} <br> Selesai : {{ isset($item->coal_unloading->end_date) ? \Carbon\Carbon::parse($item->coal_unloading->end_date)->format('d F Y') : '-' }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">Tiba : {{ isset($item->coal_unloading->departure_date) ? \Carbon\Carbon::parse($item->coal_unloading->departure_date)->format('d-m-Y') : '-' }} <br>Bongkar : {{ isset($item->coal_unloading->unloading_date) ? \Carbon\Carbon::parse($item->coal_unloading->unloading_date)->format('d-m-Y') : '-' }} <br> Selesai : {{ isset($item->coal_unloading->end_date) ? \Carbon\Carbon::parse($item->coal_unloading->end_date)->format('d-m-Y') : '-' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ isset($item->coal_unloading->supplier->name) ? $item->coal_unloading->supplier->name : '-' }}, {{ isset($item->coal_unloading->ship->name) ? $item->coal_unloading->ship->name : '-' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ isset($item->coal_unloading->dock->name) ? $item->coal_unloading->dock->name : '-' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">[{{ $item->analysis_number == null ? 'belum ada' : 'ada' }}]</td>

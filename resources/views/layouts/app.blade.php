@@ -83,7 +83,7 @@
     <main>
         @yield('content')
     </main>
-
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
     <!-- End Script SweetAlert -->
 
@@ -116,6 +116,40 @@
     </script>
 
     <script>
+        function isValidNumber(value) {
+            return /^-?\d*\.?\d*$/.test(value); // Regex to allow valid numbers including negative, decimals
+        }
+        $(document).ready(function() {
+          
+
+            // Apply formatting on all number inputs when losing focus
+            $('.format-number').on('blur', function() {
+                let value = $(this).val().replace(/,/g, '');
+                if (isValidNumber(value)) {
+                    if (value !== "") {
+                        let numberValue = parseFloat(value);
+                        $(this).val(numberValue.toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }));
+                    }
+                } else {
+                    $('#error-message').show().text('Please enter valid numbers only.');
+                    $(this).val(''); // Clear invalid input
+                }
+            });
+
+            // Revert to unformatted value on focus
+            $('.format-number').on('focus', function() {
+                let value = $(this).val().replace(/,/g, ''); // Remove commas for editing
+                $(this).val(value);
+                $('#error-message').hide(); // Hide error message on focus
+            });
+
+            // Before submitting the form, make sure the input values are unformatted and valid
+
+        })
+
         function confirmSubmit(form, text = 'Apakah anda yakin?') {
             event.preventDefault();
             // Tampilkan SweetAlert konfirmasi
@@ -130,6 +164,15 @@
                 cancelButtonText: 'Tidak'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    $('.format-number').each(function() {
+                        let value = $(this).val().replace(/,/g, ''); // Remove commas for validation
+                        if (!isValidNumber(value) || value === '') {
+                            isValid = false;
+                            $('#error-message').show().text('Please enter valid numbers only.');
+                        } else {
+                            $(this).val(value); // Set unformatted value before submitting
+                        }
+                    });
                     form.submit();
                 } else {
                     return false;
@@ -180,7 +223,6 @@
             document.body.innerHTML = originalContents;
         }
     </script>
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('.select-2').select2()
@@ -249,7 +291,7 @@
 
         })
     </script>
-    
+
     <script>
         $('.select-disruption').change(function() {
             let name = $(this).val();
@@ -280,17 +322,22 @@
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         }
     </script>
-   <script type="text/javascript" src="{{asset('js/xlsx.full.min.js')}}"></script>
-   <script>
-       function ExportToExcel(type, fn, dl) {
-          var elt = document.getElementById('table');
-          var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-          return dl ?
-            XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-            XLSX.writeFile(wb, fn || ('Document.' + (type || 'xlsx')));
-       }
-   
-   </script>
+    <script type="text/javascript" src="{{ asset('js/xlsx.full.min.js') }}"></script>
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('table');
+            var wb = XLSX.utils.table_to_book(elt, {
+                sheet: "sheet1"
+            });
+            return dl ?
+                XLSX.write(wb, {
+                    bookType: type,
+                    bookSST: true,
+                    type: 'base64'
+                }) :
+                XLSX.writeFile(wb, fn || ('Document.' + (type || 'xlsx')));
+        }
+    </script>
 </body>
 
 </html>

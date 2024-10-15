@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -57,7 +57,7 @@
                             @foreach ($analytics as $item)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->analysis_date)->format('d F Y') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->analysis_date)->format('d-m-Y') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->analysis_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('inputs.analysis-bbm.afters.edit', ['id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">

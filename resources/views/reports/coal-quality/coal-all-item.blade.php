@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
             </div>
             <div class="w-full flex justify-center mb-6">
@@ -46,7 +46,7 @@
                                 </label>
                             </div>
                         @else
-                            
+
                             <div class="pt-1">
                                 <input class="mr-2 leading-tight" type="checkbox" id="inisiasidata-awal-tahun" name="analytic[]" value="unloading" checked>
                                 <label class="form-check-label" for="inisiasidata-awal-tahun">
@@ -66,20 +66,21 @@
                                 </label>
                             </div>
                         @endisset
-                        
+
                     </div>
 
                     <div class="w-full flex justify-end gap-4">
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
                         <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
+                        <a href="{{route('reports.coal-quality.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
                     </div>
                 </form>
             </div>
-            @isset($coals)     
+            @isset($coals)
 
             <div id="my-pdf">
-                
+
                 <div class="bg-white rounded-lg p-6 body">
                     <div class="flex justify-between items-center mb-4">
                         <div>
@@ -146,12 +147,12 @@
                             </thead>
                             <tbody>
                                 @foreach ($coals as $coal)
-                                    
+
                                    <tr>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->supplier->name ?? ''}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->ship->name ?? ''}}</td>
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->arrived_date}}</td>
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->end_date}}</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{date('d-m-Y H:i:s', strtotime($coal->arrived_date))}}</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
                                    </tr>
                                    @if (in_array('loading',$analytic))
                                    <tr>
@@ -274,7 +275,7 @@
                     </div>
                 </div>
             </div>
-        @endisset    
+        @endisset
     </div>
 </div>
 @endsection

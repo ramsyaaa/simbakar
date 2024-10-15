@@ -42,7 +42,7 @@ Route::post('save-disruption', [ApiFetchController::class, 'saveDisruption'])->n
 Route::post('get-contract', [ApiFetchController::class, 'getContract'])->name('getContract');
 Route::post('get-number', [ApiFetchController::class, 'getNumber'])->name('getNumber');
 Route::post('get-supplier-contract', [ApiFetchController::class, 'getSupplierContract'])->name('getSupplierContract');
-Route::post('get-certificate', [ApiFetchController::class, 'getCertificate'])->name('getCertificate');
+Route::get('get-certificate', [ApiFetchController::class, 'getCertificate'])->name('getCertificate');
 Route::post('get-contract-ship', [ApiFetchController::class, 'getContractShip'])->name('getContractShip');
 Route::post('get-sub-supplier', [ApiFetchController::class, 'getSubSupplier'])->name('getSubSupplier');
 Route::post('get-loading-company', [ApiFetchController::class, 'getLoadingCompany'])->name('getLoadingCompany');
@@ -52,3 +52,5 @@ Route::post('get-analytic-labor', [ApiFetchController::class, 'getAnalyticLabor'
 Route::post('get-ship', [ApiFetchController::class, 'getShip'])->name('getShip');
 Route::post('get-ship-comparisan', [ApiFetchController::class, 'getShipComparison'])->name('getShipComparison');
 Route::get('get-supplier-contract/{supplier_id}', [ApiFetchController::class, 'getSupplierContract'])->name('getSupplierContract');
+Route::get('chart-data-receipt', [ApiFetchController::class, 'chartDataReceipt'])->name('chartDataReceipt');
+Route::get('chart-data-pasokan', [ApiFetchController::class, 'chartDataPasokan'])->name('chartDataPasokan');

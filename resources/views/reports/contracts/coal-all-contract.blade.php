@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
             </div>
             <div class="w-full flex justify-center mb-6">
@@ -13,15 +13,25 @@
                     <div class="flex gap-3">
                         <div class="w-full mb-4">
                             <label for="start_year">Tahun Awal:</label>
-                            <input type="number" id="start_year" class="border h-[40px] w-full rounded-lg px-3" name="start_year" value="{{ request('start_year' ?? '') }}" min="2000" max="2100" required>
+                            <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md" required>
+                                <option value="">Tahun</option>
+                                @for ($i = date('Y'); $i >= 2000; $i--)
+                                    <option {{request()->start_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                @endfor
+                            </select>
                         </div>
-    
+
                         <div class="w-full mb-4">
                             <label for="end_year">Tahun Akhir:</label>
-                            <input type="number" id="end_year" name="end_year" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('end_year' ?? '') }}" min="2000" max="2100" required>
+                            <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md" required>
+                                <option value="">Tahun</option>
+                                @for ($i = date('Y'); $i >= 2000; $i--)
+                                    <option {{request()->end_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                @endfor
+                            </select>
                         </div>
                     </div>
-                    
+
                     <div class="mb-4">
                         <select name="type" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md" required>
                             <option value="0" {{request('type') == 0 ? 'selected' : ''}}>Semua Kontrak</option>
@@ -33,7 +43,9 @@
 
                     <div class="w-full flex justify-end gap-4">
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
+                        <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
+                        <a href="{{route('reports.contracts.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
                     </div>
                 </form>
             </div>
@@ -53,7 +65,7 @@
                             <div></div>
                         </div>
                             <div class="overflow-x-auto max-w-full">
-                                <table class="min-w-max">
+                                <table class="min-w-max" id="table">
                                     <thead>
                                         <tr>
                                             <th rowspan="2" class="border border-gray-400 p-2">No</th>
@@ -79,13 +91,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($contracts as $contract)    
+                                        @foreach ($contracts as $contract)
                                             <tr>
                                                 <td class="border border-gray-400 p-2" rowspan="4">{{$loop->iteration}}</td>
                                                 <td class="border border-gray-400 p-2" rowspan="4">{{$contract->name}}</td>
                                                 <td class="border border-gray-400 p-2" rowspan="4">{{$contract->contract_number}}</td>
                                                 <td class="border border-gray-400 p-2" rowspan="4">{{number_format($contract->total_volume)}}</td>
-                                                <td class="border border-gray-400 p-2" rowspan="4">2024-10-12</td>
+                                                <td class="border border-gray-400 p-2" rowspan="4">{{ date('d-m-Y', strtotime($contract->contract_end_date))}}</td>
                                                 <td class="border border-gray-400 p-2" rowspan="4"></td>
                                                 <td class="border border-gray-400 p-2">K</td>
                                                 @foreach ($contract->data['k'] as $k)

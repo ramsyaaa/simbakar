@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Detail TUG 4 
+                        Detail TUG 4
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('inputs.tug-4.index') }}" class="cursor-pointer">TUG - 4 </a> / <span class="text-[#2E46BA] cursor-pointer">Detail</span>
@@ -34,7 +34,7 @@
                                         <label for="inspection_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Periksa</label>
                                         <div class="relative">
                                             <input required type="date" value="{{$tug->inspection_date}}" name="inspection_date" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                           
+
                                             @error('inspection_date')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -59,7 +59,7 @@
                                                     </label>
                                                 </div>
                                             @endforeach
-                                            
+
                                             @error('user_inspection')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -137,14 +137,14 @@
                                 </div>
                                 <h4 class="text-center font-bold mb-4">BERITA ACARA PEMERIKSAAN BARANG-BARANG/SPARE PARTS</h4>
                                 <p class="text-center mb-6">NO : {{$tug->bpb_number}}/BA/UBPSLA/PBB/{{date('Y')}}</p>
-                                
+
                                 <div class="mb-4 w-[100px]">
                                     <div class="border-collapse border border-slate-700">
                                         <span>{{$day}}</span> <br>
                                         <span>{{date('y-M-d')}}</span>
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-6">
                                     <p class="font-bold mb-2">Para Pemeriksa terdiri dari :</p>
                                     <table class="min-w-full border-collapse border border-slate-700" style="font-size: 0.7em;">
@@ -166,7 +166,7 @@
                                                             <span>{{$item->structural_position}}</span>
                                                             <span>{{$item->functional_role}}</span>
                                                         </div>
-                                                        
+
                                                     </td>
                                                     <td class="border border-slate-700 p-2"></td>
                                                 </tr>
@@ -175,11 +175,11 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                
+
                                 <div class="mb-6" style="font-size: 0.7em;">
                                     <p class="mb-2">Telah mengadakan pemeriksaan atas barang-barang/spare parts milik PT. PLN Indonesia Power yang berada di/terima dari: UBP Suralaya Tgl. 26-Jun-24. Menurut Surat Pesanan/B.P. No. ...... Tgl. ...... Gudang ...... </p>
                                     <p class="my-5">dan menyatakan sebagai berikut :</p>
-                                    
+
                                     <table class="min-w-full border-collapse border border-slate-700" style="font-size: 0.7em;">
                                         <thead>
                                             <tr>
@@ -209,7 +209,7 @@
                                                 <td class="px-4 py-2 border border-slate-700">Kg</td>
                                                 <td class="px-4 py-2 border border-slate-700">{{ number_format($tug->coal->tug_3_accept)}}</td>
                                                 <td class="px-4 py-2 border border-slate-700"></td>
-                                            </tr>   
+                                            </tr>
                                         @endif
                                         @if ($tug->type_tug == 'bbm-receipt')
                                             <tr>
@@ -224,14 +224,14 @@
                                                 <td class="px-4 py-2 border border-slate-700">L</td>
                                                 <td class="px-4 py-2 border border-slate-700">{{ number_format($tug->bbm->amount_receipt)}}</td>
                                                 <td class="px-4 py-2 border border-slate-700"></td>
-                                            </tr>   
+                                            </tr>
                                         @endif
                                         </tbody>
                                     </table>
-                                    
-                                 
+
+
                                 </div>
-                                
+
                                 <div class="flex justify-between mt-6 print-footer" style="font: 0.7em;">
                                     <div class="text-center-print">
                                         <p class="pb-12">PLT SENIOR MANAGER ENERGI PRIMER</p>
@@ -242,7 +242,7 @@
                                         <p class="font-bold mt-4">{{$manager->name}}</p>
                                     </div>
                                 </div>
-                                
+
                                 <p class="text-center mt-6">Model : 030/BR/003/84</p>
                             </div>
                         </div>

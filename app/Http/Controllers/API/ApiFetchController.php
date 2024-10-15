@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Ship;
+use stdClass;
 use App\Labor;
 use App\Loading;
+use App\Supplier;
 use App\Unloading;
+use App\Preloadinng;
 use App\LoadingCompany;
+use App\Models\CoalUsage;
 use App\Models\CoalContract;
 use Illuminate\Http\Request;
 use App\Models\CoalUnloading;
@@ -14,6 +18,7 @@ use App\Models\HeadWarehouse;
 use App\Models\GeneralManager;
 use App\Models\KindDisruption;
 use App\Models\UserInspection;
+use Illuminate\Support\Facades\DB;
 use App\Models\BiomassaSubSupplier;
 use App\Http\Controllers\Controller;
 
@@ -99,26 +104,22 @@ class ApiFetchController extends Controller
 
     if ($request->type == 1) {
 
-        $contract = CoalUnloading::select('analysis_loading_id')->where('contract_id', $request->id)->get()->toArray();
-        return $certificate = Loading::select('id','analysis_number')->whereIn('id',$contract)->get();
+        $contract = CoalContract::where('id', $request->id)->first();
+
+        return $certificate = Loading::select('id','analysis_number')->where('contract_uuid',$contract->uuid)->get();
 
     }
     if ($request->type == 2) {
 
         $contract = CoalUnloading::select('analysis_unloading_id')->where('contract_id', $request->id)->get()->toArray();
+
         return $certificate = Unloading::select('id','analysis_number')->whereIn('id',$contract)->get();
 
     }
     if ($request->type == 3) {
 
-        $contract = CoalUnloading::select('analysis_labor_id')->where('contract_id', $request->id)->get()->toArray();
-        return $certificate = Labor::select('id','analysis_number')->whereIn('id',$contract)->get();
-
-    }
-    if ($request->type == 4) {
-
-        $contract = CoalUnloading::select('analysis_loading_id')->where('contract_id', $request->id)->get()->toArray();
-        return $certificate = Loading::select('id','analysis_number')->whereIn('id',$contract)->get();
+        $contract = CoalContract::where('id', $request->id)->first();
+        return $certificate = Preloadinng::select('id','analysis_number')->where('contract_uuid',$contract->uuid)->get();
 
     }
 
@@ -238,6 +239,163 @@ class ApiFetchController extends Controller
                 'error' => $e->getMessage()
             ], 500); // Internal Server Error
         }
+    }
+
+    public function chartDataReceipt(Request $request){
+
+        $filterType = $request->type;
+        $supplier = Supplier::where('id', $request->supplier_id)->first();
+        switch ($filterType) {
+            case 'month':
+
+                // Mengambil semua data dalam satu query untuk mengurangi beban query berulang
+                $contracts = CoalUnloading::select(
+                    DB::raw('MONTH(receipt_date) as bulan'),
+                    DB::raw('SUM(tug_3_accept) as total_per_bulan')
+                )
+                ->join('coal_contracts', 'coal_contracts.id', '=', 'coal_unloadings.contract_id')
+                ->join('suppliers', 'suppliers.id', '=', 'coal_contracts.supplier_id')
+                ->where('coal_unloadings.supplier_id', '=',$request->supplier_id)
+                ->whereYear('receipt_date', '=', $request->year)
+                ->groupBy('coal_contracts.id', 'coal_contracts.contract_number', 'suppliers.name', 'coal_contracts.total_volume', 'bulan') // Tambahkan semua kolom non-agregat di sini
+                ->get()
+                ->groupBy('contract_id');
+
+                $processedContracts = array_fill(1, 12, 0);
+                foreach ($contracts as $items) {
+                    foreach ($items as $item) {
+                        $processedContracts[(int)$item->bulan] += (int)$item->total_per_bulan;
+                    }
+                }
+
+                // Memproses data hasil query untuk mengelompokkan per kontrak
+                $result = new stdClass();
+
+                // Assign basic data
+                $result->labels = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'September', 'Oktober', 'November', 'Desember'];
+                $result->datasets = []; // Pastikan datasets adalah array
+                $result->datasets[] = [
+                    'label' => 'Penerimaan Batubara '. $supplier->name.' tahun ' .$request->year,
+                    'data' =>array_values($processedContracts),
+                    'backgroundColor' => 'rgba(3, 91, 113, 1)',
+                    'borderColor' => 'rgba(3, 91, 113, 1)',
+                    'borderWidth' => 1
+                ];
+
+
+
+
+                return response()->json($result);
+                
+                break;
+
+
+            case 'year':
+
+                $startYear = $request->startYear;
+                $endYear = $request->endYear;
+
+                // Mengambil semua data dalam satu query
+                $contracts = CoalUnloading::select(
+                    DB::raw('YEAR(receipt_date) as tahun'),
+                    DB::raw('SUM(tug_3_accept) as total_per_tahun')
+                )
+                ->join('coal_contracts', 'coal_contracts.id', '=', 'coal_unloadings.contract_id')
+                ->join('suppliers', 'suppliers.id', '=', 'coal_contracts.supplier_id')
+                ->where('coal_unloadings.supplier_id', '=',$request->supplier_id)
+                ->whereYear('receipt_date', '>=', $startYear)
+                ->whereYear('receipt_date', '<=', $endYear)
+                ->groupBy('coal_contracts.id', 'coal_contracts.contract_number', 'suppliers.name', 'coal_contracts.total_volume', 'tahun') // Tambahkan semua kolom non-agregat di sini
+                ->get()
+                ->groupBy('contract_id');
+
+                $processedContracts = array_fill($startYear, $endYear - $startYear + 1, 0);
+                foreach ($contracts as $items) {
+                    foreach ($items as $item) {
+                        $processedContracts[(int)$item->tahun] += (int)$item->total_per_tahun;
+                    }
+                }
+
+                $years = array_values(range($startYear, $endYear));
+                $result = new stdClass();
+
+                $result->labels = $years;
+                $result->datasets = []; // Pastikan datasets adalah array
+                $result->datasets[] = [
+                    'label' => 'Penerimaan Batubara '. $supplier->name.' dari tahun  ' .$startYear. ' sampai '.$endYear,
+                    'data' => array_values($processedContracts),
+                    'backgroundColor' => 'rgba(3, 91, 113, 1)',
+                    'borderColor' => 'rgba(3, 91, 113, 1)',
+                    'borderWidth' => 1
+                ];
+                return response()->json($result);
+                break;
+            
+        }
+    }
+    public function chartDataPasokan(Request $request){
+
+        $year = $request->year;
+       // Query untuk mengambil data CoalUnloading
+        $contracts = CoalUnloading::select(
+            DB::raw('MONTH(receipt_date) as bulan'),
+            DB::raw('SUM(tug_3_accept) as total_per_bulan')
+        )
+        ->join('coal_contracts', 'coal_contracts.id', '=', 'coal_unloadings.contract_id')
+        ->join('suppliers', 'suppliers.id', '=', 'coal_contracts.supplier_id')
+        ->whereYear('receipt_date', '=', $year)
+        ->groupBy('coal_contracts.id', 'coal_contracts.contract_number', 'suppliers.name', 'coal_contracts.total_volume', 'bulan')
+        ->get()
+        ->groupBy('contract_id');
+
+        // Proses data contracts menjadi array per bulan
+        $processedContracts = array_fill(1, 12, 0);
+        foreach ($contracts as $items) {
+            foreach ($items as $item) {
+                $processedContracts[(int)$item->bulan] += (int)$item->total_per_bulan;
+            }
+        }
+
+        // Query untuk mengambil data CoalUsage
+        $usage = CoalUsage::select(
+            DB::raw('MONTH(usage_date) as bulan'),
+            DB::raw('SUM(amount_use) as total_per_bulan')
+        )
+        ->whereYear('usage_date', '=', $year)
+        ->groupBy('bulan')
+        ->get();
+
+        // Proses data usage menjadi array per bulan
+        $processedUsage = array_fill(1, 12, 0);
+        foreach ($usage as $item) {
+            $processedUsage[(int)$item->bulan] = (int)$item->total_per_bulan;
+        }
+
+        // Buat struktur data untuk Chart.js
+        $result = new stdClass();
+        $result->labels = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        // Dataset untuk Penerimaan Batubara
+        $result->datasets[] = [
+            'label' => 'Penerimaan Batubara Tahun '.$year,
+            'data' => array_values($processedContracts), // Data dari processedContracts
+            'backgroundColor' => 'rgba(3, 91, 113, 0.6)',
+            'borderColor' => 'rgba(3, 91, 113, 1)',
+            'borderWidth' => 1
+        ];
+
+        // Dataset untuk Penggunaan Batubara
+        $result->datasets[] = [
+            'label' => 'Pemakaian Batubara '.$year,
+            'data' => array_values($processedUsage), // Data dari processedUsage
+            'backgroundColor' => 'rgba(153, 102, 255, 0.6)',
+            'borderColor' => 'rgba(153, 102, 255, 1)',
+            'borderWidth' => 1
+        ];
+
+        // Kirim data ke frontend sebagai JSON
+        return response()->json($result);
+
     }
 
 

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
             </div>
             <div class="w-full flex justify-center mb-6">
@@ -19,14 +19,14 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="contract_id" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-contract">
+                        <select name="contract_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-contract">
                             @if (request('contract_id'))
                                 @isset($numbers)
                                     @foreach ($numbers as $number)
                                         <option value="{{$number->id}}"  {{request('contract_id') == $number->id ? 'selected' : ''}}>{{$number->contract_number}}</option>
                                     @endforeach
                                 @endisset
-                                
+
                             @endif
                         </select>
                     </div>
@@ -35,29 +35,30 @@
                             <option value="">Pilih</option>
                             <option value="1"  {{request('type') == 1 ? 'selected' : ''}}>Loading</option>
                             <option value="2"  {{request('type') == 2 ? 'selected' : ''}}>Unloading</option>
-                            <option value="3"  {{request('type') == 3 ? 'selected' : ''}}>Labor</option>
+                            <option value="3"  {{request('type') == 3 ? 'selected' : ''}}>Preloading</option>
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="analysis_id" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-analysis">
+                        <select name="analysis_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md select-analysis">
                             @if (request('analysis_id'))
                                 @isset($analysists)
                                     @foreach ($analysists as $analysis)
                                         <option value="{{$analysis->id}}"  {{request('analysis_id') == $analysis->id ? 'selected' : ''}}>{{$analysis->analysis_number}}</option>
                                     @endforeach
                                 @endisset
-                                
+
                             @endif
                         </select>
                     </div>
                     <div class="w-full flex justify-end gap-4">
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
+                        <a href="{{route('reports.contracts.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
                     </div>
                 </form>
             </div>
             <div id="my-pdf">
-                @isset($certificate)        
+                @isset($certificate)
                 <div class="body bg-white rounded-lg p-6">
                     <div class="flex justify-between items-center mb-4">
                         <div>
@@ -94,7 +95,7 @@
                                         </tr>
                                         <tr>
                                             <th class="text-left">Nama Kapal</th>
-                                            <td>: PT. TRIYASA</td>
+                                            <td>: {{$certificate->ship->name ?? ''}}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">No. Sertifikat</th>
@@ -102,7 +103,7 @@
                                         </tr>
                                         <tr>
                                             <th class="text-left">Jumlah B/L</th>
-                                            <td>: {{number_format($certificate->bill_of_ladding)}}</td>
+                                            <td>: {{number_format($certificate->bill_of_ladding) ?? 0}} <b>MT<sup>3</sup></b></td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">Tanggal Analisa</th>
@@ -162,7 +163,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <table class="w-full border-collapse">
                                     <thead>
@@ -187,7 +188,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <table class="w-full border-collapse">
                                     <thead>
@@ -211,9 +212,9 @@
                                                 <td class="border border-slate-900 text-right"></td>
                                                 @php
                                                     $sign ='';
-                                                    $condition = $penalty->penalty_will_get_if_sign 
+                                                    $condition = $penalty->penalty_will_get_if_sign
                                                 @endphp
-                                            
+
                                                 <td class="border border-slate-900 text-right">
                                                     {{$penalty->penalty_will_get_if_sign}} {{$penalty->penalty_will_get_if_number}}
                                                     @switch($condition)
@@ -257,17 +258,17 @@
                                                                 $sign = '';
                                                             @endphp
                                                     @endswitch
-                                                  
+
                                                 </td>
-                                                
+
                                                 <td class="border border-slate-900 text-right">{{$certificate[$penalty->unit]}}   <span class="text-pink-900"> {{$sign}}</span></td>
-                                                <td class="border border-slate-900 text-right">wt%</td>
+                                                <td class="border border-slate-900 text-right">{{$penalty->satuan}}</td>
                                             </tr>
                                         @endforeach
                                         <tr>
                                             <td class="border border-slate-900">Slagging Index</td>
-                                            <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right">SEVERE</td>
+                                            <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> > 2,00</td>
                                             <td class="border border-slate-900 text-right">{{$certificate->slagging_index}}</td>
                                             <td class="border border-slate-900 text-right"></td>
@@ -299,7 +300,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             <div class="mt-8">
                                 <h2 class="text-lg font-semibold">Keterangan</h2>
                                 <div class="flex gap-6">
@@ -312,7 +313,7 @@
                                             <li>6 &lt; Rs = Severe</li>
                                         </ul>
                                     </div>
-                                    
+
                                     <div class="keterangan">
                                         <p class="mt-2">Lignitic Ash (Rs):</p>
                                         <ul class="list-disc ml-6">
@@ -332,7 +333,7 @@
                                         </ul>
                                     </div>
 
-                                    
+
                                     <div class="keterangan">
                                         <p class="mt-2">Bituminous Ash (Rs):</p>
                                         <ul class="list-disc ml-6">
@@ -355,7 +356,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     @endisset
                 </div>
             </div>
@@ -365,7 +366,7 @@
 @endsection
 @section('scripts')
     <script>
-        $('.supplier-select').change(function(){  
+        $('.supplier-select').change(function(){
             let id  = $(this).val();
             let token = "{{ csrf_token() }}"
             $(".select-contract").empty()
@@ -392,17 +393,35 @@
                 })
     </script>
     <script>
-        $('.select-type').change(function(){  
+        $('.select-contract').change(function(){
+            let id  = $(this).val();
+            let token = "{{ csrf_token() }}"
+            $(".select-type").empty()
+            $(".select-analysis").empty()
+            $(".select-type").append(
+                             ` <option value="">Pilih</option>
+                                <option value="1">Loading</option>
+                                <option value="2">Unloading</option>
+                                <option value="3">Preloading</option>
+                            `
+                                )
+
+        })
+    </script>
+    <script>
+        $('.select-type').change(function(){
             let type  = $(this).val();
             let id  =  $('.select-contract').find(":selected").val();
+            let supplier  =  $('.supplier-select').find(":selected").val();
             let token = "{{ csrf_token() }}"
             $(".select-analysis").empty()
             $.ajax({
-                method: "post",
+                method: "get",
                 url: "{{route('getCertificate')}}",
                 data: {
                     _token:token,
                     type:type,
+                    supplier:supplier,
                     id:id,
                     },
                 success: function (response) {
@@ -417,7 +436,7 @@
                                 )
                     })
 
-                    
+
                     // $(".tonase").append(numberWithCommas(contract.total_volume) + " ton")
                     // $(".masa-berlaku").append(contract.contract_start_date + " s/d "+ contract.contract_end_date)
                 }

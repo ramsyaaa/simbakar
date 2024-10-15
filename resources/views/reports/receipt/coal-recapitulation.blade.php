@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -33,30 +33,47 @@
                     </div>
 
                     <div id="month-fields" class="filter-field" style="display: none;">
-                        <input type="number" id="tahun" name="tahun" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('tahun') ?? '' }}" min="1980" max="2200">
+                        <select name="tahun" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                            <option value="">Tahun</option>
+                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                <option {{request()->tahun == $i ? 'selected' :''}}>{{ $i }}</option>
+                            @endfor
+                        </select>
                     </div>
 
                     <div id="year-fields" class="filter-field" style="display: none;">
                         <div class="w-full mb-4">
                             <label for="start_year">Tahun Awal:</label>
-                            <input type="number" id="start_year" class="border h-[40px] w-full rounded-lg px-3" name="start_year" value="{{ request('start_year' ?? '') }}" min="2000" max="2100">
+                            <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                <option value="">Tahun</option>
+                                @for ($i = date('Y'); $i >= 2000; $i--)
+                                    <option {{request()->start_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                @endfor
+                            </select>
                         </div>
 
                         <div class="w-full mb-4">
                             <label for="end_year">Tahun Akhir:</label>
-                            <input type="number" id="end_year" name="end_year" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('end_year' ?? '') }}" min="2000" max="2100">
+                            <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                <option value="">Tahun</option>
+                                @for ($i = date('Y'); $i >= 2000; $i--)
+                                    <option {{request()->end_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                @endfor
+                            </select>
                         </div>
                     </div>
 
                     <div class="w-full flex justify-end mt-3 gap-3">
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
+                        <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
+                        <a href="{{route('reports.receipt.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
                     </div>
                 </form>
             </div>
 
             @isset($contracts)
-                
+
                 <div id="my-pdf">
                     <div class="body bg-white rounded-lg p-6">
 
@@ -70,7 +87,7 @@
                                 <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT INDONESIA POWER UBP. SURALAYA <br> BULAN {{ request('bulan_tahun' ?? '')}}</p>
                             @endif
                             @if (request('filter_type') == 'month')
-                                <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT INDONESIA POWER UBP. SURALAYA <br> TAHUN {{ request('tahun' ?? '')}}</p>     
+                                <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT INDONESIA POWER UBP. SURALAYA <br> TAHUN {{ request('tahun' ?? '')}}</p>
                             @endif
                             @if (request('filter_type') == 'year')
                                 <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT INDONESIA POWER UBP. SURALAYA <br> TAHUN {{ request('start_year' ?? '')}} SAMPAI TAHUN {{ request('end_year' ?? '')}}</p>
@@ -79,7 +96,7 @@
                         <div></div>
                     </div>
                     <div class="overflow-auto hide-scrollbar max-w-full">
-                        <table class="min-w-max">
+                        <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
                                     <th rowspan="2" class="border border-gray-400 p-2">No</th>
@@ -87,24 +104,24 @@
                                     <th rowspan="2" class="border border-gray-400 p-2">Kontrak</th>
                                     <th rowspan="2" class="border border-gray-400 p-2">Volume Kontrak ( Ton )</th>
                                     @if (request('filter_type') == 'day')
-                                        <th colspan="{{$days}}" class="border border-gray-400 p-2">Realisasi Bulan {{request('bulan_tahun') ?? ''}}</th>   
+                                        <th colspan="{{$days}}" class="border border-gray-400 p-2">Realisasi Bulan {{request('bulan_tahun') ?? ''}}</th>
                                     @endif
                                     @if (request('filter_type') == 'month')
-                                        <th colspan="12" class="border border-gray-400 p-2">Realisasi Tahun {{request('tahun') ?? ''}}</th> 
+                                        <th colspan="12" class="border border-gray-400 p-2">Realisasi Tahun {{request('tahun') ?? ''}}</th>
                                     @endif
                                     @if (request('filter_type') == 'year')
                                         @php
                                             $countYear = request('start)year') == request('end_year') ? 1 : ( request('end_year') - request('start_year') + 1);
                                         @endphp
-                                        <th colspan="{{$countYear}}" class="border border-gray-400 p-2">Realisasi Tahun {{request('start_year') ?? ''}} Sampai Tahun {{request('end_year') ?? ''}}</th>  
+                                        <th colspan="{{$countYear}}" class="border border-gray-400 p-2">Realisasi Tahun {{request('start_year') ?? ''}} Sampai Tahun {{request('end_year') ?? ''}}</th>
                                     @endif
                                     <th rowspan="2" class="border border-gray-400 p-2">Jumlah</th>
                                 </tr>
                                     @if (request('filter_type') == 'day')
-                                        
+
                                         <tr>
                                             @for ($i = 1; $i <= $days; $i++)
-                                                <th class="border border-gray-400 p-2">{{$i}}</th>             
+                                                <th class="border border-gray-400 p-2">{{$i}}</th>
                                             @endfor
                                         </tr>
                                     @endif
@@ -125,14 +142,14 @@
                                         </tr>
                                     @endif
                                     @if (request('filter_type') == 'year')
-                                
+
                                         @for ($i = request('start_year'); $i <= request('end_year'); $i++)
-                                            <th class="border border-gray-400 p-2">{{$i}}</th>             
-                                        @endfor  
+                                            <th class="border border-gray-400 p-2">{{$i}}</th>
+                                        @endfor
                                     @endif
-                                
+
                             </thead>
-                            <tbody>              
+                            <tbody>
                                 @foreach ($contracts as $key => $contract)
                                 <tr>
                                     <td class="border border-gray-400 p-2">{{$loop->iteration}}</td>

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Ubah Pemesanan BBM 
+                        Ubah Pemesanan BBM
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('contracts.bbm-book-contracts.index') }}" class="cursor-pointer">Pemesanan BBM </a>  / <span class="text-[#2E46BA] cursor-pointer">Create</span>
@@ -62,15 +62,15 @@
                                 <div class="relative">
                                     <select id="fleet_type" name="fleet_type" class="w-[600px] h-[44px] rounded-md border px-2 mb-5" autofocus>
                                         <option selected disabled>Pilih Armada</option>
-                                        <option value="Mobil" {{$bbm->fleet_type == 'Mobil' ? 'selected' :''}}>Mobil</option>                                        
-                                        <option value="Kapal" {{$bbm->fleet_type == 'Kapal' ? 'selected' :''}}>Kapal</option>                                        
-                                    </select>    
+                                        <option value="Mobil" {{$bbm->fleet_type == 'Mobil' ? 'selected' :''}}>Mobil</option>
+                                        <option value="Kapal" {{$bbm->fleet_type == 'Kapal' ? 'selected' :''}}>Kapal</option>
+                                    </select>
                                     <select id="ship_uuid" name="ship_uuid" class="w-[600px] h-[44px] rounded-md border px-2" {{$bbm->fleet_type == 'Mobil' ? 'Disabled' :''}}>
                                         <option selected disabled>Pilih Kapal</option>
                                         @foreach ($ships as $ship)
                                             <option value="{{$ship->uuid}}" {{$ship->uuid == $bbm->ship_uuid ? 'selected' :''}}>{{$ship->name}}</option>
                                         @endforeach
-                                    </select> 
+                                    </select>
                                     @error('fleet_type')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}

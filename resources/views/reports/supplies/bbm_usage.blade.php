@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
+
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -33,22 +34,43 @@
                     </div>
 
                     <div id="month-fields" class="filter-field" style="display: none;">
-                        <input type="number" id="tahun" name="tahun" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('tahun', $tahunInput) }}" min="1980" max="2200">
+                        <div class="w-full mb-2 lg:mb-0">
+                            <select id="tahun" name="tahun" class="w-full h-[44px] rounded-md border px-2" autofocus>
+                                <option selected disabled>Pilih Tahun</option>
+                                @for ($i = date('Y'); $i >= 2000; $i--)
+                                    <option {{request()->tahun == $i ? 'selected' :''}}>{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
                     </div>
 
                     <div id="year-fields" class="filter-field" style="display: none;">
                         <div class="w-full mb-4">
-                            <label for="start_year">Tahun Awal:</label>
-                            <input type="number" id="start_year" class="border h-[40px] w-full rounded-lg px-3" name="start_year" value="{{ request('start_year', $start_year) }}" min="2000" max="2100">
+                            <div class="w-full mb-2 lg:mb-0">
+                                <select id="start_year" name="start_year" class="w-full h-[44px] rounded-md border px-2" autofocus>
+                                    <option selected disabled>Pilih Tahun Awal</option>
+                                    @for ($i = date('Y'); $i >= 2000; $i--)
+                                        <option {{request()->start_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
                         </div>
 
                         <div class="w-full mb-4">
-                            <label for="end_year">Tahun Akhir:</label>
-                            <input type="number" id="end_year" name="end_year" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('end_year', $end_year) }}" min="2000" max="2100">
+                            <div class="w-full mb-2 lg:mb-0">
+                                <select id="end_year" name="end_year" class="w-full h-[44px] rounded-md border px-2" autofocus>
+                                    <option selected disabled>Pilih Tahun Akhir</option>
+                                    @for ($i = date('Y'); $i >= 2000; $i--)
+                                        <option {{request()->end_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
                         </div>
                     </div>
 
                     <div class="w-full flex justify-end gap-4">
+                        <a href="{{ route('reports.supplies.index') }}" class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                        <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
                     </div>
@@ -69,7 +91,7 @@
                     <div></div>
                 </div>
                 <div class="overflow-auto max-w-full">
-                    <table class="w-full">
+                    <table class="w-full" id="table">
                         <thead>
                             <tr>
                                 @foreach ($bbm_usage as $index => $item)
@@ -110,16 +132,16 @@
                             @endphp
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day') {{ $index+1 }}-{{ $bulan }}-{{ $tahun }} @elseif($filter_type == 'month') {{ date('M', mktime(0, 0, 0, $index+1, 1)) }} @elseif($filter_type == 'year') {{ $start_year + $index }} @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm_receipt[$index], 0, ',', '.') }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['heavy_equipment'], 0, ',', '.') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm_receipt[$index], 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['heavy_equipment'], 0, '.', ',') }}</td>
                                 @foreach ($item['unit'] as $index1 => $item1)
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item1, 0, ',', '.') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item1, 0, '.', ',') }}</td>
                                 @php
                                     $sum = $sum + $item1;
                                 @endphp
                                 @endforeach
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['other'], 0, ',', '.') }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format(($sum + $item['other'] + $item['heavy_equipment']), 0, ',', '.') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['other'], 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format(($sum + $item['other'] + $item['heavy_equipment']), 0, '.', ',') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
                             </tr>

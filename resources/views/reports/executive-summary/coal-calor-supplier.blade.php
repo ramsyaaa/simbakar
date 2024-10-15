@@ -1,14 +1,15 @@
 @extends('layouts.app')
 
+
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
-                   
+
                     {{-- <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="text-[#2E46BA] cursor-pointer">Analisa</span>
                     </div> --}}
@@ -17,7 +18,7 @@
             <div class="w-full flex justify-center mb-6">
                 <form method="GET" action="" class="p-4 bg-white rounded-lg shadow-sm w-[500px]">
                     @csrf
-                   
+
                     <div class="flex gap-4 items-center mb-4">
                         <label for="filter_type">Filter:</label>
                         <select class="w-full border h-[40px] rounded-lg" id="filter_type" name="filter_type">
@@ -50,7 +51,7 @@
                                 <label for="start_year">Tahun Awal:</label>
                                 <input type="number" id="start_year" class="border h-[40px] w-full rounded-lg px-3" name="start_year" value="{{ request('start_year') }}" min="2000" max="2100">
                             </div>
-                            
+
                             <div class="w-full mb-4">
                                 <label for="end_year">Tahun Akhir:</label>
                                 <input type="number" id="end_year" name="end_year" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('end_year') }}" min="2000" max="2100">
@@ -93,7 +94,7 @@
                                 </label>
                             </div>
                         @else
-                            
+
                             <div class="pt-1">
                                 <input class="mr-2 leading-tight" type="checkbox" id="inisiasidata-awal-tahun" name="analytic[]" value="unloading" checked>
                                 <label class="form-check-label" for="inisiasidata-awal-tahun">
@@ -113,17 +114,19 @@
                                 </label>
                             </div>
                         @endisset
-                        
+
                     </div>
                     <div class="w-full flex justify-end gap-3">
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
+                        <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
+                        <a href="{{route('reports.executive-summary.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
                     </div>
                 </form>
             </div>
 
             @isset($coals)
-                
+
             <div id="my-pdf">
 
                 <div class="bg-white rounded-lg p-6 body">
@@ -143,15 +146,15 @@
                                 @if (request('filter_type') == 'year')
                                     {{request('start_year')}} s/d {{request('end_year')}}
                                 @endif
-                               
-                                 
+
+
                             </p>
                         </p>
                         </div>
                         <div></div>
                     </div>
                     <div class="overflow-auto hide-scrollbar max-w-full">
-                        <table class="w-full">
+                        <table class="min-w-max" id="table">
                             @if ($filter_type == 'day')
                                     <thead>
                                         <tr>
@@ -165,7 +168,7 @@
                                         </tr>
                                         <tr>
                                             @foreach ($analytic as $item)
-                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th> 
+                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th>
                                             @endforeach
 
                                         </tr>
@@ -174,7 +177,7 @@
                                         @foreach ($coals as $coal)
                                             <tr>
 
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading_date}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{date('d-m-Y H:i:s', strtotime($coal->unloading_date))}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->ship->name}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->contract->contract_number}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->supplier->name}}</td>
@@ -207,7 +210,7 @@
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{$coals->pluck('labor')->avg()}}</td>
 
                                             @endif
-                                        </tr>                                                               
+                                        </tr>
                                     </tbody>
                                 @else
                                     <thead>
@@ -218,13 +221,13 @@
                                         </tr>
                                         <tr>
                                             @foreach ($analytic as $item)
-                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th> 
+                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th>
                                             @endforeach
 
                                         </tr>
                                     </thead>
                                     <tbody>
-                            
+
                                     <tbody>
                                         @php
                                             $coalsCollection = collect($coals);
@@ -251,51 +254,51 @@
                                         </tr>
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="2">Rata Rata Tertimbang</td>
-                                            
+
                                             @if (in_array('unloading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('unloading'),2) }}</td>
                                             @endif
-                                            
+
                                             @if (in_array('loading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('loading'),2) }}</td>
                                             @endif
-                                            
+
                                             @if (in_array('labor', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="2">Hasil Analisa Tertinggi</td>
-                                            
+
                                             @if (in_array('unloading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->max('unloading'),2) }}</td>
                                             @endif
-                                            
+
                                             @if (in_array('loading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->max('loading'),2) }}</td>
                                             @endif
-                                            
+
                                             @if (in_array('labor', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->max('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="2">Hasil Analisa Terendah</td>
-                                            
+
                                             @if (in_array('unloading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->min('unloading'),2) }}</td>
                                             @endif
-                                            
+
                                             @if (in_array('loading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->min('loading'),2) }}</td>
                                             @endif
-                                            
+
                                             @if (in_array('labor', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->min('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                     </tbody>
-                                @endif     
+                                @endif
                             </table>
                         </div>
                     </div>

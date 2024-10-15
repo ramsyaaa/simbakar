@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div x-data="{ sidebar: true }" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+    <div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
         @include('components.sidebar')
-        <div :class="sidebar ? 'w-10/12' : 'w-full'">
+        <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
             @include('components.header')
-            <div class="w-full py-10 px-8">
+            <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
                 <div class="h-screen overflow-y-auto">
                     <div class="flex items-end justify-between mb-2">
                         <div>
@@ -27,6 +27,8 @@
                                 </div>
                             </div>
                             <div class="w-full flex justify-end gap-2">
+                                <a href="{{ route('reports.executive-summary.index') }}" class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                                <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                                 <button type="button"
                                     class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg"
                                     onclick="printPDF()">Print</button>
@@ -65,7 +67,7 @@
                             }
                         </style>
                         <div class="overflow-auto max-w-full">
-                            <table class="w-full">
+                            <table class="w-full" id="table">
                                 <thead>
                                     <tr>
                                         <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">No</th>
@@ -106,7 +108,7 @@
                                                 {{ $item['ship_name'] }}
                                             </td>
                                             <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
-                                                {{ $item['receipt_date'] ?? '-' }}
+                                                {{ \Carbon\Carbon::createFromFormat('d M Y', $item['receipt_date'])->format('d-m-Y') ?? '-' }}
                                             </td>
                                             <td class="h-[36px] !min-w-[200px] text-[16px] font-normal border px-2">
                                                 {{ $item['company_name'] ?? '-' }}

@@ -60,6 +60,7 @@ class ReceiptController extends Controller
 
 
                 case 'month':
+                    dd($tahunInput);
                     $queryBbmReceipt = BbmReceipt::query()
                                     ->selectRaw('
                                         YEAR(date_receipt) as year,

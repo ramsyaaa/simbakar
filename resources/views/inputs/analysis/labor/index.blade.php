@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
+
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -25,7 +26,7 @@
                 <a href="{{ route('inputs.analysis.preloadings.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
                     Preloading
                 </a>
-                <a href="{{ route('inputs.analysis.labors.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
+                <a href="{{ route('inputs.analysis.loadings.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
                     Loading
                 </a>
                 <a href="{{ route('inputs.analysis.labors.index') }}" class="w-3/12 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
@@ -64,7 +65,7 @@
                             @foreach ($labors as $item)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->start_unloading)->format('d F Y') }} - {{ \Carbon\Carbon::parse($item->end_unloading)->format('d F Y') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->start_unloading)->format('d-m-Y') }} s/d {{ \Carbon\Carbon::parse($item->end_unloading)->format('d-m-Y') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->ship != null ? $item->ship->name : '-' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->analysis_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">

@@ -6,11 +6,11 @@
     }
 @endphp
 @section('content')
-    <div x-data="{ sidebar: true }" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+    <div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
         @include('components.sidebar')
-        <div :class="sidebar ? 'w-10/12' : 'w-full'">
+        <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
             @include('components.header')
-            <div class="w-full py-10 px-8">
+            <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
                 <div class="flex items-end justify-between mb-2">
                     <div>
                         <div class="text-[#135F9C] text-[40px] font-bold">
@@ -42,6 +42,8 @@
                         </div>
 
                         <div class="w-full flex justify-end gap-2">
+                            <a href="{{ route('reports.executive-summary.index') }}" class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                            <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                             <button type="button"
                                 class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg"
                                 onclick="handlePrint()">Print</button>
@@ -83,7 +85,7 @@
 
                 <div class="bg-white display-table rounded-lg p-6">
                     <div class="overflow-auto hide-scrollbar max-w-full">
-                        <table class="w-full">
+                        <table class="w-full" id="table">
                             <thead>
                                 <tr>
                                     <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">No</th>

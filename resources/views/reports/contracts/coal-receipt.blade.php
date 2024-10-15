@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
             </div>
             <div class="w-full flex justify-center mb-6">
@@ -21,12 +21,14 @@
 
                     <div class="w-full flex justify-end gap-4">
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
+                        <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
+                        <a href="{{route('reports.contracts.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
                     </div>
                 </form>
             </div>
             @isset($contracts)
-                
+
                 <div id="my-pdf">
                     <div class="body bg-white rounded-lg p-6">
 
@@ -41,17 +43,17 @@
                         <div></div>
                     </div>
                     <div class="overflow-x-auto max-w-full">
-                        <table class="min-w-max">
+                        <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
                                     <th rowspan="2" class="border border-gray-400 p-2">No</th>
                                     <th rowspan="2" class="border border-gray-400 p-2">Pemasok</th>
                                     <th rowspan="2" class="border border-gray-400 p-2">Kontrak</th>
                                     <th rowspan="2" class="border border-gray-400 p-2">Volume Kontrak ( Ton )</th>
-                                    <th colspan="12" class="border border-gray-400 p-2">Realisasi Tahun {{request('year') ?? ''}}</th> 
+                                    <th colspan="12" class="border border-gray-400 p-2">Realisasi Tahun {{request('year') ?? ''}}</th>
                                     <th rowspan="2" class="border border-gray-400 p-2">Jumlah</th>
                                 </tr>
- 
+
                                 <tr>
                                     <th class="border border-gray-400 p-2">Januari</th>
                                     <th class="border border-gray-400 p-2">Febuari</th>
@@ -67,9 +69,9 @@
                                     <th class="border border-gray-400 p-2">Desember</th>
                                 </tr>
 
-                                
+
                             </thead>
-                            <tbody>              
+                            <tbody>
                                 @foreach ($contracts as $key => $contract)
                                 <tr>
                                     <td class="border border-gray-400 p-2">{{$loop->iteration}}</td>
