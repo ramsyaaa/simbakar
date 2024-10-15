@@ -51,11 +51,11 @@
     }
 @endphp
 @section('content')
-    <div x-data="{ sidebar: true }" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+    <div x-data="{ sidebar: true }" class="w-screen overflow-auto flex bg-[#E9ECEF]">
         @include('components.sidebar')
-        <div :class="sidebar ? 'w-10/12' : 'w-full'">
+        <div class="max-h-screen overflow-auto" :class="sidebar ? 'w-10/12' : 'w-full'">
             @include('components.header')
-            <div class="w-full py-10 px-8">
+            <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
                 <div class="flex items-end justify-between mb-2">
                     <div>
                         <div class="text-[#135F9C] text-[40px] font-bold">
@@ -88,7 +88,6 @@
                         @if ((isset($_GET['type']) && $_GET['type'] == 'day') || !isset($_GET['type']))
                             <div id="month-fields" class="filter-field">
                                 <div class="w-full mb-4">
-                                    <label for="month-input">Bulan:</label>
                                     <input type="text" name="type" value="day" hidden>
                                     <input type="month" id="month-input" name="month"
                                         class="border h-[40px] w-full rounded-lg px-3"
@@ -100,11 +99,17 @@
                         @if (isset($_GET['type']) && $_GET['type'] == 'month')
                             <div id="year-fields" class="filter-field">
                                 <div class="w-full mb-4">
-                                    <label for="year-input">Tahun:</label>
                                     <input type="text" name="type" value="month" hidden>
-                                    <input type="number" id="year-input" name="year"
-                                        class="border h-[40px] w-full rounded-lg px-3" value="{{ request('year', $year) }}"
-                                        min="2000" max="2100">
+                                    <div class="w-full mb-2 lg:mb-0">
+                                        <select id="year" name="year" class="w-full h-[44px] rounded-md border px-2"
+                                            autofocus>
+                                            <option selected disabled>Pilih Tahun</option>
+                                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                                <option {{ request()->year == $i ? 'selected' : '' }}>{{ $i }}
+                                                </option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         @endif
@@ -113,22 +118,40 @@
                             <div id="start_year-fields" class="filter-field">
                                 <input type="text" name="type" value="year" hidden>
                                 <div class="w-full mb-4">
-                                    <label for="start_year-input">Tahun Awal:</label>
-                                    <input type="number" id="start_year-input" name="start_year"
-                                        class="border h-[40px] w-full rounded-lg px-3"
-                                        value="{{ request('start_year', $start_year) }}" min="2000" max="2100">
+                                    <div class="w-full mb-2 lg:mb-0">
+                                        <select id="start_year" name="start_year"
+                                            class="w-full h-[44px] rounded-md border px-2" autofocus>
+                                            <option selected disabled>Pilih Tahun Mulai</option>
+                                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                                <option {{ request()->start_year == $i ? 'selected' : '' }}>
+                                                    {{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="w-full mb-4">
-                                    <label for="end_year-input">Tahun Akhir:</label>
-                                    <input type="number" id="end_year-input" name="end_year"
-                                        class="border h-[40px] w-full rounded-lg px-3"
-                                        value="{{ request('end_year', $end_year) }}" min="2000" max="2100">
+                                    <div class="w-full mb-2 lg:mb-0">
+                                        <select id="end_year" name="end_year"
+                                            class="w-full h-[44px] rounded-md border px-2" autofocus>
+                                            <option selected disabled>Pilih Tahun Selesai</option>
+                                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                                <option {{ request()->end_year == $i ? 'selected' : '' }}>
+                                                    {{ $i }}
+                                                </option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         @endif
 
 
                         <div class="w-full flex justify-end gap-2">
+                            <a href="{{ route('reports.executive-summary.index') }}"
+                                class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                            <button type="button"
+                                class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg"
+                                onclick="ExportToExcel('xlsx')">Download</button>
                             <button type="button"
                                 class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg"
                                 onclick="handlePrint()">Print</button>
@@ -172,7 +195,7 @@
 
                     <div class="bg-white display-table rounded-lg p-6">
                         <div class="overflow-auto hide-scrollbar max-w-full">
-                            <table class="w-full">
+                            <table class="w-full" id="table">
                                 <thead>
                                     <tr>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">No</th>
@@ -197,14 +220,12 @@
                                             </th>
                                         @endif
                                         @if ($type != 'year')
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1"
-                                                colspan="7">DS
+                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="7">DS
                                                 &
                                                 BL</th>
                                         @endif
                                         @if ($type != 'year')
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1"
-                                                colspan="2">
+                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="2">
                                                 Persediaan
                                             </th>
                                         @endif
@@ -244,7 +265,12 @@
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{ $i }}
                                             </td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{ $day }}
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                @if (isset($type) && $type == 'day')
+                                                    {{ \Carbon\Carbon::parse($day)->format('d-m-Y') }}
+                                                @else
+                                                    {{ $day }}
+                                                @endif
                                             </td>
                                             {{-- @if (isset($_GET['type']) && $_GET['type'] == 'month')
                                             <td class="h-[36px] text-[16px] font-normal border px-2">
@@ -290,10 +316,10 @@
                                             @endif
                                             @if (isset($type) && $type != 'year')
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ formatNumber(getTotalUnit($item)) }}
+                                                    {{ isset($item['unit_1_7']) ? formatNumber($item['unit_1_7']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ isset($item['stock']) ? formatNumber($item['stock'] - getTotalUnit($item)) : '-' }}
+                                                    {{ isset($item['efective']) ? formatNumber($item['efective']) : '-' }}
                                                 </td>
                                             @endif
 
@@ -349,10 +375,10 @@
                                             @endif
                                             @if (isset($type) && $type != 'year')
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(getTotalSumUnit($bbm_unloading)) }}
+                                                    {{ formatNumber(collect($bbm_unloading)->pluck('unit_1_7')->sum()) }}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(getTotalSumUnit($bbm_unloading)) }}
+                                                    {{ formatNumber(collect($bbm_unloading)->pluck('efective')->sum()) }}
                                                 </th>
                                             @endif
                                         </tr>

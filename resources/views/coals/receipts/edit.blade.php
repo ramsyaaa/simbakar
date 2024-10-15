@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -27,7 +27,7 @@
                             <div class="w-full">
                                 <label for="ds" class="font-bold text-[#232D42] text-[16px]">DS</label>
                                     <div class="relative">
-                                        <input type="number" name="ds" value="{{$receipt->ds ?? 0}}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="ds" value="{{$receipt->ds ?? 0}}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -38,7 +38,7 @@
                                 <div class="w-full">
                                     <label for="bl" class="font-bold text-[#232D42] text-[16px]">BL</label>
                                     <div class="relative">
-                                        <input type="number" name="ds" value="{{ $receipt->bl ??  0 }}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">   
+                                        <input type="text" name="ds" value="{{ $receipt->bl ??  0 }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('bl')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -49,7 +49,7 @@
                                 <div class="w-full">
                                     <label for="bw" class="font-bold text-[#232D42] text-[16px]">BW</label>
                                     <div class="relative">
-                                        <input type="number" name="bw" value="0" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="bw" value="0" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('bw')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -63,7 +63,7 @@
                             <div class="w-full">
                                 <label for="tug" class="font-bold text-[#232D42] text-[16px]">Yang diterima tug 3</label>
                                     <div class="relative">
-                                        <input type="number" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3" name="tug_3_accept" value="{{$receipt->tug_3_accept}}">
+                                        <input type="text" class="format-number giw-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3" name="tug_3_accept" value="{{$receipt->tug_3_accept}}">
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -79,11 +79,11 @@
                                             @if ($receipt->contract)
                                                 <option {{$receipt->contract->kind_contract == 'FOB' ? 'selected' : ''}}>FOB</option>
                                                 <option {{$receipt->contract->kind_contract == 'CIF' ? 'selected' :''}}>CIF</option>
-                                            @else    
+                                            @else
                                                 <option>FOB</option>
                                                 <option>CIF</option>
                                             @endif
-                                            
+
                                         </select>
                                         {{-- <small>Jenis kontrak akan terisi ,kalau nomor kontrak sudah di pilih    </small> --}}
                                         @error('kind_contract')
@@ -160,7 +160,7 @@
                                             <select name="user_inspection" id="user_inspection" class="select-2-tag select-inspection w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                                 <option selected disabled>Pilih Pemeriksa</option>
                                                 @foreach ($inspections as $inspection)
-                                                    <option {{$receipt->user_inspection == $inspection->name ? 'selected' :''}}>{{$inspection->name}}</option> 
+                                                    <option {{$receipt->user_inspection == $inspection->name ? 'selected' :''}}>{{$inspection->name}}</option>
                                                 @endforeach
                                             </select>
                                             @error('user_inspection')
@@ -189,7 +189,7 @@
                                             <select name="head_warehouse" id="head_warehouse" class="select-2-tag select-warehouse w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                                 <option selected disabled>Pilih Kepala Gudang</option>
                                                 @foreach ($heads as $head)
-                                                <option {{$receipt->head_warehouse == $head->name ? 'selected' :''}}>{{$head->name}}</option> 
+                                                <option {{$receipt->head_warehouse == $head->name ? 'selected' :''}}>{{$head->name}}</option>
                                             @endforeach
                                             </select>
                                             @error('head_warehouse')
@@ -204,7 +204,7 @@
                                     <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Ubah data TUG 3 ( saja )</button>
                                 </div>
                             </div>
-                            
+
                         </form>
                         <div class="bg-white rounded-lg p-6 mt-5">
                             <form action="{{route('coals.receipts.update-detail',['id' => $receipt->id])}}" method="POST">
@@ -494,7 +494,7 @@
                                             </div>
                                             @enderror
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="w-full">
                                         <label for="exchange_rate" class="font-bold text-[#232D42] text-[16px]">Kurs BI</label>
                                         <div class="relative">
@@ -585,10 +585,10 @@
                                 </div>
                             </form>
                         </div>
-                        
+
                     </div>
-                        
-                 
+
+
                         </div>
                     </div>
             </div>
@@ -743,6 +743,6 @@
         });
     });
 
-  
+
 </script>
 @endsection

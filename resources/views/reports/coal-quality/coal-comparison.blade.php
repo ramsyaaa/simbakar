@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
             </div>
             <div class="w-full flex justify-center mb-6">
@@ -27,7 +27,7 @@
                                         <option value="{{$item->id}}"{{request('ship_id') == $item->id ? 'selected' : ''}}> {{$item->name}}</option>
                                     @endforeach
                                 @endisset
-                                
+
                             @endif
                         </select>
                     </div>
@@ -40,7 +40,7 @@
                                         <option value="{{$number->id}}"  {{request('contract_id') == $number->id ? 'selected' : ''}}>{{date('d F Y', strtotime($number->receipt_date))}}</option>
                                     @endforeach
                                 @endisset
-                                
+
                             @endif
                         </select>
                     </div>
@@ -53,10 +53,10 @@
                     </div>
                 </form>
             </div>
-            @isset($loading)     
+            @isset($loading)
 
             <div id="my-pdf">
-                
+
                 <div class="bg-white rounded-lg p-6 body">
                     <div class="flex justify-between items-center mb-4">
                         <div>
@@ -286,7 +286,7 @@
 @endsection
 @section('scripts')
 <script>
-    $('.supplier-select').change(function(){  
+    $('.supplier-select').change(function(){
         $(".select-contract").empty()
         $(".ship-select").empty()
 
@@ -311,13 +311,13 @@
                             `<option value="${ship.id}">${ship.name}</option>`
                             )
                         })
-                    
+
             }
             })
     })
 </script>
 <script>
-    $('.ship-select').change(function(){  
+    $('.ship-select').change(function(){
         let supplier_id  =  $('.supplier-select').find(":selected").val();
         let ship_id  = $(this).val();
         let token = "{{ csrf_token() }}"
@@ -341,7 +341,7 @@
                             `<option value="${contract.id}">${contract.receipt_date}</option>`
                             )
                         })
-                    
+
             }
             })
         })

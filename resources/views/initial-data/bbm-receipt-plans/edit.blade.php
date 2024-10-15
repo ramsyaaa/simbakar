@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
-                        Edit Rencana Pemakaian {{ ucfirst($bbm_receipt_plan->type) }} {{ $bbm_receipt_plan->settingBpb->year }}
+                        Edit Rencana Pemakaian {{ ucfirst($bbm_receipt_plan->type) }} {{ isset($bbm_receipt_plan->settingBpb->year) ? $bbm_receipt_plan->settingBpb->year : '' }}
                     </div>
                     <div class="mb-4 text-[16px] text-[#6C757D] font-normal no-select">
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <a href="{{ route('initial-data.bbm-receipt-plan.index') }}" class="cursor-pointer">Rencana Penerimaan BBM</a> / <span class="text-[#2E46BA] cursor-pointer">Update</span>

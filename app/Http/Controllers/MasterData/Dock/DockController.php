@@ -37,13 +37,15 @@ class DockController extends Controller
             'length' => 'required',
             'width' => 'required',
             'draft' => 'required',
-            'dock_equipment_lists' => 'required|array',
-            'dock_inspection_lists' => 'required|array'
+            'load_rate' => 'required|numeric',
+            'dock_equipment_lists' => 'nullable|array',
+            'dock_inspection_lists' => 'nullable|array'
         ], [
             'name.required' => 'Dermaga wajib diisi.',
             'length.required' => 'Length wajib diisi.',
             'width.required' => 'Width wajib diisi.',
             'draft.required' => 'Draft wajib diisi.',
+            'load_rate.numeric' => 'Load rate wajib berupa angka',
             'dock_equipment_lists.required' => 'List peralatan wajib diisi.',
             'dock_inspection_lists.required' => 'List pengecekan wajib diisi.',
         ]);
@@ -52,25 +54,40 @@ class DockController extends Controller
             'name' => $request->name,
             'length' => $request->length,
             'width' => $request->width,
+            'load_rate' => $request->load_rate,
             'draft' => $request->draft,
         ]);
 
         $dock_equipment_lists = [];
-        foreach ($request->dock_equipment_lists as $key => $list) {
-            $dock_equipment_lists[] = [
-                'dock_uuid' => $dock->uuid,
-                'dock_equipment_uuid' => $list,
-            ];
+        if(isset($request->dock_equipment_lists) && $request->dock_equipment_lists != null){
+            if(count($request->dock_equipment_lists) > 0){
+                foreach ($request->dock_equipment_lists as $key => $list) {
+                    $dock_equipment_lists[] = [
+                        'dock_uuid' => $dock->uuid,
+                        'dock_equipment_uuid' => $list,
+                    ];
+                }
+            }
         }
+
         $dock_inspection_lists = [];
-        foreach ($request->dock_inspection_lists as $key => $list) {
-            $dock_inspection_lists[] = [
-                'dock_uuid' => $dock->uuid,
-                'dock_inspection_parameter_uuid' => $list,
-            ];
+        if(isset($request->dock_inspection_lists) && $request->dock_inspection_lists != null){
+            if(count($request->dock_inspection_lists) > 0){
+                foreach ($request->dock_inspection_lists as $key => $list) {
+                    $dock_inspection_lists[] = [
+                        'dock_uuid' => $dock->uuid,
+                        'dock_inspection_parameter_uuid' => $list,
+                    ];
+                }
+            }
         }
-        DockInspectionParameterList::insert($dock_inspection_lists);
-        DockEquipmentList::insert($dock_equipment_lists);
+
+        if(count($dock_inspection_lists) > 0){
+            DockInspectionParameterList::insert($dock_inspection_lists);
+        }
+        if(count($dock_equipment_lists) > 0){
+            DockEquipmentList::insert($dock_equipment_lists);
+        }
 
         return redirect(route('master-data.docks.index'))->with('success', 'Dermaga baru berhasil dibuat.');
     }
@@ -94,13 +111,15 @@ class DockController extends Controller
             'length' => 'required',
             'width' => 'required',
             'draft' => 'required',
-            'dock_equipment_lists' => 'required|array',
-            'dock_inspection_lists' => 'required|array'
+            'load_rate' => 'required|numeric',
+            'dock_equipment_lists' => 'nullable|array',
+            'dock_inspection_lists' => 'nullable|array'
         ], [
             'name.required' => 'Dermaga wajib diisi.',
             'length.required' => 'Length wajib diisi.',
             'width.required' => 'Width wajib diisi.',
             'draft.required' => 'Draft wajib diisi.',
+            'load_rate.numeric' => 'Load rate wajib berupa angka',
             'dock_equipment_lists.required' => 'List peralatan wajib diisi.',
             'dock_inspection_lists.required' => 'List pengecekan wajib diisi.',
         ]);
@@ -110,6 +129,7 @@ class DockController extends Controller
         ])->update([
             'name' => $request->name,
             'length' => $request->length,
+            'load_rate' => $request->load_rate,
             'width' => $request->width,
             'draft' => $request->draft,
         ]);
@@ -122,21 +142,37 @@ class DockController extends Controller
         ])->delete();
 
         $dock_equipment_lists = [];
-        foreach ($request->dock_equipment_lists as $key => $list) {
-            $dock_equipment_lists[] = [
-                'dock_uuid' => $uuid,
-                'dock_equipment_uuid' => $list,
-            ];
+        if(isset($request->dock_equipment_lists) && $request->dock_equipment_lists != null){
+            if(count($request->dock_equipment_lists) > 0){
+                foreach ($request->dock_equipment_lists as $key => $list) {
+                    $dock_equipment_lists[] = [
+                        'dock_uuid' => $uuid,
+                        'dock_equipment_uuid' => $list,
+                    ];
+                }
+            }
         }
+
         $dock_inspection_lists = [];
-        foreach ($request->dock_inspection_lists as $key => $list) {
-            $dock_inspection_lists[] = [
-                'dock_uuid' => $uuid,
-                'dock_inspection_parameter_uuid' => $list,
-            ];
+        if(isset($request->dock_inspection_lists) && $request->dock_inspection_lists != null){
+            if(count($request->dock_inspection_lists) > 0){
+                foreach ($request->dock_inspection_lists as $key => $list) {
+                    $dock_inspection_lists[] = [
+                        'dock_uuid' => $uuid,
+                        'dock_inspection_parameter_uuid' => $list,
+                    ];
+                }
+            }
         }
-        DockInspectionParameterList::insert($dock_inspection_lists);
-        DockEquipmentList::insert($dock_equipment_lists);
+
+        if(count($dock_inspection_lists) > 0){
+            DockInspectionParameterList::insert($dock_inspection_lists);
+        }
+        if(count($dock_equipment_lists) > 0){
+            DockEquipmentList::insert($dock_equipment_lists);
+        }
+
+
 
         return redirect(route('master-data.docks.index'))->with('success', 'Update dermaga berhasil dilakukan.');
     }

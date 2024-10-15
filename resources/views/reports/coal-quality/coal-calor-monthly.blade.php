@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen min-h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -83,7 +83,7 @@
                                 </label>
                             </div>
                         @else
-                            
+
                             <div class="pt-1">
                                 <input class="mr-2 leading-tight" type="checkbox" id="inisiasidata-awal-tahun" name="analytic[]" value="unloading" checked>
                                 <label class="form-check-label" for="inisiasidata-awal-tahun">
@@ -103,7 +103,7 @@
                                 </label>
                             </div>
                         @endisset
-                        
+
                     </div>
                     <div class="w-full flex justify-end gap-3">
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
@@ -115,7 +115,7 @@
             </div>
 
             @isset($coals)
-                
+
             <div id="my-pdf">
 
                 <div class="bg-white rounded-lg p-6 body">
@@ -125,7 +125,7 @@
                             <p class="text-right">UBP SURALAYA</p>
                         </div>
                         <div class="text-center text-[20px] font-bold">
-                           <p>Nilai Kalor & Moisture Batu Bara 
+                           <p>Nilai Kalor & Moisture Batu Bara
                             @if ($filter_type == 'day')
                                Bulan {{$bulan }} - {{$tahunInput}}
                            @endif
@@ -154,10 +154,10 @@
                                         </tr>
                                         <tr>
                                             @foreach ($analytic as $item)
-                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th> 
+                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th>
                                             @endforeach
                                             @foreach ($analytic as $item)
-                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th> 
+                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th>
                                             @endforeach
 
                                         </tr>
@@ -169,7 +169,7 @@
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$loop->iteration}}</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->ship->name}}</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->supplier->name}}</td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading_date}}</td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{ date('d-m-Y H:i:s', strtotime($coal->unloading_date))}}</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->tug_3_accept)}}</td>
                                             @if (in_array('unloading',$analytic))
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading->calorivic_value}}</td>
@@ -219,7 +219,7 @@
                                              <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{$coals->pluck('labor.moisture_total')->avg()}}</td>
 
                                             @endif
-                                        </tr>                                        
+                                        </tr>
                                     </tbody>
                             @else
                                     <thead>
@@ -231,21 +231,21 @@
                                         </tr>
                                         <tr>
                                             @foreach ($analytic as $item)
-                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th> 
+                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th>
                                             @endforeach
                                             @foreach ($analytic as $item)
-                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th> 
+                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th>
                                             @endforeach
 
                                         </tr>
                                     </thead>
                                     <tbody>
-                            
+
                                     <tbody>
                                         @php
                                             $coalsCollection = collect($coals);
                                         @endphp
-                                    
+
                                         @foreach ($coals as $coal)
                                         <tr>
 
@@ -275,33 +275,33 @@
                                             {{-- <td class="h-[36px] text-[16px] font-normal border px-2" colspan="1"></td> --}}
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">Total</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->sum('tug_3_accept')) }}</td>
-                                            
+
                                             @if (in_array('unloading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('unloading_calor'),2) }}</td>
                                             @endif
-                                            
+
                                             @if (in_array('loading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('loading_calor'),2) }}</td>
                                             @endif
-                                            
+
                                             @if (in_array('labor', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('labor_calor'),2) }}</td>
                                             @endif
-                                            
+
                                             @if (in_array('unloading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('unloading_moisture'),2) }}</td>
                                             @endif
-                                            
+
                                             @if (in_array('loading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('loading_moisture'),2) }}</td>
                                             @endif
-                                            
+
                                             @if (in_array('labor', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('labor_moisture'),2) }}</td>
                                             @endif
                                         </tr>
                                     </tbody>
-                                @endif     
+                                @endif
                             </table>
                         </div>
                     </div>

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -34,7 +34,7 @@
                                         <option>Bertambah</option>
                                         <option>Berkurang</option>
                                     </select>
-                                    
+
                                     @error('price_coal_will_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -46,7 +46,7 @@
                                 <label for="price_coal_will_number" class="font-bold text-[#232D42] text-[16px]">Sebesar</label>
                                 <div class="relative">
                                     <input type="text" name="price_coal_will_number" value="{{ old('price_coal_will_number') }}" class="input-number w-full lg:w-64 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                    
+
                                     @error('price_coal_will_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -61,7 +61,7 @@
                                         <option value="percentage">% ( Persentase ) </option>
                                         <option value="rupiah">Rupiah</option>
                                     </select>
-                                    
+
                                     @error('price_coal_will_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -69,7 +69,7 @@
                                      @enderror
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="w-full py-1 flex gap-3">
                             <input type="hidden" value="{{$contract->id}}" name="contract_id">
                             <div class="delivery">
@@ -79,7 +79,7 @@
                                         <option>Penambahan</option>
                                         <option>Pengurangan</option>
                                     </select>
-                                    
+
                                     @error('for_will_text')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -94,7 +94,7 @@
                                         @foreach ($units as $unit)
                                             <option value="{{$unit->id}}">{{$unit->name}}</option>
                                         @endforeach
-                                    </select>  
+                                    </select>
                                     @error('unit_penalty_id')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -106,7 +106,7 @@
                                 <label for="for_will_number" class="font-bold text-[#232D42] text-[16px]">Sebesar</label>
                                 <div class="relative">
                                     <input type="text" name="for_will_number" value="{{ old('for_will_number') }}" class="input-number w-full lg:w-64 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                    
+
                                     @error('for_will_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -121,7 +121,7 @@
                                         <option value="percentage">% ( Persentase ) </option>
                                         <option value="rupiah">Rupiah</option>
                                     </select>
-                                    
+
                                     @error('for_will_type_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -129,7 +129,7 @@
                                      @enderror
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="w-full py-1 flex gap-3">
                             <div class="delivery">
                                 <label for="with_limit_text" class="font-bold text-[#232D42] text-[16px]">Dengan Batas</label>
@@ -138,7 +138,7 @@
                                         <option>Diatas</option>
                                         <option>Dibawah</option>
                                     </select>
-                                    
+
                                     @error('price_coal_will_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -150,7 +150,7 @@
                                 <label for="with_limit_number" class="font-bold text-[#232D42] text-[16px]">Sebesar</label>
                                 <div class="relative">
                                     <input type="text" name="with_limit_number" value="{{ old('with_limit_number') }}" class="input-number w-full lg:w-64 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                    
+
                                     @error('with_limit_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -158,11 +158,11 @@
                                      @enderror
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="flex gap-3">
                             <a href="{{route('contracts.coal-contracts.adjusment-clause.index',['contractId'=>$contract->id])}}" class="bg-[#C03221] w-full h-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3 text-center">Back</a>
                             <button class="bg-[#2E46BA] h-full w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah</button>
-                        </div>     
+                        </div>
                     </div>
                 </form>
             </div>

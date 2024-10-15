@@ -82,7 +82,7 @@ class CoalUsageController extends Controller
 
             $checkUsage = CoalUsage::where('tug_9_number',$requestData['tug_9_number'])->first();
             if($checkUsage){
-                return redirect(route('coals.usages.index'))->with('danger', 'Nomor nota sudah pernah di input pada tanggal '.$checkUsage->usage_date);
+                return redirect()->back()->with('danger', 'Nomor nota sudah pernah di input pada tanggal '.$checkUsage->usage_date);
             }
             $usage = CoalUsage::create($requestData);
 

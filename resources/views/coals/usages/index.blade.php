@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF]">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="w-full flex gap-4 items-center my-4">
                 <a href="{{ route('coals.usages.adjusment-incomes.index') }}" class="w-1/2 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
                     BA Penyesuaian Persediaan Bahan Bakar
@@ -34,7 +34,7 @@
             <div class="bg-white rounded-lg p-6 h-full">
                 <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('coals.usages.index') }}" method="GET" id="filterForm">
                     <div class="lg:flex items-center gap-5 w-full mb-3">
-                        <label for="" class="font-bold text-[#232D42] text-[16px]">Pemakaian Batu Bara </label>                        
+                        <label for="" class="font-bold text-[#232D42] text-[16px]">Pemakaian Batu Bara </label>
                         <input name="date" type="month" value="{{ request()->date ?? '' }}" class="w-full lg:w-3/12 h-[44px] rounded-md border px-2" placeholder="Cari Data" autofocus>
                         <select id="day" name="day" class="w-[350px] h-[44px] rounded-md border px-2" autofocus>
                             <option selected disabled>Pilih Index Tanggal</option>
@@ -54,7 +54,7 @@
                     <button type="submit" class="hidden">Search</button>
                 </form>
                 @isset($usages)
-                    
+
                 <div class="overflow-auto hide-scrollbar max-w-full">
                     <table class="w-full">
                         <thead>
@@ -71,7 +71,7 @@
                             @foreach ($usages as $usage)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ \Carbon\Carbon::parse($usage->usage_date)->format('d/m/Y') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ \Carbon\Carbon::parse($usage->usage_date)->format('d-m-Y') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->tug_9_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ number_format($usage->amount_use) }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->unit_id }}</td>

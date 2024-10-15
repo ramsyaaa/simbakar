@@ -15,10 +15,13 @@ class AfterController extends Controller
     public function index(Request $request)
     {
         $afters = AnalyticAfter::query();
+        $year = isset($request->year) ? $request->year : \Carbon\Carbon::now()->year;
 
-        $afters->when($request->year, function ($query) use ($request) {
-            $query->whereYear('analysis_date', $request->year);
+        $afters->when($year, function ($query) use ($year) {
+            $query->whereYear('analysis_date', $year);
         });
+
+        $afters->orderBy('created_at', 'desc');
 
         $data['analytics'] = $afters->paginate(10)->appends(request()->query());
         return view('inputs.analysis-bbm.after.index',$data);

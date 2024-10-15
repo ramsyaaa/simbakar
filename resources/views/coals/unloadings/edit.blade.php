@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{sidebar:true}" class="w-screen h-screen flex bg-[#E9ECEF] overflow-auto hide-scrollbar">
+<div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')
-    <div :class="sidebar?'w-10/12' : 'w-full'">
+    <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
         @include('components.header')
-        <div class="w-full py-10 px-8">
+        <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
             <div class="flex items-end justify-between mb-2">
                 <div>
                     <div class="text-[#135F9C] text-[40px] font-bold">
@@ -29,7 +29,7 @@
                                         <select name="analysis_loading_id" id="analysis_loading_id" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Analisis Loading</option>
                                             @if ($loading)
-                                                <option value="{{$loading->id}}" selected>{{$loading->analysis_number}}</option>                             
+                                                <option value="{{$loading->id}}" selected>{{$loading->analysis_number}}</option>
                                             @endif
                                         </select>
                                         @error('analysis_loading_id')
@@ -93,7 +93,7 @@
                                         <select name="ship_id" id="ship_id" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Kapal</option>
                                             @if ($ship)
-                                            <option value="{{$ship->id}}" selected>{{$ship->name}}</option>                             
+                                            <option value="{{$ship->id}}" selected>{{$ship->name}}</option>
                                         @endif
                                         </select>
                                         @error('ship_id')
@@ -106,7 +106,7 @@
                                 <div class="w-full">
                                     <label for="bl" class="font-bold text-[#232D42] text-[16px]">BL</label>
                                     <div class="relative">
-                                        <input required type="number" name="bl" value="{{ $unloading->bl }}" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input required type="text" name="bl" value="{{ $unloading->bl }}" class="format-number w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('bl')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -196,7 +196,7 @@
                                     </div>
                                     @enderror
                                 </div>
-                            </div>   
+                            </div>
                         </div>
                     </div>
                         <div class="flex gap-3">
