@@ -38,6 +38,8 @@
                                 </div>
                             </div>
 
+
+
                             <div class="w-6/12 flex items-center mt-2">
                                 <label for="contract_uuid" class="w-4/12 font-bold text-[#232D42] text-[16px]">No Kontrak</label>
                                 <div class="relative w-8/12">
@@ -605,35 +607,41 @@
 </div>
 
 
+
+@endsection
+
+@section('scripts')
 <script>
-document.getElementById('supplier_id').addEventListener('change', function() {
-    var supplierId = this.value; // Get selected supplier ID
+    $(document).ready(function () {
+        // Menambahkan event handler untuk perubahan pada elemen select dengan id supplier_id
+        $('#supplier_id').on('change', function () {
+            var supplierId = $(this).val(); // Mendapatkan nilai supplier_id yang dipilih
 
-    if(supplierId) {
-        fetch(`/api/get-supplier-contract/${supplierId}`)
-        .then(response => response.json())  // Parsing JSON response
-        .then(data => {
-            var contractSelect = document.getElementById('contract_uuid');
-            contractSelect.innerHTML = ''; // Clear existing options
+            if (supplierId) {
+                $.ajax({
+                    url: `/api/get-supplier-contract/${supplierId}`,
+                    method: 'GET',
+                    success: function (data) {
+                        var contractSelect = $('#contract_uuid');
+                        contractSelect.empty(); // Mengosongkan opsi yang ada
 
-            // Add a default "Pilih" option
-            var defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = 'Pilih';
-            contractSelect.appendChild(defaultOption);
+                        // Menambahkan opsi default "Pilih"
+                        contractSelect.append('<option value="">Pilih</option>');
 
-            // Populate the contract select with data from API
-            data.forEach(contract => {
-                var option = document.createElement('option');
-                option.value = contract.uuid;
-                option.textContent = contract.contract_number; // Adjust based on your API response
-                contractSelect.appendChild(option);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching contracts:', error);
+                        // Mengisi elemen select dengan data yang diterima dari API
+                        $.each(data, function (index, contract) {
+                            var isSelected = (index === data.length - 1) ? 'selected' : '';
+                            contractSelect.append(`<option value="${contract.uuid}" ${isSelected}>${contract.contract_number}</option>`);
+                        });
+                    },
+                    error: function (error) {
+                        console.error('Error fetching contracts:', error);
+                    }
+                });
+            } else {
+                $('#contract_uuid').html('<option value="">Pilih</option>'); // Kosongkan jika supplierId tidak ada
+            }
         });
-    }
-});
+    });
 </script>
 @endsection

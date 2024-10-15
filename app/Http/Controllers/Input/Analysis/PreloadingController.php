@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Input\Analysis;
 use App\Http\Controllers\Controller;
 use App\Models\CoalContract;
 use App\Preloadinng;
+use App\Supplier;
 use App\Surveyor;
 use Illuminate\Http\Request;
 
@@ -32,8 +33,9 @@ class PreloadingController extends Controller
      */
     public function create()
     {
-        $data['contracts'] = CoalContract::get();
-        $data['surveyors'] = Surveyor::get();
+        $data['contracts'] = [];
+        $data['surveyors'] = Surveyor::orderBy('name', 'asc')->get();
+        $data['suppliers'] = Supplier::get();
         return view('inputs.analysis.preloading.create', $data);
     }
 
@@ -46,6 +48,7 @@ class PreloadingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'supplier_id' => 'required',
             'contract_uuid' => 'required',
             'surveyor_uuid' => 'required',
             'analysis_number' => 'required',
@@ -85,6 +88,7 @@ class PreloadingController extends Controller
             'butiran_238' => 'required',
             'hgi' => 'required',
         ], [
+            'supplier_id.required' => 'Supplier wajib diisi',
             'contract_uuid.required' => 'No Kontrak wajib diisi',
             'surveyor_uuid.required' => 'Surveyor wajib diisi',
             'analysis_number.required' => 'No Analisa wajib diisi',
@@ -126,6 +130,7 @@ class PreloadingController extends Controller
         ]);
 
         Preloadinng::create([
+            'supplier_id' => $request->supplier_id,
             'contract_uuid' => $request->contract_uuid,
             'surveyor_uuid' => $request->surveyor_uuid,
             'analysis_number' => $request->analysis_number,
@@ -189,8 +194,9 @@ class PreloadingController extends Controller
     public function edit($id)
     {
         $data['preloading'] = Preloadinng::where('id', $id)->first();
-        $data['contracts'] = CoalContract::get();
-        $data['surveyors'] = Surveyor::get();
+        $data['contracts'] = [];
+        $data['surveyors'] = Surveyor::orderBy('name', 'asc')->get();
+        $data['suppliers'] = Supplier::orderBy('name', 'asc')->get();
         return view('inputs.analysis.preloading.edit',$data);
     }
 
@@ -204,6 +210,7 @@ class PreloadingController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'supplier_id' => 'required',
             'contract_uuid' => 'required',
             'surveyor_uuid' => 'required',
             'analysis_number' => 'required',
@@ -243,6 +250,7 @@ class PreloadingController extends Controller
             'butiran_238' => 'required',
             'hgi' => 'required',
         ], [
+            'supplier_id.required' => 'Supplier wajib diisi',
             'contract_uuid.required' => 'No Kontrak wajib diisi',
             'surveyor_uuid.required' => 'Surveyor wajib diisi',
             'analysis_number.required' => 'No Analisa wajib diisi',
@@ -284,6 +292,7 @@ class PreloadingController extends Controller
         ]);
 
         Preloadinng::where('id',$id)->update([
+            'supplier_id' => $request->supplier_id,
             'contract_uuid' => $request->contract_uuid,
             'surveyor_uuid' => $request->surveyor_uuid,
             'analysis_number' => $request->analysis_number,
