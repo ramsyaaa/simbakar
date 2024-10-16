@@ -59,7 +59,7 @@
                 <div class="flex items-end justify-between mb-2">
                     <div>
                         <div class="text-[#135F9C] text-[40px] font-bold">
-                            Realisasi Persediaan Kumulatif Batubara
+                            {{ strpos(url()->current(), 'coal') >= 0 ? 'Penerimaan, Pemakaian dan Persediaan Batubara' : 'Realisasi Persediaan Kumulatif Batubara' }}
                         </div>
                     </div>
                 </div>
