@@ -403,7 +403,7 @@
                 console.log(isChecked)
                 if (isChecked) {
                     let url =
-                        `{{ route('reports.executive-summary.bbm-realitation-cumulative-stock') }}?type=${val}`
+                        `${window.location.pathname}?type=${val}`
                     window.location.href = url;
                 }
             })

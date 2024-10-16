@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
         Route::get('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
         Route::post('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
 
-         // no 9
+        // no 9
         Route::get('monitoring-coal-analytic', [MonitoringCoalAnalyticController::class, 'index'])->name('monitoring-coal-analytic');
         // no 10
         Route::get('monitoring-supplier', [MonitoringSupplierController::class, 'index'])->name('monitoring-supplier');
@@ -83,6 +83,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
     Route::group(['prefix' => 'supplies', 'as' => 'supplies.'], function () {
         Route::get('', [SuppliesController::class, 'index'])->name('index');
+
+        Route::get('bbm-receipt/coal', [ReportBbmController::class, 'bbmRealitationCumulativeStock'])->name('bbm-receipt-coal');
+        Route::post('bbm-receipt/coal', [ReportBbmController::class, 'bbmRealitationCumulativeStock'])->name('bbm-receipt-coal');
+
         Route::get('bbm-receipt/{bbm_type}', [SuppliesController::class, 'bbmReceipt'])->name('bbm-receipt');
         Route::post('bbm-receipt/{bbm_type}', [SuppliesController::class, 'bbmReceipt'])->name('bbm-receipt');
     });
