@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Tug;
 
 use App\Unit;
 use App\BbmUsage;
+use Carbon\Carbon;
 use App\Models\Tug;
+use App\BiomassaUsage;
 use App\Models\CoalUsage;
 use Illuminate\Http\Request;
 use App\Models\FuelAdjusment;
@@ -58,6 +60,16 @@ class TugElevenController extends Controller
                 $residu [] = $residuUsage == null ? 0 : $residuUsage;
             }
 
+            foreach ($units as $unit){
+                $biomassaUsage = BiomassaUsage::where('unit_id', $unit->id)
+                ->when($request->date, function ($query) use ($request) {
+                    $query->where('usage_date', $request->date);
+                })
+                ->sum('amount_use');
+
+                $biomassa [] = $biomassaUsage == null ? 0 : $biomassaUsage;
+            }
+
             $coalOther = FuelAdjusment::where('type_fuel','Batu Bara')->when($request->date, function ($query) use ($request) {
                 $query->where('usage_date', $request->date);
             })->sum('usage_amount');
@@ -73,6 +85,10 @@ class TugElevenController extends Controller
                 $query->where('use_date', $request->date);
             })->sum('amount');
             
+            $date = Carbon::parse($request->date); 
+
+            // Mengambil urutan hari dalam tahun tersebut
+            $dayOfYear = $date->dayOfYear;
             $data['coal'] = $coal;
             $data['coalOther'] = $coalOther;
             $data['solar'] = $solar;
@@ -80,6 +96,9 @@ class TugElevenController extends Controller
             $data['solarHeavy'] = $solarHeavy;
             $data['residu'] = $residu;
             $data['residuOther'] = $residuOther;
+            $data['biomassa'] = $biomassa;
+            $data['date'] = $date;
+            $data['day'] = $dayOfYear;
 
         }
 

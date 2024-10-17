@@ -607,33 +607,48 @@
 </div>
 
 
+
+@endsection
+@section('scripts')
 <script>
     // Fungsi untuk memuat kontrak berdasarkan supplier_id
     function loadContracts(supplier_id, selected_contract_uuid = null) {
         if (!supplier_id) {
-            document.getElementById('contract_uuid').innerHTML = '<option value="">Pilih</option>';
+            $('#contract_uuid').html('<option value="">Pilih</option>');
             return;
         }
 
-        fetch(`/api/get-supplier-contract/${supplier_id}`)
-            .then(response => response.json())
-            .then(data => {
-                let contractSelect = document.getElementById('contract_uuid');
-                contractSelect.innerHTML = '<option value="">Pilih</option>'; // Reset pilihan
+        $.ajax({
+            url: `/api/get-supplier-contract/${supplier_id}`,
+            method: 'GET',
+            success: function (data) {
+                let contractSelect = $('#contract_uuid');
+                contractSelect.html('<option value="">Pilih</option>'); // Reset pilihan
 
-                data.forEach(contract => {
+                // Variabel untuk menyimpan indeks dari opsi terakhir
+                let lastOptionIndex = -1;
+
+                // Mengisi elemen select dengan data yang diterima dari API
+                $.each(data, function (index, contract) {
                     let selected = (contract.uuid === selected_contract_uuid) ? 'selected' : '';
-                    contractSelect.innerHTML += `<option value="${contract.uuid}" ${selected}>${contract.contract_number}</option>`;
+                    contractSelect.append(`<option value="${contract.uuid}" ${selected}>${contract.contract_number}</option>`);
+                    lastOptionIndex = index; // Memperbarui indeks opsi terakhir
                 });
-            })
-            .catch(error => {
+
+                // Jika selected_contract_uuid tidak ada dan terdapat data, pilih opsi terakhir
+                if (selected_contract_uuid === null && lastOptionIndex !== -1) {
+                    contractSelect.find('option').last().prop('selected', true); // Pilih opsi terakhir
+                }
+            },
+            error: function (error) {
                 console.error('Error:', error);
-            });
+            }
+        });
     }
 
     // Ketika halaman pertama kali di-load
-    document.addEventListener('DOMContentLoaded', function () {
-        let supplierId = document.getElementById('supplier_id').value;
+    $(document).ready(function () {
+        let supplierId = $('#supplier_id').val();
         let selectedContractUuid = '{{ $loading->contract_uuid }}'; // Dapatkan UUID kontrak yang sudah disimpan
 
         // Jika ada supplier_id yang dipilih, muat kontrak terkait
@@ -643,9 +658,10 @@
     });
 
     // Ketika user mengganti supplier
-    document.getElementById('supplier_id').addEventListener('change', function () {
-        let supplierId = this.value;
+    $('#supplier_id').on('change', function () {
+        let supplierId = $(this).val();
         loadContracts(supplierId); // Panggil API tanpa UUID terpilih
     });
 </script>
+
 @endsection

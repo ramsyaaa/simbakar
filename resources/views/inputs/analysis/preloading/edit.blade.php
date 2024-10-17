@@ -22,14 +22,27 @@
                     @csrf
                     <div class="p-4 bg-white rounded-lg w-full">
                         <div class="w-full mt-2">
-                            <div class="w-6/12 flex items-center">
+                            <div class="w-6/12 flex items-center mt-2">
+                                <label for="supplier_id" class="w-4/12 font-bold text-[#232D42] text-[16px]">Supplier</label>
+                                <div class="relative w-8/12">
+                                    <select name="supplier_id" id="supplier_id" class="select-2 w-full border rounded-md h-[24px] px-3">
+                                        <option value="">Pilih</option>
+                                        @foreach ($suppliers as $item)
+                                            <option value="{{ $item->id }}" {{ old('supplier_id', $preloading->supplier_id ?? '') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('supplier_id')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="w-6/12 flex items-center mt-2">
                                 <label for="contract_uuid" class="w-4/12 font-bold text-[#232D42] text-[16px]">No Kontrak</label>
                                 <div class="relative w-8/12">
                                     <select name="contract_uuid" id="contract_uuid" class="select-2 w-full border rounded-md h-[24px] px-3">
                                         <option value="">Pilih</option>
-                                        @foreach ($contracts as $item)
-                                            <option value="{{ $item->uuid }}" {{ old('contract_uuid', $preloading->contract_uuid ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->contract_number }}</option>
-                                        @endforeach
                                     </select>
                                     @error('contract_uuid')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
@@ -548,4 +561,61 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    // Fungsi untuk memuat kontrak berdasarkan supplier_id
+    function loadContracts(supplier_id, selected_contract_uuid = null) {
+        if (!supplier_id) {
+            $('#contract_uuid').html('<option value="">Pilih</option>');
+            return;
+        }
+
+        $.ajax({
+            url: `/api/get-supplier-contract/${supplier_id}`,
+            method: 'GET',
+            success: function (data) {
+                let contractSelect = $('#contract_uuid');
+                contractSelect.html('<option value="">Pilih</option>'); // Reset pilihan
+
+                // Variabel untuk menyimpan indeks dari opsi terakhir
+                let lastOptionIndex = -1;
+
+                // Mengisi elemen select dengan data yang diterima dari API
+                $.each(data, function (index, contract) {
+                    let selected = (contract.uuid === selected_contract_uuid) ? 'selected' : '';
+                    contractSelect.append(`<option value="${contract.uuid}" ${selected}>${contract.contract_number}</option>`);
+                    lastOptionIndex = index; // Memperbarui indeks opsi terakhir
+                });
+
+                // Jika selected_contract_uuid tidak ada dan terdapat data, pilih opsi terakhir
+                if (selected_contract_uuid === null && lastOptionIndex !== -1) {
+                    contractSelect.find('option').last().prop('selected', true); // Pilih opsi terakhir
+                }
+            },
+            error: function (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    // Ketika halaman pertama kali di-load
+    $(document).ready(function () {
+        let supplierId = $('#supplier_id').val();
+        let selectedContractUuid = '{{ $preloading->contract_uuid }}'; // Dapatkan UUID kontrak yang sudah disimpan
+
+        // Jika ada supplier_id yang dipilih, muat kontrak terkait
+        if (supplierId) {
+            loadContracts(supplierId, selectedContractUuid);
+        }
+    });
+
+    // Ketika user mengganti supplier
+    $('#supplier_id').on('change', function () {
+        let supplierId = $(this).val();
+        loadContracts(supplierId); // Panggil API tanpa UUID terpilih
+    });
+</script>
+
 @endsection

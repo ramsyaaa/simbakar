@@ -36,8 +36,8 @@ class LoadingController extends Controller
     public function create()
     {
         $data['contracts'] = [];
-        $data['surveyors'] = Surveyor::get();
-        $data['ships'] = Ship::get();
+        $data['surveyors'] = Surveyor::orderBy('name', 'asc')->get();
+        $data['ships'] = Ship::orderBy('name', 'asc')->get();
         $data['suppliers'] = Supplier::get();
         return view('inputs.analysis.loading.create', $data);
     }
@@ -207,9 +207,9 @@ class LoadingController extends Controller
     {
         $data['loading'] = Loading::where('id', $id)->first();
         $data['contracts'] = [];
-        $data['surveyors'] = Surveyor::get();
-        $data['ships'] = Ship::get();
-        $data['suppliers'] = Supplier::get();
+        $data['surveyors'] = Surveyor::orderBy('name', 'asc')->get();
+        $data['ships'] = Ship::orderBy('name', 'asc')->get();
+        $data['suppliers'] = Supplier::orderBy('name', 'asc')->get();
         return view('inputs.analysis.loading.edit',$data);
     }
 
