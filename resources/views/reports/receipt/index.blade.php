@@ -24,7 +24,7 @@
                     ['text' => 'Rekapitulasi Penerimaan HSD','url' => route('reports.receipt.bbm-receipt.index', ['type_bbm' => 'HSD'])],
                     ['text' => 'Rekapitulasi Penerimaan MFO','url' => route('reports.receipt.bbm-receipt.index', ['type_bbm' => 'MFO'])],
                     ['text' => 'Perbandingan Penerimaan Batubara (B/L, D/L, B/W, TUG, 3)','url' => '#'],
-                    ['text' => 'Penerimaan Bahan Bakar Batubara - Bulanan','url' => '#'],
+                    ['text' => 'Penerimaan Bahan Bakar Batubara - Bulanan','url' => route('reports.receipt.coal-monthly.index')],
                     ['text' => 'Jasa Angkut BBM','url' => '#'],
                     ['text' => 'Penerimaan Bahan Bakar Batubara - Surveyor','url' => '#'],
                     ['text' => 'Realisasi Pengapalan Batubara','url' => '#'],

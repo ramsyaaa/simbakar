@@ -19,6 +19,7 @@ use App\Http\Controllers\Report\Unloading\DisruptionDataController;
 use App\Http\Controllers\Report\Unloading\OperationalDuksController;
 use App\Http\Controllers\Report\CoalQuality\CoalComparisonController;
 use App\Http\Controllers\Report\ExecutiveSummary\ReportBbmController;
+use App\Http\Controllers\Report\Receipt\CoalMonthlyReceiptController;
 use App\Http\Controllers\Report\Contract\CoalRecapitulationController;
 use App\Http\Controllers\Report\CoalQuality\CoalCalorMonthlyController;
 use App\Http\Controllers\Report\CoalQuality\CoalCalorSupplierController;
@@ -98,6 +99,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
         Route::get('bbm/{type_bbm}', [ReceiptController::class, 'bbmReceipt'])->name('bbm-receipt.index');
         Route::post('bbm/{type_bbm}', [ReceiptController::class, 'bbmReceipt'])->name('bbm-receipt.index');
         Route::get('coal-recapitulation/', [ReceiptRecapitulationController::class, 'index'])->name('coal-recapitulation.index');
+        Route::get('coal-monthly', [CoalMonthlyReceiptController::class, 'index'])->name('coal-monthly.index');
     });
 
     Route::group(['prefix' => 'coal-quality', 'as' => 'coal-quality.'], function () {
