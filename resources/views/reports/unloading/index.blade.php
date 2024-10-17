@@ -28,7 +28,7 @@
                     // ['text' => 'Rincian Jasa Dermaga','url' => '#'],
                     // ['text' => 'Rekap Jasa Tambat dan Dermaga','url' => '#'],
                     // ['text' => 'Rekap Tagihan Jasa Dermaga','url' => '#'],
-                    ['text' => 'Data Gangguan','url' => '#'],
+                    ['text' => 'Data Gangguan','url' => route('reports.unloading.disruption-data')],
                     // ['text' => 'Rekap Pemakaian Listrik FDE','url' => '#'],
                     // ['text' => 'Tagihan Pemakaian Ship Unloader (SU)','url' => '#'],
                 ]

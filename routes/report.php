@@ -15,6 +15,7 @@ use App\Http\Controllers\Report\Contract\EvaluationCoalController;
 use App\Http\Controllers\Report\Contract\MonitoringCoalController;
 use App\Http\Controllers\Report\Performance\PerformanceController;
 use App\Http\Controllers\Report\Contract\CoalAllContractController;
+use App\Http\Controllers\Report\Unloading\DisruptionDataController;
 use App\Http\Controllers\Report\Unloading\OperationalDuksController;
 use App\Http\Controllers\Report\CoalQuality\CoalComparisonController;
 use App\Http\Controllers\Report\ExecutiveSummary\ReportBbmController;
@@ -110,6 +111,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
     Route::group(['prefix' => 'unloading', 'as' => 'unloading.'], function () {
         Route::get('', [UnloadingController::class, 'index'])->name('index');
         Route::get('/operational-duks', [OperationalDuksController::class, 'index'])->name('operational-duks');
+        Route::get('/disruption-data', [DisruptionDataController::class, 'index'])->name('disruption-data');
     });
 
     Route::group(['prefix' => 'heavy-equipment', 'as' => 'heavy-equipment.'], function () {
