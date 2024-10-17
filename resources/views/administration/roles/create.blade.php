@@ -46,7 +46,7 @@
                                                     User
                                                     </label>
                                                 </div>
-                                                <div class="pt-1">
+                                                {{-- <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="administrationapproval" name="administration[]" value="administration-approval">
                                                     <label class="form-check-label" for="administrationapproval">
                                                     Approval Data
@@ -57,7 +57,7 @@
                                                     <label class="form-check-label" for="administrationlog">
                                                     Log Aktifitas User
                                                     </label>
-                                                </div>
+                                                </div> --}}
                                                 <div class="pt-1">
                                                     <input class="mr-2 leading-tight" type="checkbox" id="administrationrole" name="administration[]" value="administration-role">
                                                     <label class="form-check-label" for="administrationrole">
