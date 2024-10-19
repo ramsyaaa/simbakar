@@ -20,7 +20,7 @@
         <div class="w-full max-w-[600px] flex flex-col gap-4 my-4 mt-4 px-8">
             @php
                 $dataReport = [
-                    ['text' => 'Realisasi Pembongkaran Batubara','url' => '#'],
+                    ['text' => 'Realisasi Pembongkaran Batubara','url' => route('reports.unloading.coal-unloading-report')],
                     ['text' => 'Rekapitulasi Pembongkaran HSD dengan Mobil Tangki - Bulanan','url' => '#'],
                     ['text' => 'Kegiatan Operasional DUKS','url' => route('reports.unloading.operational-duks')],
                     // ['text' => 'Rekapitulasi Jasa Tambat Dermaga PLTU Suralaya','url' => '#'],
