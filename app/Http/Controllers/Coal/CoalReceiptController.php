@@ -165,7 +165,6 @@ class CoalReceiptController extends Controller
                 $requestData['tug_number'] = $tugNumber;
 
             }
-          
             CoalUnloading::where('id',$id)->update($requestData);
 
             Tug::where('type_tug','coal-unloading')->where('coal_unloading_id',$id)->update([
@@ -173,12 +172,12 @@ class CoalReceiptController extends Controller
             ]);
 
             DB::commit();
-            return redirect(route('coals.receipts.index'))->with('success', 'Penerimaan Batu Bara berhasil di ubah.');
+            return redirect(route('coals.receipts.index'))->with('success', 'Data Tambahan TUG 3 berhasil di ubah.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
 
-            return redirect()->back()->with('error','Penerimaan Batu Bara gagal di ubah');
+            return redirect()->back()->with('error','Data Tambahan TUG 3 gagal di ubah');
         }
     }
     public function updateDetail(Request $request,$id)
@@ -194,6 +193,31 @@ class CoalReceiptController extends Controller
             DB::rollback();
 
             return redirect()->back()->with('error','Pembongkaran Batu Bara gagal di ubah');
+        }
+    }
+    public function updateAnalytic(Request $request,$id)
+    {
+        DB::beginTransaction();
+        try {
+            $coal = CoalUnloading::where('id',$id)->first();
+            if($request->kind_contract == 'FOB'){
+                $coal->bl = $request->bl;
+            }
+            if($request->kind_contract == 'CIF'){
+                $coal->ds = $request->ds;
+            }
+            $coal->bw = 0;
+            $coal->tug_3_accept = $request->tug_3_accept;
+            $coal->kind_contract = $request->kind_contract;
+            $coal->save();
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Data Analisa Kualitas berhasil di ubah.');
+            
+        } catch (\ValidationException $th) {
+            DB::rollback();
+
+            return redirect()->back()->with('error','Data Analisa Kualitas gagal di ubah');
         }
     }
 
