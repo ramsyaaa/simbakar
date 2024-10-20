@@ -25,9 +25,9 @@
                     ['text' => 'Rekapitulasi Penerimaan MFO','url' => route('reports.receipt.bbm-receipt.index', ['type_bbm' => 'MFO'])],
                     ['text' => 'Perbandingan Penerimaan Batubara (B/L, D/L, B/W, TUG, 3)','url' => route('reports.receipt.coal-bl')],
                     ['text' => 'Penerimaan Bahan Bakar Batubara - Bulanan','url' => route('reports.receipt.coal-monthly.index')],
-                    ['text' => 'Jasa Angkut BBM','url' => '#'],
-                    ['text' => 'Penerimaan Bahan Bakar Batubara - Surveyor','url' => '#'],
-                    ['text' => 'Realisasi Pengapalan Batubara','url' => '#'],
+                    // ['text' => 'Jasa Angkut BBM','url' => '#'],
+                    // ['text' => 'Penerimaan Bahan Bakar Batubara - Surveyor','url' => '#'],
+                    // ['text' => 'Realisasi Pengapalan Batubara','url' => '#'],
                 ]
             @endphp
             @foreach ($dataReport as $index => $report)

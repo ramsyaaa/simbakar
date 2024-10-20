@@ -21,7 +21,7 @@
             @php
                 $dataReport = [
                     ['text' => 'Realisasi Pembongkaran Batubara','url' => route('reports.unloading.coal-unloading-report')],
-                    ['text' => 'Rekapitulasi Pembongkaran HSD dengan Mobil Tangki - Bulanan','url' => '#'],
+                    ['text' => 'Rekapitulasi Pembongkaran HSD dengan Mobil Tangki - Bulanan','url' => route('reports.unloading.hsd-car-unloading')],
                     ['text' => 'Kegiatan Operasional DUKS','url' => route('reports.unloading.operational-duks')],
                     // ['text' => 'Rekapitulasi Jasa Tambat Dermaga PLTU Suralaya','url' => '#'],
                     // ['text' => 'Rincian Jasa Tambat','url' => '#'],

@@ -121,6 +121,24 @@
         }
         $(document).ready(function() {
 
+            function formatNumber(value) {
+                if (isValidNumber(value) && value !== "") {
+                    let numberValue = parseFloat(value);
+                    return numberValue.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+                return value;
+            }
+
+            const formatNumberElements = document.querySelectorAll('.format-number');
+
+            // Format nilai angka pada semua elemen yang ditemukan
+            formatNumberElements.forEach(element => {
+                let value = element.value.replace(/,/g, '');
+                element.value = formatNumber(value);
+            });
 
             // Apply formatting on all number inputs when losing focus
             $('.format-number').on('blur', function() {

@@ -34,6 +34,7 @@ use App\Http\Controllers\Report\ExecutiveSummary\MonitoringSupplierController;
 use App\Http\Controllers\Report\Contract\PlanAndReazlitionCoalMonthlyController;
 use App\Http\Controllers\Report\ExecutiveSummary\MonitoringCoalAnalyticController;
 use App\Http\Controllers\Report\Contract\PlanAndReazlitionCoalMonthlySpotController;
+use App\Http\Controllers\Report\Unloading\HsdCarUnloadingController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.'], function () {
     Route::group(['prefix' => 'executive-summary', 'as' => 'executive-summary.'], function () {
@@ -115,10 +116,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
     Route::group(['prefix' => 'unloading', 'as' => 'unloading.'], function () {
         Route::get('', [UnloadingController::class, 'index'])->name('index');
+        Route::get('/hsd-car-unloading', [HsdCarUnloadingController::class, 'index'])->name('hsd-car-unloading');
         Route::get('/operational-duks', [OperationalDuksController::class, 'index'])->name('operational-duks');
         Route::get('/disruption-data', [DisruptionDataController::class, 'index'])->name('disruption-data');
         Route::get('/coal-unloading-report', [CoalUnloadingReportController::class, 'index'])->name('coal-unloading-report');
-       
+
     });
 
     Route::group(['prefix' => 'heavy-equipment', 'as' => 'heavy-equipment.'], function () {
