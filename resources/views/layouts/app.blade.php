@@ -338,6 +338,25 @@
                 XLSX.writeFile(wb, fn || ('Document.' + (type || 'xlsx')));
         }
     </script>
+
+    <script>
+        // Fungsi untuk mengatur event listener pada semua elemen input picker
+        function enablePickerOnFocus() {
+            // Ambil semua elemen input dengan tipe date, month, dan datetime-local di halaman
+            const pickerInputs = document.querySelectorAll('input[type="date"], input[type="month"], input[type="datetime-local"]');
+
+            // Iterasi setiap elemen input dan tambahkan event listener
+            pickerInputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    // Buka picker saat area input diklik
+                    input.showPicker();
+                });
+            });
+        }
+
+        // Panggil fungsi saat halaman selesai di-load
+        window.addEventListener('DOMContentLoaded', enablePickerOnFocus);
+    </script>
 </body>
 
 </html>

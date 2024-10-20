@@ -11,6 +11,7 @@ use App\Dock;
 use App\Harbor;
 use App\Http\Controllers\Controller;
 use App\LoadingCompany;
+use App\Models\AnalyticBiomassa;
 use App\Models\BbmBookContract;
 use App\Models\BiomassaContract;
 use App\Models\HeadWarehouse;
@@ -82,19 +83,28 @@ class BiomassaReceiptController extends Controller
                     if($key == 0){
                         continue;
                     }
-                    $detail_biomassa[] = [
+
+                    $detail = DetailBiomassaReceipt::create([
+                                'biomassa_receipt_id' => $biomassa->id,
+                                'supplier_uuid' => $supplier,
+                                'volume' => isset($request->volume[$key]) ? $request->volume[$key] : null,
+                                'number_of_shipper' => isset($request->number_of_shipper[$key]) ? $request->number_of_shipper[$key] : null,
+                                'date_shipment' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,
+                    ]);
+
+                    AnalyticBiomassa::create([
                         'biomassa_receipt_id' => $biomassa->id,
-                        'supplier_uuid' => $supplier,
-                        'volume' => isset($request->volume[$key]) ? $request->volume[$key] : null,
-                        'number_of_shipper' => isset($request->number_of_shipper[$key]) ? $request->number_of_shipper[$key] : null,
-                        'date_shipment' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,
-                    ];
+                        'sub_supplier_id' => $detail->id,
+                        'analysis_number' => isset($request->analysis_number[$key]) ? $request->analysis_number[$key] : null,
+                        'analysis_date' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,
+                        'tonage' => isset($request->volume[$key]) ? $request->volume[$key] : null,
+                        'total_moisure' => isset($request->total_moisure[$key]) ? $request->total_moisure[$key] : null,
+                        'moisure_in_analysis' => isset($request->moisure_in_analysis[$key]) ? $request->moisure_in_analysis[$key] : null,
+                        'calorivic_value' => isset($request->calorivic_value[$key]) ? $request->calorivic_value[$key] : null,
+                        'retained_5' => isset($request->retained_5[$key]) ? $request->retained_5[$key] : null,
+                    ]);
                 }
             }
-        }
-
-        if(count($detail_biomassa) > 0){
-            DetailBiomassaReceipt::insert($detail_biomassa);
         }
 
         $unloading_biomassa = [];
@@ -182,6 +192,9 @@ class BiomassaReceiptController extends Controller
         DetailBiomassaReceipt::where([
             'biomassa_receipt_id' => $biomassa->id,
         ])->delete();
+        AnalyticBiomassa::where([
+            'biomassa_receipt_id' => $biomassa->id,
+        ])->delete();
         $detail_biomassa = [];
         if(isset($request->supplier_uuid)){
             if(count($request->supplier_uuid) > 1){
@@ -189,13 +202,27 @@ class BiomassaReceiptController extends Controller
                     if($key == 0){
                         continue;
                     }
-                    $detail_biomassa[] = [
+
+                    // dd($request->total_moisure3);
+                    $detail = DetailBiomassaReceipt::create([
+                                'biomassa_receipt_id' => $biomassa->id,
+                                'supplier_uuid' => $supplier,
+                                'volume' => isset($request->volume[$key]) ? $request->volume[$key] : null,
+                                'number_of_shipper' => isset($request->number_of_shipper[$key]) ? $request->number_of_shipper[$key] : null,
+                                'date_shipment' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,
+                    ]);
+
+                    AnalyticBiomassa::create([
                         'biomassa_receipt_id' => $biomassa->id,
-                        'supplier_uuid' => $supplier,
-                        'volume' => isset($request->volume[$key]) ? $request->volume[$key] : null,
-                        'number_of_shipper' => isset($request->number_of_shipper[$key]) ? $request->number_of_shipper[$key] : null,
-                        'date_shipment' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,
-                    ];
+                        'sub_supplier_id' => $detail->id,
+                        'analysis_number' => isset($request->analysis_number[$key]) ? $request->analysis_number[$key] : null,
+                        'analysis_date' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,
+                        'tonage' => isset($request->volume[$key]) ? $request->volume[$key] : null,
+                        'total_moisure' => isset($request->total_moisure[$key]) ? $request->total_moisure[$key] : null,
+                        'moisure_in_analysis' => isset($request->moisure_in_analysis[$key]) ? $request->moisure_in_analysis[$key] : null,
+                        'calorivic_value' => isset($request->calorivic_value[$key]) ? $request->calorivic_value[$key] : null,
+                        'retained_5' => isset($request->retained_5[$key]) ? $request->retained_5[$key] : null,
+                    ]);
                 }
             }
         }

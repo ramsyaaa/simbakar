@@ -147,6 +147,26 @@
                                         <label for="date_shipment" class="block text-gray-700">Tanggal Pengiriman</label>
                                         <input type="date" name="date_shipment[]" class="w-full border border-gray-300 p-2 rounded mt-1">
                                     </div>
+                                    <div class="mb-4">
+                                        <label for="analysis_number" class="block text-gray-700">No Analisa</label>
+                                        <input type="text" name="analysis_number[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="total_moisure" class="block text-gray-700">Total Moisure</label>
+                                        <input type="text" name="total_moisure[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="moisure_in_analysis" class="block text-gray-700">Moisure in Analysis</label>
+                                        <input type="text" name="moisure_in_analysis[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="calorivic_value" class="block text-gray-700">Calorivic Value</label>
+                                        <input type="text" name="calorivic_value[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="retained_5" class="block text-gray-700">Retained 5</label>
+                                        <input type="text" name="retained_5[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
                                 </div>
                                 @foreach ($biomassa->detailReceipt as $detail)
                                     <div class="dataForm bg-gray-50 p-4 rounded shadow">
@@ -179,6 +199,26 @@
                                         <div class="mb-4">
                                             <label for="date_shipment" class="block text-gray-700">Tanggal Pengiriman</label>
                                             <input type="date" name="date_shipment[]" value="{{ $detail->date_shipment }}" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="analysis_number" class="block text-gray-700">No Analisa</label>
+                                            <input type="text" name="analysis_number[]" value="{{ $detail->analysis->analysis_number }}" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="total_moisure" class="block text-gray-700">Total Moisure</label>
+                                            <input type="text" name="total_moisure[]" value="{{ $detail->analysis->total_moisure }}" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="moisure_in_analysis" class="block text-gray-700">Moisure in Analysis</label>
+                                            <input type="text" name="moisure_in_analysis[]" value="{{ $detail->analysis->moisure_in_analysis }}" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="calorivic_value" class="block text-gray-700">Calorivic Value</label>
+                                            <input type="text" name="calorivic_value[]" value="{{ $detail->analysis->calorivic_value }}" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="retained_5" class="block text-gray-700">Retained 5</label>
+                                            <input type="text" name="retained_5[]" value="{{ $detail->analysis->retained_5 }}" class="w-full border border-gray-300 p-2 rounded mt-1">
                                         </div>
                                     </div>
                                 @endforeach
