@@ -8,6 +8,7 @@ use App\Labor;
 use App\Harbor;
 use App\Loading;
 use App\Supplier;
+use App\ShipAgent;
 use App\Unloading;
 use App\LoadingCompany;
 use App\Models\Adendum;
@@ -43,6 +44,10 @@ class CoalUnloading extends Model
     public function company()
     {
         return $this->hasOne(LoadingCompany::class, 'id', 'load_company_id');
+    }
+    public function agent()
+    {
+        return $this->hasOne(ShipAgent::class, 'id', 'agent_ship_id');
     }
 
     public function dock()

@@ -21,7 +21,7 @@
         <div class="w-full max-w-[600px] flex flex-col gap-4 my-4 mt-4 px-8">
             @php
                 $dataReport = [
-                    ['text' => 'Penerimaan, Pemakaian dan Persediaan Batubara','url' => '#'],
+                    ['text' => 'Penerimaan, Pemakaian dan Persediaan Batubara','url' => route('reports.supplies.bbm-receipt-coal')],
                     ['text' => 'Penerimaan, Pemakaian dan Persediaan HSD','url' => route('reports.supplies.bbm-receipt', ['bbm_type' => 'HSD'])],
                     ['text' => 'Penerimaan, Pemakaian dan Persediaan MFO','url' => route('reports.supplies.bbm-receipt', ['bbm_type' => 'MFO'])],
                     // ['text' => 'Stock Opmane','url' => '#'],

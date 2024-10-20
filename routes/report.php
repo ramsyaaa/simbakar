@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Report\BW\BWController;
 use App\Http\Controllers\Report\Receipt\ReceiptController;
+use App\Http\Controllers\Report\Receipt\CoalBLController;
 use App\Http\Controllers\Report\Contract\ContractController;
 use App\Http\Controllers\Report\Supplies\SuppliesController;
 use App\Http\Controllers\Report\Unloading\UnloadingController;
@@ -15,14 +16,18 @@ use App\Http\Controllers\Report\Contract\EvaluationCoalController;
 use App\Http\Controllers\Report\Contract\MonitoringCoalController;
 use App\Http\Controllers\Report\Performance\PerformanceController;
 use App\Http\Controllers\Report\Contract\CoalAllContractController;
+use App\Http\Controllers\Report\Unloading\DisruptionDataController;
+use App\Http\Controllers\Report\Unloading\OperationalDuksController;
 use App\Http\Controllers\Report\CoalQuality\CoalComparisonController;
 use App\Http\Controllers\Report\ExecutiveSummary\ReportBbmController;
+use App\Http\Controllers\Report\Receipt\CoalMonthlyReceiptController;
 use App\Http\Controllers\Report\Contract\CoalRecapitulationController;
 use App\Http\Controllers\Report\CoalQuality\CoalCalorMonthlyController;
 use App\Http\Controllers\Report\CoalQuality\CoalCalorSupplierController;
 use App\Http\Controllers\Report\HeavyEquipment\HeavyEquipmentController;
 use App\Http\Controllers\Report\Receipt\ReceiptRecapitulationController;
 use App\Http\Controllers\Report\ShipMonitoring\ShipMonitoringController;
+use App\Http\Controllers\Report\Unloading\CoalUnloadingReportController;
 use App\Http\Controllers\Report\ExecutiveSummary\ExecutiveSummaryController;
 use App\Http\Controllers\Report\Contract\CoalReceiptRecapitulationController;
 use App\Http\Controllers\Report\ExecutiveSummary\MonitoringSupplierController;
@@ -64,7 +69,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
         Route::get('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
         Route::post('bbm-usage/{type}/{type_bbm}', [ReportBbmController::class, 'bbmUsageReport'])->name('bbm-usage');
 
-         // no 9
+        // no 9
         Route::get('monitoring-coal-analytic', [MonitoringCoalAnalyticController::class, 'index'])->name('monitoring-coal-analytic');
         // no 10
         Route::get('monitoring-supplier', [MonitoringSupplierController::class, 'index'])->name('monitoring-supplier');
@@ -83,6 +88,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
     Route::group(['prefix' => 'supplies', 'as' => 'supplies.'], function () {
         Route::get('', [SuppliesController::class, 'index'])->name('index');
+
+        Route::get('bbm-receipt/coal', [ReportBbmController::class, 'bbmRealitationCumulativeStock'])->name('bbm-receipt-coal');
+        Route::post('bbm-receipt/coal', [ReportBbmController::class, 'bbmRealitationCumulativeStock'])->name('bbm-receipt-coal');
+
         Route::get('bbm-receipt/{bbm_type}', [SuppliesController::class, 'bbmReceipt'])->name('bbm-receipt');
         Route::post('bbm-receipt/{bbm_type}', [SuppliesController::class, 'bbmReceipt'])->name('bbm-receipt');
     });
@@ -92,6 +101,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
         Route::get('bbm/{type_bbm}', [ReceiptController::class, 'bbmReceipt'])->name('bbm-receipt.index');
         Route::post('bbm/{type_bbm}', [ReceiptController::class, 'bbmReceipt'])->name('bbm-receipt.index');
         Route::get('coal-recapitulation/', [ReceiptRecapitulationController::class, 'index'])->name('coal-recapitulation.index');
+        Route::get('coal-monthly', [CoalMonthlyReceiptController::class, 'index'])->name('coal-monthly.index');
+         Route::get('/coal-bl', [CoalBLController::class, 'index'])->name('coal-bl');
     });
 
     Route::group(['prefix' => 'coal-quality', 'as' => 'coal-quality.'], function () {
@@ -104,6 +115,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
     Route::group(['prefix' => 'unloading', 'as' => 'unloading.'], function () {
         Route::get('', [UnloadingController::class, 'index'])->name('index');
+        Route::get('/operational-duks', [OperationalDuksController::class, 'index'])->name('operational-duks');
+        Route::get('/disruption-data', [DisruptionDataController::class, 'index'])->name('disruption-data');
+        Route::get('/coal-unloading-report', [CoalUnloadingReportController::class, 'index'])->name('coal-unloading-report');
+       
     });
 
     Route::group(['prefix' => 'heavy-equipment', 'as' => 'heavy-equipment.'], function () {
