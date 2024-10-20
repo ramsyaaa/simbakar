@@ -201,6 +201,7 @@ class CoalReceiptController extends Controller
         try {
             $coal = CoalUnloading::where('id',$id)->first();
             if($request->kind_contract == 'FOB'){
+                $coal->bl = $request->bl;
                 $coal->ds = 0;
             }
             if($request->kind_contract == 'CIF'){
