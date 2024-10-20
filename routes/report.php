@@ -130,6 +130,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
 
     Route::group(['prefix' => 'berita-acara', 'as' => 'berita-acara.'], function () {
         Route::get('', [BeritaAcaraController::class, 'index'])->name('index');
+        Route::get('bbm', [BeritaAcaraController::class, 'bbm'])->name('bbm');
     });
 
     Route::group(['prefix' => 'performance', 'as' => 'performance.'], function () {

@@ -20,8 +20,8 @@
         <div class="w-full max-w-[600px] flex flex-col gap-4 my-4 mt-4 px-8">
             @php
                 $dataReport = [
-                    ['text' => 'Berita Acara Serah Terima HSD/MFO','url' => '#'],
-                    ['text' => 'Berita Acara Serah Terima HSD/MFO - Versi SLA','url' => '#'],
+                    ['text' => 'Berita Acara Serah Terima HSD/MFO','url' => route('reports.berita-acara.bbm')],
+                    // ['text' => 'Berita Acara Serah Terima HSD/MFO - Versi SLA','url' => '#'],
                     // ['text' => 'Pencetakan BA Pemotongan Pembayaran Jasa Dermaga Suralaya','url' => '#'],
                     // ['text' => 'Pencetakan Tagihan Biaya Tambat','url' => '#'],
                 ]
