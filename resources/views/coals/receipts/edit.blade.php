@@ -20,14 +20,14 @@
                 <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Data Analisa Kualitas</div>
 
                  <div class="p-4 bg-white rounded-lg w-full">
-                    <form action="{{route('coals.receipts.update-tug',['id' => $receipt->id])}}" method="POST">
+                    <form onsubmit="return confirmSubmit(this, 'Update Data Analisa Kualitas ?')" action="{{route('coals.receipts.update-analytic',['id' => $receipt->id])}}" method="POST">
                         @csrf
                         @method('PATCH')
                         <div class="lg:flex lg:gap-3">
                             <div class="w-full">
                                 <label for="ds" class="font-bold text-[#232D42] text-[16px]">DS</label>
                                     <div class="relative">
-                                        <input type="text" name="ds" value="{{$receipt->ds ?? 0}}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="ds" value="{{ $receipt->kind_contract == 'CIF' ? $receipt->ds : 0 }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -38,7 +38,7 @@
                                 <div class="w-full">
                                     <label for="bl" class="font-bold text-[#232D42] text-[16px]">BL</label>
                                     <div class="relative">
-                                        <input type="text" name="ds" value="{{ $receipt->bl ??  0 }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="bl" value="{{ $receipt->kind_contract == 'FOB' ? $receipt->bl : 0 }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('bl')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -63,7 +63,7 @@
                             <div class="w-full">
                                 <label for="tug" class="font-bold text-[#232D42] text-[16px]">Yang diterima tug 3</label>
                                     <div class="relative">
-                                        <input type="text" class="format-number giw-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3" name="tug_3_accept" value="{{$receipt->tug_3_accept}}">
+                                        <input type="text" class="format-number giw-full lg:w-full border rounded-md mt-3 mb-5 h-[40px] px-3" name="tug_3_accept" value="{{$receipt->tug_3_accept}}">
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -74,15 +74,10 @@
                                 <div class="w-full">
                                     <label for="kind_contract" class="font-bold text-[#232D42] text-[16px]">Jenis Kontrak</label>
                                     <div class="relative">
-                                        <select name="kind_contract" id="kind_contract" class="w-full lg:w-46 border rounded-md mt-3 h-[40px] px-3">
-                                            <option selected disabled>Pilih Jenis Kontrak</option>
-                                            @if ($receipt->contract)
-                                                <option {{$receipt->contract->kind_contract == 'FOB' ? 'selected' : ''}}>FOB</option>
-                                                <option {{$receipt->contract->kind_contract == 'CIF' ? 'selected' :''}}>CIF</option>
-                                            @else
-                                                <option>FOB</option>
-                                                <option>CIF</option>
-                                            @endif
+                                        <select name="kind_contract" id="kind_contract" class="w-full lg:w-46 border rounded-md mt-3 h-[40px] px-3" required>
+                                            <option value="">Pilih Jenis Kontrak</option>
+                                            <option {{$receipt->kind_contract == 'FOB' ? 'selected' : ''}}>FOB</option>
+                                            <option {{$receipt->kind_contract == 'CIF' ? 'selected' : ''}}>CIF</option>
 
                                         </select>
                                         {{-- <small>Jenis kontrak akan terisi ,kalau nomor kontrak sudah di pilih    </small> --}}
@@ -94,10 +89,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="flex gap-3">
+                                <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Ubah data analysis kualitas</button>
+                            </div>
+                        </form>
+
                         </div>
                         <div class="bg-white rounded-lg p-6 mt-5">
-                                <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Tambahan Detail TUG 3</div>
-                                <div class="lg:flex lg:gap-3">
+                            <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Tambahan Detail TUG 3</div>
+                            <div class="lg:flex lg:gap-3">
+                            <form onsubmit="return confirmSubmit(this, 'Tambahan Detail TUG 3 ?')" action="{{route('coals.receipts.update-tug',['id' => $receipt->id])}}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
                                     <div class="w-full">
                                         <label for="tug_number" class="font-bold text-[#232D42] text-[16px]">No TUG 3</label>
                                         <div class="relative">
@@ -203,11 +206,12 @@
                                 <div class="flex gap-3">
                                     <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Ubah data TUG 3 ( saja )</button>
                                 </div>
-                            </div>
+                            </form>
 
-                        </form>
+                        </div>
+
                         <div class="bg-white rounded-lg p-6 mt-5">
-                            <form action="{{route('coals.receipts.update-detail',['id' => $receipt->id])}}" method="POST">
+                            <form onsubmit="return confirmSubmit(this, 'Update Tambahan Detail TUG ?')" action="{{route('coals.receipts.update-detail',['id' => $receipt->id])}}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Tambahan Detail TUG 3</div>

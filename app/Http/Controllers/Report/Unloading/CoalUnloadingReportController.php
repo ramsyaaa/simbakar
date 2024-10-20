@@ -27,7 +27,8 @@ class CoalUnloadingReportController extends Controller
         $validFilterTypes = ['month', 'dock','ship'];
         if($request->has('filter_type')){
 
-            $date = explode('-', $request->date);
+            $bulan = $request->date ?? date('Y-m');
+            $date = explode('-', $bulan);
             switch ($filterType) {
 
 
