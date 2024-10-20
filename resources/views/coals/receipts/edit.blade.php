@@ -27,7 +27,7 @@
                             <div class="w-full">
                                 <label for="ds" class="font-bold text-[#232D42] text-[16px]">DS</label>
                                     <div class="relative">
-                                        <input type="text" name="ds" value="{{ $receipt->kind_contract == 'CIF' ? number_format($receipt->ds,2) : 0 }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="ds" value="{{ $receipt->kind_contract == 'CIF' ? $receipt->ds : 0 }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -38,7 +38,7 @@
                                 <div class="w-full">
                                     <label for="bl" class="font-bold text-[#232D42] text-[16px]">BL</label>
                                     <div class="relative">
-                                        <input type="text" name="bl" value="{{ $receipt->kind_contract == 'FOB' ? number_format($receipt->bl,2) : 0 }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="bl" value="{{ $receipt->kind_contract == 'FOB' ? $receipt->bl : 0 }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         @error('bl')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -63,7 +63,7 @@
                             <div class="w-full">
                                 <label for="tug" class="font-bold text-[#232D42] text-[16px]">Yang diterima tug 3</label>
                                     <div class="relative">
-                                        <input type="text" class="format-number giw-full lg:w-full border rounded-md mt-3 mb-5 h-[40px] px-3" name="tug_3_accept" value="{{number_format($receipt->tug_3_accept,2   )}}">
+                                        <input type="text" class="format-number giw-full lg:w-full border rounded-md mt-3 mb-5 h-[40px] px-3" name="tug_3_accept" value="{{$receipt->tug_3_accept}}">
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}

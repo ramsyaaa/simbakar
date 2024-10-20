@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tug;
 
 use App\BbmUsage;
 use App\Models\Tug;
+use App\BiomassaUsage;
 use App\Models\CoalUsage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,7 +22,8 @@ class TugTwelveController extends Controller
         if($request->has('date')){
            $coal = CoalUsage::select('tug_9_number')->where('usage_date', $request->date)->get();
            $bbm = BbmUsage::select('tug9_number AS tug_9_number')->where('use_date', $request->date)->get();
-           $merged = $coal->concat($bbm);
+           $biomassa = BiomassaUsage::select('tug_9_number')->where('usage_date', $request->date)->get();
+           $merged = $coal->concat($bbm)->concat($biomassa);
            $data['tugs'] = $merged->chunk(6)->map(function ($item){
                 return $item->pad(6,null);
             });
