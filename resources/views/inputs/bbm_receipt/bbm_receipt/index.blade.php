@@ -56,7 +56,6 @@
                                 @if($shipment_type == 'car')
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Mobil</th>
                                 @endif
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Detail</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>

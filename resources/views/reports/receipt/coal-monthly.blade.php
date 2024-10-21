@@ -45,7 +45,7 @@
                         <button type="button" class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="printPDF()">Print</button>
                         <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
                         <button class="bg-blue-500 px-4 py-2 text-center text-white rounded-lg shadow-lg" type="submit">Filter</button>
-                        <a href="{{route('reports.unloading.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                        <a href="{{route('reports.receipt.index')}}" class="bg-pink-900 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
                     </div>
                 </form>
             </div>
@@ -60,7 +60,7 @@
                             <p class="text-right">UBP SURALAYA</p>
                         </div>
                         <div class="text-center text-[20px] font-bold">
-                            <p>Laporan Kegiatan Operasional DUKS</p>
+                            <p>Penerimaan Bahan Bakar Batubara</p>
                             <p>Bulan {{date('F Y', strtotime(request('date')))}} di Dermaga ( {{$dermaga->name ?? 'Semua '}} )</p> 
                         </div>
                         <div></div>
@@ -71,21 +71,18 @@
                                 <tr>
                                     <th class="border border-gray-400 p-2" rowspan="2">No</th>
                                     <th class="border border-gray-400 p-2" rowspan="2">Nama Kapal</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Nama Nahkoda</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Bendera</th>
-                                    <th class="border border-gray-400 p-2" colspan="3">Ukuran Kapal</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">Waktu Sandar</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Asal Pelabuhan</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">Bongkar</th>
+                                    <th class="border border-gray-400 p-2" colspan="2">Tanggal Bongkar</th>
+                                    <th class="border border-gray-400 p-2" rowspan="2">Lama Bongkar ( Jam )</th>
+                                    <th class="border border-gray-400 p-2" rowspan="2">D / S ( Kg )</th>
+                                    <th class="border border-gray-400 p-2" rowspan="2">B / L ( Kg )</th>
+                                    <th class="border border-gray-400 p-2" rowspan="2">B / W ( Kg )</th>
+                                    <th class="border border-gray-400 p-2" rowspan="2">TUG 3 ( Kg )</th>
+                                    <th class="border border-gray-400 p-2" rowspan="2">Unit Dermaga</th>
+                                    <th class="border border-gray-400 p-2" rowspan="2">Pemasok</th>
                                 </tr>
                                 <tr>
-                                    <th class="border border-gray-400 p-2">DWT</th>
-                                    <th class="border border-gray-400 p-2">GRT</th>
-                                    <th class="border border-gray-400 p-2">Panjang</th>
-                                    <th class="border border-gray-400 p-2">Tanggal</th>
-                                    <th class="border border-gray-400 p-2">Jam</th>
-                                    <th class="border border-gray-400 p-2">Kg</th>
-                                    <th class="border border-gray-400 p-2">Jenis</th>
+                                    <th class="border border-gray-400 p-2">Mulai</th>
+                                    <th class="border border-gray-400 p-2">Selesai</th>
 
                                 </tr>
                             </thead>
@@ -93,17 +90,16 @@
                             @foreach ($coals as $coal)
                                 <tr>
                                     <td class="border border-gray-400 p-2">{{$loop->iteration}}</td>
-                                    <td class="border border-gray-400 p-2">{{$coal->ship->name}}</td>
-                                    <td class="border border-gray-400 p-2">{{$coal->captain}}</td>
-                                    <td class="border border-gray-400 p-2">{{$coal->ship->flag}}</td>
-                                    <td class="border border-gray-400 p-2">{{$coal->ship->dwt}}</td>
-                                    <td class="border border-gray-400 p-2">{{$coal->ship->grt}}</td>
-                                    <td class="border border-gray-400 p-2">{{$coal->ship->loa}}</td>
-                                    <td class="border border-gray-400 p-2">{{date('d-m-Y', strtotime($coal->dock_ship_date))}}</td>
-                                    <td class="border border-gray-400 p-2">{{date('H:i:s', strtotime($coal->dock_ship_date))}}</td>
-                                    <td class="border border-gray-400 p-2">{{$coal->originHarbor->name ?? ''}}</td>
+                                    <td class="border border-gray-400 p-2">{{$coal->ship->name ?? ''}}</td>
+                                    <td class="border border-gray-400 p-2">{{date('d-m-Y H:i:s', strtotime($coal->unloading_date))}}</td>
+                                    <td class="border border-gray-400 p-2">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
+                                    <td class="border border-gray-400 p-2">{{$coal->duration_time}}</td>
+                                    <td class="border border-gray-400 p-2">{{number_format($coal->ds)}}</td>
+                                    <td class="border border-gray-400 p-2">{{number_format($coal->bl)}}</td>
+                                    <td class="border border-gray-400 p-2">{{number_format($coal->bw)}}</td>
                                     <td class="border border-gray-400 p-2">{{number_format($coal->tug_3_accept)}}</td>
-                                    <td class="border border-gray-400 p-2">Batu Bara</td>
+                                    <td class="border border-gray-400 p-2">{{$coal->dock->name ?? ''}}</td>
+                                    <td class="border border-gray-400 p-2">{{$coal->supplier->name ?? ''}}</td>
                                 </tr>
                             @endforeach
                         </tbody>

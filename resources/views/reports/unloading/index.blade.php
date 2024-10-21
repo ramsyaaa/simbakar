@@ -20,15 +20,15 @@
         <div class="w-full max-w-[600px] flex flex-col gap-4 my-4 mt-4 px-8">
             @php
                 $dataReport = [
-                    ['text' => 'Realisasi Pembongkaran Batubara','url' => '#'],
-                    ['text' => 'Rekapitulasi Pembongkaran HSD dengan Mobil Tangki - Bulanan','url' => '#'],
+                    ['text' => 'Realisasi Pembongkaran Batubara','url' => route('reports.unloading.coal-unloading-report')],
+                    ['text' => 'Rekapitulasi Pembongkaran HSD dengan Mobil Tangki - Bulanan','url' => route('reports.unloading.hsd-car-unloading')],
                     ['text' => 'Kegiatan Operasional DUKS','url' => route('reports.unloading.operational-duks')],
                     // ['text' => 'Rekapitulasi Jasa Tambat Dermaga PLTU Suralaya','url' => '#'],
                     // ['text' => 'Rincian Jasa Tambat','url' => '#'],
                     // ['text' => 'Rincian Jasa Dermaga','url' => '#'],
                     // ['text' => 'Rekap Jasa Tambat dan Dermaga','url' => '#'],
                     // ['text' => 'Rekap Tagihan Jasa Dermaga','url' => '#'],
-                    ['text' => 'Data Gangguan','url' => '#'],
+                    ['text' => 'Data Gangguan','url' => route('reports.unloading.disruption-data')],
                     // ['text' => 'Rekap Pemakaian Listrik FDE','url' => '#'],
                     // ['text' => 'Tagihan Pemakaian Ship Unloader (SU)','url' => '#'],
                 ]

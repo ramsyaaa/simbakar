@@ -37,7 +37,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="main_supplier_uuid" class="font-bold text-[#232D42] text-[16px]">Pemasok</label>
                                     <div class="relative">
-                                        <select name="main_supplier_uuid" id="main_supplier_uuid" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="main_supplier_uuid" id="main_supplier_uuid" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($suppliers as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('main_supplier_uuid') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -125,7 +125,7 @@
                                     <!-- Input supplier_uuid dengan Select -->
                                     <div class="mb-4">
                                         <label for="supplier_uuid" class="block text-gray-700">Supplier</label>
-                                        <select name="supplier_uuid[]" class="w-full border rounded-md mt-1 mb-3 h-[40px] px-3">
+                                        <select name="supplier_uuid[]" class="select-2 w-full border rounded-md mt-1 mb-3 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             <!-- Contoh penggunaan Blade di Laravel untuk pengisian opsi -->
                                             @foreach ($suppliers as $item)
@@ -147,6 +147,26 @@
                                     <div class="mb-4">
                                         <label for="date_shipment" class="block text-gray-700">Tanggal Pengiriman</label>
                                         <input type="date" name="date_shipment[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="analysis_number" class="block text-gray-700">No Analisa</label>
+                                        <input type="text" name="analysis_number[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="total_moisure" class="block text-gray-700">Total Moisure</label>
+                                        <input type="text" name="total_moisure[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="moisure_in_analysis" class="block text-gray-700">Moisure in Analysis</label>
+                                        <input type="text" name="moisure_in_analysis[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="calorivic_value" class="block text-gray-700">Calorivic Value</label>
+                                        <input type="text" name="calorivic_value[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="retained_5" class="block text-gray-700">Retained 5</label>
+                                        <input type="text" name="retained_5[]" class="w-full border border-gray-300 p-2 rounded mt-1">
                                     </div>
                                 </div>
 
@@ -207,11 +227,29 @@
         const addDataButton = document.getElementById('addDataButton');
         const dataContainer = document.getElementById('dataContainer');
 
-        addDataButton.addEventListener('click', () => {
+       addDataButton.addEventListener('click', () => {
             // Clone template form data
             const dataFormTemplate = document.querySelector('.dataForm.hidden');
+
+            // Remove any existing Select2 initialization from the template before cloning
+            const selectElements = dataFormTemplate.querySelectorAll('.select-2');
+            selectElements.forEach((selectElement) => {
+                if ($(selectElement).data('select2')) {
+                    $(selectElement).select2('destroy');
+                }
+            });
+
+            // Clone the template after removing old Select2 initialization
             const newDataForm = dataFormTemplate.cloneNode(true);
             newDataForm.classList.remove('hidden');
+
+            // Inisialisasi Select2 pada elemen select di dalam form yang baru di-clone
+            const newSelectElements = newDataForm.querySelectorAll('.select-2');
+            newSelectElements.forEach((newSelectElement) => {
+                $(newSelectElement).select2({
+                    width: '100%' // Pastikan lebar penuh untuk select element
+                });
+            });
 
             // Event Listener untuk Tombol Hapus
             newDataForm.querySelector('.removeDataButton').addEventListener('click', () => {
@@ -220,6 +258,7 @@
 
             dataContainer.appendChild(newDataForm);
         });
+
 
         const addTimeDataButton = document.getElementById('addTimeDataButton');
         const timeDataContainer = document.getElementById('timeDataContainer');

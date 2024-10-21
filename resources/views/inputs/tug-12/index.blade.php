@@ -44,7 +44,7 @@
                 </form>
                 @isset($tugs)
 
-                <div id="my-pdf">
+                <div>
 
                     <div class="overflow-auto hide-scrollbar max-w-full p-9">
                         <img src="{{asset('logo.png')}}" alt="" style="display:none;">
@@ -74,11 +74,93 @@
                         {{-- {{ $tugs->links() }} --}}
                     </div>
                 </div>
-            @endisset
-
-
+                
+                
             </div>
         </div>
+        <div id="my-pdf" style="display:none;" class="w-50">
+            <div class="p-10" style="font-size: 12px;"><div id="my-pdf" class="p-10">
+                <div class="flex justify-between mb-4">
+                    <div>
+                        <img src="{{asset('logo.png')}}" alt="" width="200">
+                        <p class="text-right">UBP SURALAYA</p>
+                    </div>
+                    <div class="text-[20px] font-bold">
+                        DAFTAR PENGANTAR BON - BON GUDANG
+                    </div>
+                    <div></div>
+                </div>
+                <div class="max-w-full p-9">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">#</th>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($tugs as $item)
+                                <tr>
+                                    <td class="text-[16px] font-normal border px-2 text-center">{{$loop->iteration}}</td>
+                                    @foreach ($item as $tug)
+                                        <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->tug_9_number ?? '' }}</td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{-- {{ $tugs->links() }} --}}
+                </div>
+                <div class="second-table mt-5 flex justify-between">
+                    <div class="first">
+                         <table class="w-full" style="font-size:10px;">
+                              <thead>
+                                   <tr>
+                                        <th></th>
+                                        <th>Tanggal</th>
+                                        <th>Paraf</th>
+                                   </tr>
+                              </thead>
+                              <tbody>
+                                   <tr>
+                                        <th class="border border-gray-400 px-2">Dibuat</th>
+                                        <th class="border border-gray-400 px-2">  {{date('d-m-Y', strtotime(request('date')))}}</th>
+                                        <th class="border border-gray-400 px-2 w-[150px]"></th>
+                                   </tr>
+                              </tbody>
+                              <tbody>
+                                   <tr>
+                                        <th class="border border-gray-400 px-2">Diperiksa</th>
+                                        <th class="border border-gray-400 px-2">  {{date('d-m-Y', strtotime(request('date')))}}</th>
+                                        <th class="border border-gray-400 px-2"></th>
+                                   </tr>
+                              </tbody>
+                              <tbody>
+                                   <tr>
+                                        <th class="border border-gray-400 px-2">Dibukukan</th>
+                                        <th class="border border-gray-400 px-2">  {{date('d-m-Y', strtotime(request('date')))}}</th>
+                                        <th class="border border-gray-400 px-2"></th>
+                                   </tr>
+                              </tbody>
+                         </table>
+                    </div>
+                    <div class="second">
+                         
+                    </div>
+                    
+               </div>
+            </div>
+        </div>
+        @endisset
+       
     </div>
+    
 </div>
+
+
 @endsection

@@ -662,12 +662,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="amount_receipt" class="font-bold text-[#232D42] text-[16px]">Jumlah Terima</label>
                                     <div class="relative">
-                                        <select name="amount_receipt" id="amount_receipt" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                            <option selected disabled>Pilih</option>
-                                            @foreach ($amount_receipts as $item)
-                                                <option {{old('amount_receipt') == $item ? 'selected' :''}}>{{$item}}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="text" name="amount_receipt" value="{{ old('amount_receipt') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('amount_receipt')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}

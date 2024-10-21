@@ -67,7 +67,7 @@
                     </div>
                 {{-- @endif --}}
                 {{-- @if (Auth::user()->hasPermissionTo('inputan-analisa')) --}}
-                    <div>
+                    {{-- <div>
                         <a href="{{ route('inputs.analysis-biomassa.index') }}">
                             <div class="flex items-center gap-4 py-2 cursor-pointer hover:scale-105 duration-300 hover:bg-[#047A96] {{ request()->routeIs('inputs.analysis-biomassa.index') ? 'bg-[#047A96]' : 'hover:bg-[#047A96]' }} rounded-lg">
                                 <div>
@@ -80,7 +80,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </div> --}}
                 {{-- @endif --}}
                 {{-- @if (Auth::user()->hasPermissionTo('inputan-pembongkaran-batu-bara'))
                     <div>
