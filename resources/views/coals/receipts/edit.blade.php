@@ -427,12 +427,12 @@
     
                                             <input required type="date" name="loading_date_month" value="{{$receipt->loading_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <select name="loading_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 23; $i++)
+                                                @for ($i = 0; $i <= 23; $i++)
                                                 <option {{$receipt->loading_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>
                                             <select name="loading_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 59; $i++)
+                                                @for ($i = 0; $i <= 59; $i++)
                                                 <option  {{$receipt->loading_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>
@@ -451,12 +451,12 @@
     
                                             <input required type="date" name="arrived_date_month" value="{{$receipt->arrived_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <select name="arrived_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 23; $i++)
+                                                @for ($i = 0; $i <= 23; $i++)
                                                 <option {{$receipt->arrived_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>
                                             <select name="arrived_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 59; $i++)
+                                                @for ($i = 0; $i <= 59; $i++)
                                                 <option  {{$receipt->arrived_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>
@@ -475,12 +475,12 @@
     
                                             <input required type="date" name="dock_ship_date_month" value="{{$receipt->dock_ship_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <select name="dock_ship_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 23; $i++)
+                                                @for ($i = 0; $i <= 23; $i++)
                                                 <option {{$receipt->dock_ship_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>
                                             <select name="dock_ship_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 59; $i++)
+                                                @for ($i = 0; $i <= 59; $i++)
                                                 <option  {{$receipt->dock_ship_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>
@@ -499,12 +499,12 @@
     
                                             <input required type="date" name="unloading_date_month" value="{{$receipt->unloading_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <select name="unloading_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 23; $i++)
+                                                @for ($i = 0; $i <= 23; $i++)
                                                 <option {{$receipt->unloading_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>
                                             <select name="unloading_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 59; $i++)
+                                                @for ($i = 0; $i <= 59; $i++)
                                                 <option  {{$receipt->unloading_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>
@@ -523,12 +523,12 @@
     
                                             <input required type="date" name="end_date_month" value="{{$receipt->end_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <select name="end_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 23; $i++)
+                                                @for ($i = 0; $i <= 23; $i++)
                                                 <option {{$receipt->end_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>
                                             <select name="end_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 59; $i++)
+                                                @for ($i = 0; $i <= 59; $i++)
                                                 <option  {{$receipt->end_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>
@@ -547,12 +547,12 @@
     
                                             <input required type="date" name="departure_date_month" value="{{$receipt->departure_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <select name="departure_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 23; $i++)
+                                                @for ($i = 0; $i <= 23; $i++)
                                                 <option {{$receipt->departure_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>
                                             <select name="departure_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                @for ($i = 1; $i <= 59; $i++)
+                                                @for ($i = 0; $i <= 59; $i++)
                                                 <option  {{$receipt->departure_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
                                                 @endfor
                                             </select>

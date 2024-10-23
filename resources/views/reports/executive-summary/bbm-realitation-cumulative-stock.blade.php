@@ -220,7 +220,7 @@
                                             </th>
                                         @endif
                                         @if ($type != 'year')
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="7">DS
+                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="10">DS
                                                 &
                                                 BL</th>
                                         @endif
@@ -238,10 +238,13 @@
 
                                             <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 3</th>
                                             <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 4</th>
+                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 1-4</th>
 
                                             <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 5</th>
                                             <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 6</th>
                                             <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 7</th>
+                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 5-7</th>
+                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 1-7</th>
                                         @endif
                                         @if (isset($type) && $type != 'year')
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">
@@ -305,6 +308,9 @@
                                                     {{ isset($item['unit_4']) ? formatNumber($item['unit_4']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                    {{ isset($item['unit_1_4']) ? formatNumber($item['unit_1_4']) : '-' }}
+                                                </td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">
                                                     {{ isset($item['unit_5']) ? formatNumber($item['unit_5']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
@@ -312,6 +318,12 @@
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                                     {{ isset($item['unit_7']) ? formatNumber($item['unit_7']) : '-' }}
+                                                </td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                    {{ isset($item['unit_5_7']) ? formatNumber($item['unit_5_7']) : '-' }}
+                                                </td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                    {{ isset($item['unit_1_7']) ? formatNumber($item['unit_1_7']) : '-' }}
                                                 </td>
                                             @endif
                                             @if (isset($type) && $type != 'year')
@@ -364,6 +376,9 @@
                                                     {{ formatNumber(collect($bbm_unloading)->pluck('unit_4')->sum()) }}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                    {{ formatNumber(collect($bbm_unloading)->pluck('unit_1_4')->sum()) }}
+                                                </th>
+                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                                     {{ formatNumber(collect($bbm_unloading)->pluck('unit_5')->sum()) }}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
@@ -371,6 +386,12 @@
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                                     {{ formatNumber(collect($bbm_unloading)->pluck('unit_7')->sum()) }}
+                                                </th>
+                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                    {{ formatNumber(collect($bbm_unloading)->pluck('unit_5_7')->sum()) }}
+                                                </th>
+                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                    {{ formatNumber(collect($bbm_unloading)->pluck('unit_1_7')->sum()) }}
                                                 </th>
                                             @endif
                                             @if (isset($type) && $type != 'year')
