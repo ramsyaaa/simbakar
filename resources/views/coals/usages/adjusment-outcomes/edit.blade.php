@@ -29,9 +29,9 @@
                                             <input type="hidden" name="type_adjusment" value="outcome">
                                             <select id="type_fuel" name="type_fuel" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3" autofocus>
                                                 <option selected disabled>Jenis Bahan Bakar</option>
-                                                <option {{$adjusment->type_fuel == 'Batu Bara' ? 'selected' :''}}> Batu Bara</option>
-                                                <option {{$adjusment->type_fuel == 'HSD / Solar' ? 'selected' :''}}> HSD / Solar</option>
-                                                <option {{$adjusment->type_fuel == 'MFO / Residu' ? 'selected' :''}}> MFO / Residu</option>
+                                                <option {{$adjusment->type_fuel == 'batubara' ? 'selected' :''}} value="batubara"> Batu Bara</option>
+                                                <option {{$adjusment->type_fuel == 'solar' ? 'selected' :''}} value="solar"> HSD / Solar</option>
+                                                <option {{$adjusment->type_fuel == 'residu' ? 'selected' :''}} value="residu"> MFO / Residu</option>
                                             </select>
                                             @error('type_fuel')
                                             <div class="absolute -bottom-1 left-1 text-red-500">

@@ -149,13 +149,11 @@
                                 @foreach ($coals as $coal)
 
                                    <tr>
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->supplier->name ?? ''}}</td>
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{$coal->ship->name ?? ''}}</td>
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{date('d-m-Y H:i:s', strtotime($coal->arrived_date))}}</td>
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic) + 1}}">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
-                                   </tr>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic)}}">{{$coal->supplier->name ?? ''}}</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic)}}">{{$coal->ship->name ?? ''}}</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic)}}">{{date('d-m-Y H:i:s', strtotime($coal->arrived_date))}}</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic)}}">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
                                    @if (in_array('loading',$analytic))
-                                   <tr>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400">Loading : {{$coal->loading->surveyor->name}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->loading->moisture_total}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->loading->air_dried_moisture}}</td>
@@ -163,7 +161,7 @@
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->loading->volatile_matter}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->loading->fixed_carbon}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->loading->total_sulfur}}</td>
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->loading->calor}}</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->loading->calorivic_value}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->loading->carbon}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->loading->hydrogen}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->loading->nitrogen}}</td>
@@ -192,7 +190,6 @@
                                     </tr>
                                     @endif
                                    @if (in_array('unloading',$analytic))
-                                   <tr>
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400">Unloading : {{$coal->unloading->surveyor->name}}</td>
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->unloading->moisture_total}}</td>
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->unloading->air_dried_moisture}}</td>
@@ -230,7 +227,10 @@
                                @endif
 
                                @if (in_array('labor',$analytic))
-                                <tr>
+                               @if (count($analytic) != 1)
+                               <tr>
+                                   
+                               @endif
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400">Labor : </td>
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->labor->moisture_total}}</td>
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400">{{$coal->labor->air_dried_moisture}}</td>

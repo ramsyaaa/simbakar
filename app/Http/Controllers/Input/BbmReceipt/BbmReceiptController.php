@@ -189,13 +189,16 @@ class BbmReceiptController extends Controller
             'head_of_warehouse.required' => 'Kepala gudang wajib diisi',
         ]);
 
-        $lastUnloadingToday = BbmReceipt::whereDate('created_at', Carbon::today())->get()->count() + 1;
+        $date = Carbon::parse($request->date_receipt); // Mengubah string menjadi instance Carbon
+        $formattedDate = $date->format('Y-m-d'); 
+        $formattedYear = $date->format('Y'); 
+        $lastUnloadingToday = BbmReceipt::whereDate('date_receipt', $formattedDate)->get()->count() + 1;
 
         $count = sprintf("%02d", $lastUnloadingToday);
-        $tugNumber = 'S.'.date('Ymd').'.'.$count;
+        $tugNumber = 'S.'.$date->format('Ymd').'.'.$count;
 
-        $lastUnloadingYear = BbmReceipt::whereYear('created_at',date('Y'))->get()->count() + 1;
-        $bpbNumber = 'S.'.date('Y').'.'.$lastUnloadingYear;
+        $lastUnloadingYear = BbmReceipt::whereYear('date_receipt',$formattedYear)->get()->count() + 1;
+        $bpbNumber = 'S.'.$formattedYear.'.'.$lastUnloadingYear;
 
         $bbm = BbmReceipt::create([
             'shipment_type' => $shipment_type,

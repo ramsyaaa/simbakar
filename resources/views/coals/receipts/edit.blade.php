@@ -27,7 +27,7 @@
                             <div class="w-full">
                                 <label for="ds" class="font-bold text-[#232D42] text-[16px]">DS</label>
                                     <div class="relative">
-                                        <input type="text" name="ds" value="{{ $receipt->kind_contract == 'CIF' ? $receipt->ds : 0 }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="ds" value="{{ $receipt->ds }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3 ds-input">
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -38,7 +38,7 @@
                                 <div class="w-full">
                                     <label for="bl" class="font-bold text-[#232D42] text-[16px]">BL</label>
                                     <div class="relative">
-                                        <input type="text" name="bl" value="{{ $receipt->kind_contract == 'FOB' ? $receipt->bl : 0 }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="bl" value="{{ $receipt->bl }}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3 bl-input">
                                         @error('bl')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -63,7 +63,7 @@
                             <div class="w-full">
                                 <label for="tug" class="font-bold text-[#232D42] text-[16px]">Yang diterima tug 3</label>
                                     <div class="relative">
-                                        <input type="text" class="format-number giw-full lg:w-full border rounded-md mt-3 mb-5 h-[40px] px-3" name="tug_3_accept" value="{{$receipt->tug_3_accept}}">
+                                        <input type="text" class="format-number giw-full lg:w-full border rounded-md mt-3 mb-5 h-[40px] px-3 tug-3" name="tug_3_accept" value="{{$receipt->tug_3_accept}}">
                                         @error('ds')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -74,7 +74,7 @@
                                 <div class="w-full">
                                     <label for="kind_contract" class="font-bold text-[#232D42] text-[16px]">Jenis Kontrak</label>
                                     <div class="relative">
-                                        <select name="kind_contract" id="kind_contract" class="w-full lg:w-46 border rounded-md mt-3 h-[40px] px-3" required>
+                                        <select name="kind_contract" id="kind_contract" class="w-full lg:w-46 border rounded-md mt-3 h-[40px] px-3 kind_contract" required>
                                             <option value="">Pilih Jenis Kontrak</option>
                                             <option {{$receipt->kind_contract == 'FOB' ? 'selected' : ''}}>FOB</option>
                                             <option {{$receipt->kind_contract == 'CIF' ? 'selected' : ''}}>CIF</option>
@@ -419,21 +419,48 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="w-1/2">
                                 <div class="w-full">
                                     <label for="loading_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Loading</label>
                                     <div class="relative">
-                                        <input required type="datetime-local" name="loading_date" value="{{ $receipt->loading_date }}" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <div class="flex w-full gap-2">
+    
+                                            <input required type="date" name="loading_date_month" value="{{$receipt->loading_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="loading_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 23; $i++)
+                                                <option {{$receipt->loading_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                            <select name="loading_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 59; $i++)
+                                                <option  {{$receipt->loading_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
                                         @error('loading_date')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
                                     </div>
-                                </div>
+                                </div>          
                                 <div class="w-full">
                                     <label for="arrived_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Tiba</label>
                                     <div class="relative">
-                                        <input required type="datetime-local" name="arrived_date" value="{{ $receipt->arrived_date }}" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <div class="flex w-full gap-2">
+    
+                                            <input required type="date" name="arrived_date_month" value="{{$receipt->arrived_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="arrived_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 23; $i++)
+                                                <option {{$receipt->arrived_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                            <select name="arrived_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 59; $i++)
+                                                <option  {{$receipt->arrived_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
                                         @error('arrived_date')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -444,7 +471,20 @@
                                 <div class="w-full">
                                     <label for="dock_ship_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Sandar</label>
                                     <div class="relative">
-                                        <input required type="datetime-local" name="dock_ship_date" value="{{ $receipt->dock_ship_date }}" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <div class="flex w-full gap-2">
+    
+                                            <input required type="date" name="dock_ship_date_month" value="{{$receipt->dock_ship_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="dock_ship_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 23; $i++)
+                                                <option {{$receipt->dock_ship_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                            <select name="dock_ship_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 59; $i++)
+                                                <option  {{$receipt->dock_ship_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
                                         @error('dock_ship_date')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -455,7 +495,20 @@
                                 <div class="w-full">
                                     <label for="unloading_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Pembongkaran</label>
                                     <div class="relative">
-                                        <input required type="datetime-local" name="unloading_date" value="{{ $receipt->unloading_date }}" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <div class="flex w-full gap-2">
+    
+                                            <input required type="date" name="unloading_date_month" value="{{$receipt->unloading_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="unloading_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 23; $i++)
+                                                <option {{$receipt->unloading_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                            <select name="unloading_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 59; $i++)
+                                                <option  {{$receipt->unloading_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
                                         @error('unloading_date')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -466,7 +519,20 @@
                                 <div class="w-full">
                                     <label for="end_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Selesai</label>
                                     <div class="relative">
-                                        <input required type="datetime-local" name="end_date" value="{{ $receipt->end_date }}" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <div class="flex w-full gap-2">
+    
+                                            <input required type="date" name="end_date_month" value="{{$receipt->end_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="end_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 23; $i++)
+                                                <option {{$receipt->end_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                            <select name="end_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 59; $i++)
+                                                <option  {{$receipt->end_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
                                         @error('end_date')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -477,7 +543,20 @@
                                 <div class="w-full">
                                     <label for="departure_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Berangkat</label>
                                     <div class="relative">
-                                        <input required type="datetime-local" name="departure_date" value="{{ $receipt->departure_date }}" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <div class="flex w-full gap-2">
+    
+                                            <input required type="date" name="departure_date_month" value="{{$receipt->departure_date_month}}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="departure_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 23; $i++)
+                                                <option {{$receipt->departure_date_hour == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                            <select name="departure_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                @for ($i = 1; $i <= 59; $i++)
+                                                <option  {{$receipt->departure_date_minute == $i ? 'selected' : ''}}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
                                         @error('departure_date')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -485,6 +564,8 @@
                                         @enderror
                                     </div>
                                 </div>
+                            </div>
+
                                 <div class="lg:flex gap-3">
                                     <div class="w-full">
                                         <label for="note" class="font-bold text-[#232D42] text-[16px]">Catatan</label>
@@ -747,6 +828,20 @@
         });
     });
 
+
+</script>
+<script>
+    $('.kind_contract').on('change', function() {
+        contract = $(this).find(":selected").val()
+        bl = $('.bl-input').val();
+        ds = $('.ds-input').val();
+        if (contract == 'FOB') {
+            $('.tug-3').val(bl);
+        } else {
+            $('.tug-3').val(ds);
+            
+        }
+    });
 
 </script>
 @endsection
