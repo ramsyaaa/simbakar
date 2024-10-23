@@ -110,17 +110,17 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $index }}</td>
                                 @endif
 
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ $item['cumulative'] }} @else @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0, '.', ',') }} @else {{ number_format($cumulative[$index - 1], 0, '.', ',') }} @endif @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ $item['cumulative'] }} @else @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0, '.', ',') }} @else {{ number_format($cumulative[$index - 1], 0, '.', ',') }} @endif @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ number_format($item['cumulative'], 0) }} @else @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($cumulative[$index - 1], 0) }} @endif @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ number_format($item['cumulative'], 0) }} @else @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($cumulative[$index - 1], 0) }} @endif @endif</td>
 
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ number_format(isset($item['bbm_receipt_plan']['total_planning']) ? $item['bbm_receipt_plan']['total_planning'] : 0, 0, '.', ',') }} @else {{ number_format(isset($bbm_receipt_plan->planning) ? $bbm_receipt_plan->planning : 0, 0, '.', ',') }} @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ $item['bbm_receipt'] }} @else {{ number_format($bbm_receipt[$index], 0, '.', ',') }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ number_format(isset($item['bbm_receipt_plan']['total_planning']) ? $item['bbm_receipt_plan']['total_planning'] : 0, 0) }} @else {{ number_format(isset($bbm_receipt_plan->planning) ? $bbm_receipt_plan->planning : 0, 0) }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{  number_format($item['bbm_receipt'], 0) }} @else {{ number_format($bbm_receipt[$index], 0) }} @endif</td>
 
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ number_format(isset($item['bbm_usage_plan']['total_planning']) ? $item['bbm_usage_plan']['total_planning'] : 0, 0, '.', ',') }} @else {{ number_format(isset($usage_plan->planning) ? $usage_plan->planning : 0, 0, '.', ',') }} @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ $item['bbm_usage'] }} @else{{ number_format($bbm_usage[$index], 0, '.', ',') }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ number_format(isset($item['bbm_usage_plan']['total_planning']) ? $item['bbm_usage_plan']['total_planning'] : 0, 0) }} @else {{ number_format(isset($usage_plan->planning) ? $usage_plan->planning : 0, 0) }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ number_format($item['bbm_usage'], 0) }} @else{{ number_format($bbm_usage[$index], 0) }} @endif</td>
 
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ $item['cumulative'] }} @else {{ number_format($cumulative[$index], 0, '.', ',') }} @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ $item['cumulative'] }} @else {{ number_format($cumulative[$index], 0, '.', ',') }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ number_format($item['cumulative'], 0) }} @else {{ number_format($cumulative[$index], 0) }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'year') {{ number_format($item['cumulative'], 0) }} @else {{ number_format($cumulative[$index], 0) }} @endif</td>
 
                             </tr>
                             @endforeach

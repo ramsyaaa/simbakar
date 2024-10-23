@@ -16,6 +16,7 @@ use App\Models\DeliveryClause;
 use App\Models\StockOpname;
 use App\Models\YearStartData;
 use App\Supplier;
+use App\Models\Tug;
 use App\Unit;
 use DateTime;
 use Illuminate\Http\Request;
@@ -47,6 +48,30 @@ class ReportBbmController extends Controller
 
     public function index(Request $request, $type_bbm)
     {
+        set_time_limit(100000);
+        $duplicates = BbmReceipt::select('NO_TUG3', 'ID_PENGIRIMAN')
+            ->groupBy('NO_TUG3', 'ID_PENGIRIMAN')
+            ->havingRaw('COUNT(*) > 1')
+            ->get();
+
+        foreach ($duplicates as $duplicate) {
+            // Ambil semua data yang duplikat
+            $duplicatesData = BbmReceipt::where('NO_TUG3', $duplicate->NO_TUG3)
+                ->where('ID_PENGIRIMAN', $duplicate->ID_PENGIRIMAN)
+                ->orderBy('id') // Atur berdasarkan ID agar yang pertama adalah yang tertua
+                ->get();
+
+            // Lewati record pertama, hapus sisanya
+            $duplicatesData->skip(1)->each(function ($item) {
+                // Hapus data dari tabel tugs berdasarkan bbm_receipt_id
+                Tug::where('bbm_receipt_id', $item->id)->delete();
+
+                // Hapus record dari bbm_receipt
+                $item->delete();
+            });
+        }
+
+        // dd(23);
         $filterType = 'day';
         $data['filter_type'] = null;
         $validFilterTypes = ['day', 'month', 'year'];
@@ -147,9 +172,10 @@ class ReportBbmController extends Controller
                 $bbm_receipt = [];
                 $bbm_usage = [];
                 $cumulative = [];
+                // dd($data['bbm_usage']);
                 foreach ($data['bbm_receipt'] as $key => $bbm) {
-                    $bbm_receipt[] = end($bbm);
-                    $bbm_usage[] = end($data['bbm_usage'][$key]);
+                    $bbm_receipt[] = array_sum($bbm);
+                    $bbm_usage[] = array_sum($data['bbm_usage'][$key]);
                     $cumulative[] = end($data['cumulative'][$key]);
                 }
 
@@ -160,65 +186,26 @@ class ReportBbmController extends Controller
 
 
             case 'year':
-                // // Set the start and end dates for the year range
-                // $startDate = $startYear . '-01-01';
-                // $endDate = $endYear . '-12-31 23:59:59'; // Ensure the end date includes the entire last day of the year
-
-                // // Query for receipts
-                // $queryBbmReceipt->selectRaw('YEAR(date_receipt) as year, SUM(amount_receipt) as total_amount')
-                //     ->whereBetween('date_receipt', [$startDate, $endDate])
-                //     ->where('bbm_type', $type_bbm)
-                //     ->groupBy('year');
-
-                // // Query for usage
-                // $queryBbmUsage->selectRaw('YEAR(use_date) as year, SUM(amount) as total_amount')
-                //     ->whereBetween('use_date', [$startDate, $endDate])
-                //     ->where('bbm_type', $type_bbm)
-                //     ->groupBy('year');
-
-                // // Execute the queries
-                // $bbmReceiptResults = $queryBbmReceipt->get();
-                // $bbmUsageResults = $queryBbmUsage->get();
-
-                // // Initialize arrays for each year
-                // $yearlyReceipts = [];
-                // $yearlyUsages = [];
-
-                // // Populate receipt data
-                // foreach ($bbmReceiptResults as $result) {
-                //     $yearlyReceipts[$result->year] = $result->total_amount;
-                // }
-
-                // // Populate usage data
-                // foreach ($bbmUsageResults as $result) {
-                //     $yearlyUsages[$result->year] = $result->total_amount;
-                // }
-
-                // // Fill in missing years
-                // for ($year = $startYear; $year <= $endYear; $year++) {
-                //     if (!isset($yearlyReceipts[$year])) {
-                //         $yearlyReceipts[$year] = 0.0;
-                //     }
-                //     if (!isset($yearlyUsages[$year])) {
-                //         $yearlyUsages[$year] = 0.0;
-                //     }
-                // }
-
-                // $data['bbm_receipt'] = $yearlyReceipts;
-                // $data['bbm_usage'] = $yearlyUsages;
-                // ksort($data['bbm_usage']);
-                // ksort($data['bbm_receipt']);
-
-
                 $perYear = [];
                 for ($i=$startYear; $i <= $endYear; $i++) {
                     $dataPerYear = $this->getKumulatif($i, $type_bbm);
                     $perYear[$i]['start_year_data_actual'] = $dataPerYear['start_year_data_actual'];
-                    $perYear[$i]['bbm_receipt'] = end($dataPerYear['bbm_receipt']);
-                    $perYear[$i]['bbm_receipt'] = end($perYear[$i]['bbm_receipt']);
 
-                    $perYear[$i]['bbm_usage'] = end($dataPerYear['bbm_usage']);
-                    $perYear[$i]['bbm_usage'] = end($perYear[$i]['bbm_usage']);
+                    $perYear[$i]['bbm_receipt'] = 0;
+
+                    foreach ($dataPerYear['bbm_receipt'] as $receipt) {
+                        if (is_array($receipt)) {
+                            $perYear[$i]['bbm_receipt'] += array_sum($receipt);
+                        }
+                    }
+
+                    $perYear[$i]['bbm_usage'] = 0;
+
+                    foreach ($dataPerYear['bbm_usage'] as $usage) {
+                        if (is_array($usage)) {
+                            $perYear[$i]['bbm_usage'] += array_sum($usage);
+                        }
+                    }
 
                     $perYear[$i]['cumulative'] = end($dataPerYear['cumulative']);
                     $perYear[$i]['cumulative'] = end($perYear[$i]['cumulative']);
