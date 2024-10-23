@@ -27,10 +27,10 @@ class CoalUnloadingController extends Controller
         $unloadings = CoalUnloading::query();
         $unloadings->when($request->date, function ($query) use ($request) {
             $date = explode('-', $request->date);
-            $query->whereYear('unloading_date', $date[0]);
-            $query->whereMonth('unloading_date', $date[1]);
+            $query->whereYear('receipt_date', $date[0]);
+            $query->whereMonth('receipt_date', $date[1]);
         });
-        $data['unloadings'] = $unloadings->latest()->paginate(10)->appends(request()->query());
+        $data['unloadings'] = $unloadings->orderBy('tug_number','desc')->paginate(10)->appends(request()->query());
         // dd($data);
         return view('coals.unloadings.index',$data);
 
@@ -60,17 +60,48 @@ class CoalUnloadingController extends Controller
     {
         DB::beginTransaction();
         try {
-            $lastUnloadingToday = CoalUnloading::whereDate('created_at', Carbon::today())->get()->count() + 1;
+
+            $date = Carbon::parse($request->end_date); // Mengubah string menjadi instance Carbon
+            $formattedDate = $date->format('Y-m-d'); 
+            $formattedYear = $date->format('Y'); 
+
+            $lastUnloadingToday = CoalUnloading::whereDate('receipt_date', $formattedDate)->get()->count() + 1;
 
             $countTug = sprintf("%02d", $lastUnloadingToday);
             $tugNumber = 'B.'.date('Ymd').'.'.$countTug;
 
-            $lastUnloadingYear = CoalUnloading::whereYear('created_at',date('Y'))->get()->count() + 1;
+            $loading = $request->loading_date_month.' '.$request->loading_date_hour.':'.$request->loading_date_minute;
+            $loading_date = Carbon::parse($loading)->format('Y-m-d H:i:s');
+
+            $dock_ship = $request->dock_ship_date_date_month.' '.$request->dock_ship_date_hour.':'.$request->dock_ship_date_minute;       
+            $dock_ship_date= Carbon::parse($dock_ship)->format('Y-m-d H:i:s');
+
+            $arrived = $request->arrived_date_month.' '.$request->arrived_date_hour.':'.$request->arrived_date_minute;
+
+            $arrived_date= Carbon::parse($arrived)->format('Y-m-d H:i:s');
+            
+            $unloading = $request->unloading_date_month.' '.$request->unloading_date_hour.':'.$request->unloading_date_minute;
+            $unloading_date= Carbon::parse($unloading)->format('Y-m-d H:i:s');
+
+            $end = $request->end_date_month.' '.$request->end_date_hour.':'.$request->end_date_minute;
+            $end_date= Carbon::parse($end)->format('Y-m-d H:i:s');
+
+            $departure = $request->departure_date_month.' '.$request->departure_date_hour.':'.$request->departure_date_minute;
+            $departure_date= Carbon::parse($departure)->format('Y-m-d H:i:s');
+
+            $lastUnloadingYear = CoalUnloading::whereYear('receipt_date',$formattedYear)->get()->count() + 1;
             $bpbNumber = 'B.'.date('Y').'.'.$lastUnloadingYear;
 
             $requestData = $request->all();
             $requestData['tug_number'] = $tugNumber;
             $requestData['bpb_number'] = $bpbNumber;
+            $requestData['loading_date'] = $loading_date;
+            $requestData['dock_ship_date'] = $dock_ship_date;
+            $requestData['arrived_date'] = $arrived_date;
+            $requestData['unloading_date'] = $unloading_date;
+            $requestData['end_date'] = $end_date;
+            $requestData['departure_date'] = $departure_date;
+            $requestData['receipt_date'] = $end_date;
             $requestData['form_part_number'] = '18.01.0009';
             $requestData['unit'] = 'Kg';
 
@@ -86,7 +117,7 @@ class CoalUnloadingController extends Controller
                 'tug_number' => $tugNumber,
                 'bpb_number' => $bpbNumber,
                 'type_tug' => 'coal-unloading',
-                'usage_amount' => $requestData['bl'],
+                'usage_amount' =>0,
                 'unit' => 'Kg',
                 'type_fuel' => 'Batu Bara',
                 'coal_unloading_id' => $unloading->id,
@@ -123,6 +154,34 @@ class CoalUnloadingController extends Controller
     public function edit($id)
     {
         $unloading = CoalUnloading::where('id', $id)->first();
+        $unloading['loading_date_month'] = Carbon::parse($unloading->loading_date)->format('Y-m-d');
+        $unloading['loading_date_hour'] = Carbon::parse($unloading->loading_date)->format('H');
+        $unloading['loading_date_minute'] = Carbon::parse($unloading->loading_date)->format('i');
+
+        $unloading['unloading_date_month'] = Carbon::parse($unloading->unloading_date)->format('Y-m-d');
+        $unloading['unloading_date_hour'] = Carbon::parse($unloading->unloading_date)->format('H');
+        $unloading['unloading_date_minute'] = Carbon::parse($unloading->unloading_date)->format('i');
+
+        $unloading['dock_ship_date_month'] = Carbon::parse($unloading->dock_ship_date)->format('Y-m-d');
+        $unloading['dock_ship_date_hour'] = Carbon::parse($unloading->dock_ship_date)->format('H');
+        $unloading['dock_ship_date_minute'] = Carbon::parse($unloading->dock_ship_date)->format('i');
+
+        $unloading['arrived_date_month'] = Carbon::parse($unloading->arrived_date)->format('Y-m-d');
+        $unloading['arrived_date_hour'] = Carbon::parse($unloading->arrived_date)->format('H');
+        $unloading['arrived_date_minute'] = Carbon::parse($unloading->arrived_date)->format('i');
+
+        $unloading['unloading_date_month'] = Carbon::parse($unloading->unloading_date)->format('Y-m-d');
+        $unloading['unloading_date_hour'] = Carbon::parse($unloading->unloading_date)->format('H');
+        $unloading['unloading_date_minute'] = Carbon::parse($unloading->unloading_date)->format('i');
+
+        $unloading['end_date_month'] = Carbon::parse($unloading->end_date)->format('Y-m-d');
+        $unloading['end_date_hour'] = Carbon::parse($unloading->end_date)->format('H');
+        $unloading['end_date_minute'] = Carbon::parse($unloading->end_date)->format('i');
+
+        $unloading['departure_date_month'] = Carbon::parse($unloading->departure_date)->format('Y-m-d');
+        $unloading['departure_date_hour'] = Carbon::parse($unloading->departure_date)->format('H');
+        $unloading['departure_date_minute'] = Carbon::parse($unloading->departure_date)->format('i');
+
         $data['companies'] = LoadingCompany::all();
         $data['suppliers'] = Supplier::all();
         $data['docks'] = Dock::all();
@@ -141,14 +200,52 @@ class CoalUnloadingController extends Controller
      */
     public function update(Request $request,$id)
     {
-        dd($request);
         DB::beginTransaction();
         try {
-            CoalUnloading::where('id',$id)->update($request->except(['_token','_method']));
 
-            Tug::where('type_tug','coal-unloading')->where('coal_unloading_id',$id)->update([
+            $requestData = $request->except(['_token','_method']);
 
-                'usage_amount' => $request->bl,
+            $loading = $request->loading_date_month.' '.$request->loading_date_hour.':'.$request->loading_date_minute;
+            $loading_date = Carbon::parse($loading)->format('Y-m-d H:i:s');
+
+            $dock_ship = $request->dock_ship_date_date_month.' '.$request->dock_ship_date_hour.':'.$request->dock_ship_date_minute;       
+            $dock_ship_date= Carbon::parse($dock_ship)->format('Y-m-d H:i:s');
+
+            $arrived = $request->arrived_date_month.' '.$request->arrived_date_hour.':'.$request->arrived_date_minute;
+
+            $arrived_date= Carbon::parse($arrived)->format('Y-m-d H:i:s');
+            
+            $unloading = $request->unloading_date_month.' '.$request->unloading_date_hour.':'.$request->unloading_date_minute;
+            $unloading_date= Carbon::parse($unloading)->format('Y-m-d H:i:s');
+
+            $end = $request->end_date_month.' '.$request->end_date_hour.':'.$request->end_date_minute;
+            $end_date= Carbon::parse($end)->format('Y-m-d H:i:s');
+
+            $departure = $request->departure_date_month.' '.$request->departure_date_hour.':'.$request->departure_date_minute;
+            $departure_date= Carbon::parse($departure)->format('Y-m-d H:i:s');
+
+            $requestData['loading_date'] = $loading_date;
+            $requestData['dock_ship_date'] = $dock_ship_date;
+            $requestData['arrived_date'] = $arrived_date;
+            $requestData['unloading_date'] = $unloading_date;
+            $requestData['end_date'] = $end_date;
+            $requestData['departure_date'] = $departure_date;
+            $requestData['receipt_date'] = $end_date;
+
+            CoalUnloading::where('id',$id)->update([
+                'analysis_loading_id' => $requestData['analysis_loading_id'] ?? null,
+                'load_company_id' => $requestData['load_company_id'],
+                'supplier_id' => $requestData['supplier_id'],
+                'dock_id' => $requestData['dock_id'],
+                'ship_id' => $requestData['ship_id'],
+                'bl' => $requestData['bl'],
+                'loading_date' => $requestData['loading_date'], 
+                'arrived_date' => $requestData['arrived_date'], 
+                'dock_ship_date' => $requestData['dock_ship_date'], 
+                'unloading_date' => $requestData['unloading_date'], 
+                'end_date' => $requestData['end_date'], 
+                'departure_date' => $requestData['departure_date'], 
+                'note' => $requestData['note'], 
             ]);
 
             DB::commit();

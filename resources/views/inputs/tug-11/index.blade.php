@@ -409,7 +409,7 @@
                 </div>
             </div>
 
-            <div id="my-pdf" style="display:none;" class="w-50">
+            <div id="my-pdf" style="display:block;" class="w-50">
                <div class="p-10" style="font-size: 12px;">
                     <div class="flex justify-between mb-4">
                          <div>
@@ -721,7 +721,7 @@
                          </tbody>
                          </table>
 
-                    <div class="second-table mt-5 flex justify-between">
+                    <div class="second-table mt-5 flex justify-between px-20">
                          <div class="first">
                               <table class="w-full" style="font-size:10px;">
                                    <thead>

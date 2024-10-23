@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/query', 'HomeController@query')->name('query');
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate')->middleware('guest');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
