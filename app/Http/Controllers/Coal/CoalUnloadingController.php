@@ -61,14 +61,14 @@ class CoalUnloadingController extends Controller
         DB::beginTransaction();
         try {
 
-            $date = Carbon::parse($request->end_date); // Mengubah string menjadi instance Carbon
+            $date = Carbon::parse($request->end_date_month); // Mengubah string menjadi instance Carbon
             $formattedDate = $date->format('Y-m-d'); 
             $formattedYear = $date->format('Y'); 
 
             $lastUnloadingToday = CoalUnloading::whereDate('receipt_date', $formattedDate)->get()->count() + 1;
 
             $countTug = sprintf("%02d", $lastUnloadingToday);
-            $tugNumber = 'B.'.date('Ymd').'.'.$countTug;
+            $tugNumber = 'B.'.$date->format('Ymd').'.'.$countTug;
 
             $loading = $request->loading_date_month.' '.$request->loading_date_hour.':'.$request->loading_date_minute;
             $loading_date = Carbon::parse($loading)->format('Y-m-d H:i:s');
@@ -90,7 +90,7 @@ class CoalUnloadingController extends Controller
             $departure_date= Carbon::parse($departure)->format('Y-m-d H:i:s');
 
             $lastUnloadingYear = CoalUnloading::whereYear('receipt_date',$formattedYear)->get()->count() + 1;
-            $bpbNumber = 'B.'.date('Y').'.'.$lastUnloadingYear;
+            $bpbNumber = 'B.'.$formattedYear.'.'.$lastUnloadingYear;
 
             $requestData = $request->all();
             $requestData['tug_number'] = $tugNumber;
