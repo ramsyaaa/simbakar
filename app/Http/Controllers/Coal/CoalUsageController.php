@@ -78,12 +78,21 @@ class CoalUsageController extends Controller
         DB::beginTransaction();
         try {
 
-            $requestData = $request->all();
+            $request->validate([
 
-            $checkUsage = CoalUsage::where('tug_9_number',$requestData['tug_9_number'])->first();
-            if($checkUsage){
-                return redirect()->back()->with('danger', 'Nomor nota sudah pernah di input pada tanggal '.$checkUsage->usage_date);
-            }
+                'tug_9_number' => 'required|unique:coal_usages,tug_9_number',
+                'usage_date' => 'required',
+                'amount_use' => 'required',
+                'unit_id' => 'required',
+            ], [
+                'tug_9_number.required' => 'No TUG 9 wajib diisi',
+                'tug_9_number.unique' => 'No TUG 9 sudah digunakan',
+                'usage_date.required' => 'Tanggal pakai wajib diisi',
+                'amount_use.required' => 'Jumlah pakai wajib diisi',
+                'unit_id.required' => 'Unit pakai wajib diisi',
+            ]);
+            $requestData = $request->all();
+            
             $usage = CoalUsage::create($requestData);
 
             Tug::create([
@@ -95,9 +104,12 @@ class CoalUsageController extends Controller
                 'type_fuel' => 'Batu Bara',
                 'coal_usage_id' => $usage->id,
             ]);
+            $date = Carbon::parse($request->usage_date);
+            $month = $date->format('Y-m');
+            $day = $date->format('d');
             //test usage
             DB::commit();
-            return redirect(route('coals.usages.index'))->with('success', 'Pemakaian Batu Bara berhasil di buat.');
+            return redirect(route('coals.usages.index',['date' => $month,'day'=>$day]))->with('success', 'Pemakaian Batu Bara berhasil di buat.');
 
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -188,7 +200,12 @@ class CoalUsageController extends Controller
 
     public function destroy($id)
     {
-        CoalUsage::where('id', $id)->delete();
-        return redirect(route('coals.usages.index'))->with('success', 'Pemakaian Batu Bara berhasil di hapus.');
+        $coal = CoalUsage::where('id', $id)->first();
+        $date = Carbon::parse($coal->usage_date);
+        $month = $date->format('Y-m');
+        $day = $date->format('d');
+        $coal->delete();
+
+        return redirect(route('coals.usages.index',['date' => $month,'day'=>$day]))->with('success', 'Pemakaian Batu Bara berhasil di hapus.');
     }
 }

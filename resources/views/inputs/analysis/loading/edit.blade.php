@@ -619,7 +619,7 @@
         }
 
         $.ajax({
-            url: `/api/get-supplier-contract/${supplier_id}`,
+            url: `{{ route('getSupplierContractList', ':supplierId') }}`.replace(':supplierId', supplier_id),
             method: 'GET',
             success: function (data) {
                 let contractSelect = $('#contract_uuid');

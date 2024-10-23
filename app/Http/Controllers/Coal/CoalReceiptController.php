@@ -40,7 +40,7 @@ class CoalReceiptController extends Controller
             $query->whereYear('receipt_date', $date[0]);
             $query->whereMonth('receipt_date', $date[1]);
         });
-        $data['receipts'] = $receipts->orderBy('tug_number','desc')->paginate(10)->appends(request()->query());
+        $data['receipts'] = $receipts->latest()->paginate(10)->appends(request()->query());
         // dd($data);
         return view('coals.receipts.index',$data);
 
@@ -184,7 +184,7 @@ class CoalReceiptController extends Controller
         try {
 
             $requestData = $request->except(['_token','_method','check_tug']);
-
+            
             if($request->has('check_tug')){
 
                 $lastUnloadingToday = CoalUnloading::whereDate('created_at', Carbon::today())->get()->count() + 1;
@@ -287,6 +287,7 @@ class CoalReceiptController extends Controller
     {
         DB::beginTransaction();
         try {
+
             $coal = CoalUnloading::where('id',$id)->first();
             $coal->bl = $request->bl;
             $coal->ds = $request->ds;
@@ -298,7 +299,7 @@ class CoalReceiptController extends Controller
             $coal->save();
 
             Tug::where('type_tug','coal-unloading')->where('coal_unloading_id',$id)->update([
-                'usage_amount' => $requestData['usage_amount'],
+                'usage_amount' => $request->tug_3_accept,
             ]);
 
             DB::commit();
