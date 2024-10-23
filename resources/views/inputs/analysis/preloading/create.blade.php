@@ -571,9 +571,9 @@
         $('#supplier_id').on('change', function () {
             var supplierId = $(this).val(); // Mendapatkan nilai supplier_id yang dipilih
 
-            if (supplierId) {
+            if (supplierId) {alert('tse');
                 $.ajax({
-                    url: `/api/get-supplier-contract/${supplierId}`,
+                    url: `{{ route('getSupplierContractList', ':supplierId') }}`.replace(':supplierId', supplierId),
                     method: 'GET',
                     success: function (data) {
                         var contractSelect = $('#contract_uuid');

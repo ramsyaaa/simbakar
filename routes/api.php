@@ -51,6 +51,6 @@ Route::post('get-analytic-unloading', [ApiFetchController::class, 'getAnalyticUn
 Route::post('get-analytic-labor', [ApiFetchController::class, 'getAnalyticLabor'])->name('getAnalyticLabor');
 Route::post('get-ship', [ApiFetchController::class, 'getShip'])->name('getShip');
 Route::post('get-ship-comparisan', [ApiFetchController::class, 'getShipComparison'])->name('getShipComparison');
-Route::get('get-supplier-contract/{supplier_id}', [ApiFetchController::class, 'getSupplierContract'])->name('getSupplierContract');
+Route::get('get-supplier-contract/{supplier_id}', [ApiFetchController::class, 'getSupplierContract'])->name('getSupplierContractList');
 Route::get('chart-data-receipt', [ApiFetchController::class, 'chartDataReceipt'])->name('chartDataReceipt');
 Route::get('chart-data-pasokan', [ApiFetchController::class, 'chartDataPasokan'])->name('chartDataPasokan');
