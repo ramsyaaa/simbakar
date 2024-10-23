@@ -69,7 +69,7 @@
                                 <div class="w-full">
                                     <label for="dock_id" class="font-bold text-[#232D42] text-[16px]">Dermaga</label>
                                     <div class="relative">
-                                        <select name="dock_id" id="dock_id" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="dock_id" id="dock_id" class="select-2 w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Dermaga</option>
                                             @foreach ($docks as $dock)
                                                 <option value="{{ $dock->id }}">{{ $dock->name }}</option>
@@ -107,12 +107,25 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <div class="unloadings p-4">
                             <div class="w-full">
                                 <label for="loading_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Loading</label>
                                 <div class="relative">
-                                    <input required type="datetime-local" name="loading_date" value="{{ old('loading_date') }}" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <div class="flex w-full gap-2">
+    
+                                        <input required type="date" name="loading_date_month" value="{{ old('loading_date_month') }}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="loading_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 23; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                        <select name="loading_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 59; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                     @error('loading_date')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -123,7 +136,20 @@
                             <div class="w-full">
                                 <label for="arrived_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Tiba</label>
                                 <div class="relative">
-                                    <input required type="datetime-local" name="arrived_date" value="{{ old('arrived_date') }}" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <div class="flex w-full gap-2">
+
+                                        <input required type="date" name="arrived_date_month" value="{{ old('arrived_date_month') }}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="arrived_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 23; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                        <select name="arrived_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 59; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                     @error('arrived_date')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -134,7 +160,20 @@
                             <div class="w-full">
                                 <label for="dock_ship_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Sandar</label>
                                 <div class="relative">
-                                    <input required type="datetime-local" name="dock_ship_date" value="{{ old('dock_ship_date') }}" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <div class="flex w-full gap-2">
+
+                                        <input required type="date" name="dock_ship_date_month" value="{{ old('dock_ship_date_month') }}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="dock_ship_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 23; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                        <select name="dock_ship_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 59; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                     @error('dock_ship_date')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -145,7 +184,20 @@
                             <div class="w-full">
                                 <label for="unloading_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Pembongkaran</label>
                                 <div class="relative">
-                                    <input required type="datetime-local" name="unloading_date" value="{{ old('unloading_date') }}" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <div class="flex w-full gap-2">
+
+                                        <input required type="date" name="unloading_date_month" value="{{ old('unloading_date_month') }}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="unloading_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 23; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                        <select name="unloading_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 59; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                     @error('unloading_date')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -156,7 +208,20 @@
                             <div class="w-full">
                                 <label for="end_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Selesai</label>
                                 <div class="relative">
-                                    <input required type="datetime-local" name="end_date" value="{{ old('end_date') }}" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <div class="flex w-full gap-2">
+
+                                        <input required type="date" name="end_date_month" value="{{ old('end_date_month') }}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="end_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 23; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                        <select name="end_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 59; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                     @error('end_date')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -167,7 +232,20 @@
                             <div class="w-full">
                                 <label for="departure_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Berangkat</label>
                                 <div class="relative">
-                                    <input required type="datetime-local" name="departure_date" value="{{ old('departure_date') }}" class="w-full lg:w-96 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <div class="flex w-full gap-2">
+
+                                        <input required type="date" name="departure_date_month" value="{{ old('departure_date_month') }}" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="departure_date_hour" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 23; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                        <select name="departure_date_minute" class="w-full lg:w-6/12 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @for ($i = 1; $i <= 59; $i++)
+                                            <option>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                     @error('departure_date')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}

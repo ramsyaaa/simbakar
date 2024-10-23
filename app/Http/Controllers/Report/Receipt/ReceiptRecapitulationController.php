@@ -60,7 +60,7 @@ class ReceiptRecapitulationController extends Controller
                         }
 
                         // Hitung total untuk semua hari dalam bulan ini
-                        $result->total = array_sum($result->data);
+                        $result->total = array_sum($result->data) / 1000;
 
                         return $result;
                     });
@@ -183,7 +183,7 @@ class ReceiptRecapitulationController extends Controller
                         }
 
                         // Hitung total untuk seluruh tahun dalam periode yang ditentukan
-                        $result->total = array_sum($result->data);
+                        $result->total = array_sum($result->data) ;
 
                         return $result;
                     });

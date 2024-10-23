@@ -28,9 +28,9 @@
                                             <input type="hidden" name="type_adjusment" value="outcome">
                                             <select id="type_fuel" name="type_fuel" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3" autofocus>
                                                 <option selected disabled>Jenis Bahan Bakar</option>
-                                                <option> Batu Bara</option>
-                                                <option> HSD / Solar</option>
-                                                <option> MFO / Residu</option>
+                                                <option value="batubara"> Batu Bara</option>
+                                                <option value="solar"> HSD / Solar</option>
+                                                <option value="residu"> MFO / Residu</option>
                                             </select>
                                             @error('type_fuel')
                                             <div class="absolute -bottom-1 left-1 text-red-500">

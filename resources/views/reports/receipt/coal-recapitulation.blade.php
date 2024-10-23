@@ -84,14 +84,15 @@
                         </div>
                         <div class="text-center text-[20px] font-bold">
                             @if (request('filter_type') == 'day')
-                                <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT INDONESIA POWER UBP. SURALAYA <br> BULAN {{ request('bulan_tahun' ?? '')}}</p>
+                                <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT PLN INDONESIA POWER SURALAYA <br> BULAN {{ request('bulan_tahun' ?? '')}}</p>
                             @endif
                             @if (request('filter_type') == 'month')
-                                <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT INDONESIA POWER UBP. SURALAYA <br> TAHUN {{ request('tahun' ?? '')}}</p>
+                                <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT PLN INDONESIA POWER SURALAYA <br> TAHUN {{ request('tahun' ?? '')}}</p>
                             @endif
                             @if (request('filter_type') == 'year')
-                                <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT INDONESIA POWER UBP. SURALAYA <br> TAHUN {{ request('start_year' ?? '')}} SAMPAI TAHUN {{ request('end_year' ?? '')}}</p>
+                                <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT PLN INDONESIA POWER SURALAYA <br> TAHUN {{ request('start_year' ?? '')}} SAMPAI TAHUN {{ request('end_year' ?? '')}}</p>
                             @endif
+                            <p>dalam ( TON )</p>
                         </div>
                         <div></div>
                     </div>

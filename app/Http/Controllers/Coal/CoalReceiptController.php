@@ -37,10 +37,10 @@ class CoalReceiptController extends Controller
         $receipts = CoalUnloading::query();
         $receipts->when($request->date, function ($query) use ($request) {
             $date = explode('-', $request->date);
-            $query->whereYear('unloading_date', $date[0]);
-            $query->whereMonth('unloading_date', $date[1]);
+            $query->whereYear('receipt_date', $date[0]);
+            $query->whereMonth('receipt_date', $date[1]);
         });
-        $data['receipts'] = $receipts->latest()->paginate(10)->appends(request()->query());
+        $data['receipts'] = $receipts->orderBy('tug_number','desc')->paginate(10)->appends(request()->query());
         // dd($data);
         return view('coals.receipts.index',$data);
 
@@ -122,6 +122,35 @@ class CoalReceiptController extends Controller
     public function edit($id)
     {
         $receipt = CoalUnloading::where('id', $id)->first();
+
+        $receipt['loading_date_month'] = Carbon::parse($receipt->loading_date)->format('Y-m-d');
+        $receipt['loading_date_hour'] = Carbon::parse($receipt->loading_date)->format('H');
+        $receipt['loading_date_minute'] = Carbon::parse($receipt->loading_date)->format('i');
+
+        $receipt['unloading_date_month'] = Carbon::parse($receipt->unloading_date)->format('Y-m-d');
+        $receipt['unloading_date_hour'] = Carbon::parse($receipt->unloading_date)->format('H');
+        $receipt['unloading_date_minute'] = Carbon::parse($receipt->unloading_date)->format('i');
+
+        $receipt['dock_ship_date_month'] = Carbon::parse($receipt->dock_ship_date)->format('Y-m-d');
+        $receipt['dock_ship_date_hour'] = Carbon::parse($receipt->dock_ship_date)->format('H');
+        $receipt['dock_ship_date_minute'] = Carbon::parse($receipt->dock_ship_date)->format('i');
+
+        $receipt['arrived_date_month'] = Carbon::parse($receipt->arrived_date)->format('Y-m-d');
+        $receipt['arrived_date_hour'] = Carbon::parse($receipt->arrived_date)->format('H');
+        $receipt['arrived_date_minute'] = Carbon::parse($receipt->arrived_date)->format('i');
+
+        $receipt['unloading_date_month'] = Carbon::parse($receipt->unloading_date)->format('Y-m-d');
+        $receipt['unloading_date_hour'] = Carbon::parse($receipt->unloading_date)->format('H');
+        $receipt['unloading_date_minute'] = Carbon::parse($receipt->unloading_date)->format('i');
+
+        $receipt['end_date_month'] = Carbon::parse($receipt->end_date)->format('Y-m-d');
+        $receipt['end_date_hour'] = Carbon::parse($receipt->end_date)->format('H');
+        $receipt['end_date_minute'] = Carbon::parse($receipt->end_date)->format('i');
+
+        $receipt['departure_date_month'] = Carbon::parse($receipt->departure_date)->format('Y-m-d');
+        $receipt['departure_date_hour'] = Carbon::parse($receipt->departure_date)->format('H');
+        $receipt['departure_date_minute'] = Carbon::parse($receipt->departure_date)->format('i');
+
         $data['company'] = LoadingCompany::where('id',$receipt->load_company_id)->first();
         $data['supplier'] = Supplier::where('id',$receipt->supplier_id)->first();
         $data['docks'] = Dock::get();
@@ -135,7 +164,7 @@ class CoalReceiptController extends Controller
         $data['loading'] = Loading::where('id',$receipt->analysis_loading_id)->first();
         $data['unloading'] = Unloading::where('id',$receipt->analysis_unloading_id)->first();
         $data['labor'] = Labor::where('id',$receipt->analysis_labor_id)->first();
-        $data['contracts'] = CoalContract::where('supplier_id', $receipt->supplier_id)->get();
+        $data['contracts'] = CoalContract::where('supplier_id', $receipt->supplier_id)->where('contract_end_date','>=',now())->get();
         $data['receipt'] = $receipt;
 
         return view('coals.receipts.edit',$data);
@@ -172,7 +201,7 @@ class CoalReceiptController extends Controller
             ]);
 
             DB::commit();
-            return redirect(route('coals.receipts.index'))->with('success', 'Data Tambahan TUG 3 berhasil di ubah.');
+            return redirect()->back()->with('success', 'Data Tambahan TUG 3 berhasil di ubah.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -184,7 +213,66 @@ class CoalReceiptController extends Controller
     {
         DB::beginTransaction();
         try {
-            CoalUnloading::where('id',$id)->update($request->except(['_token','_method']));
+
+            $requestData = $request->except(['_token','_method']);
+
+            $loading = $request->loading_date_month.' '.$request->loading_date_hour.':'.$request->loading_date_minute;
+            $loading_date = Carbon::parse($loading)->format('Y-m-d H:i:s');
+
+            $dock_ship = $request->dock_ship_date_date_month.' '.$request->dock_ship_date_hour.':'.$request->dock_ship_date_minute;       
+            $dock_ship_date= Carbon::parse($dock_ship)->format('Y-m-d H:i:s');
+
+            $arrived = $request->arrived_date_month.' '.$request->arrived_date_hour.':'.$request->arrived_date_minute;
+
+            $arrived_date= Carbon::parse($arrived)->format('Y-m-d H:i:s');
+            
+            $unloading = $request->unloading_date_month.' '.$request->unloading_date_hour.':'.$request->unloading_date_minute;
+            $unloading_date= Carbon::parse($unloading)->format('Y-m-d H:i:s');
+
+            $end = $request->end_date_month.' '.$request->end_date_hour.':'.$request->end_date_minute;
+            $end_date= Carbon::parse($end)->format('Y-m-d H:i:s');
+
+            $departure = $request->departure_date_month.' '.$request->departure_date_hour.':'.$request->departure_date_minute;
+            $departure_date= Carbon::parse($departure)->format('Y-m-d H:i:s');
+
+            $requestData['loading_date'] = $loading_date;
+            $requestData['dock_ship_date'] = $dock_ship_date;
+            $requestData['arrived_date'] = $arrived_date;
+            $requestData['unloading_date'] = $unloading_date;
+            $requestData['end_date'] = $end_date;
+            $requestData['departure_date'] = $departure_date;
+            $requestData['receipt_date'] = $end_date;
+            unset(
+                $requestData['departure_date_month'],
+                $requestData['departure_date_hour'],
+                $requestData['departure_date_minute'],
+
+                $requestData['end_date_month'],
+                $requestData['end_date_hour'],
+                $requestData['end_date_minute'],
+
+                $requestData['unloading_date_month'],
+                $requestData['unloading_date_hour'],
+                $requestData['unloading_date_minute'],
+
+                $requestData['arrived_date_month'],
+                $requestData['arrived_date_hour'],
+                $requestData['arrived_date_minute'],
+                
+                $requestData['dock_ship_date_month'],
+                $requestData['dock_ship_date_hour'],
+                $requestData['dock_ship_date_minute'],
+
+                $requestData['loading_date_month'],
+                $requestData['loading_date_hour'],
+                $requestData['loading_date_minute']
+                
+
+            );
+
+            CoalUnloading::where('id',$id)->update(
+                $requestData
+            );
 
             DB::commit();
             return redirect(route('coals.receipts.index'))->with('success', 'Pembongkaran Batu Bara berhasil di ubah.');
@@ -200,17 +288,18 @@ class CoalReceiptController extends Controller
         DB::beginTransaction();
         try {
             $coal = CoalUnloading::where('id',$id)->first();
-            if($request->kind_contract == 'FOB'){
-                $coal->bl = $request->bl;
-                $coal->ds = 0;
-            }
-            if($request->kind_contract == 'CIF'){
-                $coal->ds = $request->ds;
-            }
+            $coal->bl = $request->bl;
+            $coal->ds = $request->ds;
             $coal->bw = 0;
             $coal->tug_3_accept = $request->tug_3_accept;
             $coal->kind_contract = $request->kind_contract;
+
+            
             $coal->save();
+
+            Tug::where('type_tug','coal-unloading')->where('coal_unloading_id',$id)->update([
+                'usage_amount' => $requestData['usage_amount'],
+            ]);
 
             DB::commit();
             return redirect()->back()->with('success', 'Data Analisa Kualitas berhasil di ubah.');

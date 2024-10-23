@@ -34,7 +34,7 @@
                         <div class="w-full py-1">
                             <label for="supplier_id" class="font-bold text-[#232D42] text-[16px]">Nama Supplier</label>
                             <div class="relative">
-                                <select name="supplier_id" id="" class="w-full lg:w-[600px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                <select name="supplier_id" id="" class="select-2 w-full lg:w-[600px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                     <option selected disabled>Pilih Supplier</option>
                                     @foreach ($suppliers as $supplier)
                                     <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
@@ -74,7 +74,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="w-full py-1">
+                        {{-- <div class="w-full py-1">
                             <label for="kind_contract" class="font-bold text-[#232D42] text-[16px]">Jenis Kontrak</label>
                             <div class="relative">
                                 <select name="kind_contract" id="" class="w-full lg:w-[600px] h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
@@ -88,8 +88,8 @@
                                 </div>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="w-full py-1">
+                        </div> --}}
+                        {{-- <div class="w-full py-1">
                             <label for="total_volume" class="font-bold text-[#232D42] text-[16px]">Volume Total</label>
                             <div class="relative">
                                 <input type="text" name="total_volume" value="{{ old('total_volume') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -99,11 +99,11 @@
                                 </div>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="w-full py-1">
                             <label for="price" class="font-bold text-[#232D42] text-[16px]">Harga Satuan per Kg</label>
                             <div class="relative">
-                                <input type="text" name="price" value="{{ old('price') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                <input type="text" name="price" value="{{ old('price') }}" class="format-number w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                 @error('price')
                                 <div class="absolute -bottom-1 left-1 text-red-500">
                                     {{ $message }}

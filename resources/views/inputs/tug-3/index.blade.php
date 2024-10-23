@@ -56,7 +56,7 @@
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No Tug 3</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jumlah Pemakaian</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jumlah Terima</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
