@@ -17,7 +17,13 @@ class UnloadingController extends Controller
         $unloadings = Unloading::query();
         $year = isset($request->year) ? $request->year : \Carbon\Carbon::now()->year;
 
-        $unloadings->when($year, function ($query) use ($year) {
+        $unloadings->where(function ($query) use ($year) {
+            // Kondisi pertama: `analysis_date` null tapi `created_at` sesuai $year
+            $query->whereNull('analysis_date')
+                  ->whereYear('created_at', $year);
+        })
+        ->orWhere(function ($query) use ($year) {
+            // Kondisi kedua: `analysis_date` sesuai $year
             $query->whereYear('analysis_date', $year);
         });
 
@@ -36,6 +42,7 @@ class UnloadingController extends Controller
      */
     public function create()
     {
+        return redirect(route('inputs.analysis.unloadings.index'));
         $data['suppliers'] = Supplier::get();
         $data['surveyors'] = Surveyor::get();
         $data['ships'] = Ship::get();
