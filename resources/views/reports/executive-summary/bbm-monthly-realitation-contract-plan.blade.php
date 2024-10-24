@@ -159,7 +159,8 @@
                                     <tr>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">{{ $month }}</td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            {{ isset($item['tug']) ? formatNumber($item['tug']) : '-' }}
+                                            {{-- {{ isset($item['tug']) ? formatNumber($item['tug']) : '-' }} --}}
+                                            -
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
                                             {{ isset($item['tug']) ? formatNumber($item['tug']) : '-' }}
@@ -189,7 +190,8 @@
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">Rata-rata
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum() / collect($bbm_unloading)->pluck('tug')->count()) }}
+                                            {{-- {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum() / collect($bbm_unloading)->pluck('tug')->count()) }} --}}
+                                            -
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                             {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum() / collect($bbm_unloading)->pluck('tug')->count()) }}
@@ -214,7 +216,9 @@
                                     <tr>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">Total</th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum()) }}</th>
+                                            {{-- {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum()) }} --}}
+                                            -
+                                        </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                             {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum()) }}</th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
