@@ -1051,11 +1051,12 @@ class ReportBbmController extends Controller
                 $bbm_unloading = $bbm_unloading->get();
 
                 $rakor = collect($bbm_unloading)->pluck('contract.delivery_clauses.rakor')->sum();
-                $processedData[$month]['rakor'] = collect($bbm_unloading)->pluck('contract.delivery_clauses')->flatMap(function ($item) {
-                    return $item->pluck('rakor') ?? 0;
-                })->sum();
+                // $processedData[$month]['rakor'] = $bbm_unloading && count($bbm_unloading) > 0 ? collect($bbm_unloading)->pluck('contract.delivery_clauses')->flatMap(function ($item) {
+                //     return $item->pluck('rakor') ?? 0;
+                // })->sum() : 0;
 
                 $processedData[$month]['tug'] =  $bbm_unloading->pluck('tug_3_accept')->sum() ?? 0;
+                $processedData[$month]['rakor'] = $processedData[$month]['tug'];
 
                 $i++;
             }
