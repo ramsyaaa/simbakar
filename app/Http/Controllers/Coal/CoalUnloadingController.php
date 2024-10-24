@@ -105,11 +105,20 @@ class CoalUnloadingController extends Controller
             $requestData['form_part_number'] = '18.01.0009';
             $requestData['unit'] = 'Kg';
 
-
             $unloading = CoalUnloading::create($requestData);
+
+            $get_ship = Ship::where([
+                'id' => $requestData['ship_id'],
+            ])->first();
+
+            $get_supplier = Supplier::where([
+                'id' => $requestData['supplier_id'],
+            ])->first();
 
             $unloadingData = Unloading::create([
                 'coal_unloading_id' => $unloading->id,
+                'supplier_uuid' => $get_supplier->uuid ?? '',
+                'ship_uuid' => $get_ship->uuid ?? '',
             ]);
 
             Tug::create([

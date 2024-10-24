@@ -47,9 +47,11 @@ class MonitoringSupplierController extends Controller
 
                 case 'day':
                     $coals = CoalUnloading::with('ship')
-                        ->where('supplier_id', $request->supplier_id)
-                        ->whereMonth('unloading_date', $bulan)
-                        ->whereYear('unloading_date', $tahun)
+                        ->when($request->supplier_id != 0, function ($query) use ($request) {
+                            $query->where('supplier_id', $request->supplier_id);
+                        })
+                        ->whereMonth('receipt_date', $bulan)
+                        ->whereYear('receipt_date', $tahun)
                         ->whereNotNull('analysis_loading_id')
                         ->whereNotNull('analysis_unloading_id')
                         ->whereNotNull('analysis_labor_id')
@@ -94,8 +96,10 @@ class MonitoringSupplierController extends Controller
                 case 'month':
                     $coals = [];
                     // Load all the data for the entire year
-                    $coalData = CoalUnloading::where('supplier_id', $request->supplier_id)
-                        ->whereYear('unloading_date', $tahunInput)
+                    $coalData = CoalUnloading::when($request->supplier_id != 0, function ($query) use ($request) {
+                        $query->where('supplier_id', $request->supplier_id);
+                    })
+                        ->whereYear('receipt_date', $tahunInput)
                         ->whereNotNull('analysis_loading_id')
                         ->whereNotNull('analysis_unloading_id')
                         ->whereNotNull('analysis_labor_id')
@@ -115,8 +119,8 @@ class MonitoringSupplierController extends Controller
                     for ($i = 1; $i <= 12; $i++) {
                         // Filter data for the current month
                         $coalForMonth = $coalData->filter(function ($item) use ($i) {
-                            // Convert unloading_date to Carbon instance if it's not already one
-                            $unloadingDate = $item->unloading_date instanceof Carbon ? $item->unloading_date : Carbon::parse($item->unloading_date);
+                            // Convert receipt_date to Carbon instance if it's not already one
+                            $unloadingDate = $item->receipt_date instanceof Carbon ? $item->receipt_date : Carbon::parse($item->receipt_date);
                             return $unloadingDate->month == $i;
                         });
                     
@@ -166,8 +170,10 @@ class MonitoringSupplierController extends Controller
                 case 'year':
                     $coals = [];
                     // Load all coal data for the range of years
-                    $coalData = CoalUnloading::where('supplier_id', $request->supplier_id)
-                        ->whereBetween(DB::raw('YEAR(unloading_date)'), [$startYear, $endYear])
+                    $coalData = CoalUnloading::when($request->supplier_id != 0, function ($query) use ($request) {
+                        $query->where('supplier_id', $request->supplier_id);
+                    })
+                        ->whereBetween(DB::raw('YEAR(receipt_date)'), [$startYear, $endYear])
                         ->whereNotNull('analysis_loading_id')
                         ->whereNotNull('analysis_unloading_id')
                         ->whereNotNull('analysis_labor_id')
@@ -187,7 +193,7 @@ class MonitoringSupplierController extends Controller
                     for ($i = $startYear; $i <= $endYear; $i++) {
                         // Filter data for the current year
                         $coalForYear = $coalData->filter(function ($item) use ($i) {
-                            return Carbon::parse($item->unloading_date)->year == $i;
+                            return Carbon::parse($item->receipt_date)->year == $i;
                         });
                     
                         // Map data to include the needed values

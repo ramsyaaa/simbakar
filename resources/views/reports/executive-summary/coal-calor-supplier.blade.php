@@ -29,7 +29,7 @@
                     </div>
                     <div class="mb-4">
                         <select name="supplier_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md supplier-select">
-                            <option selected disabled>Pilih Supplier</option>
+                            <option value="0">Semua Supplier</option>
                             @foreach ($suppliers as $supplier)
                                 <option value="{{$supplier->id}}" {{request('supplier_id') == $supplier->id ? 'selected' : ''}}> {{$supplier->name}}</option>
                             @endforeach
@@ -184,13 +184,13 @@
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->tug_3_accept)}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->origin}}</td>
                                                 @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->unloading,2)}}</td>
                                                 @endif
                                                 @if (in_array('loading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->loading}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->loading,2)}}</td>
                                                 @endif
                                                 @if (in_array('labor',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->labor}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->labor,2)}}</td>
                                                 @endif
                                             </tr>
                                         @endforeach
@@ -199,15 +199,15 @@
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">Total</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->sum('tug_3_accept'))}}</td>
                                             @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{$coals->pluck('unloading')->avg()}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->pluck('unloading')->avg(),2)}}</td>
 
                                             @endif
                                             @if (in_array('loading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{$coals->pluck('loading')->avg()}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->pluck('loading')->avg(),2)}}</td>
 
                                             @endif
                                             @if (in_array('labor',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{$coals->pluck('labor')->avg()}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->pluck('labor')->avg(),2)}}</td>
 
                                             @endif
                                         </tr>
@@ -238,13 +238,13 @@
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['month']}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['tug_3_accept'])}}</td>
                                                 @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['unloading']}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['unloading'],2)}}</td>
                                                 @endif
                                                 @if (in_array('loading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['loading']}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['loading'],2)}}</td>
                                                 @endif
                                                 @if (in_array('labor',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['labor']}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['labor'],2)}}</td>
                                                 @endif
                                             </tr>
                                         @endforeach

@@ -15,11 +15,6 @@
                         <a href="{{ route('administration.dashboard') }}">Home</a> / <span class="text-[#2E46BA] cursor-pointer">Analisa</span>
                     </div>
                 </div>
-                <div class="flex gap-2 items-center">
-                    <a href="{{ route('inputs.analysis.unloadings.create') }}" class="w-fit px-2 lg:px-0 lg:w-[200px] py-1 lg:py-2 text-white bg-[#222569] rounded-md text-[12px] lg:text-[19px] text-center">
-                        Tambah Data
-                    </a>
-                </div>
             </div>
             <div class="w-full flex gap-4 items-center my-4">
                 <a href="{{ route('inputs.analysis.preloadings.index') }}" class="w-3/12 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
@@ -68,7 +63,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">Tiba : {{ isset($item->coal_unloading->departure_date) ? \Carbon\Carbon::parse($item->coal_unloading->departure_date)->format('d-m-Y') : '-' }} <br>Bongkar : {{ isset($item->coal_unloading->unloading_date) ? \Carbon\Carbon::parse($item->coal_unloading->unloading_date)->format('d-m-Y') : '-' }} <br> Selesai : {{ isset($item->coal_unloading->end_date) ? \Carbon\Carbon::parse($item->coal_unloading->end_date)->format('d-m-Y') : '-' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ isset($item->coal_unloading->supplier->name) ? $item->coal_unloading->supplier->name : '-' }}, {{ isset($item->coal_unloading->ship->name) ? $item->coal_unloading->ship->name : '-' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ isset($item->coal_unloading->dock->name) ? $item->coal_unloading->dock->name : '-' }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">[{{ $item->analysis_number == null ? 'belum ada' : 'ada' }}]</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 {{ $item->analysis_number == null ? 'text-red-500' : '' }}">[{{ $item->analysis_number == null ? 'belum ada' : 'ada' }}]</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('inputs.analysis.unloadings.edit', ['id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit

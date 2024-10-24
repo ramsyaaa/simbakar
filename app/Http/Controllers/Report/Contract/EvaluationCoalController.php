@@ -39,7 +39,7 @@ class EvaluationCoalController extends Controller
                 $data['analysis_status'] = 'Unloading';
 
                 $contracts = CoalUnloading::select('analysis_unloading_id')->where('supplier_id',$request->supplier_id)->where('contract_id',$request->contract_id)->get()->toArray();
-                $data['analysists'] = Unloading::select('id','analysis_number')->whereIn('id',$contracts)->get();
+                $data['analysists'] = Unloading::select('id','analysis_number')->whereIn('id',$contracts)->where([['analysis_number', '!=', null]])->get();
             }
             if ($request->type == 3) {
                 
