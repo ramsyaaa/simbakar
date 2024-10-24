@@ -6,6 +6,7 @@ use App\Ship;
 use App\Labor;
 use App\Loading;
 use App\Supplier;
+use App\Surveyor;
 use App\Unloading;
 use Carbon\Carbon;
 use App\Models\CoalContract;
@@ -18,6 +19,7 @@ class CoalAllItemController extends Controller
     public function index(Request $request)
     {
         $data['suppliers'] = Supplier::all();
+        $data['surveyors'] = Surveyor::all();
 
         if($request->has('supplier_id')){
             $date = explode('-', $request->get('date'));
@@ -30,14 +32,19 @@ class CoalAllItemController extends Controller
             ->when($request->supplier_id != 0, function ($query) use ($request) {
                 $query->where('supplier_id', $request->supplier_id);
             })
-            ->whereNotNull('analysis_loading_id')
-            ->whereNotNull('analysis_unloading_id')
-            ->whereNotNull('analysis_labor_id')
             ->get()
-            ->map(function($item){
+            ->map(function($item) use ($request) {
 
-                $item->unloading = Unloading::where('id',$item->analysis_unloading_id)->first();
-                $item->loading = Loading::where('id',$item->analysis_loading_id)->first();
+                $item->unloading = Unloading::where('id',$item->analysis_unloading_id)
+                ->when($request->surveyor_uuid != 0, function ($query) use ($request) {
+                    $query->where('surveyor_uuid', $request->surveyor_uuid);
+                })
+                ->first();
+                $item->loading = Loading::where('id',$item->analysis_loading_id)
+                ->when($request->surveyor_uuid != 0, function ($query) use ($request) {
+                    $query->where('surveyor_uuid', $request->surveyor_uuid);
+                })
+                ->first();
                 $item->labor = Labor::where('id',$item->analysis_labor_id)->first();
 
                 return $item;
