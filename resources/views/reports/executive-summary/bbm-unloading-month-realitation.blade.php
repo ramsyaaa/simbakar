@@ -1,9 +1,15 @@
 @extends('layouts.app')
 
+@php
+    function formatNumber($val)
+    {
+        return number_format($val, 0);
+    }
+@endphp
 @section('content')
-    <div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
+    <div x-data="{ sidebar: true }" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
         @include('components.sidebar')
-        <div class="max-h-screen overflow-hidden" :class="sidebar?'w-10/12' : 'w-full'">
+        <div class="max-h-screen overflow-hidden" :class="sidebar ? 'w-10/12' : 'w-full'">
             @include('components.header')
             <div class="w-full py-20 px-8 max-h-screen hide-scrollbar overflow-y-auto">
                 <div class="h-screen overflow-y-auto">
@@ -27,8 +33,11 @@
                                 </div>
                             </div>
                             <div class="w-full flex justify-end gap-2">
-                                <a href="{{ route('reports.executive-summary.index') }}" class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
-                                <button type="button" class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg" onclick="ExportToExcel('xlsx')">Download</button>
+                                <a href="{{ route('reports.executive-summary.index') }}"
+                                    class="bg-red-500 px-4 py-2 text-center text-white rounded-lg shadow-lg">Back</a>
+                                <button type="button"
+                                    class="bg-[#1aa222] px-4 py-2 text-center text-white rounded-lg shadow-lg"
+                                    onclick="ExportToExcel('xlsx')">Download</button>
                                 <button type="button"
                                     class="bg-[#2E46BA] px-4 py-2 text-center text-white rounded-lg shadow-lg"
                                     onclick="printPDF()">Print</button>
@@ -114,16 +123,16 @@
                                                 {{ $item['company_name'] ?? '-' }}
                                             </td>
                                             <td class="h-[36px] !min-w-[100px] text-[16px] font-normal border px-2">
-                                                {{ $item['unloading_duration'] ?? '-' }}
+                                                {{ number_format($item['unloading_duration'], 2) ?? '-' }}
                                             </td>
                                             <td class="h-[36px] !min-w-[100px] text-[16px] font-normal border px-2">
-                                                {{ $item['standard_duration'] ?? '-' }}
+                                                {{ number_format($item['standard_duration'], 2) ?? '-' }}
                                             </td>
                                             <td class="h-[36px] !min-w-[100px] text-[16px] font-normal border px-2">
-                                                {{ $item['ship_duration'] ?? '-' }}
+                                                {{ number_format($item['ship_duration'], 2) ?? '-' }}
                                             </td>
                                             <td class="h-[36px] !min-w-[100px] text-[16px] font-normal border px-2">
-                                                {{ $item['waiting_time'] ?? '-' }}
+                                                {{ number_format($item['waiting_time'], 2) ?? '-' }}
                                             </td>
                                             <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
                                                 {{ $item['bl'] ?? '-' }}
@@ -143,6 +152,74 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
+
+                                @if (count($bbm_unloading) > 0)
+                                    <tfoot>
+                                        <tr>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="4">Rata-rata
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ number_format(collect($bbm_unloading)->pluck('unloading_duration')->sum() / collect($bbm_unloading)->pluck('unloading_duration')->count(), 2) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ number_format(collect($bbm_unloading)->pluck('standard_duration')->sum() / collect($bbm_unloading)->pluck('standard_duration')->count(), 2) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ number_format(collect($bbm_unloading)->pluck('ship_duration')->sum() / collect($bbm_unloading)->pluck('ship_duration')->count(), 2) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ number_format(collect($bbm_unloading)->pluck('waiting_time')->sum() / collect($bbm_unloading)->pluck('standard_duration')->count(), 2) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('bl')->sum() / collect($bbm_unloading)->pluck('bl')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('ds')->sum() / collect($bbm_unloading)->pluck('ds')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('bw')->sum() / collect($bbm_unloading)->pluck('bw')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum() / collect($bbm_unloading)->pluck('tug')->count()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                -
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="4">Total
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ number_format(collect($bbm_unloading)->pluck('unloading_duration')->sum(), 2) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ number_format(collect($bbm_unloading)->pluck('standard_duration')->sum(), 2) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ number_format(collect($bbm_unloading)->pluck('ship_duration')->sum(), 2) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ number_format(collect($bbm_unloading)->pluck('waiting_time')->sum(), 2) }}
+                                            </th>
+
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('bl')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('ds')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('bw')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum()) }}
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                -
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                @endif
                             </table>
                         </div>
                     </div>

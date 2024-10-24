@@ -448,14 +448,7 @@ class ReportBbmController extends Controller
             $difference = $start->diff($end);
 
             // Format the difference as a string
-            return [
-                'years' => $difference->y,
-                'months' => $difference->m,
-                'days' => $difference->d,
-                'hours' => $difference->h,
-                'minutes' => $difference->i,
-                'seconds' => $difference->s,
-            ];
+            return (($difference->h * 60) + $difference->i) / 60;
         }
 
         function formatNumber($val)
@@ -479,18 +472,18 @@ class ReportBbmController extends Controller
                 $processedData[$key]['company_name'] = $value->company->name;
                 $processedData[$key]['receipt_date'] = date('d M Y', strtotime($value->receipt_date));
 
-                $processedData[$key]['unloading_duration'] = getTimeDifference($value->end_date, $value->receipt_date)['hours'] . "H " . getTimeDifference($value->end_date, $value->receipt_date)['minutes'] . "M";
+                $processedData[$key]['unloading_duration'] = getTimeDifference($value->end_date, $value->receipt_date);
 
-                $processedData[$key]['standard_duration'] = getTimeDifference($value->dock_ship_date, $value->departure_date)['hours'] . "H " . getTimeDifference($value->dock_ship_date, $value->departure_date)['minutes'] . "M";
+                $processedData[$key]['standard_duration'] = getTimeDifference($value->dock_ship_date, $value->departure_date);
 
-                $processedData[$key]['ship_duration'] = getTimeDifference($value->dock_ship_date, $value->departure_date)['hours'] . "H " . getTimeDifference($value->dock_ship_date, $value->departure_date)['minutes'] . "M";
+                $processedData[$key]['ship_duration'] = getTimeDifference($value->dock_ship_date, $value->departure_date);
 
-                $processedData[$key]['waiting_time'] = getTimeDifference($value->arrived_date, $value->unloading_date)['hours'] . "H " . getTimeDifference($value->arrived_date, $value->unloading_date)['minutes'] . "M";
+                $processedData[$key]['waiting_time'] = getTimeDifference($value->arrived_date, $value->unloading_date);
 
-                $processedData[$key]['bl'] = formatNumber($value->bl / 1000);
-                $processedData[$key]['ds'] = formatNumber($value->ds / 1000);
-                $processedData[$key]['bl'] = formatNumber($value->bw / 1000);
-                $processedData[$key]['tug'] = formatNumber($value->tug_3_accept / 1000);
+                $processedData[$key]['bl'] = $value->bl / 1000;
+                $processedData[$key]['ds'] = $value->ds / 1000;
+                $processedData[$key]['bl'] = $value->bw / 1000;
+                $processedData[$key]['tug'] = $value->tug_3_accept / 1000;
             }
         }
 
