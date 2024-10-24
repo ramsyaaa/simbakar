@@ -220,9 +220,7 @@
                                             </th>
                                         @endif
                                         @if ($type != 'year')
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="10">DS
-                                                &
-                                                BL</th>
+                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="10">Pemakaian Batubara ( Sesuai TUG 9 )</th>
                                         @endif
                                         @if ($type != 'year')
                                             <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="2">
