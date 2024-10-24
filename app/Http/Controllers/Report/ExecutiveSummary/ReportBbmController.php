@@ -1038,7 +1038,7 @@ class ReportBbmController extends Controller
             foreach ($processedData as $month => $value) {
                 $filterData = "$year-$months[$i]";
                 // $filterData = "2024-08";
-                $bbm_unloading = CoalUnloading::select('id', 'contract_id')->with(['contract:id', 'contract.delivery_clauses:id,contract_id,rakor'])->whereRaw('receipt_date like ?', ["%" . ("$filterData") . "%"]);
+                $bbm_unloading = CoalUnloading::select('id', 'contract_id', 'tug_3_accept')->with(['contract:id', 'contract.delivery_clauses:id,contract_id,rakor'])->whereRaw('receipt_date like ?', ["%" . ("$filterData") . "%"]);
 
                 if ($contract) {
                     $bbm_unloading = $bbm_unloading->whereHas('contract', function ($query) use ($contract) {
@@ -1051,27 +1051,13 @@ class ReportBbmController extends Controller
                 $bbm_unloading = $bbm_unloading->get();
 
                 $rakor = collect($bbm_unloading)->pluck('contract.delivery_clauses.rakor')->sum();
-                $processedData[$month]['rakor'] = collect($bbm_unloading)->pluck('contract.delivery_clauses')->flatMap(function ($item) {
-                    return $item->pluck('rakor');
-                })->sum();
+                // $processedData[$month]['rakor'] = $bbm_unloading && count($bbm_unloading) > 0 ? collect($bbm_unloading)->pluck('contract.delivery_clauses')->flatMap(function ($item) {
+                //     return $item->pluck('rakor') ?? 0;
+                // })->sum() : 0;
 
-                $processedData[$month]['stock'] =  0;
+                $processedData[$month]['tug'] =  $bbm_unloading->pluck('tug_3_accept')->sum() ?? 0;
+                $processedData[$month]['rakor'] = $processedData[$month]['tug'];
 
-                // if (count($bbm_unloading) > 0) {
-
-
-                //     foreach ($bbm_unloading as $key => $item) {
-
-
-                //         $receipt_date = date('Y-m', strtotime($item->receipt_date));
-                //         if ($receipt_date == ("$year-$months[$i]")) {
-                //             // Get BBM Usage with receipt date
-                //             $bbm_usage = CoalUsage::with(['unit'])->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
-                //             // get All Unit Value
-
-                //         }
-                //     }
-                // }
                 $i++;
             }
         }
