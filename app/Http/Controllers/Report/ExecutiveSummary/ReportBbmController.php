@@ -409,9 +409,9 @@ class ReportBbmController extends Controller
                         $bw_ds = abs($bw - $ds);
                         $bl_bw = abs($bl - $bw);
 
-                        $ds_bl_percentage = $ds > 0  ? $ds_bl / $ds * 100 . "%" : '100%';
-                        $bw_ds_percentage = $bw > 0  ? $bw_ds / $bw * 100 . "%" : '100%';
-                        $bl_bw_percentage = $bl > 0  ? $bl_bw / $bl * 100 . "%" : '100%';
+                        $ds_bl_percentage = $ds > 0  ? number_format($ds_bl / $ds * 100, 2) . "%" : '100%';
+                        $bw_ds_percentage = $bw > 0  ? number_format($bw_ds / $bw * 100, 2) . "%" : '100%';
+                        $bl_bw_percentage = $bl > 0  ? number_format($bl_bw / $bl * 100, 2) . "%" : '100%';
 
                         $processedData[$month] = [
                             'bl' => $bl,
