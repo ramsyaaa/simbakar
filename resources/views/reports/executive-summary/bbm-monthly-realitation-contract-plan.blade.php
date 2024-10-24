@@ -67,7 +67,7 @@
                                     min="2000" max="2100"> --}}
                             </div>
                         </div>
-                        <div class="flex items-center gap-4">
+                        {{-- <div class="flex items-center gap-4">
                             <label for="grafik" class="flex items-center gap-2">
                                 <input id="grafik" checked name="display" type="checkbox" value="grafik">
                                 Grafik
@@ -76,7 +76,7 @@
                                 <input id="table" checked name="display" type="checkbox" value="table">
                                 Tabel
                             </label>
-                        </div>
+                        </div> --}}
 
                         <div class="w-full flex justify-end gap-2">
                             <a href="{{ route('reports.executive-summary.index') }}"
@@ -159,7 +159,7 @@
                                     <tr>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">{{ $month }}</td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
-                                            -
+                                            {{ isset($item['tug']) ? formatNumber($item['tug']) : '-' }}
                                         </td>
                                         <td class="h-[36px] text-[16px] font-normal border px-2">
                                             {{ isset($item['rakor']) ? formatNumber($item['rakor']) : '-' }}
@@ -188,7 +188,7 @@
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">Rata-rata
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl')->sum() / collect($bbm_unloading)->pluck('bl')->count()) }}
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum() / collect($bbm_unloading)->pluck('bl')->count()) }}
                                         </th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                             {{ formatNumber(collect($bbm_unloading)->pluck('rakor')->sum() / collect($bbm_unloading)->pluck('rakor')->count()) }}
@@ -212,7 +212,7 @@
                                     <tr>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">Total</th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                            {{ formatNumber(collect($bbm_unloading)->pluck('bl')->sum()) }}</th>
+                                            {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum()) }}</th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                             {{ formatNumber(collect($bbm_unloading)->pluck('rakor')->sum()) }}</th>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
