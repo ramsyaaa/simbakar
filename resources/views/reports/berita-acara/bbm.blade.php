@@ -95,8 +95,8 @@
                                         <td class="border border-gray-400 p-2">{{number_format($item->faktur_ltr15)}}</td>
                                         <td class="border border-gray-400 p-2">{{number_format($item->ual_obs)}}</td>
                                         <td class="border border-gray-400 p-2">{{number_format($item->ual_ltr15)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($item->amount_receipt)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($item->liter_15_tug3)}}</td>
+                                        <td class="border border-gray-400 p-2">{{number_format($item->ual_obs)}}</td>
+                                        <td class="border border-gray-400 p-2">{{number_format($item->ual_ltr15)}}</td>
                                         <td class="border border-gray-400 p-2">{{number_format($item->ubd_obs)}}</td>
                                         <td class="border border-gray-400 p-2">{{number_format($item->ubd_ltr15)}}</td>
                                         <td class="border border-gray-400 p-2">{{number_format($item->uad_obs)}}</td>

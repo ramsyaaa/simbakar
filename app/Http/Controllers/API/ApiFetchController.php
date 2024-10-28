@@ -21,7 +21,7 @@ use App\Models\UserInspection;
 use Illuminate\Support\Facades\DB;
 use App\Models\BiomassaSubSupplier;
 use App\Http\Controllers\Controller;
-
+use App\Models\BiomassaContract;
 
 class ApiFetchController extends Controller
 {
@@ -241,6 +241,31 @@ class ApiFetchController extends Controller
         }
     }
 
+    public function getSupplierContractBiomassa($id)
+    {
+        try {
+            // Ambil data kontrak berdasarkan supplier_id
+            $coalContracts = BiomassaContract::where('supplier_id', $id)->get();
+
+            // Jika tidak ada kontrak ditemukan
+            if ($coalContracts->isEmpty()) {
+                return response()->json([
+                    'message' => 'No contracts found for this supplier.'
+                ], 404); // Not Found
+            }
+
+            // Mengembalikan data kontrak dalam format JSON
+            return response()->json($coalContracts, 200); // OK
+
+        } catch (\Exception $e) {
+            // Tangani jika ada error atau exception
+            return response()->json([
+                'message' => 'Error occurred while fetching contracts.',
+                'error' => $e->getMessage()
+            ], 500); // Internal Server Error
+        }
+    }
+
     public function chartDataReceipt(Request $request){
 
         $filterType = $request->type;
@@ -398,5 +423,24 @@ class ApiFetchController extends Controller
 
     }
 
+    public function getSubSuppliersBiomassa()
+    {
+        $contract_id = $_GET['contract_id'] ?? null;
 
+        // Mengambil data sub-supplier berdasarkan contract_id
+        $get_suppliers = BiomassaSubSupplier::where('contract_id', $contract_id)
+            ->with(['supplier:id,uuid,name']) // Hanya ambil kolom `id` dan `name` dari relasi supplier untuk efisiensi
+            ->get();
+
+        // Transformasi data untuk mengambil nama supplier dari relasi
+        $result = $get_suppliers->map(function ($subSupplier) {
+            return [
+                'uuid' => $subSupplier->supplier->uuid,
+                'name' => $subSupplier->supplier->name, // Nama supplier dari relasi
+            ];
+        });
+
+        // Mengembalikan data ke JavaScript dalam format JSON
+        return response()->json($result);
+    }
 }

@@ -89,7 +89,12 @@ class BiomassaUsageController extends Controller
 
             $requestData = $request->all();
 
-            $usage = BiomassaUsage::create($requestData);
+            $usage = BiomassaUsage::create([
+                'tug_9_number' => $request->tug_9_number,
+                'usage_date' =>$request->usage_date,
+                'amount_use' =>$request->amount_use,
+                'unit_id' =>$request->unit_id,
+            ]);
 
             Tug::create([
                 'tug' => 9,
@@ -129,11 +134,10 @@ class BiomassaUsageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $usage = BiomassaUsage::where('id', $id)->first();
+        $data['usage'] = BiomassaUsage::where(['id' => $id])->first();
         $data['units'] = Unit::all();
-        $data['usage'] = $usage;
 
         return view('biomassa.usages.edit',$data);
     }

@@ -41,6 +41,7 @@
                             <tr>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6] text-center">No</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6] text-center">Pemasok</th>
+                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6] text-center">No TUG 3</th>
                                 <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]"></th>
                             </tr>
                         </thead>
@@ -48,7 +49,8 @@
                             @foreach ($receipts as $item)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->supplier != null ? $item->supplier->name : '-' }}<br> <span class="text-red-500">{{ $item->analytic_biomassa_id == null ? "[analisa belum ada]"  : "" }}</span></td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->supplier != null ? $item->supplier->name : '-' }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->tug3_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('inputs.biomassa_receipts.edit', ['id' => $item->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit

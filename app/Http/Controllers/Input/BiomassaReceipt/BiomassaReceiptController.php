@@ -46,7 +46,7 @@ class BiomassaReceiptController extends Controller
     public function create()
     {
         $data['suppliers'] = Supplier::get();
-        $data['contracts'] = BiomassaContract::get();
+        $data['contracts'] = [];
 
         return view('inputs.biomassa_receipt.biomassa_receipt.create', $data);
     }
@@ -87,6 +87,8 @@ class BiomassaReceiptController extends Controller
                     $detail = DetailBiomassaReceipt::create([
                                 'biomassa_receipt_id' => $biomassa->id,
                                 'supplier_uuid' => $supplier,
+                                'start_date_unloading' => isset($request->start_date_unloading[$key]) ? $request->start_date_unloading[$key] : null,
+                                'end_date_unloading' => isset($request->end_date_unloading[$key]) ? $request->end_date_unloading[$key] : null,
                                 'volume' => isset($request->volume[$key]) ? $request->volume[$key] : null,
                                 'number_of_shipper' => isset($request->number_of_shipper[$key]) ? $request->number_of_shipper[$key] : null,
                                 'date_shipment' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,
@@ -207,6 +209,8 @@ class BiomassaReceiptController extends Controller
                     $detail = DetailBiomassaReceipt::create([
                                 'biomassa_receipt_id' => $biomassa->id,
                                 'supplier_uuid' => $supplier,
+                                'start_date_unloading' => isset($request->start_date_unloading[$key]) ? $request->start_date_unloading[$key] : null,
+                                'end_date_unloading' => isset($request->end_date_unloading[$key]) ? $request->end_date_unloading[$key] : null,
                                 'volume' => isset($request->volume[$key]) ? $request->volume[$key] : null,
                                 'number_of_shipper' => isset($request->number_of_shipper[$key]) ? $request->number_of_shipper[$key] : null,
                                 'date_shipment' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,

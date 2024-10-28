@@ -48,30 +48,6 @@ class ReportBbmController extends Controller
 
     public function index(Request $request, $type_bbm)
     {
-        set_time_limit(100000);
-        $duplicates = BbmReceipt::select('NO_TUG3', 'ID_PENGIRIMAN')
-            ->groupBy('NO_TUG3', 'ID_PENGIRIMAN')
-            ->havingRaw('COUNT(*) > 1')
-            ->get();
-
-        foreach ($duplicates as $duplicate) {
-            // Ambil semua data yang duplikat
-            $duplicatesData = BbmReceipt::where('NO_TUG3', $duplicate->NO_TUG3)
-                ->where('ID_PENGIRIMAN', $duplicate->ID_PENGIRIMAN)
-                ->orderBy('id') // Atur berdasarkan ID agar yang pertama adalah yang tertua
-                ->get();
-
-            // Lewati record pertama, hapus sisanya
-            $duplicatesData->skip(1)->each(function ($item) {
-                // Hapus data dari tabel tugs berdasarkan bbm_receipt_id
-                Tug::where('bbm_receipt_id', $item->id)->delete();
-
-                // Hapus record dari bbm_receipt
-                $item->delete();
-            });
-        }
-
-        // dd(23);
         $filterType = 'day';
         $data['filter_type'] = null;
         $validFilterTypes = ['day', 'month', 'year'];
@@ -172,7 +148,6 @@ class ReportBbmController extends Controller
                 $bbm_receipt = [];
                 $bbm_usage = [];
                 $cumulative = [];
-                // dd($data['bbm_usage']);
                 foreach ($data['bbm_receipt'] as $key => $bbm) {
                     $bbm_receipt[] = array_sum($bbm);
                     $bbm_usage[] = array_sum($data['bbm_usage'][$key]);

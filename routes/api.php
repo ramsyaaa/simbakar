@@ -52,5 +52,7 @@ Route::post('get-analytic-labor', [ApiFetchController::class, 'getAnalyticLabor'
 Route::post('get-ship', [ApiFetchController::class, 'getShip'])->name('getShip');
 Route::post('get-ship-comparisan', [ApiFetchController::class, 'getShipComparison'])->name('getShipComparison');
 Route::get('get-supplier-contract/{supplier_id}', [ApiFetchController::class, 'getSupplierContract'])->name('getSupplierContractList');
+Route::get('get-supplier-contract-biomassa/{supplier_id}', [ApiFetchController::class, 'getSupplierContractBiomassa'])->name('getSupplierContractBiomassaList');
 Route::get('chart-data-receipt', [ApiFetchController::class, 'chartDataReceipt'])->name('chartDataReceipt');
 Route::get('chart-data-pasokan', [ApiFetchController::class, 'chartDataPasokan'])->name('chartDataPasokan');
+Route::get('get-sub-suppliers-biomassa', [ApiFetchController::class, 'getSubSuppliersBiomassa'])->name('getSubSuppliersBiomassa');
