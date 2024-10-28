@@ -13,6 +13,8 @@ use App\Unloading;
 use App\LoadingCompany;
 use App\Models\Adendum;
 use App\Models\CoalContract;
+use App\Models\HeadWarehouse;
+use App\Models\UserInspection;
 use Illuminate\Database\Eloquent\Model;
 
 class CoalUnloading extends Model

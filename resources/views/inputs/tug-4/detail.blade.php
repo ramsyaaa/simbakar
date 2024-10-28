@@ -119,8 +119,8 @@
                             <button  type="button" class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3" onclick="printPDF()">Print</button>
                         </div>
                     </div>
-                    <div id="my-pdf" style="display: none;">
-                        <div class="p-10" style="font-size: 0.7em;">
+                    <div id="my-pdf" style="display: block;">
+                        <div class="p-10" style="font-size: 14px;">
                             <div class="p-6 print-page">
                                 <div class="flex justify-between items-center mb-4 print-header">
                                     <div>
@@ -147,7 +147,7 @@
 
                                 <div class="mb-6">
                                     <p class="font-bold mb-2">Para Pemeriksa terdiri dari :</p>
-                                    <table class="min-w-full border-collapse border border-slate-700" style="font-size: 0.7em;">
+                                    <table class="min-w-full border-collapse border border-slate-700" style="font-size:14px;">
                                         <thead>
                                             <tr>
                                                 <th class="border border-slate-700 p-2">No.</th>
@@ -176,11 +176,11 @@
                                     </table>
                                 </div>
 
-                                <div class="mb-6" style="font-size: 0.7em;">
+                                <div class="mb-6" style="font-size: 14px;">
                                     <p class="mb-2">Telah mengadakan pemeriksaan atas barang-barang/spare parts milik PT. PLN Indonesia Power yang berada di/terima dari: UBP Suralaya Tgl. 26-Jun-24. Menurut Surat Pesanan/B.P. No. ...... Tgl. ...... Gudang ...... </p>
                                     <p class="my-5">dan menyatakan sebagai berikut :</p>
 
-                                    <table class="min-w-full border-collapse border border-slate-700" style="font-size: 0.7em;">
+                                    <table class="min-w-full border-collapse border border-slate-700" style="font-size: 14px;">
                                         <thead>
                                             <tr>
                                                 <th class="border border-slate-700 p-2">No.</th>
@@ -196,14 +196,41 @@
                                             <tr>
                                                 <td class="px-4 py-2 border border-slate-700"></td>
                                                 <td class="px-4 py-2 border border-slate-700">
-                                                    <p>Jenis Bahan Bakar: Batubara</p>
-                                                    <p>ex. {{$tug->coal->supplier->name}}</p>
-                                                    <p>Penerimaan Untuk Unit 1-7</p>
-                                                    <p>Pelabuhan Asal: {{$tug->coal->originHarbor->name}}</p>
-                                                    <p>Draft Survey: {{ number_format($tug->coal->ds)}} Kg</p>
-                                                    <p>Belt Weiger: 0 Kg</p>
-                                                    <p>Bill of Lading: {{ number_format($tug->coal->bl)}} Kg</p>
-                                                    <p>Diterima: {{ number_format($tug->coal->tug_3_accept)}} Kg</p>
+                                                    <table class="table-auto w-full font-bold">
+                                                        <tr>
+                                                            <td class="pr-4">Jenis Bahan Bakar</td>
+                                                            <td> : Batubara</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">ex.</td>
+                                                            <td> : {{$tug->coal->supplier->name}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Penerimaan Untuk</td>
+                                                            <td> : Unit 1-7</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Pelabuhan Asal</td>
+                                                            <td> : {{$tug->coal->originHarbor->name}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Draft Survey:</td>
+                                                            <td> : {{ number_format($tug->coal->ds) }} Kg</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Belt Weigher</td>
+                                                            <td> : 0 Kg</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Bill of Lading</td>
+                                                            <td> : {{ number_format($tug->coal->bl) }} Kg</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Diterima</td>
+                                                            <td> : {{ number_format($tug->coal->tug_3_accept) }} Kg</td>
+                                                        </tr>
+                                                    </table>
+                                                    
                                                 </td>
                                                 <td class="px-4 py-2 border border-slate-700">18.01.0009</td>
                                                 <td class="px-4 py-2 border border-slate-700">Kg</td>
@@ -215,10 +242,25 @@
                                             <tr>
                                                 <td class="px-4 py-2 border border-slate-700"></td>
                                                 <td class="px-4 py-2 border border-slate-700">
-                                                    <p>Jenis Bahan Bakar: {{$tug->type_fuel == 'Solar' ? 'Solar / HSD' : 'Residu MFO'}}</p>
-                                                    <p>{{$tug->bbm->note}}</p>
-                                                    <p>Nama Agen : {{$tug->bbm->shipAgent->name}}</p>
-                                                    <p>Volume Faktur: {{ number_format($tug->bbm->amount_receipt)}} Kg</p>
+                                                    <table class="table-auto w-full font-bold">
+                                                        <tr>
+                                                            <td class="pr-4">Jenis Bahan Bakar</td>
+                                                            <td> : {{$tug->type_fuel == 'solar' ? 'Solar / HSD' : 'Residu MFO'}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Catatan</td>
+                                                            <td> : {{$tug->bbm->note}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Nama Agen</td>
+                                                            <td> : {{$tug->bbm->shipAgent->name}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Volume Faktur:</td>
+                                                            <td> : {{ number_format($tug->bbm->amount_receipt) }} Liter</td>
+                                                        </tr>
+                                                    </table>
+                                                    
                                                 </td>
                                                 <td class="px-4 py-2 border border-slate-700">18.01.0323</td>
                                                 <td class="px-4 py-2 border border-slate-700">L</td>
@@ -232,7 +274,7 @@
 
                                 </div>
 
-                                <div class="flex justify-between mt-6 print-footer" style="font: 0.7em;">
+                                <div class="flex justify-between mt-6 print-footer" style="font: 14px;">
                                     <div class="text-center-print">
                                         <p class="pb-12">PLT SENIOR MANAGER ENERGI PRIMER</p>
                                         <p class="font-bold mt-4">ROMY NURAWAN</p>

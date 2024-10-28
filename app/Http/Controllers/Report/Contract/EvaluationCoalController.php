@@ -131,6 +131,7 @@ class EvaluationCoalController extends Controller
             $data['suppliers'] = Supplier::all();
             $data['spesification'] = SpesificationContractCoal::where('contract_id',$request->contract_id)->first();
             $data['penalties'] = PenaltyClause::join('unit_penalties','unit_penalties.id','refusal_penalty_clauses.unit_penalty_id')->where('contract_id',$request->contract_id)->get();
+            
             return view('reports.contracts.coal-evaluation',$data);
         }
     }

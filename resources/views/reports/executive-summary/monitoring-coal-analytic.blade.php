@@ -163,6 +163,36 @@
                                         <td class="border text-center">{{$coal->labor}}</td>
                                     </tr>
                                 @endforeach
+                                <tr>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Total</td>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="3">{{ number_format($coals->sum('tug_3_accept')) }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Rata Rata Tertimbang</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('unloading'),2) }}</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('loading'),2) }}</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('labor'),2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Hasil Analisa Tertinggi</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('unloading'),2) }}</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('loading'),2) }}</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('labor'),2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Hasil Analisa Terendah</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('unloading'),2) }}</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('loading'),2) }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('labor'),2) }}</td>
+                                </tr>
                             </tbody>
                             </table>
                         </div>

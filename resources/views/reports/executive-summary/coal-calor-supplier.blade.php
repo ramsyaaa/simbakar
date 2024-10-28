@@ -158,17 +158,17 @@
                             @if ($filter_type == 'day')
                                     <thead>
                                         <tr>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Tanggal Bongkar</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Nama Kapal</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Nomor Kontrak</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Pemasok</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Asal Barang</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="3"> {{$parameter->name}} ( {{request('basis')}} ) </th>
+                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Tanggal Bongkar</th>
+                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Nama Kapal</th>
+                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Nomor Kontrak</th>
+                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Pemasok</th>
+                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
+                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Asal Barang</th>
+                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" colspan="3"> {{$parameter->name}} ( {{request('basis')}} ) </th>
                                         </tr>
                                         <tr>
                                             @foreach ($analytic as $item)
-                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th>
+                                                <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6] capitalize">{{$item}}</th>
                                             @endforeach
 
                                         </tr>
@@ -195,20 +195,52 @@
                                             </tr>
                                         @endforeach
                                         <tr>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2" colspan="4"></td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">Total</td>
-                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->sum('tug_3_accept'))}}</td>
-                                            @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->pluck('unloading')->avg(),2)}}</td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="5">Total</td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{count($analytic) + 1}}">{{ number_format($coals->sum('tug_3_accept')) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan=6">Rata Rata Tertimbang</td>
 
+                                            @if (in_array('unloading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('unloading'),2) }}</td>
                                             @endif
-                                            @if (in_array('loading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->pluck('loading')->avg(),2)}}</td>
 
+                                            @if (in_array('loading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('loading'),2) }}</td>
                                             @endif
-                                            @if (in_array('labor',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->pluck('labor')->avg(),2)}}</td>
 
+                                            @if (in_array('labor', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('labor'),2) }}</td>
+                                            @endif
+                                        </tr>
+                                        <tr>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="6">Hasil Analisa Tertinggi</td>
+
+                                            @if (in_array('unloading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('unloading'),2) }}</td>
+                                            @endif
+
+                                            @if (in_array('loading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('loading'),2) }}</td>
+                                            @endif
+
+                                            @if (in_array('labor', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('labor'),2) }}</td>
+                                            @endif
+                                        </tr>
+                                        <tr>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="6">Hasil Analisa Terendah</td>
+
+                                            @if (in_array('unloading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('unloading'),2) }}</td>
+                                            @endif
+
+                                            @if (in_array('loading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('loading'),2) }}</td>
+                                            @endif
+
+                                            @if (in_array('labor', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                     </tbody>

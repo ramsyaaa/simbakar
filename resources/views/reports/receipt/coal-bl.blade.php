@@ -156,7 +156,20 @@
                                         
                                     </tr>
                                     @endforeach
-                                
+                                    @php
+                                        $total= collect($coals);
+                                    @endphp
+                                    <tr>
+                                        <td colspan="4" class="border border-gray-400 p-2">Jumlah</td>
+                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('bl'))}}</td>
+                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('ds'))}}</td>
+                                        <td class="border border-gray-400 p-2">0</td>
+                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('tug_3_accept'))}}</td>
+                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('selisih_bl'))}}</td>
+                                        <td class="border border-gray-400 p-2">-</td>
+                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('selisih_bw'))}}</td>
+                                        <td class="border border-gray-400 p-2">-</td>
+                                    </tr>
                                 </tbody>
                             @else
                                 <thead>

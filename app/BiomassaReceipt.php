@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Models\HeadWarehouse;
+use App\Models\UserInspection;
+use App\Models\BbmBookContract;
 use App\Models\AnalyticBiomassa;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,4 +29,6 @@ class BiomassaReceipt extends Model
     {
         return $this->hasMany(DetailUnloadingBiomassaReceipt::class, "biomassa_receipt_id", 'id');
     }
+
+  
 }
