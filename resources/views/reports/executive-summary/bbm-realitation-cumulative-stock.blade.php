@@ -196,7 +196,7 @@
 
                     <div class="bg-white display-table rounded-lg p-6">
                         <div class="overflow-auto hide-scrollbar max-w-full">
-                            <table class="w-full" id="table">
+                            <table class="min-w-max" id="table">
                                 <thead>
                                     <tr>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">No</th>

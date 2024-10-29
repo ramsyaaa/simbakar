@@ -46,15 +46,23 @@
 
                     <div id="year-fields" class="filter-field" style="display: none;">
                         <div class="flex gap-3">
-
                             <div class="w-full mb-4">
                                 <label for="start_year">Tahun Awal:</label>
-                                <input type="number" id="start_year" class="border h-[40px] w-full rounded-lg px-3" name="start_year" value="{{ request('start_year') }}" min="2000" max="2100">
+                                <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <option value="">Tahun</option>
+                                    @for ($i = date('Y'); $i >= 2000; $i--)
+                                        <option {{request()->start_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    @endfor
+                                </select>
                             </div>
-
                             <div class="w-full mb-4">
                                 <label for="end_year">Tahun Akhir:</label>
-                                <input type="number" id="end_year" name="end_year" class="border h-[40px] w-full rounded-lg px-3" value="{{ request('end_year') }}" min="2000" max="2100">
+                                <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <option value="">Tahun</option>
+                                    @for ($i = date('Y'); $i >= 2000; $i--)
+                                        <option {{request()->end_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    @endfor
+                                </select>
                             </div>
                         </div>
                     </div>

@@ -132,6 +132,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'inputs', 'as' => 'inputs.']
         Route::get('/detail-heavy/{id}', [TugNineController::class, 'detailHeavy'])->name('detail-heavy');
         Route::get('/index-other', [TugNineController::class, 'indexOther'])->name('index-other');
         Route::get('/detail-other/{id}', [TugNineController::class, 'detailOther'])->name('detail-other');
+        Route::get('/index-biomassa', [TugNineController::class, 'indexBiomassa'])->name('index-biomassa');
+        Route::get('/detail-biomassa/{id}', [TugNineController::class, 'detailBiomassa'])->name('detail-biomassa');
     });
     Route::group(['prefix' => 'tug-11', 'as' => 'tug-11.'], function () {
         Route::get('/index', [TugElevenController::class, 'index'])->name('index');
