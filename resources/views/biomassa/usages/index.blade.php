@@ -58,12 +58,12 @@
                         <tbody>
                             @foreach ($usages as $usage)
                             <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ \Carbon\Carbon::parse($usage->usage_date)->format('d/m/Y') }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->tug_9_number }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ number_format($usage->amount_use) }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $usage->unit->name }}</td>
-                                <td class="h-[108px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ \Carbon\Carbon::parse($usage->usage_date)->format('d-m-Y') }}</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ $usage->tug_9_number }}</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ number_format($usage->amount_use) }}</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ $usage->unit->name }}</td>
+                                <td class="text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('biomassa.usages.edit', ['id' => $usage->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit
                                     </a>

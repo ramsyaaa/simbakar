@@ -265,7 +265,11 @@ class CoalReceiptController extends Controller
 
                 $requestData['loading_date_month'],
                 $requestData['loading_date_hour'],
-                $requestData['loading_date_minute']
+                $requestData['loading_date_minute'],
+                
+                $requestData['labor_date'],
+                $requestData['unloading_date'],
+                $requestData['loading_date']
                 
 
             );
@@ -275,12 +279,12 @@ class CoalReceiptController extends Controller
             );
 
             DB::commit();
-            return redirect(route('coals.receipts.index'))->with('success', 'Pembongkaran Batu Bara berhasil di ubah.');
+            return redirect(route('coals.receipts.index'))->with('success', 'Penerimaan Batu Bara berhasil di ubah.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
 
-            return redirect()->back()->with('error','Pembongkaran Batu Bara gagal di ubah');
+            return redirect()->back()->with('error','Penerimaan Batu Bara gagal di ubah');
         }
     }
     public function updateAnalytic(Request $request,$id)

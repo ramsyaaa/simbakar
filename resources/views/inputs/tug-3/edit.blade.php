@@ -32,6 +32,7 @@
                                                 <option {{$adjusment->type_fuel == 'Batu Bara' ? 'selected' :''}}> Batu Bara</option>
                                                 <option {{$adjusment->type_fuel == 'HSD / Solar' ? 'selected' :''}}> HSD / Solar</option>
                                                 <option {{$adjusment->type_fuel == 'MFO / Residu' ? 'selected' :''}}> MFO / Residu</option>
+                                                <option {{$adjusment->type_fuel == 'Biomassa' ? 'selected' :''}}> Biomassa</option>
                                             </select>
                                             @error('type_fuel')
                                             <div class="absolute -bottom-1 left-1 text-red-500">

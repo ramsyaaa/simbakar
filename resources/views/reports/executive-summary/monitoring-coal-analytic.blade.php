@@ -64,15 +64,23 @@
 
                     <div id="tahunan-fields" class="filter-field" style="display: none;">
                         <div class="flex gap-3">
-
                             <div class="w-full mb-4">
                                 <label for="start_year">Tahun Awal:</label>
-                                <input type="number" id="start_year" class="border h-[40px] w-full rounded-lg px-3" name="start_year" min="2000" max="2100" value="{{request('start_year')}}">
+                                <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <option value="">Tahun</option>
+                                    @for ($i = date('Y'); $i >= 2000; $i--)
+                                        <option {{request()->start_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    @endfor
+                                </select>
                             </div>
-
                             <div class="w-full mb-4">
                                 <label for="end_year">Tahun Akhir:</label>
-                                <input type="number" id="end_year" name="end_year" class="border h-[40px] w-full rounded-lg px-3"  min="2000" max="2100" value="{{request('end_year')}}">
+                                <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <option value="">Tahun</option>
+                                    @for ($i = date('Y'); $i >= 2000; $i--)
+                                        <option {{request()->end_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    @endfor
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -163,6 +171,36 @@
                                         <td class="border text-center">{{$coal->labor}}</td>
                                     </tr>
                                 @endforeach
+                                <tr>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Total</td>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="3">{{ number_format($coals->sum('tug_3_accept')) }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Rata Rata Tertimbang</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('unloading'),2) }}</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('loading'),2) }}</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('labor'),2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Hasil Analisa Tertinggi</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('unloading'),2) }}</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('loading'),2) }}</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('labor'),2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Hasil Analisa Terendah</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('unloading'),2) }}</td>
+
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('loading'),2) }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('labor'),2) }}</td>
+                                </tr>
                             </tbody>
                             </table>
                         </div>

@@ -91,34 +91,25 @@
                     <div></div>
                 </div>
                 <div class="overflow-auto max-w-full">
-                    <table class="w-full" id="table">
+                    <table class="min-w-max" id="table">
                         <thead>
                             <tr>
-                                @foreach ($bbm_usage as $index => $item)
-                                @php
-                                    $total = count($item['unit']);
-                                @endphp
-                                @break
-                                @endforeach
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">@if($filter_type == 'day') Tanggal @elseif($filter_type == 'month') Bulan @elseif($filter_type == 'year') Tahun @endif</th>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Penerimaan (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="{{ $total+3 }}">Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif Sesuai TUG 9 (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="{{ 12 }}">Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif Sesuai TUG 9 (Liter)</th>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Persediaan (Liter)</th>
                             </tr>
                             <tr>
-                                @php
-                                    $i=1;
-                                @endphp
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Albes</th>
-                                @foreach ($bbm_usage as $index => $item)
-                                @foreach ($item['unit'] as $index1 => $item1)
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">{{ $index1 }}</th>
-                                    @php
-                                        $i  = $i + 1;
-                                    @endphp
-                                @endforeach
-                                @break
-                                @endforeach
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 1</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 2</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 3</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 4</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 1-4</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 5</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 6</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 7</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 5-7</th>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Lainnya</th>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jumlah</th>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Kumulatif</th>
@@ -131,19 +122,64 @@
                                 $sum = 0;
                             @endphp
                             <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day') {{ $index+1 }}-{{ $bulan }}-{{ $tahun }} @elseif($filter_type == 'month') {{ date('M', mktime(0, 0, 0, $index+1, 1)) }} @elseif($filter_type == 'year') {{ $start_year + $index }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day') {{ $index+1 }}-{{ $bulan }}-{{ $tahun }} @elseif($filter_type == 'month') {{ date('M', mktime(0, 0, 0, $index+1, 1)) }} @elseif($filter_type == 'year') {{ $index }} @endif</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm_receipt[$index], 0, '.', ',') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['heavy_equipment'], 0, '.', ',') }}</td>
-                                @foreach ($item['unit'] as $index1 => $item1)
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item1, 0, '.', ',') }}</td>
-                                @php
-                                    $sum = $sum + $item1;
-                                @endphp
+                                @if($filter_type == 'day')
+                                    @php
+                                        $data_units = [
+                                            "unit_1" => 0,
+                                            "unit_2" => 0,
+                                            "unit_3" => 0,
+                                            "unit_4" => 0,
+                                            "unit1_4" => 0,
+                                            "unit_5" => 0,
+                                            "unit_6" => 0,
+                                            "unit_7" => 0,
+                                            "unit5_7" => 0,
+                                        ];
+                                        $total1_4 = 0;
+                                        $total5_7 = 0;
+                                        foreach ($item['unit'] as $index5 => $item5) {
+                                            if($item5['unit_name'] == "1"){
+                                                $data_units['unit_1'] = $item5['total_amount'];
+                                                $total1_4 += $item5['total_amount'];
+                                            }elseif($item5['unit_name'] == "2"){
+                                                $data_units['unit_2'] = $item5['total_amount'];
+                                                $total1_4 += $item5['total_amount'];
+                                            }elseif($item5['unit_name'] == "3"){
+                                                $data_units['unit_3'] = $item5['total_amount'];
+                                                $total1_4 += $item5['total_amount'];
+                                            }elseif($item5['unit_name'] == "4"){
+                                                $data_units['unit_4'] = $item5['total_amount'];
+                                                $total1_4 += $item5['total_amount'];
+                                            }elseif($item5['unit_name'] == "5"){
+                                                $data_units['unit_5'] = $item5['total_amount'];
+                                                $total5_7 += $item5['total_amount'];
+                                            }elseif($item5['unit_name'] == "6"){
+                                                $data_units['unit_6'] = $item5['total_amount'];
+                                                $total5_7 += $item5['total_amount'];
+                                            }elseif($item5['unit_name'] == "7"){
+                                                $data_units['unit_7'] = $item5['total_amount'];
+                                                $total5_7 += $item5['total_amount'];
+                                            }
+                                        }
+                                        $data_units['unit5_7'] = $total5_7;
+                                        $data_units['unit1_4'] = $total1_4;
+
+                                    @endphp
+                                    @foreach ($data_units as $unit)
+                                    <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($unit, 0, '.', ',') }}</td>
+                                    @endforeach
+                                @elseif($filter_type == 'month' || $filter_type == 'year')
+                                @foreach ($item['unit'] as $unit)
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($unit, 0, '.', ',') }}</td>
                                 @endforeach
+                                @endif
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['other'], 0, '.', ',') }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format(($sum + $item['other'] + $item['heavy_equipment']), 0, '.', ',') }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">0.0</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['total'], 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2"> @if($filter_type != 'year') @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($cumulative[$index - 1], 0) }} @endif @else {{ number_format($cumulative[$index], 0) }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2"> @if($filter_type != 'year') @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($efective[$index - 1], 0) }} @endif @else {{ number_format($cumulative[$index], 0) }} @endif</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Report\Supplies;
 use App\BbmReceipt;
 use App\BbmUsage;
 use App\Http\Controllers\Controller;
+use App\Models\YearStartData;
 use App\Unit;
 use DB;
 use Illuminate\Http\Request;
@@ -54,7 +55,6 @@ class SuppliesController extends Controller
         $endYear = $request->input('end_year', date('Y'));
         $data['end_year'] = $endYear;
 
-        $queryBbmUsage = BbmUsage::query();
         $queryBbmReceipt = BbmReceipt::query();
         $data['bbm_usage'] = [];
 
@@ -63,236 +63,329 @@ class SuppliesController extends Controller
         if($filterType != null){
             switch ($filterType) {
                 case 'day':
-                    $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
-                    $groupedDay = array_fill(0, $daysInMonth, 0.0);
-
-                    foreach ($groupedDay as $key => $item) {
-                        $i = $key + 1;
-                        $queryBbmUsage->whereDate('use_date', '=', "$tahun-$bulan-$i");
-
-                        // Mengambil data yang dikelompokkan berdasarkan bbm_use_for
-                        $bbmUsageResults = $queryBbmUsage->select('bbm_use_for', 'heavy_equipment_uuid', 'unit_uuid', DB::raw('SUM(amount) as total_amount'))
-                            ->where(['bbm_type' => $type_bbm])
-                            ->groupBy('bbm_use_for', 'heavy_equipment_uuid', 'unit_uuid')
-                            ->get();
-
-                        // Menginisialisasi array hasil akhir
-                        $groupedData = [
-                            'heavy_equipment' => 0.0,
-                            'unit' => [],
-                            'other' => 0.0,
-                        ];
-
-                        // Mengelompokkan data
-                        foreach ($bbmUsageResults as $result) {
-                            switch ($result->bbm_use_for) {
-                                case 'heavy_equipment':
-                                    // Untuk heavy_equipment, jumlahkan semua amount
-                                    $groupedData['heavy_equipment'] += $result->total_amount;
-                                    break;
-
-                                case 'unit':
-                                    // Untuk unit, kelompokkan berdasarkan unit_uuid dan jumlahkan amount
-                                    $uuid = $result->unit_uuid;
-                                    if (!isset($groupedData['unit'][$uuid])) {
-                                        $groupedData['unit'][$uuid] = 0.0;
-                                    }
-                                    $groupedData['unit'][$uuid] += $result->total_amount;
-                                    break;
-
-                                case 'other':
-                                    // Untuk other, jumlahkan semua amount
-                                    $groupedData['other'] += $result->total_amount;
-                                    break;
-                            }
-                        }
-
-                        // Output hasil
-                        $listUnits = [];
-                        foreach ($units as $index => $unit) {
-                            if(isset($groupedData['unit'][$unit->uuid])){
-                                $listUnits[$unit->name] = $groupedData['unit'][$unit->uuid];
-                            }else{
-                                $listUnits[$unit->name] = 0.0;
-                            }
-                        }
-                        $groupedData['unit'] = $listUnits;
-                        $data['bbm_usage'][] = $groupedData;
+                    $data = array_merge_recursive($data, $this->getKumulatif($tahun, $type_bbm));
+                    $bulanIndex = ltrim($bulan, '0') - 1;
+                    $data['bbm_receipt'] = $data['bbm_receipt'][ltrim($bulan, '0')];
+                    $data['bbm_usage'] = $data['bbm_usage'][$bulanIndex];
+                    if (ltrim($bulan, '0') > 1) {
+                        $data['start_year_data_actual'] = end($data['cumulative'][ltrim($bulan, '0') - 1]);
                     }
-
-                    $bbmReceiptResults = $queryBbmReceipt->select(DB::raw('DAY(date_receipt) as day'), DB::raw('SUM(amount_receipt) as total_amount'))
-                            ->where(['bbm_type' => $type_bbm])
-                            ->whereYear('date_receipt', $tahun)
-                            ->whereMonth('date_receipt', $bulan)
-                            ->groupBy('day')
-                            ->orderBy('day')
-                            ->get();
-
-                        // Menginisialisasi array hasil akhir
-                        $groupedData = [];
-
-                        // Menginisialisasi array dengan semua hari pada bulan tersebut
-                        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
-                        $groupedData = array_fill(1, $daysInMonth, 0.0);
-
-                        // Mengisi data berdasarkan hasil query
-                        foreach ($bbmReceiptResults as $result) {
-                            $day = $result->day; // Ambil hari dari hasil query
-                            $groupedData[$day] = $result->total_amount; // Isi nilai pada hari tersebut
-                        }
-                    $data['bbm_receipt'] = array_values($groupedData);
+                    $data['cumulative'] = $data['cumulative'][ltrim($bulan, '0')];  
+                    $data['efective'] = $data['efective'][ltrim($bulan, '0')];
                     break;
 
                 case 'month':
-                    $groupedBbmUsage = [];
-                    $groupedBbmReceipt = [];
+                    $data = array_merge_recursive($data, $this->getKumulatif($tahunInput, $type_bbm));
+                    $bbm_usages = [];
+                    $bbm_receipt = [];
+                    $cumulative = [];
+                    $efective = [];
+                    foreach ($data['bbm_receipt'] as $key => $bbm) {
+                        $bbm_receipt[] = array_sum($bbm);
+                        $cumulative[] = end($data['cumulative'][$key]);
+                        $efective[] = end($data['efective'][$key]);
+                    }
+                    $data['bbm_receipt'] = $bbm_receipt;
+                    $data['cumulative'] = $cumulative;
+                    $data['efective'] = $efective;
 
-                    for ($bulanInput = 1; $bulanInput <= 12; $bulanInput++) {
-                        $bbmUsageResults = BbmUsage::select('bbm_use_for', 'heavy_equipment_uuid', 'unit_uuid', DB::raw('SUM(amount) as total_amount'))
-                            ->where(['bbm_type' => $type_bbm])
-                            ->whereYear('use_date', $tahunInput)
-                            ->whereMonth('use_date', $bulanInput)
-                            ->groupBy('bbm_use_for', 'heavy_equipment_uuid', 'unit_uuid')
-                            ->get();
-
-                        // Menginisialisasi array hasil akhir untuk bbm_usage
-                        $groupedData = [
-                            'heavy_equipment' => 0.0,
-                            'unit' => [],
-                            'other' => 0.0,
+                    foreach ($data['bbm_usage'] as $index => $bbm_usage_month) {
+                        $bbm_usage_in_one_month = [
+                            "heavy_equipment" => 0,
+                            "other" => 0,
+                            "total" => 0,
+                            "unit" => [
+                                "unit_1" => 0,
+                                "unit_2" => 0,
+                                "unit_3" => 0,
+                                "unit_4" => 0,
+                                "unit1_4" => 0,
+                                "unit_5" => 0,
+                                "unit_6" => 0,
+                                "unit_7" => 0,
+                                "unit5_7" => 0,
+                            ],
                         ];
+                        foreach ($bbm_usage_month as $index2 => $bbm_usage) {
+                            $bbm_usage_in_one_month["heavy_equipment"] += $bbm_usage['heavy_equipment'];
+                            $bbm_usage_in_one_month["other"] += $bbm_usage['other'];
+                            $bbm_usage_in_one_month["total"] += $bbm_usage['total'];
 
-                        // Mengelompokkan dan menjumlahkan data bbm_usage
-                        foreach ($bbmUsageResults as $result) {
-                            switch ($result->bbm_use_for) {
-                                case 'heavy_equipment':
-                                    // Untuk heavy_equipment, jumlahkan semua amount
-                                    $groupedData['heavy_equipment'] += $result->total_amount;
-                                    break;
-
-                                case 'unit':
-                                    // Untuk unit, kelompokkan berdasarkan unit_uuid dan jumlahkan amount
-                                    $uuid = $result->unit_uuid;
-                                    if (!isset($groupedData['unit'][$uuid])) {
-                                        $groupedData['unit'][$uuid] = 0.0;
-                                    }
-                                    $groupedData['unit'][$uuid] += $result->total_amount;
-                                    break;
-
-                                case 'other':
-                                    // Untuk other, jumlahkan semua amount
-                                    $groupedData['other'] += $result->total_amount;
-                                    break;
+                            foreach ($bbm_usage['unit'] as $index3 => $unit) {
+                                if($unit['unit_name'] == 1){
+                                    $bbm_usage_in_one_month["unit"]['unit_1'] += $unit['total_amount'];
+                                    $bbm_usage_in_one_month["unit"]['unit1_4'] += $unit['total_amount'];
+                                }elseif($unit['unit_name'] == 2){
+                                    $bbm_usage_in_one_month["unit"]['unit_2'] += $unit['total_amount'];
+                                    $bbm_usage_in_one_month["unit"]['unit1_4'] += $unit['total_amount'];
+                                }elseif($unit['unit_name'] == 3){
+                                    $bbm_usage_in_one_month["unit"]['unit_3'] += $unit['total_amount'];
+                                    $bbm_usage_in_one_month["unit"]['unit1_4'] += $unit['total_amount'];
+                                }elseif($unit['unit_name'] == 4){
+                                    $bbm_usage_in_one_month["unit"]['unit_4'] += $unit['total_amount'];
+                                    $bbm_usage_in_one_month["unit"]['unit1_4'] += $unit['total_amount'];
+                                }elseif($unit['unit_name'] == 5){
+                                    $bbm_usage_in_one_month["unit"]['unit_5'] += $unit['total_amount'];
+                                    $bbm_usage_in_one_month["unit"]['unit5_7'] += $unit['total_amount'];
+                                }elseif($unit['unit_name'] == 6){
+                                    $bbm_usage_in_one_month["unit"]['unit_6'] += $unit['total_amount'];
+                                    $bbm_usage_in_one_month["unit"]['unit5_7'] += $unit['total_amount'];
+                                }elseif($unit['unit_name'] == 7){
+                                    $bbm_usage_in_one_month["unit"]['unit_7'] += $unit['total_amount'];
+                                    $bbm_usage_in_one_month["unit"]['unit5_7'] += $unit['total_amount'];
+                                }
                             }
                         }
-
-                        // Output hasil untuk bbm_usage
-                        $listUnits = [];
-                        foreach ($units as $unit) {
-                            if (isset($groupedData['unit'][$unit->uuid])) {
-                                $listUnits[$unit->name] = $groupedData['unit'][$unit->uuid];
-                            } else {
-                                $listUnits[$unit->name] = 0.0;
-                            }
-                        }
-                        $groupedData['unit'] = $listUnits;
-                        $groupedBbmUsage[$bulanInput] = $groupedData;
-
-                        // Mengambil data bbm_receipt yang dikelompokkan berdasarkan bulan
-                        $totalAmountReceipt = BbmReceipt::whereYear('date_receipt', $tahunInput)
-                            ->where(['bbm_type' => $type_bbm])
-                            ->whereMonth('date_receipt', $bulanInput)
-                            ->sum('amount_receipt');
-
-                        // Menyimpan jumlah total amount_receipt untuk bulan tersebut
-                        $groupedBbmReceipt[$bulanInput] = $totalAmountReceipt;
+                        $bbm_usages[] = $bbm_usage_in_one_month;
                     }
 
-                    // Assign the final data to the output array
-                    $data['bbm_usage'] = array_values($groupedBbmUsage);
-                    $data['bbm_receipt'] = array_values($groupedBbmReceipt);
-
+                    $data['bbm_usage'] = $bbm_usages;
                     break;
 
 
                 case 'year':
-                    $startDate = $startYear . '-01-01';
-                    $endDate = $endYear . '-12-31 23:59:59';
+                    $perYear = [];
+                    $bbm_receipt = [];
+                    for ($i = $startYear; $i <= $endYear; $i++) {
+                        $dataPerYear = $this->getKumulatif($i, $type_bbm);
+                        $perYear[$i]['start_year_data_actual'] = $dataPerYear['start_year_data_actual'];
 
-                    // Inisialisasi array untuk menampung hasil akhir
-                    $groupedBbmUsage = [];
-                    $groupedBbmReceipt = [];
+                        $bbm_receipt_this_year = 0;
 
-                    // Iterasi berdasarkan tahun dalam rentang yang diberikan
-                    for ($tahunInput = $startYear; $tahunInput <= $endYear; $tahunInput++) {
-                        // Query untuk penggunaan BBM (bbm_usage) yang dikelompokkan berdasarkan tahun
-                        $bbmUsageResults = BbmUsage::select('bbm_use_for', 'heavy_equipment_uuid', 'unit_uuid', DB::raw('SUM(amount) as total_amount'))
-                            ->where(['bbm_type' => $type_bbm])
-                            ->whereYear('use_date', $tahunInput)
-                            ->whereBetween('use_date', [$startDate, $endDate])
-                            ->groupBy('bbm_use_for', 'heavy_equipment_uuid', 'unit_uuid')
-                            ->get();
+                        foreach ($dataPerYear['bbm_receipt'] as $receipt) {
+                            if (is_array($receipt)) {
+                                $bbm_receipt_this_year += array_sum($receipt);
+                            }
+                        }
 
-                        // Menginisialisasi array hasil akhir untuk bbm_usage
-                        $groupedData = [
-                            'heavy_equipment' => 0.0,
-                            'unit' => [],
-                            'other' => 0.0,
-                        ];
+                        $bbm_receipt[$i] = $bbm_receipt_this_year;
 
-                        // Mengelompokkan dan menjumlahkan data bbm_usage
-                        foreach ($bbmUsageResults as $result) {
-                            switch ($result->bbm_use_for) {
-                                case 'heavy_equipment':
-                                    // Untuk heavy_equipment, jumlahkan semua amount
-                                    $groupedData['heavy_equipment'] += $result->total_amount;
-                                    break;
+                        foreach ($dataPerYear['bbm_usage'] as $index => $bbm_usage_month) {
+                            $bbm_usage_in_one_month = [
+                                "heavy_equipment" => 0,
+                                "other" => 0,
+                                "total" => 0,
+                                "unit" => [
+                                    "unit_1" => 0,
+                                    "unit_2" => 0,
+                                    "unit_3" => 0,
+                                    "unit_4" => 0,
+                                    "unit1_4" => 0,
+                                    "unit_5" => 0,
+                                    "unit_6" => 0,
+                                    "unit_7" => 0,
+                                    "unit5_7" => 0,
+                                ],
+                            ];
+                            foreach ($bbm_usage_month as $index2 => $bbm_usage) {
+                                $bbm_usage_in_one_month["heavy_equipment"] += $bbm_usage['heavy_equipment'];
+                                $bbm_usage_in_one_month["other"] += $bbm_usage['other'];
+                                $bbm_usage_in_one_month["total"] += $bbm_usage['total'];
 
-                                case 'unit':
-                                    // Untuk unit, kelompokkan berdasarkan unit_uuid dan jumlahkan amount
-                                    $uuid = $result->unit_uuid;
-                                    if (!isset($groupedData['unit'][$uuid])) {
-                                        $groupedData['unit'][$uuid] = 0.0;
+                                foreach ($bbm_usage['unit'] as $index3 => $unit) {
+                                    if($unit['unit_name'] == 1){
+                                        $bbm_usage_in_one_month["unit"]['unit_1'] += $unit['total_amount'];
+                                        $bbm_usage_in_one_month["unit"]['unit1_4'] += $unit['total_amount'];
+                                    }elseif($unit['unit_name'] == 2){
+                                        $bbm_usage_in_one_month["unit"]['unit_2'] += $unit['total_amount'];
+                                        $bbm_usage_in_one_month["unit"]['unit1_4'] += $unit['total_amount'];
+                                    }elseif($unit['unit_name'] == 3){
+                                        $bbm_usage_in_one_month["unit"]['unit_3'] += $unit['total_amount'];
+                                        $bbm_usage_in_one_month["unit"]['unit1_4'] += $unit['total_amount'];
+                                    }elseif($unit['unit_name'] == 4){
+                                        $bbm_usage_in_one_month["unit"]['unit_4'] += $unit['total_amount'];
+                                        $bbm_usage_in_one_month["unit"]['unit1_4'] += $unit['total_amount'];
+                                    }elseif($unit['unit_name'] == 5){
+                                        $bbm_usage_in_one_month["unit"]['unit_5'] += $unit['total_amount'];
+                                        $bbm_usage_in_one_month["unit"]['unit5_7'] += $unit['total_amount'];
+                                    }elseif($unit['unit_name'] == 6){
+                                        $bbm_usage_in_one_month["unit"]['unit_6'] += $unit['total_amount'];
+                                        $bbm_usage_in_one_month["unit"]['unit5_7'] += $unit['total_amount'];
+                                    }elseif($unit['unit_name'] == 7){
+                                        $bbm_usage_in_one_month["unit"]['unit_7'] += $unit['total_amount'];
+                                        $bbm_usage_in_one_month["unit"]['unit5_7'] += $unit['total_amount'];
                                     }
-                                    $groupedData['unit'][$uuid] += $result->total_amount;
-                                    break;
-
-                                case 'other':
-                                    // Untuk other, jumlahkan semua amount
-                                    $groupedData['other'] += $result->total_amount;
-                                    break;
+                                }
                             }
+                            $bbm_usages[] = $bbm_usage_in_one_month;
+                        }
+                        
+                        $final_bbm_usage=[];
+                        $bbm_usage_in_one_month = [
+                            "heavy_equipment" => 0,
+                            "other" => 0,
+                            "total" => 0,
+                            "unit" => [
+                                "unit_1" => 0,
+                                "unit_2" => 0,
+                                "unit_3" => 0,
+                                "unit_4" => 0,
+                                "unit1_4" => 0,
+                                "unit_5" => 0,
+                                "unit_6" => 0,
+                                "unit_7" => 0,
+                                "unit5_7" => 0,
+                            ],
+                        ];
+                        foreach ($bbm_usages as $index2 => $bbm_usage) {
+                            $bbm_usage_in_one_month["heavy_equipment"] += $bbm_usage['heavy_equipment'];
+                            $bbm_usage_in_one_month["other"] += $bbm_usage['other'];
+                            $bbm_usage_in_one_month["total"] += $bbm_usage['total'];
+
+                            $bbm_usage_in_one_month["unit"]['unit_1'] += $bbm_usage['unit']['unit_1'];
+                            $bbm_usage_in_one_month["unit"]['unit_2'] += $bbm_usage['unit']['unit_2'];
+                            $bbm_usage_in_one_month["unit"]['unit_3'] += $bbm_usage['unit']['unit_3'];
+                            $bbm_usage_in_one_month["unit"]['unit_4'] += $bbm_usage['unit']['unit_4'];
+                            $bbm_usage_in_one_month["unit"]['unit1_4'] += $bbm_usage['unit']['unit1_4'];
+                            $bbm_usage_in_one_month["unit"]['unit_5'] += $bbm_usage['unit']['unit_5'];
+                            $bbm_usage_in_one_month["unit"]['unit_6'] += $bbm_usage['unit']['unit_6'];
+                            $bbm_usage_in_one_month["unit"]['unit_7'] += $bbm_usage['unit']['unit_7'];
+                            $bbm_usage_in_one_month["unit"]['unit5_7'] += $bbm_usage['unit']['unit5_7'];
                         }
 
-                        // Output hasil untuk bbm_usage
-                        $listUnits = [];
-                        foreach ($units as $unit) {
-                            if (isset($groupedData['unit'][$unit->uuid])) {
-                                $listUnits[$unit->name] = $groupedData['unit'][$unit->uuid];
-                            } else {
-                                $listUnits[$unit->name] = 0.0;
-                            }
-                        }
-                        $groupedData['unit'] = $listUnits;
-                        $groupedBbmUsage[$tahunInput] = $groupedData;
+                        $perYear[$i]['bbm_usage'] = $bbm_usage_in_one_month;
+                        $perYear[$i]['cumulative'] = end($dataPerYear['cumulative']);
+                        $perYear[$i]['cumulative'] = end($perYear[$i]['cumulative']);
 
-                        // Mengambil data bbm_receipt yang dikelompokkan berdasarkan tahun
-                        $totalAmountReceipt = BbmReceipt::whereYear('date_receipt', $tahunInput)
-                            ->where(['bbm_type' => $type_bbm])
-                            ->whereBetween('date_receipt', [$startDate, $endDate])
-                            ->sum('amount_receipt');
+                        $perYear[$i]['efective'] = end($dataPerYear['efective']);
+                        $perYear[$i]['efective'] = end($perYear[$i]['efective']);
+                    }
+                    $bbm_usages = [];
+                    $cumulative = [];
+                    $efective = [];
 
-                        // Menyimpan jumlah total amount_receipt untuk tahun tersebut
-                        $groupedBbmReceipt[$tahunInput] = $totalAmountReceipt;
+                    foreach ($perYear as $index => $item) {
+                        $bbm_usages[$index] = $item['bbm_usage'];
+                        $cumulative[$index] = $item['cumulative'];
+                        $efective[$index] = $item['efective'];
                     }
 
-                    // Assign the final data to the output array
-                    $data['bbm_usage'] = array_values($groupedBbmUsage);
-                    $data['bbm_receipt'] = array_values($groupedBbmReceipt);
-
+                    $data['bbm_usage'] = $bbm_usages;
+                    $data['bbm_receipt'] = $bbm_receipt;
+                    $data['cumulative'] = $cumulative;
+                    $data['efective'] = $efective;
+                    
                     break;
             }
         }
         return view('reports.supplies.bbm_usage', $data);
+    }
+
+    public function getKumulatif($tahun = 2024, $type = 'solar')
+    {
+        $data = [];
+
+        $getStartYearData = YearStartData::where([
+            'type' => $type,
+            'year' => $tahun,
+        ])->first();
+
+        $start_data_planning = isset($getStartYearData->planning) ? $getStartYearData->planning : 0;
+        $start_data_actual = isset($getStartYearData->actual) ? $getStartYearData->actual : 0;
+
+        $data['start_year_data_planning'] = $start_data_planning;
+        $data['start_year_data_actual'] = $start_data_actual;
+
+        // Loop untuk setiap bulan dari Januari hingga Desember
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+
+            $queryBbmReceipt = BbmReceipt::query();
+            $queryBbmUsage = BbmUsage::query();
+            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
+            $daysBbmReceiptArray = [];
+            $daysBbmUsageArray = [];
+
+            // Inisialisasi array untuk setiap hari dalam bulan
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $date = sprintf('%04d-%02d-%02d', $tahun, $bulan, $day);
+                $daysBbmReceiptArray[$date] = 0.0;
+                $daysBbmUsageArray[$date] = 0.0;
+            }
+
+            // Query untuk penerimaan BBM
+            $queryBbmReceipt->selectRaw('DATE(date_receipt) as date, SUM(amount_receipt) as total_amount')
+                ->whereYear('date_receipt', $tahun)
+                ->whereMonth('date_receipt', $bulan)
+                ->where('bbm_type', $type)
+                ->groupBy('date');
+
+            // Query untuk heavy_equipment dan other
+            $queryBbmUsage = DB::table('bbm_usages')
+            ->selectRaw('
+                DATE(use_date) as date,
+                SUM(CASE WHEN bbm_use_for = "heavy_equipment" THEN amount ELSE 0 END) as heavy_equipment,
+                SUM(CASE WHEN bbm_use_for = "other" THEN amount ELSE 0 END) as other
+            ')
+            ->whereYear('use_date', $tahun)
+            ->whereMonth('use_date', $bulan)
+            ->where('bbm_type', $type)
+            ->groupBy('date');
+
+            // Query untuk unit dengan join ke tabel units untuk mendapatkan nama unit
+            $unitQuery = DB::table('bbm_usages')
+            ->selectRaw('
+                DATE(use_date) as date,
+                units.name,
+                bbm_usages.unit_uuid,
+                SUM(amount) as total_amount_unit
+            ')
+            ->join('units', 'bbm_usages.unit_uuid', '=', 'units.uuid')
+            ->whereYear('use_date', $tahun)
+            ->whereMonth('use_date', $bulan)
+            ->where('bbm_type', $type)
+            ->where('bbm_use_for', 'unit')
+            ->groupBy('date', 'bbm_usages.unit_uuid', 'units.name');
+
+            $bbmReceiptResults = $queryBbmReceipt->get();
+            $bbmUsageResults = $queryBbmUsage->get();
+            $unitUsageResults = $unitQuery->get();
+
+            foreach ($bbmReceiptResults as $result) {
+                $daysBbmReceiptArray[$result->date] = $result->total_amount;
+            }
+
+            // Menggabungkan hasil dari kedua query untuk format yang diinginkan
+            $results = [];
+            foreach ($bbmUsageResults as $usage) {
+                // Filter unit usage berdasarkan tanggal
+                $unitList = $unitUsageResults->where('date', $usage->date)
+                    ->map(function ($unit) {
+                        return [
+                            'unit_name' => $unit->name,
+                            'total_amount' => $unit->total_amount_unit,
+                        ];
+                    })->values()->toArray();
+
+                // Menghitung total amount untuk unit pada tanggal tersebut
+                $totalUnitAmount = $unitList ? array_sum(array_column($unitList, 'total_amount')) : 0;
+
+                // Menghitung total keseluruhan
+                $total = $totalUnitAmount + $usage->heavy_equipment + $usage->other;
+
+                // Menyusun data ke dalam array hasil dengan date sebagai key
+                $results[$usage->date] = [
+                    'heavy_equipment' => $usage->heavy_equipment,
+                    'other' => $usage->other,
+                    'unit' => $unitList,
+                    'total' => $total, // Total keseluruhan
+                ];
+            }
+            
+            // Memasukkan data ke dalam array hasil untuk bulan saat ini
+            $data['bbm_receipt'][$bulan] = array_values($daysBbmReceiptArray);
+            $data['bbm_usage'][$bulan] = array_values($results);
+
+            $efective_actual = [];
+            $cumulative_actual = [];
+            foreach ($data['bbm_receipt'][$bulan] as $date => $receipt) {
+                $total = $data['bbm_usage'][$bulan][$date]['total'] ?? 0;
+                $efective_actual[$date] = $start_data_actual + $receipt - $total;
+                $cumulative_actual[$date] = $efective_actual[$date];
+                $start_data_actual = $efective_actual[$date];
+            }
+            $data['efective'][$bulan] = array_values($efective_actual);
+            $data['cumulative'][$bulan] = array_values($cumulative_actual);
+        }
+        return $data;
     }
 }

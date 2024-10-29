@@ -129,13 +129,13 @@
                                         <td class="border border-gray-400 p-2">{{$item->kind_disruption}}</td>
                                         <td class="border border-gray-400 p-2">{{date('H:i:s', strtotime($item->start_disruption_date))}}</td>
                                         <td class="border border-gray-400 p-2">{{date('H:i:s', strtotime($item->end_disruption_date))}}</td>
-                                        <td class="border border-gray-400 p-2">{{$item->minutes}}</td>
+                                        <td class="border border-gray-400 p-2">{{number_format($item->minutes)}}</td>
                                         <td class="border border-gray-400 p-2">
                                             @if ($loop->last)
                                                 @php
                                                 $totalMinute = $totalTime + $totalMinute;
                                                 @endphp
-                                                {{$totalTime}}
+                                                {{number_format($totalTime,2)}}
                                             
                                             @endif
                                         </td>
@@ -158,7 +158,7 @@
                                 <td class="border border-gray-400 p-2" colspan="3">Total</td>
                                 <td class="border border-gray-400 p-2">{{number_format($totalTug)}}</td>
                                 <td class="border border-gray-400 p-2" colspan="6"></td>
-                                <td class="border border-gray-400 p-2">{{$totalMinute}}</td>
+                                <td class="border border-gray-400 p-2">{{number_format($totalMinute)}}</td>
                                 <td class="border border-gray-400 p-2">
                                     @php
                                         $hour = $totalMinute / 60 ;

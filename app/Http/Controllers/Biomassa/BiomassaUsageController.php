@@ -36,12 +36,10 @@ class BiomassaUsageController extends Controller
     public function index(Request $request)
     {
         $usages = BiomassaUsage::query();
-        $date = Carbon::now()->format('Y-m-d');
-        if(isset($request->date)){
-            $date = $request->date;
-        }
-        $usages->where('usage_date', $date);
+        $date = $request->date ?? Carbon::now()->format('Y-m-d');
         $data['date'] = $date;
+
+        $usages->where('usage_date', $date);
 
         $data['units'] = Unit::get();
 
@@ -51,9 +49,10 @@ class BiomassaUsageController extends Controller
         }
 
         $data['usages'] = $usages->join('units', 'biomassa_usages.unit_id', '=', 'units.id')
-                ->orderBy('units.name', 'asc')
-                ->paginate(10)
-                ->appends(request()->query());
+                        ->select('biomassa_usages.id', 'biomassa_usages.*', 'units.name')
+                        ->orderBy('units.name', 'asc')
+                        ->paginate(10)
+                        ->appends(request()->query());
         return view('biomassa.usages.index',$data);
 
     }
@@ -89,7 +88,12 @@ class BiomassaUsageController extends Controller
 
             $requestData = $request->all();
 
-            $usage = BiomassaUsage::create($requestData);
+            $usage = BiomassaUsage::create([
+                'tug_9_number' => $request->tug_9_number,
+                'usage_date' =>$request->usage_date,
+                'amount_use' =>$request->amount_use,
+                'unit_id' =>$request->unit_id,
+            ]);
 
             Tug::create([
                 'tug' => 9,
@@ -102,7 +106,7 @@ class BiomassaUsageController extends Controller
             ]);
 
             DB::commit();
-            return redirect(route('biomassa.usages.index'))->with('success', 'Pemakaian Biomassa berhasil di buat.');
+            return redirect(route('biomassa.usages.index', ['date' => $request->usage_date]))->with('success', 'Pemakaian Biomassa berhasil di buat.');
 
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -129,11 +133,10 @@ class BiomassaUsageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $usage = BiomassaUsage::where('id', $id)->first();
+        $data['usage'] = BiomassaUsage::where(['id' => $id])->first();
         $data['units'] = Unit::all();
-        $data['usage'] = $usage;
 
         return view('biomassa.usages.edit',$data);
     }
@@ -176,7 +179,7 @@ class BiomassaUsageController extends Controller
             ]);
 
             DB::commit();
-            return redirect(route('biomassa.usages.index'))->with('success', 'Pemakaian Biomassa berhasil di ubah.');
+            return redirect(route('biomassa.usages.index', ['date' => $request->usage_date]))->with('success', 'Pemakaian Biomassa berhasil di ubah.');
 
         } catch (\ValidationException $th) {
             DB::rollback();
@@ -194,7 +197,8 @@ class BiomassaUsageController extends Controller
 
     public function destroy($id)
     {
+        $biomassa = BiomassaUsage::where('id', $id)->first();
         BiomassaUsage::where('id', $id)->delete();
-        return redirect(route('biomassa.usages.index'))->with('success', 'Pemakaian Biomassa berhasil di hapus.');
+        return redirect(route('biomassa.usages.index', ['date' => $biomassa->usage_date]))->with('success', 'Pemakaian Biomassa berhasil di hapus.');
     }
 }

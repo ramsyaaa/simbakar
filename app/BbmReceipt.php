@@ -3,6 +3,7 @@
 namespace App;
 
 use App\ShipAgent;
+use App\Models\BbmBookContract;
 use Illuminate\Database\Eloquent\Model;
 
 class BbmReceipt extends Model
@@ -27,5 +28,10 @@ class BbmReceipt extends Model
     public function dockName()
     {
         return $this->belongsTo(Dock::class, "dock", 'uuid');
+    }
+
+    public function order()
+    {
+        return $this->hasOne(BbmBookContract::class, "uuid", 'order_number');
     }
 }

@@ -80,6 +80,7 @@
                             @endphp
                             @foreach ($bbm_receipt as $index => $item)
                             <tr>
+                                @dd($item->ship)
                                 @if($filter_type == 'day')
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ date('d-m-Y', strtotime($item->date_receipt)) }}</td>
                                 @endif
@@ -98,58 +99,23 @@
                                 @endif
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format($item->faktur_obs, 0, '.', ',') }}@elseif($filter_type == 'month') {{ number_format($item['total_faktur_obs'], 0, '.', ',') }} @endif</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                    @if($filter_type == 'day')
-                                    @php
-                                        $amount_receipt = 0;
-                                    @endphp
-                                    @if($item->amount_receipt == "Selisih Volume Level")
-                                    @php
-                                        $amount_receipt = intval($item->uad_obs);
-                                    @endphp
-                                    @elseif($item->amount_receipt == "Selisih Volume Level (Liter 15)")
-                                    @php
-                                        $amount_receipt = intval($item->uad_ltr15);
-                                    @endphp
-                                    @elseif($item->amount_receipt == "Selisih Hasil Sounding")
-                                    @php
-                                        $amount_receipt = intval($item->hasil_sond_akhir) - intval($item->hasil_sond_awal);
-                                    @endphp
-                                    @elseif($item->amount_receipt == "Selisih Flow Meter")
-                                    @php
-                                        $amount_receipt = intval($item->flow_meter_akhir) - intval($item->flow_meter_awal);
-                                    @endphp
-                                    @elseif($item->amount_receipt == "Faktur")
-                                    @php
-                                        $amount_receipt = intval($item->faktur_obs);
-                                    @endphp
-                                    @elseif($item->amount_receipt == "Faktur Liter 15")
-                                    @php
-                                        $amount_receipt = intval($item->faktur_ltr15);
-                                    @endphp
-                                    @endif
-
-                                    @elseif($filter_type == 'month')
-                                    @php
-                                        $amount_receipt = $item['total_amount_receipt'];
-                                    @endphp
-                                    @endif
-                                    {{ number_format($amount_receipt, 0, '.', ',') }}
+                                    {{ number_format($item->amount_receipt, 0, '.', ',') }}
                                 </td>
 
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format($item->faktur_ltr15, 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format($item['total_faktur_ltr15'], 0, '.', ',') }} @endif</td>
 
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format($item->liter_15_tug3, 0, '.', ',') }}@elseif($filter_type == 'month') {{ number_format($item['total_liter_15_tug3'], 0, '.', ',') }} @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format(($amount_receipt - intval($item->faktur_obs)), 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format(($amount_receipt - $item['total_faktur_obs']), 0, '.', ',') }} @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format((intval($item->faktur_obs) != 0 ? (($amount_receipt - intval($item->faktur_obs))/intval($item->faktur_obs))*100 : 0), 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format((intval($item['total_faktur_obs']) != 0 ? (($amount_receipt - intval($item['total_faktur_obs']))/intval($item['total_faktur_obs']))*100 : 0), 0, '.', ',') }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format(($item->amount_receipt - intval($item->faktur_obs)), 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format(($item->amount_receipt - $item['total_faktur_obs']), 0, '.', ',') }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format((intval($item->faktur_obs) != 0 ? (($item->amount_receipt - intval($item->faktur_obs))/intval($item->faktur_obs))*100 : 0), 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format((intval($item['total_faktur_obs']) != 0 ? (($amount_receipt - intval($item['total_faktur_obs']))/intval($item['total_faktur_obs']))*100 : 0), 0, '.', ',') }} @endif</td>
                                 @php
                                 if($filter_type == 'day'){
                                     $total[0] = $total[0] + intval($item->faktur_obs);
-                                    $total[1] = $total[1] + intval($amount_receipt);
+                                    $total[1] = $total[1] + intval($item->amount_receipt);
                                     $total[2] = $total[2] + intval($item->faktur_ltr15);
                                     $total[3] = $total[3] + intval($item->liter_15_tug3);
                                 }elseif($filter_type == 'month'){
                                     $total[0] = $total[0] + intval($item['total_faktur_obs']);
-                                    $total[1] = $total[1] + intval($amount_receipt);
+                                    $total[1] = $total[1] + intval($item->amount_receipt);
                                     $total[2] = $total[2] + intval($item['total_faktur_ltr15']);
                                     $total[3] = $total[3] + intval($item['total_liter_15_tug3']);
                                 }

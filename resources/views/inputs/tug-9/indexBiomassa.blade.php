@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="w-full flex gap-4 items-center my-4">
-                <a href="#" class="w-1/2 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
+                <a href="{{ route('inputs.tug-9.index-coal') }}" class="w-1/2 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
                     Batu Bara
                 </a>
                 <a href="{{ route('inputs.tug-9.index-unit') }}" class="w-1/2 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
@@ -46,8 +46,8 @@
                 <a href="{{ route('inputs.tug-9.index-other') }}" class="w-1/2 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
                     BBM lain lain
                 </a>
-                <a href="{{ route('inputs.tug-9.index-biomassa') }}" class="w-1/2 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
-                    Biomassa
+                <a href="#" class="w-1/2 px-3 py-2 bg-[#2E46BA] text-white text-center font-bold rounded-lg">
+                    BBM lain lain
                 </a>
             </div>
             <div class="bg-white rounded-lg p-6 h-full">
@@ -86,7 +86,7 @@
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ number_format($tug->amount_use) }}</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->unit->name ?? '' }}</td>
                                 <td class="text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
-                                    <a href="{{route('inputs.tug-9.detail-coal',['id'=>$tug->id])}}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
+                                    <a href="{{route('inputs.tug-9.detail-biomassa',['id'=>$tug->id])}}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Detail
                                     </a>
                                 </td>

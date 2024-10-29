@@ -40,7 +40,7 @@
                                         <select name="main_supplier_uuid" id="main_supplier_uuid" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($suppliers as $item)
-                                                <option value="{{ $item->uuid }}" {{ old('main_supplier_uuid') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                <option data-id="{{ $item->id }}" value="{{ $item->uuid }}" {{ old('main_supplier_uuid') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('main_supplier_uuid')
@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="w-full flex gap-4">
-                                <div class="w-full lg:w-6/12">
+                                {{-- <div class="w-full lg:w-6/12">
                                     <label for="faktur_number" class="font-bold text-[#232D42] text-[16px]">No Faktur/LO</label>
                                     <div class="relative">
                                         <input type="text" name="faktur_number" value="{{ old('faktur_number') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -62,7 +62,7 @@
                                         </div>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="w-full lg:w-6/12">
                                     <label for="note" class="font-bold text-[#232D42] text-[16px]">Catatan</label>
                                     <div class="relative">
@@ -74,9 +74,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="w-full flex gap-4">
                                 <div class="w-full lg:w-6/12">
                                     <label for="tug3_number" class="font-bold text-[#232D42] text-[16px]">No TUG3</label>
                                     <div class="relative">
@@ -93,7 +90,7 @@
                             <div class="w-full">
                                 <label for="contract_id" class="font-bold text-[#232D42] text-[16px]">Nomor Kontrak</label>
                                 <div class="relative">
-                                    <select name="contract_id" id="contract_id" class="w-full lg:w-1/2 lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <select onchange="fetchSuppliers(this.value)" name="contract_id" id="contract_id" class="w-full lg:w-1/2 lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         <option selected disabled>Pilih Nomor Kontrak</option>
                                         @foreach ($contracts as $contract)
                                         <option value="{{ $contract->id }}" {{old('contract_id') == $contract->id ? 'selected' :''}}>{{ $contract->contract_number }} - {{$contract->spesification->identification_number ?? '[ Identifikasi Kosong ]'}} - {{$contract->kind_contract}}</option>
@@ -149,6 +146,14 @@
                                         <input type="date" name="date_shipment[]" class="w-full border border-gray-300 p-2 rounded mt-1">
                                     </div>
                                     <div class="mb-4">
+                                        <label for="start_date_unloading" class="block text-gray-700">Tanggal Mulai Bongkar</label>
+                                        <input type="date" name="start_date_unloading[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="end_date_unloading" class="block text-gray-700">Tanggal Selesai Bongkar</label>
+                                        <input type="date" name="end_date_unloading[]" class="w-full border border-gray-300 p-2 rounded mt-1">
+                                    </div>
+                                    <div class="mb-4">
                                         <label for="analysis_number" class="block text-gray-700">No Analisa</label>
                                         <input type="text" name="analysis_number[]" class="w-full border border-gray-300 p-2 rounded mt-1">
                                     </div>
@@ -173,7 +178,7 @@
                             </div>
                         </div>
 
-                        <div class="w-full">
+                        {{-- <div class="w-full">
                             <div class="w-full py-2 text-center text-white bg-[#2E46BA] mb-4">
                                 Detail Pembongkaran
                             </div>
@@ -210,7 +215,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <a href="{{ route('inputs.biomassa_receipts.index') }}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                         <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Penerimaan</button>
@@ -224,6 +229,13 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        const initialSupplierId = $('#main_supplier_uuid').find('option:selected').data('id');
+    
+        // Panggil fetchContractsBySupplier di awal untuk supplier yang sudah dipilih
+        if (initialSupplierId) {
+            fetchContractsBySupplier(initialSupplierId);
+        }
+        
         const addDataButton = document.getElementById('addDataButton');
         const dataContainer = document.getElementById('dataContainer');
 
@@ -260,23 +272,100 @@
         });
 
 
-        const addTimeDataButton = document.getElementById('addTimeDataButton');
-        const timeDataContainer = document.getElementById('timeDataContainer');
+        // const addTimeDataButton = document.getElementById('addTimeDataButton');
+        // const timeDataContainer = document.getElementById('timeDataContainer');
 
         // Event Listener untuk Tombol Tambah Data Waktu
-        addTimeDataButton.addEventListener('click', () => {
-            const timeDataFormTemplate = document.querySelector('.timeDataForm.hidden');
-            const newTimeDataForm = timeDataFormTemplate.cloneNode(true);
-            newTimeDataForm.classList.remove('hidden');
+        // addTimeDataButton.addEventListener('click', () => {
+        //     const timeDataFormTemplate = document.querySelector('.timeDataForm.hidden');
+        //     const newTimeDataForm = timeDataFormTemplate.cloneNode(true);
+        //     newTimeDataForm.classList.remove('hidden');
 
-            // Event Listener untuk Tombol Hapus Data Waktu
-            newTimeDataForm.querySelector('.removeDataButton').addEventListener('click', () => {
-                newTimeDataForm.remove();
-            });
+        //     // Event Listener untuk Tombol Hapus Data Waktu
+        //     newTimeDataForm.querySelector('.removeDataButton').addEventListener('click', () => {
+        //         newTimeDataForm.remove();
+        //     });
 
-            timeDataContainer.appendChild(newTimeDataForm);
+        //     timeDataContainer.appendChild(newTimeDataForm);
+        // });
+
+        // Menambahkan event handler untuk perubahan pada elemen select dengan id main_supplier_uuid
+
+        // Event listener untuk perubahan pada #main_supplier_uuid
+        $('#main_supplier_uuid').on('change', function () {
+            var supplierId = $(this).find('option:selected').data('id'); // Mendapatkan nilai main_supplier_uuid yang dipilih
+            fetchContractsBySupplier(supplierId); // Memanggil fungsi fetchContractsBySupplier
         });
     });
+
+    function fetchContractsBySupplier(supplierId) {
+        if (supplierId) {
+            $.ajax({
+                url: `{{ route('getSupplierContractBiomassaList', ':supplierId') }}`.replace(':supplierId', supplierId),
+                method: 'GET',
+                success: function (data) {
+                    var contractSelect = $('#contract_id');
+                    contractSelect.empty(); // Mengosongkan opsi yang ada
+
+                    // Menambahkan opsi default "Pilih"
+                    contractSelect.append('<option value="">Pilih</option>');
+
+                    // Mengisi elemen select dengan data yang diterima dari API
+                    $.each(data, function (index, contract) {
+                        var isSelected = (index === data.length - 1) ? 'selected' : '';
+                        contractSelect.append(`<option value="${contract.id}" ${isSelected}>
+                            ${contract.contract_number} - ${contract.spesification?.identification_number ?? '[Identifikasi Kosong]'} - ${contract.kind_contract}
+                        </option>`);
+                    });
+
+                    contractSelect.on('change', function () {
+                        const selectedContractId = $(this).val();
+                        if (selectedContractId) {
+                            fetchSuppliers(selectedContractId);
+                        }
+                    });
+
+                    // Panggil fetchSuppliers untuk contract yang terpilih secara otomatis
+                    const selectedContractId = contractSelect.val();
+                    if (selectedContractId) {
+                        fetchSuppliers(selectedContractId);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error fetching contracts:', error);
+                }
+            });
+        } else {
+            $('#contract_id').html('<option value="">Pilih</option>'); // Kosongkan jika supplierId tidak ada
+        }
+    }
+</script>
+
+<script>
+    async function fetchSuppliers(contractId) {
+        try {
+            const response = await fetch(`/api/get-sub-suppliers-biomassa?contract_id=${contractId}`);
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const suppliers = await response.json();
+
+            // Select all supplier dropdowns
+            document.querySelectorAll('select[name="supplier_uuid[]"]').forEach(select => {
+                // Clear previous options
+                select.innerHTML = '<option value="">Pilih</option>';
+
+                // Populate new options from the API response
+                suppliers.forEach(supplier => {
+                    const option = document.createElement('option');
+                    option.value = supplier.uuid;
+                    option.textContent = supplier.name;
+                    select.appendChild(option);
+                });
+            });
+        } catch (error) {
+            console.error('Fetch suppliers failed:', error);
+        }
+    }
 </script>
 
 @endsection

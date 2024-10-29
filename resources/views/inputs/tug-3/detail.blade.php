@@ -31,6 +31,7 @@
                                                 <option {{$tug->type_fuel == 'Batu Bara' ? 'selected' :''}}> Batu Bara</option>
                                                 <option {{$tug->type_fuel == 'HSD / Solar' ? 'selected' :''}}> HSD / Solar</option>
                                                 <option {{$tug->type_fuel == 'MFO / Residu' ? 'selected' :''}}> MFO / Residu</option>
+                                                <option {{$tug->type_fuel == 'Biomassa' ? 'selected' :''}}> Biomassa</option>
                                             </select>
                                             @error('type_fuel')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
@@ -87,7 +88,7 @@
                             </div>
 
                     </div>
-                    <div id="my-pdf" style="display:none;">
+                    <div id="my-pdf" style="display:block;">
                         <div class="p-8" style="font-size: 0.9em;">
                             <div class="p-6 mx-auto my-auto">
                                 <div class="flex justify-between items-center">
@@ -95,44 +96,125 @@
                                         <img src="{{asset('logo.png')}}" alt="" width="200">
                                         <p class="text-right">UBP SURALAYA</p>
                                     </div>
-                                    <div class="text-right">
-                                        <p>Bon Penerimaan Barang-barang/Spare Parts</p>
-                                        <p>No: {{$tug->bpb_number}}/IBPB/UBPSLA/PBB/{{date('Y')}}</p>
+                                    <div class="text-right font-bold">
+                                        <p class="uppercase underline">Bon Penerimaan Barang-barang/Spare Parts</p>
+                                        <p class="text-center">No: {{$tug->bpb_number}}/BPB/UBPSLA/PBB/{{date('Y')}}</p>
                                     </div>
                                     <div class="text-right">
                                         <p>TUG - 3</p>
                                         <p>{{$tug->tug_number}}</p>
                                         <div class="text-right mt-5">
-                                            <p class="border border-slate-700">P.I.N.: INDONESIA POWER</p>
-                                            <p class="border border-slate-700">Cab./UP/Bkl: SURALAYA PGU</p>
+                                            <p class="border border-slate-900">P.L.N. INDONESIA POWER</p>
+                                            <p class="border border-slate-900">Cab./UBP/Bkl. SURALAYA</p>
                                         </div>
                                     </div>
                                 </div>
-
+                                <hr class="border-slate-900 mt-5">
                                 <div class="mt-6">
                                     <div class="flex justify-between">
                                         <div>
-                                            @if ($tug->type_fuel == 'Batu Bara')
-                                                <p>Diterima tanggal: {{$tug->coal->receipt_date ?? ''}}</p>
-                                                <p>Dari: UBP SURALAYA</p>
-                                                <p>Dengan: {{$tug->coal->ship->name ?? ''}}</p>
+                                            @if ($tug->type_tug == 'coal-unloading')
+                                            <table class="table-auto w-full">
+                                                <tr>
+                                                    <td class="pr-4">Diterima tanggal</td>
+                                                    <td  > : {{ date('d-m-Y', strtotime($tug->coal->receipt_date)) ?? ''}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Dari</td>
+                                                    <td class="font-bold"> : UBP SURALAYA</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Dengan</td>
+                                                    <td class="font-bold"> : {{$tug->coal->ship->name ?? ''}}</td>
+                                                </tr>
+                                            </table>
+                                            
+                                            
                                             @endif
-                                            @if ($tug->type_fuel == 'solar')
-                                                <p>Diterima tanggal: {{$tug->bbm->date_receipt ?? ''}}</p>
-                                                <p>Dari: UBP SURALAYA</p>
-                                                <p>Dengan: {{$tug->bbm->ship->name ?? ''}}</p>
+                                            @if ($tug->type_tug == 'bbm-receipt')
+                                                <table class="table-auto w-full">
+                                                    <tr>
+                                                        <td class="pr-4">Diterima tanggal</td>
+                                                        <td class="font-bold"> : {{ date('d-m-Y', strtotime($tug->bbm->date_receipt)) ?? ''}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pr-4">Dari</td>
+                                                        <td class="font-bold"> : UBP SURALAYA</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pr-4">Dengan</td>
+                                                        <td class="font-bold"> : {{$tug->bbm->ship->name ?? ''}}</td>
+                                                    </tr>
+                                                </table>
+                                            @endif
+                                            @if ($tug->type_tug == 'biomassa-receipt')
+                                                <table class="table-auto w-full">
+                                                    <tr>
+                                                        <td class="pr-4">Diterima tanggal</td>
+                                                        <td class="font-bold"> : {{ date('d-m-Y', strtotime($tug->biomassa->date_receipt)) ?? ''}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pr-4">Dari</td>
+                                                        <td class="font-bold"> : UBP SURALAYA</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pr-4">Dengan</td>
+                                                        <td class="font-bold"> : Truck</td>
+                                                    </tr>
+                                                </table>
                                             @endif
                                         </div>
                                         <div class="text-left">
-                                            @if ($tug->type_fuel == 'Batu Bara')
-                                                <p>Pembelian ditempat lihat faktur / bukti kas no:</p>
-                                                <p>Diterima bon pengeluaran/surat pengantar no:</p>
-                                                <p>Menurut surat pesanan/daftar permintaan no : {{$tug->coal->contract->contract_number ?? ''}} / {{$tug->coal->receipt_date ?? ''}}</p>
+                                            @if ($tug->type_tug == 'coal-unloading')
+                                            <table class="table-auto w-full">
+                                                <tr>
+                                                    <td class="pr-4">Pembelian ditempat lihat faktur / bukti kas no</td>
+                                                    <td> : </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Diterima bon pengeluaran/surat pengantar no</td>
+                                                    <td> : </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Menurut surat pesanan/daftar permintaan no</td>
+                                                    <td> : {{$tug->coal->contract->contract_number ?? ''}}</td>
+                                                </tr>
+                                            </table>
+                                            
                                             @endif
-                                            @if ($tug->type_fuel == 'solar')
-                                            <p>Pembelian ditempat lihat faktur / bukti kas no:</p>
-                                            <p>Diterima bon pengeluaran/surat pengantar no:</p>
-                                            <p>Menurut surat pesanan/daftar permintaan no : </p>
+                                            @if ($tug->type_tug == 'bbm-receipt')
+                                            <table class="table-auto w-full">
+                                                <tr>
+                                                    <td class="pr-4">Pembelian ditempat lihat faktur / bukti kas no</td>
+                                                    <td> : {{$tug->bbm->faktur_number ?? ''}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Diterima bon pengeluaran/surat pengantar no</td>
+                                                    <td> :  {{$tug->bbm->order->order_number ?? ''}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Menurut surat pesanan/daftar permintaan no:</td>
+                                                    <td> : </td>
+                                                </tr>
+                                            </table>
+                                            
+                                            @endif
+                                            @if ($tug->type_tug == 'biomassa-receipt')
+                                            <table class="table-auto w-full">
+                                                <tr>
+                                                    <td class="pr-4">Pembelian ditempat lihat faktur / bukti kas no</td>
+                                                    <td> : </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Diterima bon pengeluaran/surat pengantar no</td>
+                                                    <td> : </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Menurut surat pesanan/daftar permintaan no:</td>
+                                                    <td> : </td>
+                                                </tr>
+                                            </table>
+                                            
                                             @endif
                                         </div>
                                         <div></div>
@@ -143,78 +225,170 @@
                                 <table class="mt-6 bg-white w-full">
                                     <thead>
                                         <tr>
-                                            <th class="px-4 py-2 border border-slate-700">No. Urut</th>
-                                            <th class="px-4 py-2 border border-slate-700">Nama</th>
-                                            <th class="px-4 py-2 border border-slate-700">Norm/Part</th>
-                                            <th class="px-4 py-2 border border-slate-700">Stn.</th>
-                                            <th class="px-4 py-2 border border-slate-700">Banyaknya</th>
-                                            <th class="px-4 py-2 border border-slate-700">Keterangan</th>
+                                            <th class="px-4 py-2 border border-slate-900">No. Urut</th>
+                                            <th class="px-4 py-2 border border-slate-900">Nama</th>
+                                            <th class="px-4 py-2 border border-slate-900">Norm/Part</th>
+                                            <th class="px-4 py-2 border border-slate-900">Stn.</th>
+                                            <th class="px-4 py-2 border border-slate-900">Banyaknya</th>
+                                            <th class="px-4 py-2 border border-slate-900">Keterangan</th>
+                                            <th class="px-4 py-2 border border-slate-900">Harga Stn. ( Rp )</th>
+                                            <th class="px-4 py-2 border border-slate-900">Jumlah ( Rp )</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if ($tug->type_tug == 'coal-unloading')
                                             <tr>
-                                                <td class="px-4 py-2 border border-slate-700"></td>
-                                                <td class="px-4 py-2 border border-slate-700">
-                                                    <p>Jenis Bahan Bakar: Batubara</p>
-                                                    <p>ex. {{$tug->coal->supplier->name}}</p>
-                                                    <p>Penerimaan Untuk Unit 1-7</p>
-                                                    <p>Pelabuhan Asal: {{$tug->coal->originHarbor->name ?? ''}}</p>
-                                                    <p>Draft Survey: {{ number_format($tug->coal->ds)}} Kg</p>
-                                                    <p>Belt Weiger: 0 Kg</p>
-                                                    <p>Bill of Lading: {{ number_format($tug->coal->bl)}} Kg</p>
-                                                    <p>Diterima: {{ number_format($tug->coal->tug_3_accept)}} Kg</p>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900">
+                                                    <table class="table-auto w-full">
+                                                        <tr>
+                                                            <td class="pr-4">Jenis Bahan Bakar</td>
+                                                            <td class="font-bold"> : Batubara</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">ex.</td>
+                                                            <td class="font-bold"> : {{$tug->coal->supplier->name}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4 font-bold">Penerimaan Untuk</td>
+                                                            <td class="font-bold"> : Unit 1-7</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Pelabuhan Asal</td>
+                                                            <td class="font-bold"> : {{$tug->coal->originHarbor->name ?? ''}}</td>
+                                                        </tr>
+                                                        <tr class="font-bold">
+                                                            <td class="pr-4">Draft Survey</td>
+                                                            <td> : {{ number_format($tug->coal->ds) }} Kg</td>
+                                                        </tr>
+                                                        <tr class="font-bold">
+                                                            <td class="pr-4">Belt Weigher</td>
+                                                            <td> : 0 Kg</td>
+                                                        </tr>
+                                                        <tr class="font-bold">
+                                                            <td class="pr-4">Bill of Lading</td>
+                                                            <td> : {{ number_format($tug->coal->bl) }} Kg</td>
+                                                        </tr>
+                                                        <tr class="font-bold">
+                                                            <td class="pr-4">Diterima</td>
+                                                            <td> : {{ number_format($tug->coal->tug_3_accept) }} Kg</td>
+                                                        </tr>
+                                                    </table>
+                                                    
                                                 </td>
-                                                <td class="px-4 py-2 border border-slate-700">18.01.0009</td>
-                                                <td class="px-4 py-2 border border-slate-700">Kg</td>
-                                                <td class="px-4 py-2 border border-slate-700">{{ number_format($tug->coal->tug_3_accept ?? 0)}}</td>
-                                                <td class="px-4 py-2 border border-slate-700"></td>
+                                                <td class="px-4 py-2 border border-slate-900">18.01.0009</td>
+                                                <td class="px-4 py-2 border border-slate-900">Kg</td>
+                                                <td class="px-4 py-2 border border-slate-900">{{ number_format($tug->coal->tug_3_accept ?? 0)}}</td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
                                             </tr>
                                         @endif
                                         @if ($tug->type_tug == 'bbm-receipt')
                                             <tr>
-                                                <td class="px-4 py-2 border border-slate-700"></td>
-                                                <td class="px-4 py-2 border border-slate-700">
-                                                    <p>Jenis Bahan Bakar: {{$tug->type_fuel == 'Solar' ? 'Solar / HSD' : 'Residu MFO'}}</p>
-                                                    <p>{{$tug->bbm->note ?? ''}}</p>
-                                                    <p>Nama Agen : {{$tug->bbm->shipAgent->name ?? ''}}</p>
-                                                    <p>Volume Faktur: {{ number_format($tug->bbm->amount_receipt ?? 0)}} Kg</p>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900">
+                                                    <table class="table-auto w-full">
+                                                        <tr>
+                                                            <td class="pr-4">Jenis Bahan Bakar </td>
+                                                            <td> : {{$tug->type_fuel == 'solar' ? 'Solar / HSD' : 'Residu MFO'}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Catatan</td>
+                                                            <td> : {{$tug->bbm->note ?? ''}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Nama Agen</td>
+                                                            <td> : {{$tug->bbm->shipAgent->name ?? ''}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Volume Faktur</td>
+                                                            <td> : {{ number_format($tug->bbm->amount_receipt ?? 0) }} Kg</td>
+                                                        </tr>
+                                                    </table>
+                                                    
                                                 </td>
-                                                <td class="px-4 py-2 border border-slate-700">18.01.0323</td>
-                                                <td class="px-4 py-2 border border-slate-700">L</td>
-                                                <td class="px-4 py-2 border border-slate-700">{{ number_format($tug->bbm->amount_receipt)}}</td>
-                                                <td class="px-4 py-2 border border-slate-700"></td>
+                                                <td class="px-4 py-2 border border-slate-900">18.01.0323</td>
+                                                <td class="px-4 py-2 border border-slate-900">L</td>
+                                                <td class="px-4 py-2 border border-slate-900">{{ number_format($tug->bbm->amount_receipt)}}</td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                            </tr>
+                                        @endif
+                                        @if ($tug->type_tug == 'biomassa-receipt')
+                                            <tr>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900">
+                                                    <table class="table-auto w-full">
+                                                        <tr>
+                                                            <td class="pr-4">Jenis Bahan Bakar </td>
+                                                            <td> : Biomassa</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Nama Pemasok</td>
+                                                            <td> : {{$tug->biomassa->supplier->name ?? ''}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Diterima</td>
+                                                            <td> : {{ number_format($tug->biomassa->detailReceipt->sum('volume') ?? 0) }} Kg</td>
+                                                        </tr>
+                                                    </table>
+                                                    
+                                                </td>
+                                                <td class="px-4 py-2 border border-slate-900">18.01.0306</td>
+                                                <td class="px-4 py-2 border border-slate-900">Kg</td>
+                                                <td class="px-4 py-2 border border-slate-900">{{ number_format($tug->biomassa->detailReceipt->sum('volume') ?? 0)}}</td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
                                             </tr>
                                         @endif
 
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td class="px-4 py-2 border border-slate-700" colspan="2">
+                                            <td class="px-4 py-2 border border-slate-900" colspan="2">
                                                 <div class="flex justify-between">
                                                     <div>Nota No.</div>
                                                     <div class="mr-24">Kode Perkiraan</div>
                                                 </div>
                                             </td>
-                                            <td class="px-4 py-2 border border-slate-700" colspan="3">
+                                            <td class="px-4 py-2 border border-slate-900" colspan="3">
                                                 <div class="flex justify-between">
                                                     <div>Perintah Kerja</div>
-                                                    <div class="mr-24">Fungsi</div>
                                                 </div>
                                             </td>
-                                            <td class="px-4 py-2 border border-slate-700">
+                                            <td class="px-4 py-2 border border-slate-900">
+                                                <div>Fungsi</div>
+                                            </td>
+                                            <td class="px-4 py-2 border border-slate-900" colspan="2">
                                                 <div>Jumlah</div>
                                             </td>
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <div class="mt-6 flex justify-between">
+                                <div class="mt-6 flex justify-between font-bold">
+                                    <div></div>
+                                    <div></div>
                                     <div></div>
                                     <div class="text-center">
-                                        <p>Diperiksa Oleh</p>
+                                        <p class="pb-20">Diperiksa Oleh</p>
+                                        @if ($tug->type_tug == 'coal-unloading')
+                                            <p>{{$tug->coal->user_inspection}}</p>
+                                        @endif
+                                        @if ($tug->type_tug == 'bbm-receipt')
+                                            <p>{{$tug->bbm->inspector}}</p>
+                                        @endif
                                     </div>
                                     <div class="text-center">
-                                        <p>Kepala Gudang</p>
+                                        <p class="pb-20">Kepala Gudang</p>
+                                        @if ($tug->type_tug == 'coal-unloading')
+                                            <p>{{$tug->coal->head_warehouse}}</p>
+                                        @endif
+                                        @if ($tug->type_tug == 'bbm-receipt')
+                                            <p>{{$tug->bbm->head_of_warehouse}}</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

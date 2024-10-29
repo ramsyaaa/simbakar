@@ -371,54 +371,79 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="w-full mb-3">
-                                    <label for="analysis_loading_id" class="font-bold text-[#232D42] text-[16px]">Analisa Loading</label>
-                                    <div class="relative">
-                                        <select name="analysis_loading_id" id="analysis_loading_id" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                            <option selected disabled>Pilih Analisa Loading</option>
-                                            @if ($loading)
-                                                <option value="{{$loading->id}}" selected> {{$loading->analysis_number}}</option>
-                                            @endif
-                                        </select>
-                                        @error('analysis_loading_id')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
-                                            {{ $message }}
+                                <div class="w-1/2">
+                                    <div class="w-full mt-4 mb-3">
+                                        <label for="analysis_loading_id" class="font-bold text-[#232D42] text-[16px]">Analisa Loading</label>
+                                        <div class="flex gap-4 items-center">
+                                            <div class="relative flex-1">
+                                                <select name="analysis_loading_id" id="analysis_loading_id" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                    <option selected disabled>Pilih Analisa loading</option>
+                                                    @if ($loading)
+                                                        <option value="{{$loading->id}}" selected>{{$loading->analysis_number}}</option>
+                                                    @endif
+                                                </select>
+                                                @error('analysis_loading_id')
+                                                <div class="absolute -bottom-1 left-1 text-red-500">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div class="relative flex-1">
+                                                <input type="date" name="loading_date" class="w-full border rounded-md mt-8 mb-5 h-[40px] px-3 loading-date-month">
+                                            </div>
+                                            <button class="bg-[#2E46BA] w-[100px] text-[white] h-[40px] text-[16px] font-semibold rounded-lg mt-3 loading-button" type="button">Cari Data</button>
                                         </div>
-                                        @enderror
                                     </div>
-                                </div>
-                                <div class="w-full mb-3">
-                                    <label for="analysis_unloading_id" class="font-bold text-[#232D42] text-[16px]">Analisa Unloading</label>
-                                    <div class="relative">
-                                        <select name="analysis_unloading_id" id="analysis_unloading_id" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                            <option selected disabled>Pilih Analisa Unloading</option>
-                                            @if ($unloading)
-                                            <option value="{{$unloading->id}}" selected> {{$unloading->analysis_number}}</option>
-                                        @endif
-                                        </select>
-                                        @error('analysis_unloading_id')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
-                                            {{ $message }}
+                                    
+                                    <div class="w-full mb-3">
+                                        <label for="analysis_unloading_id" class="font-bold text-[#232D42] text-[16px]">Analisa Unloading</label>
+                                        <div class="flex gap-4 items-center">
+                                            <div class="relative flex-1">
+                                                <select name="analysis_unloading_id" id="analysis_unloading_id" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                    <option selected disabled>Pilih Analisa Unloading</option>
+                                                    @if ($unloading)
+                                                        <option value="{{$unloading->id}}" selected>{{$unloading->analysis_number}}</option>
+                                                    @endif
+                                                </select>
+                                                @error('analysis_unloading_id')
+                                                <div class="absolute -bottom-1 left-1 text-red-500">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div class="relative flex-1">
+                                                <input type="date" name="unloading_date" class="w-full border rounded-md mt-8 mb-5 h-[40px] px-3 unloading-date-month">
+                                            </div>
+                                            <button class="bg-[#2E46BA] w-[100px] text-[white] h-[40px] text-[16px] font-semibold rounded-lg mt-3 unloading-button" type="button">Cari Data</button>
                                         </div>
-                                        @enderror
                                     </div>
-                                </div>
-                                <div class="w-full mb-3">
-                                    <label for="analysis_labor_id" class="font-bold text-[#232D42] text-[16px]">Analisa Labor</label>
-                                    <div class="relative">
-                                        <select name="analysis_labor_id" id="analysis_labor_id" class="w-full lg:w-1/2 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                            <option selected disabled>Pilih Analisa Labor</option>
-                                            @if ($labor)
-                                                <option value="{{$labor->id}}" selected> {{$labor->analysis_number}}</option>
-                                            @endif
-                                        </select>
-                                        @error('analysis_labor_id')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
-                                            {{ $message }}
+                                    
+                                    <div class="w-full mb-3">
+                                        <label for="analysis_labor_id" class="font-bold text-[#232D42] text-[16px]">Analisa Labor</label>
+                                        <div class="flex gap-4 items-center">
+                                            <div class="relative flex-1">
+                                                <select name="analysis_labor_id" id="analysis_labor_id" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                                    <option selected disabled>Pilih Analisa Labor</option>
+                                                    @if ($labor)
+                                                        <option value="{{$labor->id}}" selected>{{$labor->analysis_number}}</option>
+                                                    @endif
+                                                </select>
+                                                @error('analysis_labor_id')
+                                                <div class="absolute -bottom-1 left-1 text-red-500">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div class="relative flex-1">
+                                                <input type="date" name="labor_date" class="w-full border rounded-md mt-8 mb-5 h-[40px] px-3 labor-date-month">
+                                            </div>
+                                            <button class="bg-[#2E46BA] w-[100px] text-[white] h-[40px] text-[16px] font-semibold rounded-lg mt-3 labor-button" type="button">Cari Data</button>
                                         </div>
-                                        @enderror
                                     </div>
+                                    
                                 </div>
+                                
+                                
                                 <div class="w-1/2">
                                 <div class="w-full">
                                     <label for="loading_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Loading</label>
@@ -684,120 +709,6 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-        $('#load_company_id').select2({
-            placeholder: 'Pilih PBM',
-            ajax: {
-                type: 'POST',  // Menggunakan POST request
-                url: '{{ route("getLoadingCompany") }}',  // Route ke controller Laravel
-                dataType: 'json',
-                delay: 250,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF Laravel
-                },
-                data: function (params) {
-                    return {
-                        key: params.term,               // Term pencarian dari Select2
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.map(function(item) {
-                            return {
-                                id: item.id,
-                                text: item.name
-                            };
-                        })
-                    };
-                },
-                cache: true
-            }
-        });
-
-        $('#analysis_loading_id').select2({
-            placeholder: 'Pilih Analisa Loading',
-            ajax: {
-                type: 'POST',  // Menggunakan POST request
-                url: '{{ route("getAnalyticLoading") }}',  // Route ke controller Laravel
-                dataType: 'json',
-                delay: 250,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF Laravel
-                },
-                data: function (params) {
-                    return {
-                        key: params.term,               // Term pencarian dari Select2
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.map(function(item) {
-                            return {
-                                id: item.id,
-                                text: item.analysis_number
-                            };
-                        })
-                    };
-                },
-                cache: true
-            }
-        });
-
-        $('#analysis_unloading_id').select2({
-            placeholder: 'Pilih Analisa Unloading',
-            ajax: {
-                type: 'POST',  // Menggunakan POST request
-                url: '{{ route("getAnalyticUnloading") }}',  // Route ke controller Laravel
-                dataType: 'json',
-                delay: 250,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF Laravel
-                },
-                data: function (params) {
-                    return {
-                        key: params.term,               // Term pencarian dari Select2
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.map(function(item) {
-                            return {
-                                id: item.id,
-                                text: item.analysis_number
-                            };
-                        })
-                    };
-                },
-                cache: true
-            }
-        });
-        $('#analysis_labor_id').select2({
-            placeholder: 'Pilih Analisa Labor',
-            ajax: {
-                type: 'POST',  // Menggunakan POST request
-                url: '{{ route("getAnalyticLabor") }}',  // Route ke controller Laravel
-                dataType: 'json',
-                delay: 250,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF Laravel
-                },
-                data: function (params) {
-                    return {
-                        key: params.term,               // Term pencarian dari Select2
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.map(function(item) {
-                            return {
-                                id: item.id,
-                                text: item.analysis_number
-                            };
-                        })
-                    };
-                },
-                cache: true
-            }
-        });
         $('#ship_id').select2({
             placeholder: 'Pilih Kapal',
             ajax: {
@@ -841,6 +752,83 @@
             $('.tug-3').val(ds);
             
         }
+    });
+
+</script>
+<script>
+    var supplierId = '{{$supplier->id}}'
+    var supplierUuid = '{{$supplier->uuid}}'
+    var coalId = '{{$receipt->id}}'
+
+    $('.loading-button').on('click', function() {
+        var loadingDate = $('.loading-date-month').val();
+        let token = "{{ csrf_token() }}"
+        $("#analysis_loading_id").empty()
+        $.ajax({
+                method: "post",
+                url: "{{route('getAnalyticLoading')}}",
+                data: {
+                    _token:token,
+                    supplier_id:supplierId,
+                    supplier_uuid:supplierUuid,
+                    analysis_loading_date:loadingDate,
+                    },
+                success: function (response) {
+                    var numbers = response
+                    numbers.forEach( number=>{
+                        $("#analysis_loading_id").append(
+                             `<option value="${number.id}">${number.analysis_number}</option>`
+                                )
+                    })
+                 }
+                })
+
+    });
+    $('.labor-button').on('click', function() {
+        var laborDate = $('.labor-date-month').val();
+        let token = "{{ csrf_token() }}"
+        $("#analysis_labor_id").empty()
+        $.ajax({
+                method: "post",
+                url: "{{route('getAnalyticLabor')}}",
+                data: {
+                    _token:token,
+                    supplier_id:supplierId,
+                    supplier_uuid:supplierUuid,
+                    analysis_labor_date:laborDate,
+                    },
+                success: function (response) {
+                    var numbers = response
+                    numbers.forEach( number=>{
+                        $("#analysis_labor_id").append(
+                             `<option value="${number.id}">${number.analysis_number}</option>`
+                                )
+                    })
+                 }
+                })
+
+    });
+    $('.unloading-button').on('click', function() {
+        var unloadingDate = $('.unloading-date-month').val();
+        let token = "{{ csrf_token() }}"
+        $("#analysis_unloading_id").empty()
+        $.ajax({
+                method: "post",
+                url: "{{route('getAnalyticUnloading')}}",
+                data: {
+                    _token:token,
+                    coal_unloading_id:coalId,
+                    analysis_unloading_date:unloadingDate,
+                    },
+                success: function (response) {
+                    var numbers = response
+                    numbers.forEach( number=>{
+                        $("#analysis_unloading_id").append(
+                             `<option value="${number.id}">${number.analysis_number}</option>`
+                                )
+                    })
+                 }
+                })
     });
 
 </script>

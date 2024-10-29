@@ -17,14 +17,11 @@ class BbmUsageController extends Controller
     {
         $data['bbm_use_for'] = $bbm_use_for;
 
-        if($data['bbm_use_for'] != "unit" && $data['bbm_use_for'] != 'heavy_equipment' && $data['bbm_use_for'] != 'other'){
+        if (!in_array($data['bbm_use_for'], ['unit', 'heavy_equipment', 'other'])) {
             $data['bbm_use_for'] = "unit";
         }
 
-        $date = Carbon::now()->format('Y-m-d');
-        if(isset($request->date)){
-            $date = $request->date;
-        }
+        $date = $request->date ?? Carbon::now()->format('Y-m-d');
         $data['date'] = $date;
 
         $bbm_usages = BbmUsage::query();
@@ -40,13 +37,15 @@ class BbmUsageController extends Controller
             }
 
             $data['bbm_usages'] = $bbm_usages->join('units', 'bbm_usages.unit_uuid', '=', 'units.uuid')
-                ->orderBy('units.name', 'asc')
-                ->paginate(10)
-                ->appends(request()->query());
+                    ->select('bbm_usages.id', 'bbm_usages.*', 'units.name') // Hanya ambil ID dari `bbm_usages`
+                    ->orderBy('units.name', 'asc')
+                    ->paginate(10)
+                    ->appends(request()->query());
         }else{
             $data['bbm_usages'] = $bbm_usages
-                            ->paginate(10)
-                            ->appends(request()->query());
+                                ->select('bbm_usages.id', 'bbm_usages.*')
+                                ->paginate(10)
+                                ->appends(request()->query());
         }
 
         return view('inputs.bbm_usage.bbm_usage.index', ['bbm_use_for' => $bbm_use_for],$data);
@@ -123,7 +122,7 @@ class BbmUsageController extends Controller
                 'bbm_usage_id' => $bbm->id,
             ]);
 
-        return redirect(route('inputs.bbm_usage.index', ['bbm_use_for' => $bbm_use_for]))->with('success', 'Pemakaian BBM baru baru berhasil dibuat.');
+        return redirect(route('inputs.bbm_usage.index', ['bbm_use_for' => $bbm_use_for, 'date' => $request->use_date]))->with('success', 'Pemakaian BBM baru baru berhasil dibuat.');
     }
 
     /**
@@ -224,8 +223,7 @@ class BbmUsageController extends Controller
                 'type_fuel' => $request->bbm_type,
             ]);
 
-
-        return redirect(route('inputs.bbm_usage.index', ['bbm_use_for' => $bbm_use_for]))->with('success', 'Pemakaian BBM berhasil diubah.');
+        return redirect(route('inputs.bbm_usage.index', ['bbm_use_for' => $bbm_use_for, 'date' => $request->use_date]))->with('success', 'Pemakaian BBM berhasil diubah.');
     }
 
     /**
@@ -236,8 +234,9 @@ class BbmUsageController extends Controller
      */
     public function destroy($bbm_use_for, $id)
     {
+        $bbmUsage = BbmUsage::where('id',$id)->first();
         BbmUsage::where('id',$id)->first()->delete();
-
-        return redirect(route('inputs.bbm_usage.index', ['bbm_use_for' => $bbm_use_for]))->with('success', 'Pemakaian BBM berhasil dihapus.');
+        
+        return redirect(route('inputs.bbm_usage.index', ['bbm_use_for' => $bbm_use_for, 'date' => $bbmUsage->use_date]))->with('success', 'Pemakaian BBM berhasil dihapus.');
     }
 }

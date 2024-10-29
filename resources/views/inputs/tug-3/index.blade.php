@@ -43,7 +43,8 @@
                             <option selected disabled>Jenis Bahan Bakar</option>
                             <option {{request('fuel') == 'Batu Bara' ? 'selected' : ''}} value="Batu Bara">Batu Bara</option>
                             <option {{request('fuel') == 'solar' ? 'selected' : ''}} value="solar">HSD / Solar</option>
-                            <option {{request('fuel') == 'MFO / Residu' ? 'selected' : ''}} value="residu">MFO / Residu</option>
+                            <option {{request('fuel') == 'residu' ? 'selected' : ''}} value="residu">MFO / Residu</option>
+                            <option {{request('fuel') == 'biomassa' ? 'selected' : ''}} value="biomassa">Biomassa</option>
                         </select>
                     </div>
                     <button type="submit" class="hidden">Search</button>
@@ -64,13 +65,7 @@
                             @foreach ($tugs as $tug)
                             <tr>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                @if ($tug->type_tug == 'coal-unloading')
-                                    <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->coal->receipt_date}}</td> 
-                                @endif
-                                @if ($tug->type_fuel == 'bbm-receipt')
-                                    <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->bbm->date_receipt}}</td> 
-                                @endif
-                                
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->created_at->format('d-m-Y')}}</td>    
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->tug_number }}</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ number_format($tug->usage_amount) }}</td>
                                 <td class="text-[16px] font-normal border px-2 flex items-center justify-center gap-2">

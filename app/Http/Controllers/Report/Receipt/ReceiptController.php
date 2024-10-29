@@ -17,7 +17,7 @@ class ReceiptController extends Controller
     {
         $filterType = null;
         $data['filter_type'] = $filterType;
-        $validFilterTypes = ['day', 'year'];
+        $validFilterTypes = ['day', 'month'];
         $validBbmTypes = ['HSD', 'MFO'];
         if ($request->has('filter_type') && in_array($request->filter_type, $validFilterTypes)) {
             $data['filter_type'] = $request->filter_type;
@@ -60,21 +60,12 @@ class ReceiptController extends Controller
 
 
                 case 'month':
-                    dd($tahunInput);
                     $queryBbmReceipt = BbmReceipt::query()
                                     ->selectRaw('
                                         YEAR(date_receipt) as year,
                                         MONTH(date_receipt) as month,
                                         SUM(faktur_obs) as total_faktur_obs,
-                                        SUM(CASE
-                                            WHEN amount_receipt = "Selisih Volume Level" THEN CAST(uad_obs AS UNSIGNED)
-                                            WHEN amount_receipt = "Selisih Volume Level (Liter 15)" THEN CAST(uad_ltr15 AS UNSIGNED)
-                                            WHEN amount_receipt = "Selisih Hasil Sounding" THEN CAST(hasil_sond_akhir AS UNSIGNED) - CAST(hasil_sond_awal AS UNSIGNED)
-                                            WHEN amount_receipt = "Selisih Flow Meter" THEN CAST(flow_meter_akhir AS UNSIGNED) - CAST(flow_meter_awal AS UNSIGNED)
-                                            WHEN amount_receipt = "Faktur" THEN CAST(faktur_obs AS UNSIGNED)
-                                            WHEN amount_receipt = "Faktur Liter 15" THEN CAST(faktur_ltr15 AS UNSIGNED)
-                                            ELSE 0
-                                        END) as total_amount_receipt,
+                                        SUM(amount_receipt) as amount_receipt,
                                         SUM(faktur_ltr15) as total_faktur_ltr15,
                                         SUM(liter_15_tug3) as total_liter_15_tug3
                                     ')
@@ -89,7 +80,7 @@ class ReceiptController extends Controller
                         $monthlyData[$i] = [
                             'month' => $i,
                             'total_faktur_obs' => 0,
-                            'total_amount_receipt' => 0,
+                            'amount_receipt' => 0,
                             'total_faktur_ltr15' => 0,
                             'total_liter_15_tug3' => 0
                         ];
@@ -99,7 +90,7 @@ class ReceiptController extends Controller
                         $monthlyData[$receipt->month] = [
                             'month' => $receipt->month,
                             'total_faktur_obs' => $receipt->total_faktur_obs,
-                            'total_amount_receipt' => $receipt->total_amount_receipt,
+                            'amount_receipt' => $receipt->amount_receipt,
                             'total_faktur_ltr15' => $receipt->total_faktur_ltr15,
                             'total_liter_15_tug3' => $receipt->total_liter_15_tug3
                         ];
@@ -110,6 +101,7 @@ class ReceiptController extends Controller
 
             }
         }
+        
 
         return view('reports.receipt.bbm-receipt-report', $data);
     }

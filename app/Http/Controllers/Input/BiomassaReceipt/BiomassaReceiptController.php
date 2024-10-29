@@ -35,6 +35,10 @@ class BiomassaReceiptController extends Controller
         });
 
         $data['receipts'] = $receipts->latest()->paginate(10)->appends(request()->query());
+        foreach ($data['receipts'] as $receipt) {
+            $receipt->total_volume = $receipt->detailReceipt->sum('volume');
+        }
+
         return view('inputs.biomassa_receipt.biomassa_receipt.index',$data);
     }
 
@@ -46,7 +50,7 @@ class BiomassaReceiptController extends Controller
     public function create()
     {
         $data['suppliers'] = Supplier::get();
-        $data['contracts'] = BiomassaContract::get();
+        $data['contracts'] = [];
 
         return view('inputs.biomassa_receipt.biomassa_receipt.create', $data);
     }
@@ -77,6 +81,8 @@ class BiomassaReceiptController extends Controller
         ]);
 
         $detail_biomassa = [];
+        $totalVolume = 0;
+        $latest_receipt_date= null;
         if(isset($request->supplier_uuid)){
             if(count($request->supplier_uuid) > 1){
                 foreach ($request->supplier_uuid as $key => $supplier) {
@@ -84,9 +90,14 @@ class BiomassaReceiptController extends Controller
                         continue;
                     }
 
+                    $totalVolume += isset($request->volume[$key]) ? $request->volume[$key] : 0;
+                    $latest_receipt_date = isset($request->end_date_unloading[$key]) ? $request->end_date_unloading[$key] : null;
+
                     $detail = DetailBiomassaReceipt::create([
                                 'biomassa_receipt_id' => $biomassa->id,
                                 'supplier_uuid' => $supplier,
+                                'start_date_unloading' => isset($request->start_date_unloading[$key]) ? $request->start_date_unloading[$key] : null,
+                                'end_date_unloading' => isset($request->end_date_unloading[$key]) ? $request->end_date_unloading[$key] : null,
                                 'volume' => isset($request->volume[$key]) ? $request->volume[$key] : null,
                                 'number_of_shipper' => isset($request->number_of_shipper[$key]) ? $request->number_of_shipper[$key] : null,
                                 'date_shipment' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,
@@ -135,7 +146,9 @@ class BiomassaReceiptController extends Controller
             'bpb_number' => $bpbNumber,
             'type_tug' => 'biomassa-receipt',
             'unit' => 'Kg',
+            'usage_amount' => $totalVolume,
             'biomassa_receipt_id' => $biomassa->id,
+            'receipt_date' => $latest_receipt_date,
         ]);
 
         return redirect(route('inputs.biomassa_receipts.index'))->with('success', 'Penerimaan Biomassa baru baru berhasil dibuat.');
@@ -196,6 +209,8 @@ class BiomassaReceiptController extends Controller
             'biomassa_receipt_id' => $biomassa->id,
         ])->delete();
         $detail_biomassa = [];
+        $totalVolume = 0;
+        $latest_receipt_date = null;
         if(isset($request->supplier_uuid)){
             if(count($request->supplier_uuid) > 1){
                 foreach ($request->supplier_uuid as $key => $supplier) {
@@ -203,10 +218,15 @@ class BiomassaReceiptController extends Controller
                         continue;
                     }
 
+                    $totalVolume += isset($request->volume[$key]) ? $request->volume[$key] : 0;
+                    $latest_receipt_date = isset($request->end_date_unloading[$key]) ? $request->end_date_unloading[$key] : null;
+
                     // dd($request->total_moisure3);
                     $detail = DetailBiomassaReceipt::create([
                                 'biomassa_receipt_id' => $biomassa->id,
                                 'supplier_uuid' => $supplier,
+                                'start_date_unloading' => isset($request->start_date_unloading[$key]) ? $request->start_date_unloading[$key] : null,
+                                'end_date_unloading' => isset($request->end_date_unloading[$key]) ? $request->end_date_unloading[$key] : null,
                                 'volume' => isset($request->volume[$key]) ? $request->volume[$key] : null,
                                 'number_of_shipper' => isset($request->number_of_shipper[$key]) ? $request->number_of_shipper[$key] : null,
                                 'date_shipment' => isset($request->date_shipment[$key]) ? $request->date_shipment[$key] : null,
@@ -256,6 +276,15 @@ class BiomassaReceiptController extends Controller
         if(count($unloading_biomassa) > 0){
             DetailUnloadingBiomassaReceipt::insert($unloading_biomassa);
         }
+
+        Tug::where([
+            'tug' => 3,
+            'type_tug' => 'biomassa-receipt',
+            'biomassa_receipt_id' => $biomassa->id,
+        ])->update([
+            'usage_amount' => $totalVolume,
+            'receipt_date' => $latest_receipt_date,
+        ]);
 
         return redirect(route('inputs.biomassa_receipts.index'))->with('success', 'Penerimaan Biomassa berhasil diubah.');
     }

@@ -56,21 +56,21 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No BA</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jumlah Pemakaian</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border  bg-[#F5F6FA] h-[10px] text-[#8A92A6]">#</th>
+                                <th class="border  bg-[#F5F6FA] h-[10px] text-[#8A92A6]">Tanggal</th>
+                                <th class="border  bg-[#F5F6FA] h-[10px] text-[#8A92A6]">No BA</th>
+                                <th class="border  bg-[#F5F6FA] h-[10px] text-[#8A92A6]">Jumlah Pemakaian</th>
+                                <th class="border  bg-[#F5F6FA] h-[10px] text-[#8A92A6]">#</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($adjusments as $adjusment)
                             <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $adjusment->usage_date }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $adjusment->ba_number }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ number_format($adjusment->usage_amount) }}</td>
-                                <td class="h-[108px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
+                                <td class="h-[20px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
+                                <td class="h-[20px] text-[16px] font-normal border px-2 text-center">{{ $adjusment->usage_date }}</td>
+                                <td class="h-[20px] text-[16px] font-normal border px-2 text-center">{{ $adjusment->ba_number }}</td>
+                                <td class="h-[20px] text-[16px] font-normal border px-2 text-center">{{ number_format($adjusment->usage_amount) }}</td>
+                                <td class="h-[30px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('coals.usages.adjusment-incomes.edit', ['id' => $adjusment->id]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit
                                     </a>

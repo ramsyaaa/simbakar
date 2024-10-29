@@ -49,6 +49,7 @@
                 break;
         }
     }
+    $is_coal = strpos(url()->current(), 'coal') > 0;
 @endphp
 @section('content')
     <div x-data="{ sidebar: true }" class="w-screen overflow-auto flex bg-[#E9ECEF]">
@@ -59,7 +60,7 @@
                 <div class="flex items-end justify-between mb-2">
                     <div>
                         <div class="text-[#135F9C] text-[40px] font-bold">
-                            {{ strpos(url()->current(), 'coal') > 0 ? 'Penerimaan, Pemakaian dan Persediaan Batubara' : 'Realisasi Persediaan Kumulatif Batubara' }}
+                            {{ $is_coal ? 'Penerimaan, Pemakaian dan Persediaan Batubara' : 'Realisasi Persediaan Kumulatif Batubara' }}
                         </div>
                     </div>
                 </div>
@@ -195,7 +196,7 @@
 
                     <div class="bg-white display-table rounded-lg p-6">
                         <div class="overflow-auto hide-scrollbar max-w-full">
-                            <table class="w-full" id="table">
+                            <table class="min-w-max" id="table">
                                 <thead>
                                     <tr>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">No</th>
@@ -220,7 +221,8 @@
                                             </th>
                                         @endif
                                         @if ($type != 'year')
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="10">Pemakaian Batubara ( Sesuai TUG 9 )</th>
+                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="11">
+                                                Pemakaian Batubara ( Sesuai TUG 9 )</th>
                                         @endif
                                         @if ($type != 'year')
                                             <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="2">
@@ -243,11 +245,11 @@
                                             <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 7</th>
                                             <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 5-7</th>
                                             <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 1-7</th>
+                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Lain-lain</th>
                                         @endif
                                         @if (isset($type) && $type != 'year')
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">
-                                                Realisasi
-                                                Pemakaian
+                                                Kumulatif
                                             </th>
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">Stock
                                                 Efektif
@@ -323,10 +325,13 @@
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                                     {{ isset($item['unit_1_7']) ? formatNumber($item['unit_1_7']) : '-' }}
                                                 </td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                    {{ isset($item['other']) ? formatNumber($item['other']) : '-' }}
+                                                </td>
                                             @endif
                                             @if (isset($type) && $type != 'year')
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ isset($item['unit_1_7']) ? formatNumber($item['unit_1_7']) : '-' }}
+                                                    {{ isset($item['cumulative_stock_realitation']) ? formatNumber($item['cumulative_stock_realitation']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                                     {{ isset($item['efective']) ? formatNumber($item['efective']) : '-' }}
@@ -391,10 +396,13 @@
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                                     {{ formatNumber(collect($bbm_unloading)->pluck('unit_1_7')->sum()) }}
                                                 </th>
+                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                    {{ formatNumber(collect($bbm_unloading)->pluck('other')->sum()) }}
+                                                </th>
                                             @endif
                                             @if (isset($type) && $type != 'year')
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(collect($bbm_unloading)->pluck('unit_1_7')->sum()) }}
+                                                    {{ formatNumber(collect($bbm_unloading)->pluck('cumulative_stock_realitation')->sum()) }}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                                     {{ formatNumber(collect($bbm_unloading)->pluck('efective')->sum()) }}
