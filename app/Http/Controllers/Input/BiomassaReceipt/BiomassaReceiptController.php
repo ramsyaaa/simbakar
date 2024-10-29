@@ -81,12 +81,17 @@ class BiomassaReceiptController extends Controller
         ]);
 
         $detail_biomassa = [];
+        $totalVolume = 0;
+        $latest_receipt_date= null;
         if(isset($request->supplier_uuid)){
             if(count($request->supplier_uuid) > 1){
                 foreach ($request->supplier_uuid as $key => $supplier) {
                     if($key == 0){
                         continue;
                     }
+
+                    $totalVolume += isset($request->volume[$key]) ? $request->volume[$key] : 0;
+                    $latest_receipt_date = isset($request->end_date_unloading[$key]) ? $request->end_date_unloading[$key] : null;
 
                     $detail = DetailBiomassaReceipt::create([
                                 'biomassa_receipt_id' => $biomassa->id,
@@ -141,7 +146,9 @@ class BiomassaReceiptController extends Controller
             'bpb_number' => $bpbNumber,
             'type_tug' => 'biomassa-receipt',
             'unit' => 'Kg',
+            'usage_amount' => $totalVolume,
             'biomassa_receipt_id' => $biomassa->id,
+            'receipt_date' => $latest_receipt_date,
         ]);
 
         return redirect(route('inputs.biomassa_receipts.index'))->with('success', 'Penerimaan Biomassa baru baru berhasil dibuat.');
@@ -202,12 +209,17 @@ class BiomassaReceiptController extends Controller
             'biomassa_receipt_id' => $biomassa->id,
         ])->delete();
         $detail_biomassa = [];
+        $totalVolume = 0;
+        $latest_receipt_date = null;
         if(isset($request->supplier_uuid)){
             if(count($request->supplier_uuid) > 1){
                 foreach ($request->supplier_uuid as $key => $supplier) {
                     if($key == 0){
                         continue;
                     }
+
+                    $totalVolume += isset($request->volume[$key]) ? $request->volume[$key] : 0;
+                    $latest_receipt_date = isset($request->end_date_unloading[$key]) ? $request->end_date_unloading[$key] : null;
 
                     // dd($request->total_moisure3);
                     $detail = DetailBiomassaReceipt::create([
@@ -264,6 +276,15 @@ class BiomassaReceiptController extends Controller
         if(count($unloading_biomassa) > 0){
             DetailUnloadingBiomassaReceipt::insert($unloading_biomassa);
         }
+
+        Tug::where([
+            'tug' => 3,
+            'type_tug' => 'biomassa-receipt',
+            'biomassa_receipt_id' => $biomassa->id,
+        ])->update([
+            'usage_amount' => $totalVolume,
+            'receipt_date' => $latest_receipt_date,
+        ]);
 
         return redirect(route('inputs.biomassa_receipts.index'))->with('success', 'Penerimaan Biomassa berhasil diubah.');
     }

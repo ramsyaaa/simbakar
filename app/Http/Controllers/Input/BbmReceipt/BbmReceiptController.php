@@ -262,6 +262,7 @@ class BbmReceiptController extends Controller
             'unit' => 'L',
             'type_fuel' => $request->bbm_type,
             'bbm_receipt_id' => $bbm->id,
+            'receipt_date' => $request->date_receipt,
         ]);
 
         return redirect(route('inputs.bbm_receipts.index', ['shipment_type' => $shipment_type]))->with('success', 'Penerimaan BBM baru baru berhasil dibuat.');

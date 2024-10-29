@@ -54,7 +54,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="amount" class="font-bold text-[#232D42] text-[16px]">Jumlah Pakai</label>
                                     <div class="relative">
-                                        <input type="text" name="amount" value="{{ old('amount', $bbm->amount ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="amount" value="{{ old('amount', $bbm->amount ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('amount')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
