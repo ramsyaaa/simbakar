@@ -13,6 +13,7 @@ use App\Models\CoalUnloading;
 use App\Models\CoalUsage;
 use App\Models\ConsumptionPlan;
 use App\Models\DeliveryClause;
+use App\Models\FuelAdjusment;
 use App\Models\StockOpname;
 use App\Models\YearStartData;
 use App\Supplier;
@@ -560,7 +561,6 @@ class ReportBbmController extends Controller
                             if ($receipt_date == $day) {
                                 // Get BBM Usage with receipt date
                                 $bbm_usage = CoalUsage::select('unit_id', 'amount_use')->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
-
                                 // get All Unit Value
                                 foreach ($units as $unit_key => $unit) {
                                     $index = "unit_" . ($unit_key + 1);
@@ -1275,6 +1275,8 @@ class ReportBbmController extends Controller
                 foreach ($daysArray as $day) {
                     $processedData[$day] = [];
                     $bbm_unloading = CoalUnloading::select('receipt_date', 'tug_3_accept')->whereRaw('receipt_date like ?', ["%" . $day . "%"])->get();
+                    $fuel_adjustment = FuelAdjusment::select('usage_amount')->whereRaw('usage_date like ? AND type_adjusment = ?', ['%' . $day . '%', 'outcome'])->get();
+
                     if (count($bbm_unloading) > 0) {
                         foreach ($bbm_unloading as $key => $item) {
                             $receipt_date = date('Y-m-d', strtotime($item->receipt_date));
@@ -1315,6 +1317,7 @@ class ReportBbmController extends Controller
                                     $processedData[$day]['unit_6'],
                                     $processedData[$day]['unit_7']
                                 ]);
+                                $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
                                 $processedData[$day]['stock'] = $coal_plans + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
                                 $processedData[$day]['efective'] = $year_start_data + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
                                 $year_start_data = $processedData[$day]['efective'];
@@ -1357,6 +1360,7 @@ class ReportBbmController extends Controller
                             $processedData[$day]['unit_6'],
                             $processedData[$day]['unit_7']
                         ]);
+                        $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
                         $processedData[$day]['stock'] = $coal_plans + (0 - $processedData[$day]['unit_1_7']);
                         $processedData[$day]['efective'] = $year_start_data + (0 - $processedData[$day]['unit_1_7']);
                         $year_start_data = $processedData[$day]['efective'];
@@ -1424,6 +1428,8 @@ class ReportBbmController extends Controller
                     $bbm_unloading = CoalUnloading::select('receipt_date', 'tug_3_accept')->whereRaw('receipt_date like ?', ["%" . ("$receipt_date") . "%"])->get();
                     $processedData[$month]['stock'] = $coal_plans ? getStock($coal_plans, $i) : 0;
                     $bbm_usage = CoalUsage::select('unit_id', 'amount_use', 'usage_date')->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
+
+                    $fuel_adjustment = FuelAdjusment::select('usage_amount')->whereRaw('usage_date like ? AND type_adjusment = ?', ['%' . $receipt_date . '%', 'outcome'])->get();
                     if (count($bbm_unloading) > 0) {
                         // Get BBM Usage with receipt date
                         foreach ($bbm_unloading as $key => $item) {
@@ -1496,6 +1502,7 @@ class ReportBbmController extends Controller
                                     $processedData[$month]['unit_6'],
                                     $processedData[$month]['unit_7']
                                 ]);
+                                $processedData[$month]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
                             }
                         }
                     } else {
@@ -1565,6 +1572,7 @@ class ReportBbmController extends Controller
                                 $processedData[$month]['unit_6'],
                                 $processedData[$month]['unit_7']
                             ]);
+                            $processedData[$month]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
                         }
                     }
                     $i++;
@@ -1594,6 +1602,9 @@ class ReportBbmController extends Controller
             }
             $bbm_usage = CoalUsage::select('unit_id', 'amount_use', 'usage_date')->get();
             $bbm_unloading = CoalUnloading::select('receipt_date', 'tug_3_accept')->get();
+
+            $fuel_adjustment = FuelAdjusment::select('usage_amount', 'usage_date')->get();
+
             foreach ($processedData as $year => $value) {
                 $coal_plans = CoalReceiptPlan::where('year', $year)->first();
                 $processedData[$year]['stock'] = $coal_plans ? getStock($coal_plans) : 0;
@@ -1604,6 +1615,9 @@ class ReportBbmController extends Controller
                     });
                     $bbmUnloading = collect($bbm_unloading)->filter(function ($bbm) use ($year) {
                         return Str::contains($bbm->receipt_date, $year);
+                    });
+                    $fuelAdjustment = collect($fuel_adjustment)->filter(function ($bbm) use ($year) {
+                        return Str::contains($bbm->usage_date, $year);
                     });
                     // foreach ($bbmUnloading as $key => $item) {
                     //     $receipt_date = date('Y', strtotime($item->receipt_date));
@@ -1625,7 +1639,9 @@ class ReportBbmController extends Controller
                     }
 
                     $processedData[$year]['receipt_date'] = $year;
-                    $processedData[$year]['tug'] = $bbmUnloading->pluck('tug_3_accept')->sum();
+                    $processedData[$year]['tug'] =
+                        $bbmUnloading->pluck('tug_3_accept')->sum();
+                    $processedData[$year]['other'] = $fuelAdjustment->pluck('usage_amount')->sum();
                     $processedData[$year]['unit_5_7'] = array_sum([
                         $processedData[$year]['unit_5'],
                         $processedData[$year]['unit_6'],
