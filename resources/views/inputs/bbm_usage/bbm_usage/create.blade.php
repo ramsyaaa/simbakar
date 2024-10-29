@@ -123,7 +123,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="heavy_equipment_uuid" class="font-bold text-[#232D42] text-[16px]">Albes</label>
                                     <div class="relative">
-                                        <select name="heavy_equipment_uuid" id="heavy_equipment_uuid" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="heavy_equipment_uuid" id="heavy_equipment_uuid" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($heavy_equipments as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('heavy_equipment_uuid') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>

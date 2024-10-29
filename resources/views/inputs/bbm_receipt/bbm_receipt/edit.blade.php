@@ -40,7 +40,7 @@
                             <div class="w-full lg:w-6/12">
                                 <label for="load_company_uuid" class="font-bold text-[#232D42] text-[16px]">PBM</label>
                                 <div class="relative">
-                                    <select name="load_company_uuid" id="load_company_uuid" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <select name="load_company_uuid" id="load_company_uuid" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                         <option value="">Pilih</option>
                                         @foreach ($load_companies as $item)
                                             <option value="{{ $item->uuid }}" {{ old('load_company_uuid', $bbm->load_company_uuid ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -68,7 +68,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="order_number" class="font-bold text-[#232D42] text-[16px]">No Pemesanan</label>
                                     <div class="relative">
-                                        <select name="order_number" id="order_number" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="order_number" id="order_number" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($bbm_books as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('order_number', $bbm->order_number ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->order_number }}</option>
@@ -100,7 +100,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="port_origin" class="font-bold text-[#232D42] text-[16px]">Pelabuhan Asal</label>
                                     <div class="relative">
-                                        <select name="port_origin" id="port_origin" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="port_origin" id="port_origin" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($harbors as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('port_origin', $bbm->port_origin ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -116,7 +116,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="destination_port" class="font-bold text-[#232D42] text-[16px]">Pelabuhan Tujuan</label>
                                     <div class="relative">
-                                        <select name="destination_port" id="destination_port" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="destination_port" id="destination_port" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($harbors as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('destination_port', $bbm->destination_port ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -136,7 +136,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="dock" class="font-bold text-[#232D42] text-[16px]">Dermaga</label>
                                     <div class="relative">
-                                        <select name="dock" id="dock" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="dock" id="dock" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($docks as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('dock', $bbm->dock ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -153,7 +153,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="ship_agent_uuid" class="font-bold text-[#232D42] text-[16px]">Agen</label>
                                     <div class="relative">
-                                        <select name="ship_agent_uuid" id="ship_agent_uuid" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="ship_agent_uuid" id="ship_agent_uuid" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($ship_agents as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('ship_agent_uuid', $bbm->ship_agent_uuid ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -171,7 +171,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="supplier_uuid" class="font-bold text-[#232D42] text-[16px]">Pemasok</label>
                                     <div class="relative">
-                                        <select name="supplier_uuid" id="supplier_uuid" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="supplier_uuid" id="supplier_uuid" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($suppliers as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('supplier_uuid', $bbm->supplier_uuid ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -187,7 +187,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="bunker_uuid" class="font-bold text-[#232D42] text-[16px]">Bunker</label>
                                     <div class="relative">
-                                        <select name="bunker_uuid" id="bunker_uuid" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="bunker_uuid" id="bunker_uuid" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($bunkers as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('bunker_uuid', $bbm->bunker_uuid ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -206,7 +206,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="ship_uuid" class="font-bold text-[#232D42] text-[16px]">Kapal</label>
                                     <div class="relative">
-                                        <select name="ship_uuid" id="ship_uuid" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="ship_uuid" id="ship_uuid" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($ships as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('ship_uuid', $bbm->ship_uuid ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -262,7 +262,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="transporter_uuid" class="font-bold text-[#232D42] text-[16px]">Transportir</label>
                                     <div class="relative">
-                                        <select name="transporter_uuid" id="transporter_uuid" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="transporter_uuid" id="transporter_uuid" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option value="">Pilih</option>
                                             @foreach ($transporters as $item)
                                                 <option value="{{ $item->uuid }}" {{ old('transporter_uuid', $bbm->transporter_uuid ?? '') == $item->uuid ? 'selected' : '' }}>{{ $item->name }}</option>
@@ -377,7 +377,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="faktur_obs" class="font-bold text-[#232D42] text-[16px]">Faktur (OBS)</label>
                                     <div class="relative">
-                                        <input type="text" name="faktur_obs" value="{{ old('faktur_obs', $bbm->faktur_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="faktur_obs" value="{{ old('faktur_obs', $bbm->faktur_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('faktur_obs')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -388,7 +388,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="faktur_ltr15" class="font-bold text-[#232D42] text-[16px]">Faktur (LTR15)</label>
                                     <div class="relative">
-                                        <input type="text" name="faktur_ltr15" value="{{ old('faktur_ltr15', $bbm->faktur_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="faktur_ltr15" value="{{ old('faktur_ltr15', $bbm->faktur_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('faktur_ltr15')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -397,11 +397,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-full flex gap-4">
+                            {{-- <div class="w-full flex gap-4">
                                 <div class="w-full lg:w-6/12">
                                     <label for="ubl_obs" class="font-bold text-[#232D42] text-[16px]">UBL (OBS) (sebelum load)</label>
                                     <div class="relative">
-                                        <input type="text" name="ubl_obs" value="{{ old('ubl_obs', $bbm->ubl_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="ubl_obs" value="{{ old('ubl_obs', $bbm->ubl_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('ubl_obs')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -412,7 +412,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="ubl_ltr15" class="font-bold text-[#232D42] text-[16px]">UBL (LTR15)</label>
                                     <div class="relative">
-                                        <input type="text" name="ubl_ltr15" value="{{ old('ubl_ltr15', $bbm->ubl_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="ubl_ltr15" value="{{ old('ubl_ltr15', $bbm->ubl_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('ubl_ltr15')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -420,12 +420,12 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="w-full flex gap-4">
                                 <div class="w-full lg:w-6/12">
                                     <label for="ual_obs" class="font-bold text-[#232D42] text-[16px]">UAL (OBS) (setelah load)</label>
                                     <div class="relative">
-                                        <input type="text" name="ual_obs" value="{{ old('ual_obs', $bbm->ual_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="ual_obs" value="{{ old('ual_obs', $bbm->ual_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('ual_obs')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -436,7 +436,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="ual_ltr15" class="font-bold text-[#232D42] text-[16px]">UAL (LTR15)</label>
                                     <div class="relative">
-                                        <input type="text" name="ual_ltr15" value="{{ old('ual_ltr15', $bbm->ual_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="ual_ltr15" value="{{ old('ual_ltr15', $bbm->ual_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('ual_ltr15')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -449,7 +449,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="ubd_obs" class="font-bold text-[#232D42] text-[16px]">UBD (OBS) (sebelum bongkar)</label>
                                     <div class="relative">
-                                        <input type="text" name="ubd_obs" value="{{ old('ubd_obs', $bbm->ubd_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="ubd_obs" value="{{ old('ubd_obs', $bbm->ubd_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('ubd_obs')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -460,7 +460,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="ubd_ltr15" class="font-bold text-[#232D42] text-[16px]">ubd (LTR15)</label>
                                     <div class="relative">
-                                        <input type="text" name="ubd_ltr15" value="{{ old('ubd_ltr15', $bbm->ubd_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="ubd_ltr15" value="{{ old('ubd_ltr15', $bbm->ubd_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('ubd_ltr15')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -473,7 +473,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="uad_obs" class="font-bold text-[#232D42] text-[16px]">UAD (OBS) (setelah bongkar)</label>
                                     <div class="relative">
-                                        <input type="text" name="uad_obs" value="{{ old('uad_obs', $bbm->uad_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="uad_obs" value="{{ old('uad_obs', $bbm->uad_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('uad_obs')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -484,7 +484,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="uad_ltr15" class="font-bold text-[#232D42] text-[16px]">UAD (LTR15)</label>
                                     <div class="relative">
-                                        <input type="text" name="uad_ltr15" value="{{ old('uad_ltr15', $bbm->uad_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="uad_ltr15" value="{{ old('uad_ltr15', $bbm->uad_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('uad_ltr15')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -497,7 +497,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="vol_level_awal_obs" class="font-bold text-[#232D42] text-[16px]">Vol Level Awal (OBS)</label>
                                     <div class="relative">
-                                        <input type="text" name="vol_level_awal_obs" value="{{ old('vol_level_awal_obs', $bbm->vol_level_awal_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="vol_level_awal_obs" value="{{ old('vol_level_awal_obs', $bbm->vol_level_awal_obs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('vol_level_awal_obs')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -508,7 +508,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="vol_level_akhir_abs" class="font-bold text-[#232D42] text-[16px]">Vol Level Akhir (OBS)</label>
                                     <div class="relative">
-                                        <input type="text" name="vol_level_akhir_abs" value="{{ old('vol_level_akhir_abs', $bbm->vol_level_akhir_abs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="vol_level_akhir_abs" value="{{ old('vol_level_akhir_abs', $bbm->vol_level_akhir_abs ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('vol_level_akhir_abs')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -521,7 +521,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="vol_level_awal_ltr15" class="font-bold text-[#232D42] text-[16px]">Vol level Awal (LTR15)</label>
                                     <div class="relative">
-                                        <input type="text" name="vol_level_awal_ltr15" value="{{ old('vol_level_awal_ltr15', $bbm->vol_level_awal_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="vol_level_awal_ltr15" value="{{ old('vol_level_awal_ltr15', $bbm->vol_level_awal_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('vol_level_awal_ltr15')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -532,7 +532,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="vol_level_akhir_ltr15" class="font-bold text-[#232D42] text-[16px]">Vol Level Akhir (LTR15)</label>
                                     <div class="relative">
-                                        <input type="text" name="vol_level_akhir_ltr15" value="{{ old('vol_level_akhir_ltr15', $bbm->vol_level_akhir_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="vol_level_akhir_ltr15" value="{{ old('vol_level_akhir_ltr15', $bbm->vol_level_akhir_ltr15 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('vol_level_akhir_ltr15')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -545,7 +545,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="hasil_sond_awal" class="font-bold text-[#232D42] text-[16px]">Hasil Sond Awal</label>
                                     <div class="relative">
-                                        <input type="text" name="hasil_sond_awal" value="{{ old('hasil_sond_awal', $bbm->hasil_sond_awal ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="hasil_sond_awal" value="{{ old('hasil_sond_awal', $bbm->hasil_sond_awal ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('hasil_sond_awal')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -556,7 +556,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="hasil_sond_akhir" class="font-bold text-[#232D42] text-[16px]">Hasil Sond Akhir</label>
                                     <div class="relative">
-                                        <input type="text" name="hasil_sond_akhir" value="{{ old('hasil_sond_akhir', $bbm->hasil_sond_akhir ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="hasil_sond_akhir" value="{{ old('hasil_sond_akhir', $bbm->hasil_sond_akhir ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('hasil_sond_akhir')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -569,7 +569,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="flow_meter_awal" class="font-bold text-[#232D42] text-[16px]">Flow Meter Awal</label>
                                     <div class="relative">
-                                        <input type="text" name="flow_meter_awal" value="{{ old('flow_meter_awal', $bbm->flow_meter_awal ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="flow_meter_awal" value="{{ old('flow_meter_awal', $bbm->flow_meter_awal ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('flow_meter_awal')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -580,7 +580,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="flow_meter_akhir" class="font-bold text-[#232D42] text-[16px]">Flow Meter Akhir</label>
                                     <div class="relative">
-                                        <input type="text" name="flow_meter_akhir" value="{{ old('flow_meter_akhir', $bbm->flow_meter_akhir ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="flow_meter_akhir" value="{{ old('flow_meter_akhir', $bbm->flow_meter_akhir ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('flow_meter_akhir')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -593,7 +593,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="liter_15_tug3" class="font-bold text-[#232D42] text-[16px]">Liter 15 TUG3</label>
                                     <div class="relative">
-                                        <input type="text" name="liter_15_tug3" value="{{ old('liter_15_tug3', $bbm->liter_15_tug3 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <input type="text" name="liter_15_tug3" value="{{ old('liter_15_tug3', $bbm->liter_15_tug3 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3 format-number">
                                         @error('liter_15_tug3')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -673,7 +673,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="inspector" class="font-bold text-[#232D42] text-[16px]">Pemeriksa</label>
                                     <div class="relative">
-                                        <select name="inspector" id="inspector" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="inspector" id="inspector" class="select-2 w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Pemeriksa</option>
                                             @foreach ($inspections as $inspection)
                                                 <option {{old('inspector', $bbm->inspector ?? '') == $inspection->name ? 'selected' :''}}>{{$inspection->name}}</option>
@@ -689,7 +689,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="head_of_warehouse" class="font-bold text-[#232D42] text-[16px]">Kepala Gudang</label>
                                     <div class="relative">
-                                        <select name="head_of_warehouse" id="head_of_warehouse" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="head_of_warehouse" id="head_of_warehouse" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Kepala Gudang</option>
                                                 @foreach ($heads as $head)
                                                 <option {{old('head_of_warehouse', $bbm->head_of_warehouse ?? '') == $head->name ? 'selected' :''}}>{{$head->name}}</option>
