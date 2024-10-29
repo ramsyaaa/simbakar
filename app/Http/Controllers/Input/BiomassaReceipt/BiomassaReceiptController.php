@@ -35,6 +35,10 @@ class BiomassaReceiptController extends Controller
         });
 
         $data['receipts'] = $receipts->latest()->paginate(10)->appends(request()->query());
+        foreach ($data['receipts'] as $receipt) {
+            $receipt->total_volume = $receipt->detailReceipt->sum('volume');
+        }
+
         return view('inputs.biomassa_receipt.biomassa_receipt.index',$data);
     }
 
