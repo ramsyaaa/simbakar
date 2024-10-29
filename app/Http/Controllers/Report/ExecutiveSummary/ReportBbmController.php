@@ -1271,12 +1271,25 @@ class ReportBbmController extends Controller
                 $units = Unit::select('id')->orderBy('id', 'asc')->get();
                 $coal_plans = CoalReceiptPlan::where('year', $year)->first();
                 $coal_plans = $coal_plans ? intval(getStock($coal_plans, intval($month) - 1)) : 0;
+                $stock_opnames = StockOpname::all();
 
                 foreach ($daysArray as $day) {
                     $processedData[$day] = [];
                     $bbm_unloading = CoalUnloading::select('receipt_date', 'tug_3_accept')->whereRaw('receipt_date like ?', ["%" . $day . "%"])->get();
                     $fuel_adjustment = FuelAdjusment::select('usage_amount')->whereRaw('usage_date like ? AND type_adjusment = ?', ['%' . $day . '%', 'outcome'])->get();
 
+                    $dailyBedding = 0;
+
+                    for ($j = 1; $j <= 31; $j++) {
+                        // Get Bedding
+                        $opnames = collect($stock_opnames)->filter(function ($opnames) use ($day) {
+                            return Str::contains($opnames->measurement_date, $day);
+                        })->first();
+
+                        if ($opnames) {
+                            $dailyBedding = $opnames->bedding;
+                        }
+                    }
                     if (count($bbm_unloading) > 0) {
                         foreach ($bbm_unloading as $key => $item) {
                             $receipt_date = date('Y-m-d', strtotime($item->receipt_date));
@@ -1320,6 +1333,9 @@ class ReportBbmController extends Controller
                                 $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
                                 $processedData[$day]['stock'] = $coal_plans + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
                                 $processedData[$day]['efective'] = $year_start_data + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
+
+
+                                $processedData[$day]['cumulative_stock_realitation'] = ($processedData[$day]['cumulative_stock_realitation'] ?? 0) + $processedData[$day]['efective'] + $dailyBedding;
                                 $year_start_data = $processedData[$day]['efective'];
                             }
                         }
@@ -1363,6 +1379,9 @@ class ReportBbmController extends Controller
                         $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
                         $processedData[$day]['stock'] = $coal_plans + (0 - $processedData[$day]['unit_1_7']);
                         $processedData[$day]['efective'] = $year_start_data + (0 - $processedData[$day]['unit_1_7']);
+
+
+                        $processedData[$day]['cumulative_stock_realitation'] = ($processedData[$day]['cumulative_stock_realitation'] ?? 0) + $processedData[$day]['efective'] + $dailyBedding;
                         $year_start_data = $processedData[$day]['efective'];
                     }
                 }
@@ -1385,6 +1404,8 @@ class ReportBbmController extends Controller
                 }
 
                 $coal_plans = CoalReceiptPlan::where('year', $year)->first();
+                $stock_opnames = StockOpname::all();
+
                 $units = Unit::select('id')->orderBy('id', 'asc')->get();
                 $i = 0;
 
@@ -1430,9 +1451,24 @@ class ReportBbmController extends Controller
                     $bbm_usage = CoalUsage::select('unit_id', 'amount_use', 'usage_date')->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
 
                     $fuel_adjustment = FuelAdjusment::select('usage_amount')->whereRaw('usage_date like ? AND type_adjusment = ?', ['%' . $receipt_date . '%', 'outcome'])->get();
+
+                    $monthlyBedding = 0;
+
+                    for ($j = 1; $j <= 31; $j++) {
+                        $newDate =  "$year-$months[$i]-" . str_pad($j, 2, "0", STR_PAD_LEFT);
+                        // Get Bedding
+                        $opnames = collect($stock_opnames)->filter(function ($opnames) use ($newDate) {
+                            return Str::contains($opnames->measurement_date, $newDate);
+                        })->first();
+
+                        if ($opnames) {
+                            $monthlyBedding = $opnames->bedding;
+                        }
+                    }
                     if (count($bbm_unloading) > 0) {
                         // Get BBM Usage with receipt date
                         foreach ($bbm_unloading as $key => $item) {
+
                             if ($receipt_date == ("$year-$months[$i]")) {
 
                                 $receipt_date = date('Y-m-d', strtotime($item->receipt_date));
@@ -1482,6 +1518,7 @@ class ReportBbmController extends Controller
                                 $processedData[$month]['receipt_date'] = date('d M Y', strtotime($item->receipt_date));
                                 $processedData[$month]['tug'] = $bbm_unloading->pluck('tug_3_accept')->sum();
                                 $processedData[$month]['efective'] = $year_start_data;
+                                $processedData[$month]['cumulative_stock_realitation'] = ($processedData[$month]['cumulative_stock_realitation'] ?? 0) + $processedData[$month]['efective'] + $monthlyBedding;
                                 $processedData[$month]['unit_1_4'] = array_sum([
                                     $processedData[$month]['unit_1'],
                                     $processedData[$month]['unit_2'],
@@ -1552,6 +1589,8 @@ class ReportBbmController extends Controller
 
                             $processedData[$month]['tug'] = $bbm_unloading->pluck('tug_3_accept')->sum();
                             $processedData[$month]['efective'] = $year_start_data;
+
+                            $processedData[$month]['cumulative_stock_realitation'] = ($processedData[$month]['cumulative_stock_realitation'] ?? 0) + $processedData[$month]['efective'] + $monthlyBedding;
                             $processedData[$month]['unit_1_4'] = array_sum([
                                 $processedData[$month]['unit_1'],
                                 $processedData[$month]['unit_2'],
