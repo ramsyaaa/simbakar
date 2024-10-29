@@ -268,6 +268,31 @@
                                                 <td class="px-4 py-2 border border-slate-900"></td>
                                             </tr>
                                         @endif
+                                        @if ($tug->type_tug == 'biomassa-receipt')
+                                        <tr>
+                                            <td class="px-4 py-2 border border-slate-900"></td>
+                                            <td class="px-4 py-2 border border-slate-900">
+                                                <table class="table-auto w-full">
+                                                    <tr>
+                                                        <td class="pr-4">Jenis Bahan Bakar </td>
+                                                        <td> : Biomassa</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pr-4">Nama Pemasok</td>
+                                                        <td> : {{$tug->biomassa->supplier->name ?? ''}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pr-4">Diterima</td>
+                                                        <td> : {{ number_format($tug->biomassa->detailReceipt->sum('volume') ?? 0) }} Kg</td>
+                                                    </tr>
+                                                </table>
+                                                
+                                            </td>
+                                            <td class="px-4 py-2 border border-slate-900">18.01.0306</td>
+                                            <td class="px-4 py-2 border border-slate-900">Kg</td>
+                                            <td class="px-4 py-2 border border-slate-900">{{ number_format($tug->biomassa->detailReceipt->sum('volume') ?? 0)}}</td>
+                                        </tr>
+                                    @endif
                                         </tbody>
                                         <tfoot>
                                             <tr>
