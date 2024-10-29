@@ -87,7 +87,7 @@
                             </div>
 
                     </div>
-                    <div id="my-pdf" style="display:block;">
+                    <div id="my-pdf" style="display:none;">
                         <div class="p-8" style="font-size: 0.9em;">
                             <div class="p-6 mx-auto my-auto">
                                 <div class="flex justify-between items-center">

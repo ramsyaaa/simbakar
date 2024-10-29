@@ -94,24 +94,36 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
-                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
-                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
-                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
-                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
-                                <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border border-slate-900 text-[#8A92A6]">#</th>
+                                <th class="border border-slate-900 text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border border-slate-900 text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border border-slate-900 text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border border-slate-900 text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border border-slate-900 text-[#8A92A6]">Nomor Pemesanan</th>
+                                <th class="border border-slate-900 text-[#8A92A6]">Nomor Pemesanan</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($tugs as $item)
                                 <tr>
-                                    <td class="text-[16px] font-normal border px-2 text-center">{{$loop->iteration}}</td>
+                                    <td class="text-[16px] font-normal border border-slate-900 px-2 text-center">{{$loop->iteration}}</td>
                                     @foreach ($item as $tug)
-                                        <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->tug_9_number ?? '' }}</td>
+                                        <td class="text-[16px] font-normal border border-slate-900 px-2 text-center">{{ $tug->tug_9_number ?? '' }}</td>
                                     @endforeach
                                 </tr>
                             @endforeach
+                               <!-- Fill in empty rows until minimum row count is reached -->
+                            @for ($i = count($tugs); $i < 30; $i++)
+                                <tr>
+                                    <td class="border border-slate-900 px-2 text-center">&nbsp;</td> <!-- Empty cell with border border-slate-900 -->
+                                    <td class="border border-slate-900 px-2 text-center">&nbsp;</td>
+                                    <td class="border border-slate-900 px-2 text-center">&nbsp;</td>
+                                    <td class="border border-slate-900 px-2 text-center">&nbsp;</td>
+                                    <td class="border border-slate-900 px-2 text-center">&nbsp;</td>
+                                    <td class="border border-slate-900 px-2 text-center">&nbsp;</td>
+                                    <td class="border border-slate-900 px-2 text-center">&nbsp;</td>
+                                </tr>
+                            @endfor
                         </tbody>
                     </table>
                     {{-- {{ $tugs->links() }} --}}
