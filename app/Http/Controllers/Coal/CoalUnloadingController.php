@@ -130,6 +130,7 @@ class CoalUnloadingController extends Controller
                 'unit' => 'Kg',
                 'type_fuel' => 'Batu Bara',
                 'coal_unloading_id' => $unloading->id,
+                'receipt_date' => $end_date
             ]);
 
             DB::commit();

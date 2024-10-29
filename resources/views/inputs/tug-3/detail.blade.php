@@ -31,6 +31,7 @@
                                                 <option {{$tug->type_fuel == 'Batu Bara' ? 'selected' :''}}> Batu Bara</option>
                                                 <option {{$tug->type_fuel == 'HSD / Solar' ? 'selected' :''}}> HSD / Solar</option>
                                                 <option {{$tug->type_fuel == 'MFO / Residu' ? 'selected' :''}}> MFO / Residu</option>
+                                                <option {{$tug->type_fuel == 'Biomassa' ? 'selected' :''}}> Biomassa</option>
                                             </select>
                                             @error('type_fuel')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
@@ -87,7 +88,7 @@
                             </div>
 
                     </div>
-                    <div id="my-pdf" style="display:none;">
+                    <div id="my-pdf" style="display:block;">
                         <div class="p-8" style="font-size: 0.9em;">
                             <div class="p-6 mx-auto my-auto">
                                 <div class="flex justify-between items-center">
@@ -146,6 +147,22 @@
                                                     </tr>
                                                 </table>
                                             @endif
+                                            @if ($tug->type_tug == 'biomassa-receipt')
+                                                <table class="table-auto w-full">
+                                                    <tr>
+                                                        <td class="pr-4">Diterima tanggal</td>
+                                                        <td class="font-bold"> : {{ date('d-m-Y', strtotime($tug->biomassa->date_receipt)) ?? ''}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pr-4">Dari</td>
+                                                        <td class="font-bold"> : UBP SURALAYA</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pr-4">Dengan</td>
+                                                        <td class="font-bold"> : Truck</td>
+                                                    </tr>
+                                                </table>
+                                            @endif
                                         </div>
                                         <div class="text-left">
                                             @if ($tug->type_tug == 'coal-unloading')
@@ -174,6 +191,23 @@
                                                 <tr>
                                                     <td class="pr-4">Diterima bon pengeluaran/surat pengantar no</td>
                                                     <td> :  {{$tug->bbm->order->order_number ?? ''}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Menurut surat pesanan/daftar permintaan no:</td>
+                                                    <td> : </td>
+                                                </tr>
+                                            </table>
+                                            
+                                            @endif
+                                            @if ($tug->type_tug == 'biomassa-receipt')
+                                            <table class="table-auto w-full">
+                                                <tr>
+                                                    <td class="pr-4">Pembelian ditempat lihat faktur / bukti kas no</td>
+                                                    <td> : </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Diterima bon pengeluaran/surat pengantar no</td>
+                                                    <td> : </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="pr-4">Menurut surat pesanan/daftar permintaan no:</td>
@@ -277,6 +311,34 @@
                                                 <td class="px-4 py-2 border border-slate-900">18.01.0323</td>
                                                 <td class="px-4 py-2 border border-slate-900">L</td>
                                                 <td class="px-4 py-2 border border-slate-900">{{ number_format($tug->bbm->amount_receipt)}}</td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                            </tr>
+                                        @endif
+                                        @if ($tug->type_tug == 'biomassa-receipt')
+                                            <tr>
+                                                <td class="px-4 py-2 border border-slate-900"></td>
+                                                <td class="px-4 py-2 border border-slate-900">
+                                                    <table class="table-auto w-full">
+                                                        <tr>
+                                                            <td class="pr-4">Jenis Bahan Bakar </td>
+                                                            <td> : Biomassa</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Nama Pemasok</td>
+                                                            <td> : {{$tug->biomassa->supplier->name ?? ''}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pr-4">Diterima</td>
+                                                            <td> : {{ number_format($tug->biomassa->detailReceipt->sum('volume') ?? 0) }} Kg</td>
+                                                        </tr>
+                                                    </table>
+                                                    
+                                                </td>
+                                                <td class="px-4 py-2 border border-slate-900">18.01.0306</td>
+                                                <td class="px-4 py-2 border border-slate-900">Kg</td>
+                                                <td class="px-4 py-2 border border-slate-900">{{ number_format($tug->biomassa->detailReceipt->sum('volume') ?? 0)}}</td>
                                                 <td class="px-4 py-2 border border-slate-900"></td>
                                                 <td class="px-4 py-2 border border-slate-900"></td>
                                                 <td class="px-4 py-2 border border-slate-900"></td>
