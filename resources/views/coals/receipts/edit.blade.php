@@ -17,10 +17,10 @@
                 </div>
             </div>
             <div class="bg-white rounded-lg p-6">
-                <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Data Analisa Kualitas</div>
+                <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Data Analisa Kuantitas</div>
 
                  <div class="p-4 bg-white rounded-lg w-full">
-                    <form onsubmit="return confirmSubmit(this, 'Update Data Analisa Kualitas ?')" action="{{route('coals.receipts.update-analytic',['id' => $receipt->id])}}" method="POST">
+                    <form onsubmit="return confirmSubmit(this, 'Update Data Analisa Kuantitas ?')" action="{{route('coals.receipts.update-analytic',['id' => $receipt->id])}}" method="POST">
                         @csrf
                         @method('PATCH')
                         <div class="lg:flex lg:gap-3">
@@ -90,7 +90,7 @@
                                 </div>
                             </div>
                             <div class="flex gap-3">
-                                <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Ubah data analysis kualitas</button>
+                                <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Simpan Data Tug</button>
                             </div>
                         </form>
 
