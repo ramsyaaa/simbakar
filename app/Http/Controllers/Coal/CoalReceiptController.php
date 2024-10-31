@@ -201,12 +201,12 @@ class CoalReceiptController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->back()->with('success', 'Data Tambahan TUG 3 berhasil di ubah.');
+            return redirect()->back()->with('success', 'Data Tambahan TUG 3 berhasil di simpan.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
 
-            return redirect()->back()->with('error','Data Tambahan TUG 3 gagal di ubah');
+            return redirect()->back()->with('error','Data Tambahan TUG 3 gagal di simpan');
         }
     }
     public function updateDetail(Request $request,$id)
@@ -307,12 +307,12 @@ class CoalReceiptController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->back()->with('success', 'Data Analisa Kualitas berhasil di ubah.');
+            return redirect()->back()->with('success', 'Data Analisa Kualitas berhasil di simpan.');
             
         } catch (\ValidationException $th) {
             DB::rollback();
 
-            return redirect()->back()->with('error','Data Analisa Kualitas gagal di ubah');
+            return redirect()->back()->with('error','Data Analisa Kualitas gagal di simpan');
         }
     }
 
