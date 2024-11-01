@@ -70,7 +70,7 @@ class TugElevenController extends Controller
                 $biomassa [] = $biomassaUsage == null ? 0 : $biomassaUsage;
             }
 
-            $coalOther = FuelAdjusment::where('type_fuel','Batu Bara')->when($request->date, function ($query) use ($request) {
+            $coalOther = FuelAdjusment::where('type_adjusment','outcome')->where('type_fuel','batubara')->when($request->date, function ($query) use ($request) {
                 $query->where('usage_date', $request->date);
             })->sum('usage_amount');
 
