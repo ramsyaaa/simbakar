@@ -161,7 +161,7 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="overflow-auto hide-scrollbar max-w-full">
+                    <div class="overflow-auto max-w-full">
                         <table class="min-w-max" id="table">
                             @if ($filter_type == 'day')
                                     <thead>
@@ -186,19 +186,19 @@
                                             <tr>
 
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{date('d-m-Y H:i:s', strtotime($coal->unloading_date))}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->ship->name}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->contract->contract_number}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->supplier->name}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->ship->name ?? ''}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->contract->contract_number ?? ''}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->supplier->name ?? ''}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->tug_3_accept)}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->origin}}</td>
                                                 @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->unloading,2)}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading != null ? number_format($coal->unloading, 2) : ''}}</td>
                                                 @endif
                                                 @if (in_array('loading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->loading,2)}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->loading != null ? number_format($coal->loading, 2) : ''}}</td>
                                                 @endif
                                                 @if (in_array('labor',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->labor,2)}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->labor != null ? number_format($coal->labor, 2) : ''}}</td>
                                                 @endif
                                             </tr>
                                         @endforeach

@@ -135,7 +135,7 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="overflow-auto hide-scrollbar max-w-full">
+                    <div class="overflow-auto max-w-full">
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
@@ -162,13 +162,13 @@
                                             {{ date('d-m-Y', strtotime($coal->receipt_date))}} 
                                         </td>
                                         @if (request('filter_type') != 'kontrak')
-                                            <td class="border  text-center">{{$coal->contract->contract_number}}</td>
+                                            <td class="border  text-center">{{$coal->contract->contract_number ?? ''}}</td>
                                         @endif
                                         <td class="border text-center">{{$coal->ship->name ?? ''}}</td>
                                         <td class="border text-center">{{number_format($coal->tug_3_accept)}}</td>
-                                        <td class="border text-center">{{$coal->loading}}</td>
-                                        <td class="border text-center">{{$coal->unloading}}</td>
-                                        <td class="border text-center">{{$coal->labor}}</td>
+                                        <td class="border text-center">{{$coal->loading != null ? number_format($coal->loading, 2) : ''}}</td>
+                                        <td class="border text-center">{{$coal->unloading != null ? number_format($coal->unloading, 2) : ''}}</td>
+                                        <td class="border text-center">{{$coal->labor != null ? number_format($coal->labor, 2) : ''}}</td>
                                     </tr>
                                 @endforeach
                                 <tr>
