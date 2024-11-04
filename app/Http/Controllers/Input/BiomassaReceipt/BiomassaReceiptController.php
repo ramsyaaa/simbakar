@@ -304,6 +304,9 @@ class BiomassaReceiptController extends Controller
         DetailUnloadingBiomassaReceipt::where([
             'biomassa_receipt_id' => $id,
         ])->delete();
+        AnalyticBiomassa::where([
+            'biomassa_receipt_id' => $id,
+        ])->delete();
 
         return redirect(route('inputs.biomassa_receipts.index'))->with('success', 'Penerimaan Biomassa berhasil dihapus.');
     }

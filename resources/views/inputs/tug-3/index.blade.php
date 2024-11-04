@@ -65,7 +65,7 @@
                             @foreach ($tugs as $tug)
                             <tr>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->created_at->format('d-m-Y')}}</td>    
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ date('d-m-Y', strtotime($tug->receipt_date)) }}</td>    
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->tug_number }}</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ number_format($tug->usage_amount) }}</td>
                                 <td class="text-[16px] font-normal border px-2 flex items-center justify-center gap-2">

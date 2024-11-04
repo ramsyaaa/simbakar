@@ -80,7 +80,6 @@
                             @endphp
                             @foreach ($bbm_receipt as $index => $item)
                             <tr>
-                                @dd($item->ship)
                                 @if($filter_type == 'day')
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ date('d-m-Y', strtotime($item->date_receipt)) }}</td>
                                 @endif
