@@ -196,7 +196,7 @@
 
                     <div class="bg-white display-table rounded-lg p-6">
                         <div class="overflow-auto hide-scrollbar max-w-full">
-                            <table class="w-full" id="table">
+                            <table class="min-w-max" id="table">
                                 <thead>
                                     <tr>
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">No</th>
@@ -249,8 +249,7 @@
                                         @endif
                                         @if (isset($type) && $type != 'year')
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">
-                                                Realisasi
-                                                Pemakaian
+                                                Kumulatif
                                             </th>
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">Stock
                                                 Efektif
@@ -332,7 +331,7 @@
                                             @endif
                                             @if (isset($type) && $type != 'year')
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ isset($item['unit_1_7']) ? formatNumber($item['unit_1_7']) : '-' }}
+                                                    {{ isset($item['cumulative_stock_realitation']) ? formatNumber($item['cumulative_stock_realitation']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                                     {{ isset($item['efective']) ? formatNumber($item['efective']) : '-' }}
@@ -403,7 +402,7 @@
                                             @endif
                                             @if (isset($type) && $type != 'year')
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(collect($bbm_unloading)->pluck('unit_1_7')->sum()) }}
+                                                    {{ formatNumber(collect($bbm_unloading)->pluck('cumulative_stock_realitation')->sum()) }}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
                                                     {{ formatNumber(collect($bbm_unloading)->pluck('efective')->sum()) }}

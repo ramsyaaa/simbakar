@@ -59,7 +59,7 @@
                             <tr>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->created_at->format('Y-m-d') }}</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->bpb_number }}</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->bpb_number }} {{$tug->user_inspections == null ? "-Data belum diedit-" : ''}}</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->tug_number }}</td>
                                 <td class="text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{route('inputs.tug-4.detail',['id' => $tug->id])}}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">

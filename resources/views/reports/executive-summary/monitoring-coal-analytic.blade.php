@@ -64,15 +64,23 @@
 
                     <div id="tahunan-fields" class="filter-field" style="display: none;">
                         <div class="flex gap-3">
-
                             <div class="w-full mb-4">
                                 <label for="start_year">Tahun Awal:</label>
-                                <input type="number" id="start_year" class="border h-[40px] w-full rounded-lg px-3" name="start_year" min="2000" max="2100" value="{{request('start_year')}}">
+                                <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <option value="">Tahun</option>
+                                    @for ($i = date('Y'); $i >= 2000; $i--)
+                                        <option {{request()->start_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    @endfor
+                                </select>
                             </div>
-
                             <div class="w-full mb-4">
                                 <label for="end_year">Tahun Akhir:</label>
-                                <input type="number" id="end_year" name="end_year" class="border h-[40px] w-full rounded-lg px-3"  min="2000" max="2100" value="{{request('end_year')}}">
+                                <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
+                                    <option value="">Tahun</option>
+                                    @for ($i = date('Y'); $i >= 2000; $i--)
+                                        <option {{request()->end_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    @endfor
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -127,7 +135,7 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="overflow-auto hide-scrollbar max-w-full">
+                    <div class="overflow-auto max-w-full">
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
@@ -154,13 +162,13 @@
                                             {{ date('d-m-Y', strtotime($coal->receipt_date))}} 
                                         </td>
                                         @if (request('filter_type') != 'kontrak')
-                                            <td class="border  text-center">{{$coal->contract->contract_number}}</td>
+                                            <td class="border  text-center">{{$coal->contract->contract_number ?? ''}}</td>
                                         @endif
                                         <td class="border text-center">{{$coal->ship->name ?? ''}}</td>
                                         <td class="border text-center">{{number_format($coal->tug_3_accept)}}</td>
-                                        <td class="border text-center">{{$coal->loading}}</td>
-                                        <td class="border text-center">{{$coal->unloading}}</td>
-                                        <td class="border text-center">{{$coal->labor}}</td>
+                                        <td class="border text-center">{{$coal->loading != null ? number_format($coal->loading, 2) : ''}}</td>
+                                        <td class="border text-center">{{$coal->unloading != null ? number_format($coal->unloading, 2) : ''}}</td>
+                                        <td class="border text-center">{{$coal->labor != null ? number_format($coal->labor, 2) : ''}}</td>
                                     </tr>
                                 @endforeach
                                 <tr>

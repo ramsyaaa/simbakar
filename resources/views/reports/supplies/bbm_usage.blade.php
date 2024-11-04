@@ -91,7 +91,7 @@
                     <div></div>
                 </div>
                 <div class="overflow-auto max-w-full">
-                    <table class="w-full" id="table">
+                    <table class="min-w-max" id="table">
                         <thead>
                             <tr>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">@if($filter_type == 'day') Tanggal @elseif($filter_type == 'month') Bulan @elseif($filter_type == 'year') Tahun @endif</th>
