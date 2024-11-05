@@ -262,7 +262,7 @@
                                             </td>
                                             @if ($type == 'year' || $type == 'month')
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ formatNumber(getTotalUnit($item)) }}
+                                                    {{ isset($item['unit_1_7']) ? formatNumber($item['unit_1_7'] - getTotalUnit($item)) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                                     {{ isset($item['stock']) ? formatNumber($item['stock']) : '-' }}
@@ -273,7 +273,7 @@
                                             @endif
                                             @if (isset($type) && $type == 'day')
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ formatNumber(getTotalUnit($item)) }}
+                                                    {{ isset($item['unit_1_7']) ? formatNumber($item['unit_1_7'] - getTotalUnit($item)) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                                     {{ isset($item['efective']) ? formatNumber($item['efective']) : '-' }}
