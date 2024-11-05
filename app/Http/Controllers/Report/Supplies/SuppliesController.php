@@ -147,6 +147,7 @@ class SuppliesController extends Controller
                     $perYear = [];
                     $bbm_receipt = [];
                     for ($i = $startYear; $i <= $endYear; $i++) {
+                        $bbm_usages = [];
                         $dataPerYear = $this->getKumulatif($i, $type_bbm);
                         $perYear[$i]['start_year_data_actual'] = $dataPerYear['start_year_data_actual'];
 
@@ -250,17 +251,17 @@ class SuppliesController extends Controller
                         $perYear[$i]['efective'] = end($dataPerYear['efective']);
                         $perYear[$i]['efective'] = end($perYear[$i]['efective']);
                     }
-                    $bbm_usages = [];
+                    $bbm_usagesFinal = [];
                     $cumulative = [];
                     $efective = [];
 
                     foreach ($perYear as $index => $item) {
-                        $bbm_usages[$index] = $item['bbm_usage'];
+                        $bbm_usagesFinal[$index] = $item['bbm_usage'];
                         $cumulative[$index] = $item['cumulative'];
                         $efective[$index] = $item['efective'];
                     }
 
-                    $data['bbm_usage'] = $bbm_usages;
+                    $data['bbm_usage'] = $bbm_usagesFinal;
                     $data['bbm_receipt'] = $bbm_receipt;
                     $data['cumulative'] = $cumulative;
                     $data['efective'] = $efective;
@@ -309,12 +310,14 @@ class SuppliesController extends Controller
             $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
             $daysBbmReceiptArray = [];
             $daysBbmUsageArray = [];
+            $daysBbmUsageFuelAdjusmentArray = [];
 
             // Inisialisasi array untuk setiap hari dalam bulan
             for ($day = 1; $day <= $daysInMonth; $day++) {
                 $date = sprintf('%04d-%02d-%02d', $tahun, $bulan, $day);
                 $daysBbmReceiptArray[$date] = 0.0;
                 $daysBbmUsageArray[$date] = 0.0;
+                $daysBbmUsageFuelAdjusmentArray[$date] = 0.0;
             }
 
             // Query untuk penerimaan BBM
@@ -361,7 +364,20 @@ class SuppliesController extends Controller
 
             // Menggabungkan hasil dari kedua query untuk format yang diinginkan
             $results = [];
-            foreach ($bbmUsageResults as $usage) {
+            $totalUsagePerDateFuelAddjusments = DB::table('fuel_adjusments')
+                ->select(DB::raw('DATE(usage_date) as usage_date'), DB::raw('SUM(usage_amount) as total_usage'))
+                ->where('type_fuel', $type)
+                ->where('type_adjusment', 'outcome')
+                ->whereYear('usage_date', $tahun)
+                ->whereMonth('usage_date', $bulan)
+                ->groupBy(DB::raw('DATE(usage_date)'))
+                ->get();
+                
+            foreach ($totalUsagePerDateFuelAddjusments as $result) {
+                $daysBbmUsageFuelAdjusmentArray[$result->usage_date] = $result->total_usage;
+            }
+                
+            foreach ($bbmUsageResults as $dateBbmUsage => $usage) {
                 // Filter unit usage berdasarkan tanggal
                 $unitList = $unitUsageResults->where('date', $usage->date)
                     ->map(function ($unit) {
@@ -386,10 +402,53 @@ class SuppliesController extends Controller
                 ];
             }
             
+            foreach ($daysBbmUsageFuelAdjusmentArray as $key => $fuelAdj) {
+                if (isset($results[$key])) {
+                    // Jika $results[$key] sudah ada
+                    $results[$key]['other'] += intval($fuelAdj);
+                    $results[$key]['total'] += intval($fuelAdj);
+                } else {
+                    // Jika $results[$key] belum ada
+                    $results[$key] = [
+                        'heavy_equipment' => 0,
+                        'other' => intval($fuelAdj),
+                        'unit' => [
+                            [
+                                'unit_name' => 1,
+                                'total_amount' => 0.0,
+                            ],
+                            [
+                                'unit_name' => 2,
+                                'total_amount' => 0.0,
+                            ],
+                            [
+                                'unit_name' => 3,
+                                'total_amount' => 0.0,
+                            ],
+                            [
+                                'unit_name' => 4,
+                                'total_amount' => 0.0,
+                            ],
+                            [
+                                'unit_name' => 5,
+                                'total_amount' => 0.0,
+                            ],
+                            [
+                                'unit_name' => 6,
+                                'total_amount' => 0.0,
+                            ],
+                            [
+                                'unit_name' => 7,
+                                'total_amount' => 0.0,
+                            ],
+                        ],
+                        'total' => intval($fuelAdj),
+                    ];
+                }
+            }
             // Memasukkan data ke dalam array hasil untuk bulan saat ini
             $data['bbm_receipt'][$bulan] = array_values($daysBbmReceiptArray);
             $data['bbm_usage'][$bulan] = array_values($results);
-
             $efective_actual = [];
             $cumulative_actual = [];
             foreach ($data['bbm_receipt'][$bulan] as $date => $receipt) {
