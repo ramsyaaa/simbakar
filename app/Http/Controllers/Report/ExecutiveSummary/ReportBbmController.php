@@ -911,8 +911,7 @@ class ReportBbmController extends Controller
                         $processedData[$year]['unit_5'],
                         $processedData[$year]['unit_6'],
                         $processedData[$year]['unit_7']
-                    ])
-                        + $processedData[$year]['other'];
+                    ]);
                     //     }
                     // }
                 }
