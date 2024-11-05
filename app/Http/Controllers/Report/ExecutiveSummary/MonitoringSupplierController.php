@@ -55,7 +55,7 @@ class MonitoringSupplierController extends Controller
                         // ->whereNotNull('analysis_loading_id')
                         // ->whereNotNull('analysis_unloading_id')
                         // ->whereNotNull('analysis_labor_id')
-                        ->orderBy('unloading_date','asc')->get();
+                        ->orderBy('receipt_date','asc')->get();
 
                     // Collect all related IDs to avoid repeated queries
                     $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();
@@ -103,7 +103,7 @@ class MonitoringSupplierController extends Controller
                         // ->whereNotNull('analysis_loading_id')
                         // ->whereNotNull('analysis_unloading_id')
                         // ->whereNotNull('analysis_labor_id')
-                        ->orderBy('unloading_date','asc')->get();
+                        ->orderBy('receipt_date','asc')->get();
                     
                     // Collect all related IDs to avoid repeated queries
                     $unloadingIds = $coalData->pluck('analysis_unloading_id')->unique();
@@ -177,7 +177,7 @@ class MonitoringSupplierController extends Controller
                         // ->whereNotNull('analysis_loading_id')
                         // ->whereNotNull('analysis_unloading_id')
                         // ->whereNotNull('analysis_labor_id')
-                        ->orderBy('unloading_date','asc')->get();
+                        ->orderBy('receipt_date','asc')->get();
                     
                     // Collect all related IDs to avoid repeated queries
                     $unloadingIds = $coalData->pluck('analysis_unloading_id')->unique();
