@@ -894,13 +894,6 @@ class ReportBbmController extends Controller
                         $index = "unit_" . ($unit_key + 1);
                         $processedData[$year][$index] = 0;
                         $processedData[$year][$index] = collect($bbmUsage)->where('unit_id', $unit->id)->pluck('amount_use')->sum();
-                        // dd($test);
-                        // foreach ($bbm_usage as $usage) {
-                        //     dd($usage);
-                        //     if ($unit->id == $usage->unit_id) {
-                        //         $processedData[$year][$index] = $processedData[$year][$index] + $usage->amount_use;
-                        //     }
-                        // }
                         $processedData[$year][$index] = $processedData[$year][$index] ?? 0;
                     }
 
@@ -1643,62 +1636,55 @@ class ReportBbmController extends Controller
             $bbm_usage = CoalUsage::select('unit_id', 'amount_use', 'usage_date')->get();
             $bbm_unloading = CoalUnloading::select('receipt_date', 'tug_3_accept')->get();
 
-            $fuel_adjustment = FuelAdjusment::select('usage_amount', 'usage_date')->get();
-
+            $fuel_adjustment = FuelAdjusment::select('usage_amount', 'usage_date')->where(['type_fuel' => 'batubara', 'type_adjusment' => 'outcome'])->get();
             foreach ($processedData as $year => $value) {
                 $coal_plans = CoalReceiptPlan::where('year', $year)->first();
                 $processedData[$year]['stock'] = $coal_plans ? getStock($coal_plans) : 0;
-                if (count($bbm_unloading) > 0) {
 
-                    $bbmUsage = collect($bbm_usage)->filter(function ($bbm) use ($year) {
-                        return Str::contains($bbm->usage_date, $year);
-                    });
-                    $bbmUnloading = collect($bbm_unloading)->filter(function ($bbm) use ($year) {
-                        return Str::contains($bbm->receipt_date, $year);
-                    });
-                    $fuelAdjustment = collect($fuel_adjustment)->filter(function ($bbm) use ($year) {
-                        return Str::contains($bbm->usage_date, $year);
-                    });
-                    // foreach ($bbmUnloading as $key => $item) {
-                    //     $receipt_date = date('Y', strtotime($item->receipt_date));
-                    //     if ($receipt_date == ("$year")) {
-                    // Get BBM Usage with receipt date
-                    // get All Unit Value
-                    foreach ($units as $unit_key => $unit) {
-                        $index = "unit_" . ($unit_key + 1);
-                        $processedData[$year][$index] = 0;
-                        $processedData[$year][$index] = collect($bbmUsage)->where('unit_id', $unit->id)->pluck('amount_use')->sum();
-                        // dd($test);
-                        // foreach ($bbm_usage as $usage) {
-                        //     dd($usage);
-                        //     if ($unit->id == $usage->unit_id) {
-                        //         $processedData[$year][$index] = $processedData[$year][$index] + $usage->amount_use;
-                        //     }
-                        // }
-                        $processedData[$year][$index] = $processedData[$year][$index] ?? 0;
-                    }
+                $bbmUsage = collect($bbm_usage)->filter(function ($bbm) use ($year) {
+                    return Str::contains($bbm->usage_date, $year);
+                });
+                $bbmUnloading = collect($bbm_unloading)->filter(function ($bbm) use ($year) {
+                    return Str::contains($bbm->receipt_date, $year);
+                });
+                $fuelAdjustment = collect($fuel_adjustment)->filter(function ($bbm) use ($year) {
+                    return Str::contains($bbm->usage_date, $year);
+                });
 
-                    $processedData[$year]['receipt_date'] = $year;
-                    $processedData[$year]['tug'] =
-                        $bbmUnloading->pluck('tug_3_accept')->sum();
-                    $processedData[$year]['other'] = $fuelAdjustment->pluck('usage_amount')->sum();
-                    $processedData[$year]['unit_5_7'] = array_sum([
-                        $processedData[$year]['unit_5'],
-                        $processedData[$year]['unit_6'],
-                        $processedData[$year]['unit_7']
-                    ]);
-                    $processedData[$year]['unit_1_7'] = array_sum([
-                        $processedData[$year]['unit_1'],
-                        $processedData[$year]['unit_2'],
-                        $processedData[$year]['unit_3'],
-                        $processedData[$year]['unit_4'],
-                        $processedData[$year]['unit_5'],
-                        $processedData[$year]['unit_6'],
-                        $processedData[$year]['unit_7']
-                    ]);
+                // Get BBM Usage with receipt date
+                // get All Unit Value
+                foreach ($units as $unit_key => $unit) {
+                    $index = "unit_" . ($unit_key + 1);
+                    $processedData[$year][$index] = 0;
+                    $processedData[$year][$index] = collect($bbmUsage)->where('unit_id', $unit->id)->pluck('amount_use')->sum();
+                    // dd($test);
+                    // foreach ($bbm_usage as $usage) {
+                    //     dd($usage);
+                    //     if ($unit->id == $usage->unit_id) {
+                    //         $processedData[$year][$index] = $processedData[$year][$index] + $usage->amount_use;
                     //     }
                     // }
+                    $processedData[$year][$index] = $processedData[$year][$index] ?? 0;
                 }
+
+                $processedData[$year]['receipt_date'] = $year;
+                $processedData[$year]['tug'] =
+                    $bbmUnloading->pluck('tug_3_accept')->sum() ?? 0;
+                $processedData[$year]['other'] = $fuelAdjustment->pluck('usage_amount')->sum();
+                $processedData[$year]['unit_5_7'] = array_sum([
+                    $processedData[$year]['unit_5'],
+                    $processedData[$year]['unit_6'],
+                    $processedData[$year]['unit_7']
+                ]);
+                $processedData[$year]['unit_1_7'] = array_sum([
+                    $processedData[$year]['unit_1'],
+                    $processedData[$year]['unit_2'],
+                    $processedData[$year]['unit_3'],
+                    $processedData[$year]['unit_4'],
+                    $processedData[$year]['unit_5'],
+                    $processedData[$year]['unit_6'],
+                    $processedData[$year]['unit_7']
+                ]) + $processedData[$year]['other'];
                 $i++;
             }
             return $processedData;
