@@ -96,7 +96,7 @@ class ReceiptController extends Controller
                         ];
                     }
 
-                    $data['bbm_receipt'] = $monthlyData;
+                    $data['bbm_receipt'] = (object) $monthlyData;
                     break;
 
             }

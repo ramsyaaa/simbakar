@@ -21,6 +21,14 @@ Route::get('/', function () {
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/query', 'HomeController@query')->name('query');
+Route::get('/labor', 'HomeController@labor')->name('labor');
+Route::get('/labor1', 'HomeController@labor1')->name('labor1');
+Route::get('/labor2', 'HomeController@labor2')->name('labor2');
+Route::get('/labor21', 'HomeController@labor21')->name('labor2');
+Route::get('/labor3', 'HomeController@labor3')->name('labor3');
+Route::get('/labor31', 'HomeController@labor31')->name('labor31');
+Route::get('/labor4', 'HomeController@labor4')->name('labor4');
+Route::get('/tug', 'HomeController@tug')->name('tug');
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate')->middleware('guest');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');

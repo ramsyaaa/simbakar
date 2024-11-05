@@ -46,6 +46,9 @@
                 <a href="{{ route('inputs.tug-9.index-other') }}" class="w-1/2 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
                     BBM lain lain
                 </a>
+                <a href="{{ route('inputs.tug-9.index-biomassa') }}" class="w-1/2 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
+                    Biomassa
+                </a>
             </div>
             <div class="bg-white rounded-lg p-6 h-full">
                 <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.tug-9.index-heavy') }}" method="GET" id="filterForm">
@@ -81,7 +84,7 @@
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->use_date }}</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->tug9_number }}</td>
-                                <td class="text-[16px] font-normal border px-2 text-center">{{ number_format($tug->amount_use) }}</td>
+                                <td class="text-[16px] font-normal border px-2 text-center">{{ number_format($tug->amount) }}</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->bbm_type }}</td>
                                 <td class="text-[16px] font-normal border px-2 text-center">{{ $tug->heavyEquipment->name ?? '' }}</td>
                                 <td class="text-[16px] font-normal border px-2 flex items-center justify-center gap-2">

@@ -60,7 +60,7 @@
                                     <th class="border border-gray-400 p-2" rowspan="2">Tanggal Penerimaan</th>
                                     <th class="border border-gray-400 p-2" rowspan="2">Nama Tongkang / Kapal</th>
                                     <th class="border border-gray-400 p-2" rowspan="2">No Faktur</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">UBL</th>
+                                    {{-- <th class="border border-gray-400 p-2" colspan="2">UBL</th> --}}
                                     <th class="border border-gray-400 p-2" colspan="2">Vol Faktur</th>
                                     <th class="border border-gray-400 p-2" colspan="2">UAL</th>
                                     <th class="border border-gray-400 p-2" colspan="2">Terima <br> Tongkang/Kapal</th>
@@ -68,8 +68,8 @@
                                     <th class="border border-gray-400 p-2" colspan="2">UAD</th>
                                 </tr>
                                 <tr>
-                                    <th class="border border-gray-400 p-2">Liter Obs</th>
-                                    <th class="border border-gray-400 p-2">Liter 15</th>
+                                    {{-- <th class="border border-gray-400 p-2">Liter Obs</th>
+                                    <th class="border border-gray-400 p-2">Liter 15</th> --}}
                                     <th class="border border-gray-400 p-2">Liter Obs</th>
                                     <th class="border border-gray-400 p-2">Liter 15</th>
                                     <th class="border border-gray-400 p-2">Liter Obs</th>
@@ -89,8 +89,8 @@
                                         <td class="border border-gray-400 p-2">{{\Carbon\Carbon::parse($item->date_receipt)->format('d-m-Y')}}</td>
                                         <td class="border border-gray-400 p-2">{{isset($item->ship->name) ? $item->ship->name : ''}}</td>
                                         <td class="border border-gray-400 p-2">{{$item->faktur_number}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($item->ubl_obs)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($item->ubl_ltr15)}}</td>
+                                        {{-- <td class="border border-gray-400 p-2">{{number_format($item->ubl_obs)}}</td>
+                                        <td class="border border-gray-400 p-2">{{number_format($item->ubl_ltr15)}}</td> --}}
                                         <td class="border border-gray-400 p-2">{{number_format($item->faktur_obs)}}</td>
                                         <td class="border border-gray-400 p-2">{{number_format($item->faktur_ltr15)}}</td>
                                         <td class="border border-gray-400 p-2">{{number_format($item->ual_obs)}}</td>

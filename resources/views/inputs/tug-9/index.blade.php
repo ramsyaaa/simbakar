@@ -46,6 +46,9 @@
                 <a href="{{ route('inputs.tug-9.index-other') }}" class="w-1/2 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
                     BBM lain lain
                 </a>
+                <a href="{{ route('inputs.tug-9.index-biomassa') }}" class="w-1/2 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
+                    Biomassa
+                </a>
             </div>
             <div class="bg-white rounded-lg p-6 h-full">
                 <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.tug-9.index-coal') }}" method="GET" id="filterForm">

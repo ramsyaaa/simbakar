@@ -203,7 +203,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td class="pr-4">ex.</td>
-                                                            <td> : {{$tug->coal->supplier->name}}</td>
+                                                            <td> : {{$tug->coal->supplier->name ?? ''}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="pr-4">Penerimaan Untuk</td>
@@ -211,7 +211,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td class="pr-4">Pelabuhan Asal</td>
-                                                            <td> : {{$tug->coal->originHarbor->name}}</td>
+                                                            <td> : {{$tug->coal->originHarbor->name ?? ''}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="pr-4">Draft Survey:</td>
@@ -253,7 +253,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td class="pr-4">Nama Agen</td>
-                                                            <td> : {{$tug->bbm->shipAgent->name}}</td>
+                                                            <td> : {{$tug->bbm->shipAgent->name ?? ''}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="pr-4">Volume Faktur:</td>

@@ -52,10 +52,10 @@ class MonitoringSupplierController extends Controller
                         })
                         ->whereMonth('receipt_date', $bulan)
                         ->whereYear('receipt_date', $tahun)
-                        ->whereNotNull('analysis_loading_id')
-                        ->whereNotNull('analysis_unloading_id')
-                        ->whereNotNull('analysis_labor_id')
-                        ->get();
+                        // ->whereNotNull('analysis_loading_id')
+                        // ->whereNotNull('analysis_unloading_id')
+                        // ->whereNotNull('analysis_labor_id')
+                        ->orderBy('receipt_date','asc')->get();
 
                     // Collect all related IDs to avoid repeated queries
                     $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();
@@ -76,16 +76,16 @@ class MonitoringSupplierController extends Controller
                         $labor = $labors->get($item->analysis_labor_id);
 
                         if ($request->basis == 'AR') {
-                            $item->unloading = $unloading->{$parameter->unit};
-                            $item->loading = $loading->{$parameter->unit};
-                            $item->labor = $labor->{$parameter->unit};
+                            $item->unloading = $unloading->{$parameter->unit} ?? null;
+                            $item->loading = $loading->{$parameter->unit} ?? null;
+                            $item->labor = $labor->{$parameter->unit} ?? null;
                         } else {
-                            $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit};
-                            $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $unloading->{$parameter->unit};
-                            $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit};
+                            $item->unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
+                            $item->loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
+                            $item->labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
                         }
 
-                        $item->origin = $loading->origin_of_goods;  // Use already fetched loading data
+                        $item->origin = $loading->origin_of_goods ?? '';  // Use already fetched loading data
                         return $item;
                     });
 
@@ -100,10 +100,10 @@ class MonitoringSupplierController extends Controller
                         $query->where('supplier_id', $request->supplier_id);
                     })
                         ->whereYear('receipt_date', $tahunInput)
-                        ->whereNotNull('analysis_loading_id')
-                        ->whereNotNull('analysis_unloading_id')
-                        ->whereNotNull('analysis_labor_id')
-                        ->get();
+                        // ->whereNotNull('analysis_loading_id')
+                        // ->whereNotNull('analysis_unloading_id')
+                        // ->whereNotNull('analysis_labor_id')
+                        ->orderBy('receipt_date','asc')->get();
                     
                     // Collect all related IDs to avoid repeated queries
                     $unloadingIds = $coalData->pluck('analysis_unloading_id')->unique();
@@ -131,13 +131,13 @@ class MonitoringSupplierController extends Controller
                             $labor = $labors->get($item->analysis_labor_id);
                     
                             if ($request->basis == 'AR') {
-                                $item->unloading = $unloading->{$parameter->unit};
-                                $item->loading = $loading->{$parameter->unit};
-                                $item->labor = $labor->{$parameter->unit};
+                                $item->unloading = $unloading->{$parameter->unit} ?? null;
+                                $item->loading = $loading->{$parameter->unit} ?? null;
+                                $item->labor = $labor->{$parameter->unit} ?? null;
                             } else {
-                                $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit};
-                                $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit};
-                                $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit};
+                                $item->unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
+                                $item->loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
+                                $item->labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
                             }
                             return $item;
                         });
@@ -174,10 +174,10 @@ class MonitoringSupplierController extends Controller
                         $query->where('supplier_id', $request->supplier_id);
                     })
                         ->whereBetween(DB::raw('YEAR(receipt_date)'), [$startYear, $endYear])
-                        ->whereNotNull('analysis_loading_id')
-                        ->whereNotNull('analysis_unloading_id')
-                        ->whereNotNull('analysis_labor_id')
-                        ->get();
+                        // ->whereNotNull('analysis_loading_id')
+                        // ->whereNotNull('analysis_unloading_id')
+                        // ->whereNotNull('analysis_labor_id')
+                        ->orderBy('receipt_date','asc')->get();
                     
                     // Collect all related IDs to avoid repeated queries
                     $unloadingIds = $coalData->pluck('analysis_unloading_id')->unique();
@@ -203,13 +203,13 @@ class MonitoringSupplierController extends Controller
                             $labor = $labors->get($item->analysis_labor_id);
                     
                             if ($request->basis == 'AR') {
-                                $item->unloading = $unloading->{$parameter->unit};
-                                $item->loading = $loading->{$parameter->unit};
-                                $item->labor = $labor->{$parameter->unit};
+                                $item->unloading = $unloading->{$parameter->unit} ?? null;
+                                $item->loading = $loading->{$parameter->unit} ?? null;
+                                $item->labor = $labor->{$parameter->unit} ?? null;
                             } else {
-                                $item->unloading = (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit};
-                                $item->loading = (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit};
-                                $item->labor = (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit};
+                                $item->unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
+                                $item->loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
+                                $item->labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
                             }
                             return $item;
                         });

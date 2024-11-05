@@ -7,6 +7,7 @@ use App\Unit;
 
 use App\BbmUsage;
 use App\Models\Tug;
+use App\BiomassaUsage;
 use App\HeavyEquipment;
 use App\Models\CoalUsage;
 use Illuminate\Http\Request;
@@ -113,6 +114,31 @@ class TugNineController extends Controller
         $tugs = BbmUsage::where('id',$id)->first();
         $data['tug'] = $tugs;
         return view('inputs.tug-9.detailOther',$data);
+
+    }
+
+    public function indexBiomassa(Request $request)
+    {
+        $tugs = BiomassaUsage::query();
+        $tugs->with('unit')->when($request->date, function ($query) use ($request) {
+            $date = explode('-', $request->date);
+            $query->whereYear('usage_date', $date[0]);
+            $query->whereMonth('usage_date', $date[1]);
+        })->when($request->unit, function ($query) use ($request) {
+            $query->where('unit_id', $request->unit);
+        });
+        $data['units'] = Unit::all();
+        $data['tugs'] = $tugs->latest()->paginate(10)->appends(request()->query());
+        return view('inputs.tug-9.indexBiomassa',$data);
+
+    }
+
+    public function detailBiomassa(Request $request,$id)
+    {
+        $tugs = BiomassaUsage::where('id',$id)->first();
+        $data['units'] = Unit::all();
+        $data['tug'] = $tugs;
+        return view('inputs.tug-9.detailBiomassa',$data);
 
     }
 

@@ -91,14 +91,20 @@
                     <div></div>
                 </div>
                 <div class="overflow-auto max-w-full">
-                    <table class="w-full" id="table">
+                    <table class="min-w-max w-full" id="table">
                         <thead>
                             <tr>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">@if($filter_type == 'day') Tanggal @elseif($filter_type == 'month') Bulan @elseif($filter_type == 'year') Tahun @endif</th>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Penerimaan (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="{{ 12 }}">Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif Sesuai TUG 9 (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" @if($filter_type != 'year') colspan="{{ 12 }}" @else rowspan="2" @endif>@if($filter_type != 'year') Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif Sesuai TUG 9 (Liter) @else Pemakaian @endif</th>
+                                @if($filter_type != 'year')
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Persediaan (Liter)</th>
+                                @else 
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Persediaan Awal Tahun</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Persediaan Akhir Tahun</th>
+                                @endif
                             </tr>
+                            @if($filter_type != 'year')
                             <tr>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Albes</th>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 1</th>
@@ -115,6 +121,7 @@
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Kumulatif</th>
                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Efektif</th>
                             </tr>
+                            @endif
                         </thead>
                         <tbody>
                             @foreach ($bbm_usage as $index => $item)
@@ -124,6 +131,7 @@
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day') {{ $index+1 }}-{{ $bulan }}-{{ $tahun }} @elseif($filter_type == 'month') {{ date('M', mktime(0, 0, 0, $index+1, 1)) }} @elseif($filter_type == 'year') {{ $index }} @endif</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm_receipt[$index], 0, '.', ',') }}</td>
+                                @if($filter_type != 'year')
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['heavy_equipment'], 0, '.', ',') }}</td>
                                 @if($filter_type == 'day')
                                     @php
@@ -177,9 +185,15 @@
                                 @endforeach
                                 @endif
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['other'], 0, '.', ',') }}</td>
+                                @endif
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['total'], 0, '.', ',') }}</td>
+                                @if($filter_type != 'year')
                                 <td class="h-[36px] text-[16px] font-normal border px-2"> @if($filter_type != 'year') @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($cumulative[$index - 1], 0) }} @endif @else {{ number_format($cumulative[$index], 0) }} @endif</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2"> @if($filter_type != 'year') @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($efective[$index - 1], 0) }} @endif @else {{ number_format($cumulative[$index], 0) }} @endif</td>
+                                @else
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm_start_year[$index] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2"> @if($filter_type != 'year') @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($efective[$index - 1], 0) }} @endif @else {{ number_format($cumulative[$index], 0) }} @endif</td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>

@@ -37,10 +37,10 @@ class MonitoringCoalAnalyticController extends Controller
                     $coals = CoalUnloading::with(['ship', 'supplier'])
                     ->where('supplier_id', $request->supplier_id)
                     ->where('contract_id', $request->contract_id)
-                    ->whereNotNull('analysis_loading_id')
-                    ->whereNotNull('analysis_unloading_id')
-                    ->whereNotNull('analysis_labor_id')
-                    ->get();
+                    // ->whereNotNull('analysis_loading_id')
+                    // ->whereNotNull('analysis_unloading_id')
+                    // ->whereNotNull('analysis_labor_id')
+                    ->orderBy('receipt_date','asc')->get();
                 
                     // Step 2: Collect all relevant analysis IDs to batch query related data
                     $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();
@@ -83,10 +83,10 @@ class MonitoringCoalAnalyticController extends Controller
                     $coals = CoalUnloading::with('ship','supplier','contract')->where('supplier_id',$request->supplier_id)
                     ->whereYear('receipt_date','>=', $request->start_year)
                     ->whereYear('receipt_date','<=', $request->end_year)
-                    ->whereNotNull('analysis_loading_id')
-                    ->whereNotNull('analysis_unloading_id')
-                    ->whereNotNull('analysis_labor_id')
-                    ->get();
+                    // ->whereNotNull('analysis_loading_id')
+                    // ->whereNotNull('analysis_unloading_id')
+                    // ->whereNotNull('analysis_labor_id')
+                    ->orderBy('receipt_date','asc')->get();
                 
                     // Step 2: Collect all relevant analysis IDs to batch query related data
                     $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();
@@ -134,10 +134,10 @@ class MonitoringCoalAnalyticController extends Controller
                     $endDate = "{$monthEnd[0]}-{$monthEnd[1]}-".date('t', strtotime($request->month_end));
                     $coals = CoalUnloading::with('ship','supplier','contract')->where('supplier_id',$request->supplier_id)
                     ->whereBetween('receipt_date', [$startDate, $endDate])
-                    ->whereNotNull('analysis_loading_id')
-                    ->whereNotNull('analysis_unloading_id')
-                    ->whereNotNull('analysis_labor_id')
-                    ->get();
+                    // ->whereNotNull('analysis_loading_id')
+                    // ->whereNotNull('analysis_unloading_id')
+                    // ->whereNotNull('analysis_labor_id')
+                    ->orderBy('receipt_date','asc')->get();
                 
                     // Step 2: Collect all relevant analysis IDs to batch query related data
                     $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();
