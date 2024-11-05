@@ -180,9 +180,14 @@ class CoalUsageController extends Controller
                 'tug_number' => $requestData['tug_9_number'],
                 'usage_amount' => $requestData['amount_use'],
             ]);
+            $coal = CoalUsage::where('id',$id)->first();
+
+            $date = Carbon::parse($coal->usage_date);
+            $month = $date->format('Y-m');
+            $day = $date->format('d');
 
             DB::commit();
-            return redirect(route('coals.usages.index'))->with('success', 'Pemakaian Batu Bara berhasil di ubah.');
+            return redirect(route('coals.usages.index',['date' => $month,'day'=>$day]))->with('success', 'Pemakaian Batu Bara berhasil di ubah.');
 
         } catch (\ValidationException $th) {
             DB::rollback();

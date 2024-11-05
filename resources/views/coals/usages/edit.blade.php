@@ -50,7 +50,7 @@
                                     <div class="w-full">
                                         <label for="amount_use" class="font-bold text-[#232D42] text-[16px]">Jumlah Pakai</label>
                                         <div class="relative">
-                                            <input required type="text" name="amount_use" value="{{old('amount_use', $usage->amount_use ?? '')}}" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <input required type="text" name="amount_use" value="{{old('amount_use', $usage->amount_use ?? '')}}" class="format-number w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             @error('amount_use')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
                                                 {{ $message }}
@@ -78,8 +78,12 @@
                             </div>
                         </div>
                             <div class="flex gap-3">
-
-                            <a href="{{route('coals.usages.index')}}" class="bg-[#C03221] text-center w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+                            @php
+                                $date = Carbon\Carbon::parse($usage->usage_date);
+                                $month = $date->format('Y-m');
+                                $day = $date->format('d');
+                            @endphp
+                            <a href="{{route('coals.usages.index',['date' => $month,'day'=>$day])}}" class="bg-[#C03221] text-center w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                             <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Ubah</button>
                         </div>
                     </div>

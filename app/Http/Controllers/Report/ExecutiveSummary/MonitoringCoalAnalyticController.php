@@ -40,7 +40,7 @@ class MonitoringCoalAnalyticController extends Controller
                     // ->whereNotNull('analysis_loading_id')
                     // ->whereNotNull('analysis_unloading_id')
                     // ->whereNotNull('analysis_labor_id')
-                    ->orderBy('end_date','asc')->get();
+                    ->orderBy('receipt_date','asc')->get();
                 
                     // Step 2: Collect all relevant analysis IDs to batch query related data
                     $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();
@@ -86,7 +86,7 @@ class MonitoringCoalAnalyticController extends Controller
                     // ->whereNotNull('analysis_loading_id')
                     // ->whereNotNull('analysis_unloading_id')
                     // ->whereNotNull('analysis_labor_id')
-                    ->orderBy('end_date','asc')->get();
+                    ->orderBy('receipt_date','asc')->get();
                 
                     // Step 2: Collect all relevant analysis IDs to batch query related data
                     $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();
@@ -137,7 +137,7 @@ class MonitoringCoalAnalyticController extends Controller
                     // ->whereNotNull('analysis_loading_id')
                     // ->whereNotNull('analysis_unloading_id')
                     // ->whereNotNull('analysis_labor_id')
-                    ->orderBy('end_date','asc')->get();
+                    ->orderBy('receipt_date','asc')->get();
                 
                     // Step 2: Collect all relevant analysis IDs to batch query related data
                     $unloadingIds = $coals->pluck('analysis_unloading_id')->unique();

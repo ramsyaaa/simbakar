@@ -20,12 +20,12 @@ class TugThreeController extends Controller
         $tugs->where('tug',3)
         ->when($request->date, function ($query) use ($request) {
             $date = explode('-', $request->date);
-            $query->whereYear('created_at', $date[0]);
-            $query->whereMonth('created_at', $date[1]);
+            $query->whereYear('receipt_date', $date[0]);
+            $query->whereMonth('receipt_date', $date[1]);
         })->when($request->fuel, function ($query) use ($request) {
             $query->where('type_fuel', $request->fuel);
         });
-        $data['tugs'] = $tugs->latest()->paginate(10)->appends(request()->query());
+        $data['tugs'] = $tugs->orderBy('receipt_date','desc')->paginate(10)->appends(request()->query());
         return view('inputs.tug-3.index',$data);
 
     }
