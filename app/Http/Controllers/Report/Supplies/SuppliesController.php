@@ -264,6 +264,21 @@ class SuppliesController extends Controller
                     $data['bbm_receipt'] = $bbm_receipt;
                     $data['cumulative'] = $cumulative;
                     $data['efective'] = $efective;
+
+                    $getYearStartData = YearStartData::where('type', $type_bbm)
+                        ->whereBetween('year', [$startYear, $endYear])
+                        ->pluck('actual', 'year') // Ambil kolom actual saja, dengan year sebagai kunci
+                        ->toArray(); // Konversi hasil menjadi array
+
+                    // Inisialisasi array hasil
+                    $result = [];
+
+                    // Iterasi setiap tahun dalam rentang startYear hingga endYear
+                    for ($year = $startYear; $year <= $endYear; $year++) {
+                        // Jika data ada di $getYearStartData, ambil nilai actual, jika tidak, beri nilai default 0
+                        $result[$year] = $getYearStartData[$year] ?? 0;
+                    }
+                    $data['bbm_start_year'] = $result;
                     
                     break;
             }

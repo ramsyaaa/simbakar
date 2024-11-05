@@ -98,14 +98,14 @@
                                 @endif
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format($item->faktur_obs, 0, '.', ',') }}@elseif($filter_type == 'month') {{ number_format($item['total_faktur_obs'], 0, '.', ',') }} @endif</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                    {{ number_format($item->amount_receipt, 0, '.', ',') }}
+                                    @if($filter_type == 'day'){{ number_format($item->amount_receipt, 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format($item['amount_receipt'], 0, '.', ',') }} @endif
                                 </td>
 
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format($item->faktur_ltr15, 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format($item['total_faktur_ltr15'], 0, '.', ',') }} @endif</td>
 
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format($item->liter_15_tug3, 0, '.', ',') }}@elseif($filter_type == 'month') {{ number_format($item['total_liter_15_tug3'], 0, '.', ',') }} @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format(($item->amount_receipt - intval($item->faktur_obs)), 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format(($item->amount_receipt - $item['total_faktur_obs']), 0, '.', ',') }} @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format((intval($item->faktur_obs) != 0 ? (($item->amount_receipt - intval($item->faktur_obs))/intval($item->faktur_obs))*100 : 0), 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format((intval($item['total_faktur_obs']) != 0 ? (($amount_receipt - intval($item['total_faktur_obs']))/intval($item['total_faktur_obs']))*100 : 0), 0, '.', ',') }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format(($item->amount_receipt - intval($item->faktur_obs)), 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format(($item['amount_receipt'] - $item['total_faktur_obs']), 0, '.', ',') }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format((intval($item->faktur_obs) != 0 ? (($item->amount_receipt - intval($item->faktur_obs))/intval($item->faktur_obs))*100 : 0), 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format((intval($item['total_faktur_obs']) != 0 ? (($item['amount_receipt'] - intval($item['total_faktur_obs']))/intval($item['total_faktur_obs']))*100 : 0), 0, '.', ',') }} @endif</td>
                                 @php
                                 if($filter_type == 'day'){
                                     $total[0] = $total[0] + intval($item->faktur_obs);
@@ -114,7 +114,7 @@
                                     $total[3] = $total[3] + intval($item->liter_15_tug3);
                                 }elseif($filter_type == 'month'){
                                     $total[0] = $total[0] + intval($item['total_faktur_obs']);
-                                    $total[1] = $total[1] + intval($item->amount_receipt);
+                                    $total[1] = $total[1] + intval($item['amount_receipt']);
                                     $total[2] = $total[2] + intval($item['total_faktur_ltr15']);
                                     $total[3] = $total[3] + intval($item['total_liter_15_tug3']);
                                 }
