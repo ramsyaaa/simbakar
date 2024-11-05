@@ -159,7 +159,7 @@
                                     <tr>
                                         <td class="border text-center">{{$loop->iteration}}</td>
                                         <td class="border text-center">
-                                            {{ date('d-m-Y', strtotime($coal->receipt_date))}} 
+                                            {{ date('d-m-Y', strtotime($coal->end_date))}} 
                                         </td>
                                         @if (request('filter_type') != 'kontrak')
                                             <td class="border  text-center">{{$coal->contract->contract_number ?? ''}}</td>

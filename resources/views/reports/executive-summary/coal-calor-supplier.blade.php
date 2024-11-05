@@ -185,7 +185,7 @@
                                         @foreach ($coals as $coal)
                                             <tr>
 
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{date('d-m-Y H:i:s', strtotime($coal->receipt_date))}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->ship->name ?? ''}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->contract->contract_number ?? ''}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->supplier->name ?? ''}}</td>
