@@ -285,7 +285,7 @@
                                             </td>
                                             @if ($type == 'year')
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ formatNumber(getTotalUnit($item)) }}
+                                                    {{ isset($item['unit_1_7']) ? formatNumber($item['unit_1_7']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                                     {{ isset($item['stock']) ? formatNumber($item['stock']) : '-' }}
