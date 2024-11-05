@@ -105,7 +105,16 @@
 
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format($item->liter_15_tug3, 0, '.', ',') }}@elseif($filter_type == 'month') {{ number_format($item['total_liter_15_tug3'], 0, '.', ',') }} @endif</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format(($item->amount_receipt - intval($item->faktur_obs)), 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format(($item['amount_receipt'] - $item['total_faktur_obs']), 0, '.', ',') }} @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day'){{ number_format((intval($item->faktur_obs) != 0 ? (($item->amount_receipt - intval($item->faktur_obs))/intval($item->faktur_obs))*100 : 0), 0, '.', ',') }} @elseif($filter_type == 'month') {{ number_format((intval($item['total_faktur_obs']) != 0 ? (($item['amount_receipt'] - intval($item['total_faktur_obs']))/intval($item['total_faktur_obs']))*100 : 0), 0, '.', ',') }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">
+                                    @if($filter_type == 'day')
+                                    @php
+                                        $selisih = (intval($item->faktur_obs) != 0 ? ((intval($item->amount_receipt) - intval($item->faktur_obs)) / intval($item->faktur_obs)) * 100 : 0);
+                                    @endphp
+                                    {{ number_format($selisih, 2) }} 
+                                    @elseif($filter_type == 'month') 
+                                    {{ number_format((intval($item['total_faktur_obs']) != 0 ? ((intval($item['amount_receipt']) - intval($item['total_faktur_obs']))/intval($item['total_faktur_obs']))*100 : 0), 2, '.', ',') }}
+                                    @endif
+                                </td>
                                 @php
                                 if($filter_type == 'day'){
                                     $total[0] = $total[0] + intval($item->faktur_obs);
@@ -128,7 +137,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[2], 0, '.', ',') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[3], 0, '.', ',') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format(($total[1] - $total[0]), 0, '.', ',') }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format(($total[0] != 0 ? (($total[1] - $total[0])/$total[0]) * 100 : 0), 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right"></td>
                             </tr>
                         </tbody>
                     </table>

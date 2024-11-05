@@ -20,6 +20,7 @@ use App\Supplier;
 use App\Models\Tug;
 use App\Unit;
 use DateTime;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -1797,12 +1798,14 @@ class ReportBbmController extends Controller
             $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
             $daysBbmReceiptArray = [];
             $daysBbmUsageArray = [];
+            $daysBbmUsageFuelAdjusmentArray = [];
 
             // Inisialisasi array untuk setiap hari dalam bulan
             for ($day = 1; $day <= $daysInMonth; $day++) {
                 $date = sprintf('%04d-%02d-%02d', $tahun, $bulan, $day);
                 $daysBbmReceiptArray[$date] = 0.0;
                 $daysBbmUsageArray[$date] = 0.0;
+                $daysBbmUsageFuelAdjusmentArray[$date] = 0.0;
             }
 
             // Query untuk penerimaan BBM
@@ -1827,9 +1830,31 @@ class ReportBbmController extends Controller
                 $daysBbmReceiptArray[$result->date] = $result->total_amount;
             }
 
+            $totalUsagePerDateFuelAddjusments = DB::table('fuel_adjusments')
+                ->select(DB::raw('DATE(usage_date) as usage_date'), DB::raw('SUM(usage_amount) as total_usage'))
+                ->where('type_fuel', $type)
+                ->where('type_adjusment', 'outcome')
+                ->whereYear('usage_date', $tahun)
+                ->whereMonth('usage_date', $bulan)
+                ->groupBy(DB::raw('DATE(usage_date)'))
+                ->get();
+                
+            foreach ($totalUsagePerDateFuelAddjusments as $result) {
+                $daysBbmUsageFuelAdjusmentArray[$result->usage_date] = $result->total_usage;
+            }
+
             // Mengisi array penggunaan BBM dengan hasil query
             foreach ($bbmUsageResults as $result) {
                 $daysBbmUsageArray[$result->date] = $result->total_amount;
+            }
+
+            foreach ($daysBbmUsageFuelAdjusmentArray as $key => $fuelAdj) {
+                if (isset($daysBbmUsageArray[$key])) {
+                    $daysBbmUsageArray[$key] += intval($fuelAdj);
+                } else {
+                    // Jika $results[$key] belum ada
+                    $daysBbmUsageArray[$key] = intval($fuelAdj);
+                }
             }
 
             // Memasukkan data ke dalam array hasil untuk bulan saat ini
