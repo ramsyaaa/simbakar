@@ -84,15 +84,15 @@
                     <div class="flex gap-4 w-full mb-4">
                         @if(!empty($analytic))
                             <div class="pt-1">
-                                <input class="mr-2 leading-tight" type="checkbox" id="inisiasidata-awal-tahun" name="analytic[]" value="unloading" {{ in_array('unloading', $analytic) ? 'checked' :''  }}>
-                                <label class="form-check-label" for="inisiasidata-awal-tahun">
-                                Unloading
-                                </label>
-                            </div>
-                            <div class="pt-1">
                                 <input class="mr-2 leading-tight" type="checkbox" id="inisiasipenerimaan-batu-bara" name="analytic[]" value="loading" {{ in_array('loading', $analytic) ? 'checked' :''  }}>
                                 <label class="form-check-label" for="inisiasipenerimaan-batu-bara">
                                 Loading
+                                </label>
+                            </div>
+                            <div class="pt-1">
+                                <input class="mr-2 leading-tight" type="checkbox" id="inisiasidata-awal-tahun" name="analytic[]" value="unloading" {{ in_array('unloading', $analytic) ? 'checked' :''  }}>
+                                <label class="form-check-label" for="inisiasidata-awal-tahun">
+                                Unloading
                                 </label>
                             </div>
                             <div class="pt-1">
@@ -103,16 +103,17 @@
                             </div>
                         @else
 
-                            <div class="pt-1">
-                                <input class="mr-2 leading-tight" type="checkbox" id="inisiasidata-awal-tahun" name="analytic[]" value="unloading" checked>
-                                <label class="form-check-label" for="inisiasidata-awal-tahun">
-                                Unloading
-                                </label>
-                            </div>
+                          
                             <div class="pt-1">
                                 <input class="mr-2 leading-tight" type="checkbox" id="inisiasipenerimaan-batu-bara" name="analytic[]" value="loading" checked>
                                 <label class="form-check-label" for="inisiasipenerimaan-batu-bara">
                                 Loading
+                                </label>
+                            </div>
+                            <div class="pt-1">
+                                <input class="mr-2 leading-tight" type="checkbox" id="inisiasidata-awal-tahun" name="analytic[]" value="unloading" checked>
+                                <label class="form-check-label" for="inisiasidata-awal-tahun">
+                                Unloading
                                 </label>
                             </div>
                             <div class="pt-1">
@@ -191,11 +192,11 @@
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->supplier->name ?? ''}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->tug_3_accept)}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->origin}}</td>
-                                                @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading != null ? number_format($coal->unloading, 2) : ''}}</td>
-                                                @endif
                                                 @if (in_array('loading',$analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->loading != null ? number_format($coal->loading, 2) : ''}}</td>
+                                                @endif
+                                                @if (in_array('unloading',$analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading != null ? number_format($coal->unloading, 2) : ''}}</td>
                                                 @endif
                                                 @if (in_array('labor',$analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->labor != null ? number_format($coal->labor, 2) : ''}}</td>
@@ -295,44 +296,36 @@
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="2">Rata Rata Tertimbang</td>
 
-                                            @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('unloading'),2) }}</td>
-                                            @endif
-
                                             @if (in_array('loading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('loading'),2) }}</td>
                                             @endif
-
+                                            @if (in_array('unloading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('unloading'),2) }}</td>
+                                            @endif  
                                             @if (in_array('labor', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="2">Hasil Analisa Tertinggi</td>
-
-                                            @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->max('unloading'),2) }}</td>
-                                            @endif
-
                                             @if (in_array('loading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->max('loading'),2) }}</td>
                                             @endif
-
+                                            @if (in_array('unloading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->max('unloading'),2) }}</td>
+                                            @endif
                                             @if (in_array('labor', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->max('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="2">Hasil Analisa Terendah</td>
-
-                                            @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->min('unloading'),2) }}</td>
-                                            @endif
-
                                             @if (in_array('loading', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->min('loading'),2) }}</td>
                                             @endif
-
+                                            @if (in_array('unloading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->min('unloading'),2) }}</td>
+                                            @endif
                                             @if (in_array('labor', $analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->min('labor'),2) }}</td>
                                             @endif
