@@ -166,7 +166,7 @@
                             @if ($filter_type == 'day')
                                     <thead>
                                         <tr>
-                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Tanggal Bongkar</th>
+                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Tanggal Selesai Bongkar</th>
                                             <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Nama Kapal</th>
                                             <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Nomor Kontrak</th>
                                             <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Pemasok</th>
@@ -185,7 +185,7 @@
                                         @foreach ($coals as $coal)
                                             <tr>
 
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{date('d-m-Y H:i:s', strtotime($coal->unloading_date))}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{date('d-m-Y H:i:s', strtotime($coal->receipt_date))}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->ship->name ?? ''}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->contract->contract_number ?? ''}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->supplier->name ?? ''}}</td>
