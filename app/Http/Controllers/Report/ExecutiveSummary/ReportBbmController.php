@@ -1635,8 +1635,7 @@ class ReportBbmController extends Controller
             $bbm_usage = CoalUsage::select('unit_id', 'amount_use', 'usage_date')->get();
             $bbm_unloading = CoalUnloading::select('receipt_date', 'tug_3_accept')->get();
 
-            $fuel_adjustment = FuelAdjusment::select('usage_amount', 'usage_date')->get();
-
+            $fuel_adjustment = FuelAdjusment::select('usage_amount', 'usage_date')->where(['type_fuel' => 'batubara', 'type_adjusment' => 'outcome'])->get();
             foreach ($processedData as $year => $value) {
                 $coal_plans = CoalReceiptPlan::where('year', $year)->first();
                 $processedData[$year]['stock'] = $coal_plans ? getStock($coal_plans) : 0;
