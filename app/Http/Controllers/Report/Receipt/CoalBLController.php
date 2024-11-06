@@ -36,12 +36,19 @@ class CoalBLController extends Controller
                     })
                     ->whereMonth('receipt_date',$date[1])
                     ->whereYear('receipt_date',$date[0])
+                    ->orderBy('receipt_date', 'ASC')
                     ->get()
                     ->map(function($item){
 
                         $selisih = $item->bl - $item->ds;
-                        $item->selisih_bl = $selisih ;
-                        $item->selisih_bl_percentage = ($selisih/$item->bl) * 100 ;
+                        if($item->bl == 0){
+                            $item->selisih_bl = $selisih ;
+                            $item->selisih_bl_percentage = 100 ;
+                        }else{
+                            $item->selisih_bl = $selisih ;
+                            $item->selisih_bl_percentage = ($selisih/$item->bl) * 100 ;
+                        }
+                        
 
                         $selisihBW = $item->ds - $item->bw;
                         $item->selisih_bw = $item->ds;
