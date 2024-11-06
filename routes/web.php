@@ -1,9 +1,11 @@
 <?php
 
+use App\BbmReceipt;
 use App\BbmUsage;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Scheduling\SchedulingPlanController;
+use App\Ship;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +86,27 @@ Route::get('/change-type-bbm', function(){
     BbmUsage::whereIn('tug9_number', $noTug9Array)->update([
         'bbm_type' => 'residu'
     ]);
+});
+
+Route::get('/update-ship-uuid', function(){
+    set_time_limit(10000);
+    $filePath = public_path('bbm_receipt.json');
+    $jsonData = file_get_contents($filePath);
+    $bbmReceipts = json_decode($jsonData, true); // Decode JSON menjadi array
+
+    foreach ($bbmReceipts as $receipt) {
+        $idPengiriman = $receipt['ID_PENGIRIMAN'];
+        $ship = Ship::where([
+            'ID_KAPAL' => $receipt['ID_KAPAL'],
+        ])->first();
+
+        // Cek apakah ID_PENGIRIMAN ada di tabel bbm_receipts
+        BbmReceipt::where('ID_PENGIRIMAN', $idPengiriman)->update([
+            'ship_uuid' => $ship->uuid ?? null,
+        ]);
+    }
+
+    echo "okee";
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
