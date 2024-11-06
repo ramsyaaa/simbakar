@@ -56,6 +56,56 @@ class HomeController extends Controller
                 }
     }
 
+    public function thn2006(){
+        DB::beginTransaction();
+        try {
+            $json = file_get_contents(public_path('2006.json'));
+       
+            $json_data =  json_decode( preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $json), true );
+            $kosong =[];
+            foreach ($json_data as $item){
+                $coal = CoalUnloading::where('tug_number',$item['NO_TUG3'])->first();
+                if($coal){
+                    $coal->tug_3_accept = $item['TERIMA'];
+                    $coal->save();
+                }else{
+                    $kosong [] = $item['NO_TUG3'];
+                }
+
+            }
+            dd($kosong);
+            DB::commit();
+            return 'ok';
+        } catch (\Throwable $th) {
+            DB::rollback();
+            throw $th;
+        }
+    }
+    public function thn2023(){
+        DB::beginTransaction();
+        try {
+            $json = file_get_contents(public_path('2023.json'));
+       
+            $json_data =  json_decode( preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $json), true );
+            $kosong =[];
+            foreach ($json_data as $item){
+                $coal = CoalUnloading::where('tug_number',$item['NO_TUG3'])->first();
+                if($coal){
+                    $coal->tug_3_accept = $item['TERIMA'];
+                    $coal->save();
+                }else{
+                    $kosong [] = $item['NO_TUG3'];
+                }
+
+            }
+            dd($kosong);
+            DB::commit();
+            return 'ok';
+        } catch (\Throwable $th) {
+            DB::rollback();
+            throw $th;
+        }
+    }
     public function labor(){
         DB::beginTransaction();
         try {

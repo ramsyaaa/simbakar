@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Administration;
 
+use App\BbmUsage;
 use App\Supplier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Controller;
 class DashboardController extends Controller
 {
     public function index(Request $request){
+        
         if (isset($request->filter_typeSchedule)) {
             // Cek apakah filter_typeSchedule adalah 'month'
             if ($request->filter_typeSchedule === 'month') {

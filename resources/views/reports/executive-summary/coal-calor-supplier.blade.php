@@ -84,15 +84,15 @@
                     <div class="flex gap-4 w-full mb-4">
                         @if(!empty($analytic))
                             <div class="pt-1">
-                                <input class="mr-2 leading-tight" type="checkbox" id="inisiasidata-awal-tahun" name="analytic[]" value="unloading" {{ in_array('unloading', $analytic) ? 'checked' :''  }}>
-                                <label class="form-check-label" for="inisiasidata-awal-tahun">
-                                Unloading
-                                </label>
-                            </div>
-                            <div class="pt-1">
                                 <input class="mr-2 leading-tight" type="checkbox" id="inisiasipenerimaan-batu-bara" name="analytic[]" value="loading" {{ in_array('loading', $analytic) ? 'checked' :''  }}>
                                 <label class="form-check-label" for="inisiasipenerimaan-batu-bara">
                                 Loading
+                                </label>
+                            </div>
+                            <div class="pt-1">
+                                <input class="mr-2 leading-tight" type="checkbox" id="inisiasidata-awal-tahun" name="analytic[]" value="unloading" {{ in_array('unloading', $analytic) ? 'checked' :''  }}>
+                                <label class="form-check-label" for="inisiasidata-awal-tahun">
+                                Unloading
                                 </label>
                             </div>
                             <div class="pt-1">
@@ -103,16 +103,17 @@
                             </div>
                         @else
 
-                            <div class="pt-1">
-                                <input class="mr-2 leading-tight" type="checkbox" id="inisiasidata-awal-tahun" name="analytic[]" value="unloading" checked>
-                                <label class="form-check-label" for="inisiasidata-awal-tahun">
-                                Unloading
-                                </label>
-                            </div>
+                          
                             <div class="pt-1">
                                 <input class="mr-2 leading-tight" type="checkbox" id="inisiasipenerimaan-batu-bara" name="analytic[]" value="loading" checked>
                                 <label class="form-check-label" for="inisiasipenerimaan-batu-bara">
                                 Loading
+                                </label>
+                            </div>
+                            <div class="pt-1">
+                                <input class="mr-2 leading-tight" type="checkbox" id="inisiasidata-awal-tahun" name="analytic[]" value="unloading" checked>
+                                <label class="form-check-label" for="inisiasidata-awal-tahun">
+                                Unloading
                                 </label>
                             </div>
                             <div class="pt-1">
@@ -189,16 +190,16 @@
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->ship->name ?? ''}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->contract->contract_number ?? ''}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->supplier->name ?? ''}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal->tug_3_accept)}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{round($coal->tug_3_accept)}}</td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->origin}}</td>
-                                                @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading != null ? number_format($coal->unloading, 2) : ''}}</td>
-                                                @endif
                                                 @if (in_array('loading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->loading != null ? number_format($coal->loading, 2) : ''}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->loading != null ? round($coal->loading, 2) : ''}}</td>
+                                                @endif
+                                                @if (in_array('unloading',$analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->unloading != null ? round($coal->unloading, 2) : ''}}</td>
                                                 @endif
                                                 @if (in_array('labor',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->labor != null ? number_format($coal->labor, 2) : ''}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal->labor != null ? round($coal->labor, 2) : ''}}</td>
                                                 @endif
                                             </tr>
                                         @endforeach
@@ -208,47 +209,53 @@
                                         </tr>
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan=6">Rata Rata Tertimbang</td>
+                                            @if (in_array('loading', $analytic))
+                                                @php
+                                                    $loadingavg = $coals->sum('sum_loading') / $coals->sum('tug_3_accept');
+                                                @endphp
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($loadingavg,2) }}</td>
+                                            @endif
 
                                             @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('unloading'),2) }}</td>
+                                                @php
+                                                    $unloadingavg = $coals->sum('sum_unloading') / $coals->sum('tug_3_accept');
+                                                @endphp
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($unloadingavg,2) }}</td>
                                             @endif
-
-                                            @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('loading'),2) }}</td>
-                                            @endif
-
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->avg('labor'),2) }}</td>
+                                                @php
+                                                    $laboravg = $coals->sum('sum_labor') / $coals->sum('tug_3_accept');
+                                                @endphp
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($laboravg,2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="6">Hasil Analisa Tertinggi</td>
-
-                                            @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('unloading'),2) }}</td>
-                                            @endif
-
                                             @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('loading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coals->max('loading'),2) }}</td>
                                             @endif
+                                            @if (in_array('unloading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coals->max('unloading'),2) }}</td>
+                                            @endif
+
+                                          
 
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('labor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coals->max('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="6">Hasil Analisa Terendah</td>
-
-                                            @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('unloading'),2) }}</td>
+                                            @if (in_array('loading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coals->min('loading'),2) }}</td>
                                             @endif
 
-                                            @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('loading'),2) }}</td>
+                                            @if (in_array('unloading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coals->min('unloading'),2) }}</td>
                                             @endif
 
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('labor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coals->min('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                     </tbody>
@@ -276,15 +283,15 @@
                                             <tr>
 
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['month']}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['tug_3_accept'])}}</td>
-                                                @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['unloading'],2)}}</td>
-                                                @endif
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{round($coal['tug_3_accept'])}}</td>
                                                 @if (in_array('loading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['loading'],2)}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{round($coal['loading'],2)}}</td>
+                                                @endif
+                                                @if (in_array('unloading',$analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{round($coal['unloading'],2)}}</td>
                                                 @endif
                                                 @if (in_array('labor',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['labor'],2)}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">{{round($coal['labor'],2)}}</td>
                                                 @endif
                                             </tr>
                                         @endforeach
@@ -295,46 +302,41 @@
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="2">Rata Rata Tertimbang</td>
 
-                                            @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('unloading'),2) }}</td>
-                                            @endif
-
                                             @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('loading'),2) }}</td>
+                                            @php
+                                                $loadingavg = $coalsCollection->sum('sum_loading') / $coalsCollection->sum('tug_3_accept');
+                                            @endphp
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($loadingavg,2) }}</td>
                                             @endif
-
+                                            @if (in_array('unloading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coalsCollection->avg('unloading'),2) }}</td>
+                                            @endif  
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('labor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coalsCollection->avg('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="2">Hasil Analisa Tertinggi</td>
-
-                                            @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->max('unloading'),2) }}</td>
-                                            @endif
-
                                             @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->max('loading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coalsCollection->max('loading'),2) }}</td>
                                             @endif
-
+                                            @if (in_array('unloading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coalsCollection->max('unloading'),2) }}</td>
+                                            @endif
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->max('labor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coalsCollection->max('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="2">Hasil Analisa Terendah</td>
-
-                                            @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->min('unloading'),2) }}</td>
-                                            @endif
-
                                             @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->min('loading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coalsCollection->where('loading','>',0)->min('loading'),2) }}</td>
                                             @endif
-
+                                            @if (in_array('unloading', $analytic))
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coalsCollection->where('unloading','>',0)->min('unloading'),2) }}</td>
+                                            @endif
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->min('labor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ round($coalsCollection->where('labor','>',0)->min('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                     </tbody>
