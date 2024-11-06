@@ -60,15 +60,38 @@ class MonitoringCoalAnalyticController extends Controller
                         $labor = $labors->get($item->analysis_labor_id);
                     
                         if ($request->basis == 'AR') {
-                            // Direct assignment of the parameter values
+                            
+                            $sum_unloading = isset($unloading) && $unloading->{$parameter->unit} !== null ? $item->tug_3_accept * $unloading->{$parameter->unit} : 0;
+
+                            $sum_loading = isset($loading) && $loading->{$parameter->unit} !== null ? $item->tug_3_accept * $loading->{$parameter->unit} : 0;
+
+                            $sum_labor = isset($labor) && $labor->{$parameter->unit} !== null ? $item->tug_3_accept * $labor->{$parameter->unit} : 0;
+
                             $item->unloading = $unloading->{$parameter->unit} ?? null;
                             $item->loading = $loading->{$parameter->unit} ?? null;
                             $item->labor = $labor->{$parameter->unit} ?? null;
+                            $item->sum_unloading = $sum_unloading;
+                            $item->sum_loading = $sum_loading;
+                            $item->sum_labor = $sum_labor;
                         } else {
-                            // Perform moisture adjustment calculations
-                            $item->unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
-                            $item->loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
-                            $item->labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
+
+                            $arb_unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
+                            $arb_loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
+                            $arb_labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
+
+                            $sum_unloading = $arb_unloading !== null ? $item->tug_3_accept * $arb_unloading : 0;
+
+                            $sum_loading =  $arb_loading !== null ? $item->tug_3_accept * $arb_loading : 0;
+
+                            $sum_labor = $arb_labor !== null ? $item->tug_3_accept * $arb_labor : 0;
+
+                            $item->unloading = $arb_unloading;
+                            $item->loading = $arb_loading;
+                            $item->labor = $arb_labor;
+                            $item->sum_unloading = $sum_unloading;
+                            $item->sum_loading = $sum_loading;
+                            $item->sum_labor = $sum_labor;
+                           
                         }
                     
                         return $item;
@@ -106,15 +129,38 @@ class MonitoringCoalAnalyticController extends Controller
                         $labor = $labors->get($item->analysis_labor_id);
                     
                         if ($request->basis == 'AR') {
-                            // Direct assignment of the parameter values
+                            
+                            $sum_unloading = isset($unloading) && $unloading->{$parameter->unit} !== null ? $item->tug_3_accept * $unloading->{$parameter->unit} : 0;
+
+                            $sum_loading = isset($loading) && $loading->{$parameter->unit} !== null ? $item->tug_3_accept * $loading->{$parameter->unit} : 0;
+
+                            $sum_labor = isset($labor) && $labor->{$parameter->unit} !== null ? $item->tug_3_accept * $labor->{$parameter->unit} : 0;
+
                             $item->unloading = $unloading->{$parameter->unit} ?? null;
                             $item->loading = $loading->{$parameter->unit} ?? null;
                             $item->labor = $labor->{$parameter->unit} ?? null;
+                            $item->sum_unloading = $sum_unloading;
+                            $item->sum_loading = $sum_loading;
+                            $item->sum_labor = $sum_labor;
                         } else {
-                            // Perform moisture adjustment calculations
-                            $item->unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
-                            $item->loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
-                            $item->labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
+
+                            $arb_unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
+                            $arb_loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
+                            $arb_labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
+
+                            $sum_unloading = $arb_unloading !== null ? $item->tug_3_accept * $arb_unloading : 0;
+
+                            $sum_loading =  $arb_loading !== null ? $item->tug_3_accept * $arb_loading : 0;
+
+                            $sum_labor = $arb_labor !== null ? $item->tug_3_accept * $arb_labor : 0;
+
+                            $item->unloading = $arb_unloading;
+                            $item->loading = $arb_loading;
+                            $item->labor = $arb_labor;
+                            $item->sum_unloading = $sum_unloading;
+                            $item->sum_loading = $sum_loading;
+                            $item->sum_labor = $sum_labor;
+                           
                         }
                     
                         return $item;
@@ -157,15 +203,38 @@ class MonitoringCoalAnalyticController extends Controller
                         $labor = $labors->get($item->analysis_labor_id);
                     
                         if ($request->basis == 'AR') {
-                            // Direct assignment of the parameter values
+                            
+                            $sum_unloading = isset($unloading) && $unloading->{$parameter->unit} !== null ? $item->tug_3_accept * $unloading->{$parameter->unit} : 0;
+
+                            $sum_loading = isset($loading) && $loading->{$parameter->unit} !== null ? $item->tug_3_accept * $loading->{$parameter->unit} : 0;
+
+                            $sum_labor = isset($labor) && $labor->{$parameter->unit} !== null ? $item->tug_3_accept * $labor->{$parameter->unit} : 0;
+
                             $item->unloading = $unloading->{$parameter->unit} ?? null;
                             $item->loading = $loading->{$parameter->unit} ?? null;
                             $item->labor = $labor->{$parameter->unit} ?? null;
+                            $item->sum_unloading = $sum_unloading;
+                            $item->sum_loading = $sum_loading;
+                            $item->sum_labor = $sum_labor;
                         } else {
-                            // Perform moisture adjustment calculations
-                            $item->unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
-                            $item->loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
-                            $item->labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
+
+                            $arb_unloading = isset($unloading) ? (100 - $unloading->moisture_total) / (100 - $unloading->air_dried_moisture) * $unloading->{$parameter->unit} : null;
+                            $arb_loading = isset($loading) ? (100 - $loading->moisture_total) / (100 - $loading->air_dried_moisture) * $loading->{$parameter->unit} : null;
+                            $arb_labor = isset($labor) ? (100 - $labor->moisture_total) / (100 - $labor->air_dried_moisture) * $labor->{$parameter->unit} : null;
+
+                            $sum_unloading = $arb_unloading !== null ? $item->tug_3_accept * $arb_unloading : 0;
+
+                            $sum_loading =  $arb_loading !== null ? $item->tug_3_accept * $arb_loading : 0;
+
+                            $sum_labor = $arb_labor !== null ? $item->tug_3_accept * $arb_labor : 0;
+
+                            $item->unloading = $arb_unloading;
+                            $item->loading = $arb_loading;
+                            $item->labor = $arb_labor;
+                            $item->sum_unloading = $sum_unloading;
+                            $item->sum_loading = $sum_loading;
+                            $item->sum_labor = $sum_labor;
+                           
                         }
                     
                         return $item;

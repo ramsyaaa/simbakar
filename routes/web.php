@@ -111,6 +111,9 @@ Route::get('/update-ship-uuid', function(){
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/query', 'HomeController@query')->name('query');
+Route::get('/zer', 'HomeController@zer')->name('zer');
+Route::get('/thn2006', 'HomeController@thn2006')->name('thn2006');
+Route::get('/thn2023', 'HomeController@thn2023')->name('thn2023');
 Route::get('/labor', 'HomeController@labor')->name('labor');
 Route::get('/labor1', 'HomeController@labor1')->name('labor1');
 Route::get('/labor2', 'HomeController@labor2')->name('labor2');
