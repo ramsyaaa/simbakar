@@ -619,6 +619,11 @@ class ReportBbmController extends Controller
 
                                 $processedData[$day]['cumulative_stock_realitation'] = ($processedData[$day]['cumulative_stock_realitation'] ?? 0) + $processedData[$day]['efective'] + $dailyBedding;
                                 $year_start_data = $processedData[$day]['efective'];
+
+
+
+                                $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'];
+                                $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
                             }
                         }
                     } else {
@@ -666,7 +671,12 @@ class ReportBbmController extends Controller
 
                         $processedData[$day]['cumulative_stock_realitation'] = ($processedData[$day]['cumulative_stock_realitation'] ?? 0) + $processedData[$day]['efective'] + $dailyBedding;
                         $year_start_data = $processedData[$day]['efective'];
+
+
+                        $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'];
+                        $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
                     }
+                    $year_start_data = $processedData[$day]['cumulative'];
                 }
             }
 
@@ -823,6 +833,9 @@ class ReportBbmController extends Controller
                                     $processedData[$month]['unit_6'],
                                     $processedData[$month]['unit_7']
                                 ]) + $processedData[$month]['other'];
+
+                                $processedData[$month]['cumulative'] = $year_start_data + $processedData[$month]['tug'] -  $processedData[$month]['unit_1_7'];
+                                $processedData[$month]['efective'] = $processedData[$month]['cumulative'] - 150000000;
                             }
                         }
                     } else {
@@ -895,8 +908,12 @@ class ReportBbmController extends Controller
                                 $processedData[$month]['unit_6'],
                                 $processedData[$month]['unit_7']
                             ]) + $processedData[$month]['other'];
+
+                            $processedData[$month]['cumulative'] = $year_start_data + $processedData[$month]['tug'] -  $processedData[$month]['unit_1_7'];
+                            $processedData[$month]['efective'] = $processedData[$month]['cumulative'] - 150000000;
                         }
                     }
+                    $year_start_data = $processedData[$month]['cumulative'];
                     $i++;
                 }
             }
@@ -927,6 +944,8 @@ class ReportBbmController extends Controller
 
             $fuel_adjustment = FuelAdjusment::select('usage_amount', 'usage_date')->where(['type_fuel' => 'batubara'])->get();
             foreach ($processedData as $year => $value) {
+                $year_start_data = YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
+                if ($year_start_data) $year_start_data = $year_start_data->actual;
                 $coal_plans = CoalReceiptPlan::where('year', $year)->first();
                 $processedData[$year]['stock'] = $coal_plans ? getStock($coal_plans) : 0;
 
@@ -974,6 +993,11 @@ class ReportBbmController extends Controller
                     $processedData[$year]['unit_6'],
                     $processedData[$year]['unit_7']
                 ]) + $processedData[$year]['other'];
+
+                $processedData[$year]['cumulative'] = $year_start_data + $processedData[$year]['tug'] -  $processedData[$year]['unit_1_7'];
+                $processedData[$year]['efective'] = $processedData[$year]['tug'] -  $processedData[$year]['unit_1_7'] +
+                    $processedData[$year]['cumulative'];
+                $year_start_data = $processedData[$year]['cumulative'];
                 $i++;
             }
             return $processedData;
@@ -1386,8 +1410,8 @@ class ReportBbmController extends Controller
                                 $processedData[$day]['efective'] = $year_start_data + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
 
 
-                                $processedData[$day]['cumulative_stock_realitation'] = ($processedData[$day]['cumulative_stock_realitation'] ?? 0) + $processedData[$day]['efective'] + $dailyBedding;
-                                $year_start_data = $processedData[$day]['efective'];
+                                $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'] - $processedData[$day]['other'];
+                                $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
                             }
                         }
                     } else {
@@ -1433,8 +1457,12 @@ class ReportBbmController extends Controller
 
 
                         $processedData[$day]['cumulative_stock_realitation'] = ($processedData[$day]['cumulative_stock_realitation'] ?? 0) + $processedData[$day]['efective'] + $dailyBedding;
-                        $year_start_data = $processedData[$day]['efective'];
+
+
+                        $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'] - $processedData[$day]['other'];
+                        $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
                     }
+                    $year_start_data = $processedData[$day]['cumulative'];
                 }
             }
 
@@ -1549,7 +1577,6 @@ class ReportBbmController extends Controller
                                             $data_daily[$j]['unit_6'],
                                             $data_daily[$j]['unit_7']
                                         ]);
-                                        $year_start_data = intval($year_start_data) + $realization - $actual;
                                     }
                                 }
                                 // dd(number_format($year_start_data));
@@ -1591,80 +1618,84 @@ class ReportBbmController extends Controller
                                     $processedData[$month]['unit_7']
                                 ]);
                                 $processedData[$month]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
+
+                                $processedData[$month]['cumulative'] = $year_start_data + $processedData[$month]['tug'] -  $processedData[$month]['unit_1_7'] - $processedData[$month]['other'];
+                                $processedData[$month]['efective'] = $processedData[$month]['cumulative'] - 150000000;
                             }
                         }
                     } else {
-                        if ($receipt_date == ("$year-$months[$i]")) {
 
-                            for ($j = 1; $j <= 31; $j++) {
-                                if ($receipt_date == "$year-$months[$i]-" . str_pad($j, 2, "0", STR_PAD_LEFT)) {
-                                    $bbmUsage = collect($bbm_usage)->filter(function ($bbm) use ($receipt_date) {
-                                        return Str::contains($bbm->usage_date, $receipt_date);
-                                    });
-                                    foreach ($units as $unit_key => $unit) {
-                                        $index = "unit_" . ($unit_key + 1);
-                                        $data_daily[$j][$index] = 0;
-                                        foreach ($bbmUsage as $usage) {
-                                            if ($unit->id == $usage->unit_id) {
-                                                $data_daily[$j][$index] = $data_daily[$j][$index] + $usage->amount_use;
-                                            }
+                        for ($j = 1; $j <= 31; $j++) {
+                            if ($receipt_date == "$year-$months[$i]-" . str_pad($j, 2, "0", STR_PAD_LEFT)) {
+                                $bbmUsage = collect($bbm_usage)->filter(function ($bbm) use ($receipt_date) {
+                                    return Str::contains($bbm->usage_date, $receipt_date);
+                                });
+                                foreach ($units as $unit_key => $unit) {
+                                    $index = "unit_" . ($unit_key + 1);
+                                    $data_daily[$j][$index] = 0;
+                                    foreach ($bbmUsage as $usage) {
+                                        if ($unit->id == $usage->unit_id) {
+                                            $data_daily[$j][$index] = $data_daily[$j][$index] + $usage->amount_use;
                                         }
-                                        $data_daily[$j][$index] = $data_daily[$j][$index] ?? 0;
                                     }
-                                    $realization = 0;
-                                    $actual = array_sum([
-                                        $data_daily[$j]['unit_1'],
-                                        $data_daily[$j]['unit_2'],
-                                        $data_daily[$j]['unit_3'],
-                                        $data_daily[$j]['unit_4'],
-                                        $data_daily[$j]['unit_5'],
-                                        $data_daily[$j]['unit_6'],
-                                        $data_daily[$j]['unit_7']
-                                    ]);
-                                    $year_start_data = intval($year_start_data) + $realization - $actual;
+                                    $data_daily[$j][$index] = $data_daily[$j][$index] ?? 0;
                                 }
+                                $realization = 0;
+                                $actual = array_sum([
+                                    $data_daily[$j]['unit_1'],
+                                    $data_daily[$j]['unit_2'],
+                                    $data_daily[$j]['unit_3'],
+                                    $data_daily[$j]['unit_4'],
+                                    $data_daily[$j]['unit_5'],
+                                    $data_daily[$j]['unit_6'],
+                                    $data_daily[$j]['unit_7']
+                                ]);
+                                // $year_start_data = intval($year_start_data) + $realization - $actual;
                             }
-                            // dd(number_format($year_start_data));
-
-
-                            // get All Unit Value
-                            foreach ($units as $unit_key => $unit) {
-                                $index = "unit_" . ($unit_key + 1);
-                                $processedData[$month][$index] = 0;
-                                foreach ($bbm_usage as $usage) {
-                                    if ($unit->id == $usage->unit_id) $processedData[$month][$index] = $processedData[$month][$index] + $usage->amount_use;
-                                }
-                                $processedData[$month][$index] = $processedData[$month][$index] ?? 0;
-                            }
-
-
-                            $processedData[$month]['tug'] = $bbm_unloading->pluck('tug_3_accept')->sum();
-                            $processedData[$month]['efective'] = $year_start_data;
-
-                            $processedData[$month]['cumulative_stock_realitation'] = ($processedData[$month]['cumulative_stock_realitation'] ?? 0) + $processedData[$month]['efective'] + $monthlyBedding;
-                            $processedData[$month]['unit_1_4'] = array_sum([
-                                $processedData[$month]['unit_1'],
-                                $processedData[$month]['unit_2'],
-                                $processedData[$month]['unit_3'],
-                                $processedData[$month]['unit_4']
-                            ]);
-                            $processedData[$month]['unit_5_7'] = array_sum([
-                                $processedData[$month]['unit_5'],
-                                $processedData[$month]['unit_6'],
-                                $processedData[$month]['unit_7']
-                            ]);
-                            $processedData[$month]['unit_1_7'] = array_sum([
-                                $processedData[$month]['unit_1'],
-                                $processedData[$month]['unit_2'],
-                                $processedData[$month]['unit_3'],
-                                $processedData[$month]['unit_4'],
-                                $processedData[$month]['unit_5'],
-                                $processedData[$month]['unit_6'],
-                                $processedData[$month]['unit_7']
-                            ]);
-                            $processedData[$month]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
                         }
+
+                        // get All Unit Value
+                        foreach ($units as $unit_key => $unit) {
+                            $index = "unit_" . ($unit_key + 1);
+                            $processedData[$month][$index] = 0;
+                            foreach ($bbm_usage as $usage) {
+                                if ($unit->id == $usage->unit_id) $processedData[$month][$index] = $processedData[$month][$index] + $usage->amount_use;
+                            }
+                            $processedData[$month][$index] = $processedData[$month][$index] ?? 0;
+                        }
+
+
+                        $processedData[$month]['tug'] = $bbm_unloading->pluck('tug_3_accept')->sum();
+                        $processedData[$month]['efective'] = $year_start_data;
+
+                        $processedData[$month]['cumulative_stock_realitation'] = ($processedData[$month]['cumulative_stock_realitation'] ?? 0) + $processedData[$month]['efective'] + $monthlyBedding;
+                        $processedData[$month]['unit_1_4'] = array_sum([
+                            $processedData[$month]['unit_1'],
+                            $processedData[$month]['unit_2'],
+                            $processedData[$month]['unit_3'],
+                            $processedData[$month]['unit_4']
+                        ]);
+                        $processedData[$month]['unit_5_7'] = array_sum([
+                            $processedData[$month]['unit_5'],
+                            $processedData[$month]['unit_6'],
+                            $processedData[$month]['unit_7']
+                        ]);
+                        $processedData[$month]['unit_1_7'] = array_sum([
+                            $processedData[$month]['unit_1'],
+                            $processedData[$month]['unit_2'],
+                            $processedData[$month]['unit_3'],
+                            $processedData[$month]['unit_4'],
+                            $processedData[$month]['unit_5'],
+                            $processedData[$month]['unit_6'],
+                            $processedData[$month]['unit_7']
+                        ]);
+                        $processedData[$month]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
+
+                        $processedData[$month]['cumulative'] = $year_start_data + $processedData[$month]['tug'] -  $processedData[$month]['unit_1_7'] - $processedData[$month]['other'];
+                        $processedData[$month]['efective'] = $processedData[$month]['cumulative'] - 150000000;
                     }
+                    $year_start_data = $processedData[$month]['cumulative'];
+
                     $i++;
                 }
             }
@@ -1695,6 +1726,9 @@ class ReportBbmController extends Controller
 
             $fuel_adjustment = FuelAdjusment::select('usage_amount', 'usage_date')->where(['type_fuel' => 'batubara'])->get();
             foreach ($processedData as $year => $value) {
+
+                $year_start_data = YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
+                if ($year_start_data) $year_start_data = $year_start_data->actual;
                 $coal_plans = CoalReceiptPlan::where('year', $year)->first();
                 $processedData[$year]['stock'] = $coal_plans ? getStock($coal_plans) : 0;
 
@@ -1742,7 +1776,11 @@ class ReportBbmController extends Controller
                     $processedData[$year]['unit_6'],
                     $processedData[$year]['unit_7']
                 ]) + $processedData[$year]['other'];
-                $i++;
+
+                $processedData[$year]['cumulative'] = $year_start_data + $processedData[$year]['tug'] -  $processedData[$year]['unit_1_7'];
+                $processedData[$year]['efective'] = $processedData[$year]['tug'] -  $processedData[$year]['unit_1_7'] +
+                    $processedData[$year]['cumulative'];
+                $year_start_data = $processedData[$year]['cumulative'];
             }
             return $processedData;
         }
@@ -1838,7 +1876,7 @@ class ReportBbmController extends Controller
                 ->whereMonth('usage_date', $bulan)
                 ->groupBy(DB::raw('DATE(usage_date)'))
                 ->get();
-                
+
             foreach ($totalUsagePerDateFuelAddjusments as $result) {
                 $daysBbmUsageFuelAdjusmentArray[$result->usage_date] = $result->total_usage;
             }
