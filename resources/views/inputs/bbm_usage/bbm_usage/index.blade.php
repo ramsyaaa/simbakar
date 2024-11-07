@@ -80,7 +80,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ \Carbon\Carbon::parse($item->use_date)->format('d/m/Y') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->tug9_number }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->amount }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item->amount) }}</td>
                                 @if($bbm_use_for == 'unit')
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->unit != null ? $item->unit->name : '-' }}</td>
                                 @endif
