@@ -994,10 +994,9 @@ class ReportBbmController extends Controller
                     $processedData[$year]['unit_7']
                 ]) + $processedData[$year]['other'];
 
-                $processedData[$year]['cumulative'] = $year_start_data + $processedData[$year]['tug'] -  $processedData[$year]['unit_1_7'];
+                $processedData[$year]['cumulative'] = $year_start_data;
                 $processedData[$year]['efective'] = $processedData[$year]['tug'] -  $processedData[$year]['unit_1_7'] +
                     $processedData[$year]['cumulative'];
-                $year_start_data = $processedData[$year]['cumulative'];
                 $i++;
             }
             return $processedData;
@@ -1777,10 +1776,9 @@ class ReportBbmController extends Controller
                     $processedData[$year]['unit_7']
                 ]) + $processedData[$year]['other'];
 
-                $processedData[$year]['cumulative'] = $year_start_data + $processedData[$year]['tug'] -  $processedData[$year]['unit_1_7'];
+                $processedData[$year]['cumulative'] = $year_start_data;
                 $processedData[$year]['efective'] = $processedData[$year]['tug'] -  $processedData[$year]['unit_1_7'] +
                     $processedData[$year]['cumulative'];
-                $year_start_data = $processedData[$year]['cumulative'];
             }
             return $processedData;
         }
