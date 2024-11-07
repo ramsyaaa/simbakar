@@ -62,7 +62,7 @@
                             <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                 <option value="">Tahun</option>
                                 @for ($i = date('Y'); $i >= 2000; $i--)
-                                    <option {{request()->start_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    <option {{request()->start_year == $i || $i == 2021 ? 'selected' :''}}>{{ $i }}</option>
                                 @endfor
                             </select>
                         </div>
@@ -72,7 +72,7 @@
                             <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                 <option value="">Tahun</option>
                                 @for ($i = date('Y'); $i >= 2000; $i--)
-                                    <option {{request()->end_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    <option {{request()->end_year == $i || $i == date('Y') ? 'selected' :''}}>{{ $i }}</option>
                                 @endfor
                             </select>
                         </div>
@@ -144,15 +144,15 @@
                                         <td class="border border-gray-400 p-2">{{$loop->iteration}}</td>
                                         <td class="border border-gray-400 p-2">{{$coal->ship->name ?? ''}}</td>
                                         <td class="border border-gray-400 p-2">{{$coal->supplier->name ?? ''}}</td>
-                                        <td class="border border-gray-400 p-2">{{date('d-m-Y', strtotime($coal->end_date))}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->bl)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->ds)}}</td>
-                                        <td class="border border-gray-400 p-2">0</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->tug_3_accept)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->selisih_bl)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->selisih_bl_percentage,2)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->selisih_bw)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->selisih_bw_percentage,2)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{date('d-m-Y', strtotime($coal->end_date))}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->bl)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->ds)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">0</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->tug_3_accept)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->selisih_bl)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->selisih_bl_percentage,2)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->selisih_bw)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->selisih_bw_percentage,2)}}</td>
                                         
                                     </tr>
                                     @endforeach
@@ -161,14 +161,14 @@
                                     @endphp
                                     <tr>
                                         <td colspan="4" class="border border-gray-400 p-2">Jumlah</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('bl'))}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('ds'))}}</td>
-                                        <td class="border border-gray-400 p-2">0</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('tug_3_accept'))}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('selisih_bl'))}}</td>
-                                        <td class="border border-gray-400 p-2">-</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('selisih_bw'))}}</td>
-                                        <td class="border border-gray-400 p-2">-</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('bl'))}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('ds'))}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">0</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('tug_3_accept'))}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('selisih_bl'))}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">-</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('selisih_bw'))}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">-</td>
                                     </tr>
                                 </tbody>
                             @else
@@ -203,14 +203,14 @@
                                     <tr>
                                         <td class="border border-gray-400 p-2">{{$loop->iteration}}</td>
                                         <td class="border border-gray-400 p-2">{{$coal->label}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->bl)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->ds)}}</td>
-                                        <td class="border border-gray-400 p-2">0</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->tug_3_accept)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->selisih_bl)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->selisih_bl_percentage,2)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->selisih_bw)}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($coal->selisih_bw_percentage,2)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->bl)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->ds)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">0</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->tug_3_accept)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->selisih_bl)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->selisih_bl_percentage,2)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->selisih_bw)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($coal->selisih_bw_percentage,2)}}</td>
                                         
                                     </tr>
                                     @endforeach
@@ -218,15 +218,15 @@
                                         $total= collect($coals);
                                     @endphp
                                     <tr>
-                                        <td colspan="2" class="border border-gray-400 p-2">Jumlah</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('bl'))}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('ds'))}}</td>
-                                        <td class="border border-gray-400 p-2">0</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('tug_3_accept'))}}</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('selisih_bl'))}}</td>
-                                        <td class="border border-gray-400 p-2">-</td>
-                                        <td class="border border-gray-400 p-2">{{number_format($total->sum('selisih_bw'))}}</td>
-                                        <td class="border border-gray-400 p-2">-</td>
+                                        <td colspan="2" class="border border-gray-400 p-2 text-right">Jumlah</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('bl'))}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('ds'))}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">0</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('tug_3_accept'))}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('selisih_bl'))}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">-</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('selisih_bw'))}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">-</td>
                                     </tr>
                                 
                                 </tbody>
