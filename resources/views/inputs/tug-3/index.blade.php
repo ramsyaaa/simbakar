@@ -41,7 +41,7 @@
                         <input name="date" type="month" value="{{ request()->date ?? '' }}" class="w-full lg:w-3/12 h-[44px] rounded-md border px-2" placeholder="Cari Data" autofocus>
                         <select id="fuel" name="fuel" class="w-[350px] h-[44px] rounded-md border px-2" autofocus>
                             <option selected disabled>Jenis Bahan Bakar</option>
-                            <option {{request('fuel') == 'Batu Bara' ? 'selected' : ''}} value="Batu Bara">Batu Bara</option>
+                            <option {{request('fuel') == 'batubara' ? 'selected' : ''}} value="batubara">Batu Bara</option>
                             <option {{request('fuel') == 'solar' ? 'selected' : ''}} value="solar">HSD / Solar</option>
                             <option {{request('fuel') == 'residu' ? 'selected' : ''}} value="residu">MFO / Residu</option>
                             <option {{request('fuel') == 'biomassa' ? 'selected' : ''}} value="biomassa">Biomassa</option>

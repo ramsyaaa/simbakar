@@ -627,7 +627,7 @@
                                         </tr>
                                         @php
                                             $penaltyVolatile = $penalties->filter(function($penalty) {
-                                                return $penalty->unit_penalty_id == 34;
+                                                return $penalty->unit_penalty_id == 35;
                                             })->first();
                                         
                                             $conditionVolatile = $penaltyVolatile->penalty_will_get_if_sign ?? null;
@@ -655,6 +655,7 @@
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signVolatile}}</span>{{$certificate->volatile_matter}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                         </tr>
+
                                         <tr>
                                             <td class="border border-slate-900">Slagging Index</td>
                                             <td class="border border-slate-900 text-right">SEVERE</td>
