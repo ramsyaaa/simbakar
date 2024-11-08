@@ -497,7 +497,7 @@ class ReportBbmController extends Controller
 
         function getDataByDay($month)
         {
-            $processedData = [];
+
 
             function getStock($coal_plans, $monthIndex)
             {
@@ -536,150 +536,162 @@ class ReportBbmController extends Controller
             if ($month) {
                 $dayArray = explode('-', $month);
                 $year = $dayArray[0];
-                $month = $dayArray[1];
+                $month_target = $dayArray[1];
 
                 $year_start_data = YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
                 if ($year_start_data) $year_start_data = $year_start_data->actual;
 
-                $daysInMonth = Carbon::createFromDate($year, $month, 1)->daysInMonth;
-                $daysArray = [];
-
-                for ($i = 1; $i <= $daysInMonth; $i++) {
-                    $daysArray[] = Carbon::createFromDate($year, $month, $i)->format('Y-m-d');
-                }
-
-
                 $units = Unit::select('id')->orderBy('id', 'asc')->get();
-                $coal_plans = CoalReceiptPlan::where('year', $year)->first();
-                $coal_plans = $coal_plans ? intval(getStock($coal_plans, intval($month) - 1)) : 0;
+                $coal_plans = CoalReceiptPlan::whereYear('year', $year)->first();
                 $stock_opnames = StockOpname::all();
+                $coal_unloadings = CoalUnloading::select('receipt_date', 'tug_3_accept')->whereYear('receipt_date',  $year)->get();
+                $fuel_adjustments = FuelAdjusment::whereYear('usage_date',  $year)->get();
+                $coal_usages = CoalUsage::select('unit_id', 'amount_use', 'usage_date')->whereYear('usage_date',  $year)->get();
 
-                foreach ($daysArray as $day) {
-                    $processedData[$day] = [];
-                    $bbm_unloading = CoalUnloading::select('receipt_date', 'tug_3_accept')->whereRaw('receipt_date like ?', ["%" . $day . "%"])->get();
-                    $fuel_adjustment = FuelAdjusment::select('usage_amount')->whereRaw('usage_date like ? ', ['%' . $day . '%'])->get();
 
-                    $dailyBedding = 0;
+                for ($month = 1; $month <= 12; $month++) {
 
-                    for ($j = 1; $j <= 31; $j++) {
-                        // Get Bedding
-                        $opnames = collect($stock_opnames)->filter(function ($opnames) use ($day) {
-                            return Str::contains($opnames->measurement_date, $day);
-                        })->first();
+                    $daysInMonth = Carbon::createFromDate($year, $month, 1)->daysInMonth;
+                    $daysArray = [];
+                    $coal_plans = $coal_plans ? intval(getStock($coal_plans, intval($month) - 1)) : 0;
 
-                        if ($opnames) {
-                            $dailyBedding = $opnames->bedding;
-                        }
+                    for ($i = 1; $i <= $daysInMonth; $i++) {
+                        $daysArray[] = Carbon::createFromDate($year, $month, $i)->format('Y-m-d');
                     }
-                    if (count($bbm_unloading) > 0) {
-                        foreach ($bbm_unloading as $key => $item) {
-                            $receipt_date = date('Y-m-d', strtotime($item->receipt_date));
-                            if ($receipt_date == $day) {
-                                // Get BBM Usage with receipt date
-                                $bbm_usage = CoalUsage::select('unit_id', 'amount_use')->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
 
-                                // get All Unit Value
-                                foreach ($units as $unit_key => $unit) {
-                                    $index = "unit_" . ($unit_key + 1);
-                                    $processedData[$day][$index] = 0;
-                                    foreach ($bbm_usage as $usage) {
-                                        if ($unit->id == $usage->unit_id) $processedData[$day][$index] = $processedData[$day][$index] + $usage->amount_use;
+                    foreach ($daysArray as $day) {
+                        $processedData[$day] = [];
+
+                        $bbm_unloading = $coal_unloadings->filter(function ($bbm) use ($day) {
+                            return Str::contains($bbm->receipt_date, $day);
+                        });
+                        $fuel_adjustment = $fuel_adjustments->filter(function ($adjustment) use ($day) {
+                            return
+                                Str::contains($adjustment->usage_date, $day);
+                        });
+
+                        $dailyBedding = 0;
+
+                        for ($j = 1; $j <= 31; $j++) {
+                            // Get Bedding
+                            $opnames = collect($stock_opnames)->filter(function ($opnames) use ($day) {
+                                return Str::contains($opnames->measurement_date, $day);
+                            })->first();
+
+                            if ($opnames) {
+                                $dailyBedding = $opnames->bedding;
+                            }
+                        }
+                        if (count($bbm_unloading) > 0) {
+                            foreach ($bbm_unloading as $key => $item) {
+                                $receipt_date = date('Y-m-d', strtotime($item->receipt_date));
+                                if ($receipt_date == $day) {
+                                    // Get BBM Usage with receipt date
+                                    $bbm_usage = $coal_usages->filter(function ($usage) use ($receipt_date) {
+                                        return Str::contains($usage->usage_date, $receipt_date);
+                                    });
+                                    // get All Unit Value
+                                    foreach ($units as $unit_key => $unit) {
+                                        $index = "unit_" . ($unit_key + 1);
+                                        $processedData[$day][$index] = 0;
+                                        foreach ($bbm_usage as $usage) {
+                                            if ($unit->id == $usage->unit_id) $processedData[$day][$index] = $processedData[$day][$index] + $usage->amount_use;
+                                        }
+                                        $processedData[$day][$index] = $processedData[$day][$index] ?? 0;
                                     }
-                                    $processedData[$day][$index] = $processedData[$day][$index] ?? 0;
+
+
+                                    $processedData[$day]['receipt_date'] = $receipt_date;
+                                    $processedData[$day]['tug'] = $bbm_unloading->pluck("tug_3_accept")->sum();
+                                    $processedData[$day]['unit_1_4'] = array_sum([
+                                        $processedData[$day]['unit_1'],
+                                        $processedData[$day]['unit_2'],
+                                        $processedData[$day]['unit_3'],
+                                        $processedData[$day]['unit_4']
+                                    ]);
+                                    $processedData[$day]['unit_5_7'] = array_sum([
+                                        $processedData[$day]['unit_5'],
+                                        $processedData[$day]['unit_6'],
+                                        $processedData[$day]['unit_7']
+                                    ]);
+                                    $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
+
+                                    $processedData[$day]['unit_1_7'] = array_sum([
+                                        $processedData[$day]['unit_1'],
+                                        $processedData[$day]['unit_2'],
+                                        $processedData[$day]['unit_3'],
+                                        $processedData[$day]['unit_4'],
+                                        $processedData[$day]['unit_5'],
+                                        $processedData[$day]['unit_6'],
+                                        $processedData[$day]['unit_7']
+                                    ]) + $processedData[$day]['other'];
+                                    $processedData[$day]['stock'] = $coal_plans + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
+                                    $processedData[$day]['efective'] = $year_start_data + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
+
+
+                                    $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'] - $processedData[$day]['other'];
+                                    $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
                                 }
-
-
-                                $processedData[$day]['receipt_date'] = $receipt_date;
-                                $processedData[$day]['tug'] = $bbm_unloading->pluck("tug_3_accept")->sum();
-                                $processedData[$day]['unit_1_4'] = array_sum([
-                                    $processedData[$day]['unit_1'],
-                                    $processedData[$day]['unit_2'],
-                                    $processedData[$day]['unit_3'],
-                                    $processedData[$day]['unit_4']
-                                ]);
-                                $processedData[$day]['unit_5_7'] = array_sum([
-                                    $processedData[$day]['unit_5'],
-                                    $processedData[$day]['unit_6'],
-                                    $processedData[$day]['unit_7']
-                                ]);
-                                $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
-
-                                $processedData[$day]['unit_1_7'] = array_sum([
-                                    $processedData[$day]['unit_1'],
-                                    $processedData[$day]['unit_2'],
-                                    $processedData[$day]['unit_3'],
-                                    $processedData[$day]['unit_4'],
-                                    $processedData[$day]['unit_5'],
-                                    $processedData[$day]['unit_6'],
-                                    $processedData[$day]['unit_7']
-                                ]) + $processedData[$day]['other'];
-                                $processedData[$day]['stock'] = $coal_plans + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
-                                $processedData[$day]['efective'] = $year_start_data + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
-
-
-                                $processedData[$day]['cumulative_stock_realitation'] = ($processedData[$day]['cumulative_stock_realitation'] ?? 0) + $processedData[$day]['efective'] + $dailyBedding;
-                                $year_start_data = $processedData[$day]['efective'];
-
-
-
-                                $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'];
-                                $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
                             }
-                        }
-                    } else {
-                        // Get BBM Usage with receipt date
-                        $bbm_usage = CoalUsage::select('unit_id', 'amount_use')->whereRaw('usage_date like ?', ['%' . $day . '%'])->get();
+                        } else {
+                            // Get BBM Usage with receipt date
+                            $bbm_usage = $coal_usages->filter(function ($usage) use ($day) {
+                                return Str::contains($usage->usage_date, $day);
+                            });
 
-                        // get All Unit Value
-                        foreach ($units as $unit_key => $unit) {
-                            $index = "unit_" . ($unit_key + 1);
-                            $processedData[$day][$index] = 0;
-                            foreach ($bbm_usage as $usage) {
-                                if ($unit->id == $usage->unit_id) $processedData[$day][$index] = $processedData[$day][$index] + $usage->amount_use;
+                            // get All Unit Value
+                            foreach ($units as $unit_key => $unit) {
+                                $index = "unit_" . ($unit_key + 1);
+                                $processedData[$day][$index] = 0;
+                                foreach ($bbm_usage as $usage) {
+                                    if ($unit->id == $usage->unit_id) $processedData[$day][$index] = $processedData[$day][$index] + $usage->amount_use;
+                                }
+                                $processedData[$day][$index] = $processedData[$day][$index] ?? 0;
                             }
-                            $processedData[$day][$index] = $processedData[$day][$index] ?? 0;
+
+
+                            $processedData[$day]['receipt_date'] = $day;
+                            $processedData[$day]['tug'] = 0;
+                            $processedData[$day]['unit_1_4'] = array_sum([
+                                $processedData[$day]['unit_1'],
+                                $processedData[$day]['unit_2'],
+                                $processedData[$day]['unit_3'],
+                                $processedData[$day]['unit_4']
+                            ]);
+                            $processedData[$day]['unit_5_7'] = array_sum([
+                                $processedData[$day]['unit_5'],
+                                $processedData[$day]['unit_6'],
+                                $processedData[$day]['unit_7']
+                            ]);
+                            $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
+
+                            $processedData[$day]['unit_1_7'] = array_sum([
+                                $processedData[$day]['unit_1'],
+                                $processedData[$day]['unit_2'],
+                                $processedData[$day]['unit_3'],
+                                $processedData[$day]['unit_4'],
+                                $processedData[$day]['unit_5'],
+                                $processedData[$day]['unit_6'],
+                                $processedData[$day]['unit_7']
+                            ]) + $processedData[$day]['other'];
+                            $processedData[$day]['stock'] = $coal_plans + (0 - $processedData[$day]['unit_1_7']);
+                            $processedData[$day]['efective'] = $year_start_data + (0 - $processedData[$day]['unit_1_7']);
+
+
+                            $processedData[$day]['cumulative_stock_realitation'] = ($processedData[$day]['cumulative_stock_realitation'] ?? 0) + $processedData[$day]['efective'] + $dailyBedding;
+
+
+                            $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'];
+                            $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
                         }
-
-
-                        $processedData[$day]['receipt_date'] = $day;
-                        $processedData[$day]['tug'] = 0;
-                        $processedData[$day]['unit_1_4'] = array_sum([
-                            $processedData[$day]['unit_1'],
-                            $processedData[$day]['unit_2'],
-                            $processedData[$day]['unit_3'],
-                            $processedData[$day]['unit_4']
-                        ]);
-                        $processedData[$day]['unit_5_7'] = array_sum([
-                            $processedData[$day]['unit_5'],
-                            $processedData[$day]['unit_6'],
-                            $processedData[$day]['unit_7']
-                        ]);
-                        $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
-                        $processedData[$day]['unit_1_7'] = array_sum([
-                            $processedData[$day]['unit_1'],
-                            $processedData[$day]['unit_2'],
-                            $processedData[$day]['unit_3'],
-                            $processedData[$day]['unit_4'],
-                            $processedData[$day]['unit_5'],
-                            $processedData[$day]['unit_6'],
-                            $processedData[$day]['unit_7']
-                        ]) + $processedData[$day]['other'];
-
-                        $processedData[$day]['stock'] = $coal_plans + (0 - $processedData[$day]['unit_1_7']);
-                        $processedData[$day]['efective'] = $year_start_data + (0 - $processedData[$day]['unit_1_7']);
-
-
-                        $processedData[$day]['cumulative_stock_realitation'] = ($processedData[$day]['cumulative_stock_realitation'] ?? 0) + $processedData[$day]['efective'] + $dailyBedding;
-                        $year_start_data = $processedData[$day]['efective'];
-
-
-                        $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'];
-                        $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
+                        $year_start_data = $processedData[$day]['cumulative'];
                     }
-                    $year_start_data = $processedData[$day]['cumulative'];
                 }
+                $processedData = collect($processedData)->filter(function ($data) use ($month_target, $year) {
+                    $target = "$year-" . str_pad($month_target, 2, '0');
+                    return Str::contains($data['receipt_date'], $target);
+                })->toArray();
             }
-
             return $processedData;
         }
 
@@ -1329,142 +1341,160 @@ class ReportBbmController extends Controller
             if ($month) {
                 $dayArray = explode('-', $month);
                 $year = $dayArray[0];
-                $month = $dayArray[1];
+                $month_target = $dayArray[1];
 
                 $year_start_data = YearStartData::where(['year' => $year, 'type' => 'batubara'])->first();
                 if ($year_start_data) $year_start_data = $year_start_data->actual;
 
-                $daysInMonth = Carbon::createFromDate($year, $month, 1)->daysInMonth;
-                $daysArray = [];
-
-                for ($i = 1; $i <= $daysInMonth; $i++) {
-                    $daysArray[] = Carbon::createFromDate($year, $month, $i)->format('Y-m-d');
-                }
-
-
                 $units = Unit::select('id')->orderBy('id', 'asc')->get();
-                $coal_plans = CoalReceiptPlan::where('year', $year)->first();
-                $coal_plans = $coal_plans ? intval(getStock($coal_plans, intval($month) - 1)) : 0;
+                $coal_plans = CoalReceiptPlan::whereYear('year', $year)->first();
                 $stock_opnames = StockOpname::all();
+                $coal_unloadings = CoalUnloading::select('receipt_date', 'tug_3_accept')->whereYear('receipt_date',  $year)->get();
+                $fuel_adjustments = FuelAdjusment::whereYear('usage_date',  $year)->get();
+                $coal_usages = CoalUsage::select('unit_id', 'amount_use', 'usage_date')->whereYear('usage_date',  $year)->get();
 
-                foreach ($daysArray as $day) {
-                    $processedData[$day] = [];
-                    $bbm_unloading = CoalUnloading::select('receipt_date', 'tug_3_accept')->whereRaw('receipt_date like ?', ["%" . $day . "%"])->get();
-                    $fuel_adjustment = FuelAdjusment::select('usage_amount')->whereRaw('usage_date like ? ', ['%' . $day . '%'])->get();
 
-                    $dailyBedding = 0;
+                for ($month = 1; $month <= 12; $month++) {
 
-                    for ($j = 1; $j <= 31; $j++) {
-                        // Get Bedding
-                        $opnames = collect($stock_opnames)->filter(function ($opnames) use ($day) {
-                            return Str::contains($opnames->measurement_date, $day);
-                        })->first();
+                    $daysInMonth = Carbon::createFromDate($year, $month, 1)->daysInMonth;
+                    $daysArray = [];
+                    $coal_plans = $coal_plans ? intval(getStock($coal_plans, intval($month) - 1)) : 0;
 
-                        if ($opnames) {
-                            $dailyBedding = $opnames->bedding;
-                        }
+                    for ($i = 1; $i <= $daysInMonth; $i++) {
+                        $daysArray[] = Carbon::createFromDate($year, $month, $i)->format('Y-m-d');
                     }
-                    if (count($bbm_unloading) > 0) {
-                        foreach ($bbm_unloading as $key => $item) {
-                            $receipt_date = date('Y-m-d', strtotime($item->receipt_date));
-                            if ($receipt_date == $day) {
-                                // Get BBM Usage with receipt date
-                                $bbm_usage = CoalUsage::select('unit_id', 'amount_use')->whereRaw('usage_date like ?', ['%' . $receipt_date . '%'])->get();
 
-                                // get All Unit Value
-                                foreach ($units as $unit_key => $unit) {
-                                    $index = "unit_" . ($unit_key + 1);
-                                    $processedData[$day][$index] = 0;
-                                    foreach ($bbm_usage as $usage) {
-                                        if ($unit->id == $usage->unit_id) $processedData[$day][$index] = $processedData[$day][$index] + $usage->amount_use;
+                    foreach ($daysArray as $day) {
+                        $processedData[$day] = [];
+
+                        $bbm_unloading = $coal_unloadings->filter(function ($bbm) use ($day) {
+                            return Str::contains($bbm->receipt_date, $day);
+                        });
+                        $fuel_adjustment = $fuel_adjustments->filter(function ($adjustment) use ($day) {
+                            return
+                                Str::contains($adjustment->usage_date, $day);
+                        });
+
+                        $dailyBedding = 0;
+
+                        for ($j = 1; $j <= 31; $j++) {
+                            // Get Bedding
+                            $opnames = collect($stock_opnames)->filter(function ($opnames) use ($day) {
+                                return Str::contains($opnames->measurement_date, $day);
+                            })->first();
+
+                            if ($opnames) {
+                                $dailyBedding = $opnames->bedding;
+                            }
+                        }
+                        if (count($bbm_unloading) > 0) {
+                            foreach ($bbm_unloading as $key => $item) {
+                                $receipt_date = date('Y-m-d', strtotime($item->receipt_date));
+                                if ($receipt_date == $day) {
+                                    // Get BBM Usage with receipt date
+                                    $bbm_usage = $coal_usages->filter(function ($usage) use ($receipt_date) {
+                                        return Str::contains($usage->usage_date, $receipt_date);
+                                    });
+                                    // get All Unit Value
+                                    foreach ($units as $unit_key => $unit) {
+                                        $index = "unit_" . ($unit_key + 1);
+                                        $processedData[$day][$index] = 0;
+                                        foreach ($bbm_usage as $usage) {
+                                            if ($unit->id == $usage->unit_id) $processedData[$day][$index] = $processedData[$day][$index] + $usage->amount_use;
+                                        }
+                                        $processedData[$day][$index] = $processedData[$day][$index] ?? 0;
                                     }
-                                    $processedData[$day][$index] = $processedData[$day][$index] ?? 0;
+
+
+                                    $processedData[$day]['receipt_date'] = $receipt_date;
+                                    $processedData[$day]['tug'] = $bbm_unloading->pluck("tug_3_accept")->sum();
+                                    $processedData[$day]['unit_1_4'] = array_sum([
+                                        $processedData[$day]['unit_1'],
+                                        $processedData[$day]['unit_2'],
+                                        $processedData[$day]['unit_3'],
+                                        $processedData[$day]['unit_4']
+                                    ]);
+                                    $processedData[$day]['unit_5_7'] = array_sum([
+                                        $processedData[$day]['unit_5'],
+                                        $processedData[$day]['unit_6'],
+                                        $processedData[$day]['unit_7']
+                                    ]);
+                                    $processedData[$day]['unit_1_7'] = array_sum([
+                                        $processedData[$day]['unit_1'],
+                                        $processedData[$day]['unit_2'],
+                                        $processedData[$day]['unit_3'],
+                                        $processedData[$day]['unit_4'],
+                                        $processedData[$day]['unit_5'],
+                                        $processedData[$day]['unit_6'],
+                                        $processedData[$day]['unit_7']
+                                    ]);
+                                    $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
+                                    $processedData[$day]['stock'] = $coal_plans + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
+                                    $processedData[$day]['efective'] = $year_start_data + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
+
+
+                                    $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'] - $processedData[$day]['other'];
+                                    $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
                                 }
-
-
-                                $processedData[$day]['receipt_date'] = $receipt_date;
-                                $processedData[$day]['tug'] = $bbm_unloading->pluck("tug_3_accept")->sum();
-                                $processedData[$day]['unit_1_4'] = array_sum([
-                                    $processedData[$day]['unit_1'],
-                                    $processedData[$day]['unit_2'],
-                                    $processedData[$day]['unit_3'],
-                                    $processedData[$day]['unit_4']
-                                ]);
-                                $processedData[$day]['unit_5_7'] = array_sum([
-                                    $processedData[$day]['unit_5'],
-                                    $processedData[$day]['unit_6'],
-                                    $processedData[$day]['unit_7']
-                                ]);
-                                $processedData[$day]['unit_1_7'] = array_sum([
-                                    $processedData[$day]['unit_1'],
-                                    $processedData[$day]['unit_2'],
-                                    $processedData[$day]['unit_3'],
-                                    $processedData[$day]['unit_4'],
-                                    $processedData[$day]['unit_5'],
-                                    $processedData[$day]['unit_6'],
-                                    $processedData[$day]['unit_7']
-                                ]);
-                                $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
-                                $processedData[$day]['stock'] = $coal_plans + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
-                                $processedData[$day]['efective'] = $year_start_data + ($item->tug_3_accept - $processedData[$day]['unit_1_7']);
-
-
-                                $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'] - $processedData[$day]['other'];
-                                $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
                             }
-                        }
-                    } else {
-                        // Get BBM Usage with receipt date
-                        $bbm_usage = CoalUsage::select('unit_id', 'amount_use')->whereRaw('usage_date like ?', ['%' . $day . '%'])->get();
+                        } else {
+                            // Get BBM Usage with receipt date
+                            $bbm_usage = $coal_usages->filter(function ($usage) use ($day) {
+                                return Str::contains($usage->usage_date, $day);
+                            });
 
-                        // get All Unit Value
-                        foreach ($units as $unit_key => $unit) {
-                            $index = "unit_" . ($unit_key + 1);
-                            $processedData[$day][$index] = 0;
-                            foreach ($bbm_usage as $usage) {
-                                if ($unit->id == $usage->unit_id) $processedData[$day][$index] = $processedData[$day][$index] + $usage->amount_use;
+                            // get All Unit Value
+                            foreach ($units as $unit_key => $unit) {
+                                $index = "unit_" . ($unit_key + 1);
+                                $processedData[$day][$index] = 0;
+                                foreach ($bbm_usage as $usage) {
+                                    if ($unit->id == $usage->unit_id) $processedData[$day][$index] = $processedData[$day][$index] + $usage->amount_use;
+                                }
+                                $processedData[$day][$index] = $processedData[$day][$index] ?? 0;
                             }
-                            $processedData[$day][$index] = $processedData[$day][$index] ?? 0;
+
+
+                            $processedData[$day]['receipt_date'] = $day;
+                            $processedData[$day]['tug'] = 0;
+                            $processedData[$day]['unit_1_4'] = array_sum([
+                                $processedData[$day]['unit_1'],
+                                $processedData[$day]['unit_2'],
+                                $processedData[$day]['unit_3'],
+                                $processedData[$day]['unit_4']
+                            ]);
+                            $processedData[$day]['unit_5_7'] = array_sum([
+                                $processedData[$day]['unit_5'],
+                                $processedData[$day]['unit_6'],
+                                $processedData[$day]['unit_7']
+                            ]);
+                            $processedData[$day]['unit_1_7'] = array_sum([
+                                $processedData[$day]['unit_1'],
+                                $processedData[$day]['unit_2'],
+                                $processedData[$day]['unit_3'],
+                                $processedData[$day]['unit_4'],
+                                $processedData[$day]['unit_5'],
+                                $processedData[$day]['unit_6'],
+                                $processedData[$day]['unit_7']
+                            ]);
+                            $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
+                            $processedData[$day]['stock'] = $coal_plans + (0 - $processedData[$day]['unit_1_7']);
+                            $processedData[$day]['efective'] = $year_start_data + (0 - $processedData[$day]['unit_1_7']);
+
+
+                            $processedData[$day]['cumulative_stock_realitation'] = ($processedData[$day]['cumulative_stock_realitation'] ?? 0) + $processedData[$day]['efective'] + $dailyBedding;
+
+
+                            $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'] - $processedData[$day]['other'];
+                            $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
                         }
-
-
-                        $processedData[$day]['receipt_date'] = $day;
-                        $processedData[$day]['tug'] = 0;
-                        $processedData[$day]['unit_1_4'] = array_sum([
-                            $processedData[$day]['unit_1'],
-                            $processedData[$day]['unit_2'],
-                            $processedData[$day]['unit_3'],
-                            $processedData[$day]['unit_4']
-                        ]);
-                        $processedData[$day]['unit_5_7'] = array_sum([
-                            $processedData[$day]['unit_5'],
-                            $processedData[$day]['unit_6'],
-                            $processedData[$day]['unit_7']
-                        ]);
-                        $processedData[$day]['unit_1_7'] = array_sum([
-                            $processedData[$day]['unit_1'],
-                            $processedData[$day]['unit_2'],
-                            $processedData[$day]['unit_3'],
-                            $processedData[$day]['unit_4'],
-                            $processedData[$day]['unit_5'],
-                            $processedData[$day]['unit_6'],
-                            $processedData[$day]['unit_7']
-                        ]);
-                        $processedData[$day]['other'] = $fuel_adjustment->pluck('usage_amount')->sum() ?? 0;
-                        $processedData[$day]['stock'] = $coal_plans + (0 - $processedData[$day]['unit_1_7']);
-                        $processedData[$day]['efective'] = $year_start_data + (0 - $processedData[$day]['unit_1_7']);
-
-
-                        $processedData[$day]['cumulative_stock_realitation'] = ($processedData[$day]['cumulative_stock_realitation'] ?? 0) + $processedData[$day]['efective'] + $dailyBedding;
-
-
-                        $processedData[$day]['cumulative'] = $year_start_data + $processedData[$day]['tug'] -  $processedData[$day]['unit_1_7'] - $processedData[$day]['other'];
-                        $processedData[$day]['efective'] = $processedData[$day]['cumulative'] - 150000000;
+                        $year_start_data = $processedData[$day]['cumulative'];
                     }
-                    $year_start_data = $processedData[$day]['cumulative'];
                 }
+                $processedData = collect($processedData)->filter(function ($data) use ($month_target, $year) {
+                    $target = "$year-" . str_pad($month_target, 2, '0');
+                    return Str::contains($data['receipt_date'], $target);
+                })->toArray();
             }
-
             return $processedData;
         }
 
