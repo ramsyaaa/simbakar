@@ -327,6 +327,26 @@ class ReportBbmController extends Controller
                         $data['bbm_usage'][$item->name] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                     }
                 }
+
+                $group1_4 = array_fill(1, 12, 0); // Untuk data dari index 1-4
+                $group5_7 = array_fill(1, 12, 0); // Untuk data dari index 5-7
+
+                // Lakukan iterasi pada array data
+                foreach ($data['bbm_usage'] as $key => $monthlyData) {
+                    if ($key >= 1 && $key <= 4) {
+                        // Jumlahkan data untuk kelompok 1-4
+                        foreach ($monthlyData as $month => $value) {
+                            $group1_4[$month] += $value;
+                        }
+                    } elseif ($key >= 5 && $key <= 7) {
+                        // Jumlahkan data untuk kelompok 5-7
+                        foreach ($monthlyData as $month => $value) {
+                            $group5_7[$month] += $value;
+                        }
+                    }
+                }
+                $data['bbm_usage_1_4'] = $group1_4;
+                $data['bbm_usage_5_7'] = $group5_7;
             }
             if ($type == 'other' || $type == 'all') {
                 $bbm_usage = BbmUsage::selectRaw('MONTH(use_date) as month, SUM(amount) as total_amount')
@@ -348,6 +368,8 @@ class ReportBbmController extends Controller
                 $data['bbm_usage']['lainnya'] = $finalData[0];
             }
         }
+
+
 
         return view('reports.executive-summary.bbm-usage', $data);
     }
@@ -1864,9 +1886,9 @@ class ReportBbmController extends Controller
             $efective_actual = [];
             $cumulative_actual = [];
             foreach ($data['bbm_receipt'][$bulan] as $date => $receipt) {
-                $efective_actual[$date] = $start_data_actual + $receipt - $data['bbm_usage'][$bulan][$date];
-                $cumulative_actual[$date] = $efective_actual[$date];
-                $start_data_actual = $efective_actual[$date];
+                $cumulative_actual[$date] = $start_data_actual + $receipt - $data['bbm_usage'][$bulan][$date];
+                $efective_actual[$date] = $cumulative_actual[$date]-150000000;
+                $start_data_actual = $cumulative_actual[$date];
             }
             $data['efective'][$bulan] = array_values($efective_actual);
             $data['cumulative'][$bulan] = array_values($cumulative_actual);

@@ -188,8 +188,8 @@
                                 @endif
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['total'], 0, '.', ',') }}</td>
                                 @if($filter_type != 'year')
-                                <td class="h-[36px] text-[16px] font-normal border px-2"> @if($filter_type != 'year') @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($cumulative[$index - 1], 0) }} @endif @else {{ number_format($cumulative[$index], 0) }} @endif</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2"> @if($filter_type != 'year') @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($efective[$index - 1], 0) }} @endif @else {{ number_format($cumulative[$index], 0) }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2"> {{ number_format($cumulative[$index], 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2"> {{ number_format($efective[$index], 0) }}</td>
                                 @else
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm_start_year[$index] ?? 0, 0) }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2"> @if($filter_type != 'year') @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($efective[$index - 1], 0) }} @endif @else {{ number_format($cumulative[$index], 0) }} @endif</td>

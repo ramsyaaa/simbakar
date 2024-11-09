@@ -84,7 +84,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ date('d-m-Y', strtotime($item->date_receipt)) }}</td>
                                 @endif
                                 @if($filter_type == 'month')
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ DateTime::createFromFormat('!m', $index+1)->format('M') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ DateTime::createFromFormat('!m', $index)->format('F') }}</td>
                                 @endif
                                 @if($filter_type == 'day')
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
