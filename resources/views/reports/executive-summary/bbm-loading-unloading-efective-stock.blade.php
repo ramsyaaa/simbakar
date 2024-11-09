@@ -124,7 +124,7 @@
                                             class="w-full h-[44px] rounded-md border px-2" autofocus>
                                             <option selected disabled>Pilih Tahun Awal</option>
                                             @for ($i = date('Y'); $i >= 2000; $i--)
-                                                <option {{ request()->start_year == $i ? 'selected' : '' }}>
+                                                <option {{ request()->start_year == $i || $i == 2021 ? 'selected' : '' }}>
                                                     {{ $i }}</option>
                                             @endfor
                                         </select>
@@ -136,7 +136,7 @@
                                             class="w-full h-[44px] rounded-md border px-2" autofocus>
                                             <option selected disabled>Pilih Tahun Akhir</option>
                                             @for ($i = date('Y'); $i >= 2000; $i--)
-                                                <option {{ request()->end_year == $i ? 'selected' : '' }}>
+                                                <option {{ request()->end_year == $i || $i == date('Y') ? 'selected' : '' }}>
                                                     {{ $i }}
                                                 </option>
                                             @endfor
@@ -203,9 +203,9 @@
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">
                                             {{ $label }}</th>
                                         {{-- @if (isset($_GET['type']) && $_GET['type'] == 'month')
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Stock
-                                        </th>
-                                    @endif --}}
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Stock
+                                            </th>
+                                        @endif --}}
                                         <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Realisasi
                                             Penerimaan (Kg)
                                         </th>
@@ -227,6 +227,9 @@
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">
                                                 Realisasi
                                                 Pemakaian
+                                            </th>
+                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">Stock
+                                                Stock Cumulative
                                             </th>
                                             <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">Stock
                                                 Efektif
@@ -265,15 +268,18 @@
                                                     {{ isset($item['unit_1_7']) ? formatNumber($item['unit_1_7']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ isset($item['stock']) ? formatNumber($item['stock']) : '-' }}
+                                                    {{ isset($item['cumulative']) ? formatNumber($item['cumulative']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ isset($item['tug']) ? formatNumber($item['tug'] - getTotalUnit($item)) : '-' }}
+                                                    {{ isset($item['efective']) ? formatNumber($item['efective']) : '-' }}
                                                 </td>
                                             @endif
                                             @if (isset($type) && $type == 'day')
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                                     {{ isset($item['unit_1_7']) ? formatNumber($item['unit_1_7']) : '-' }}
+                                                </td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2">
+                                                    {{ isset($item['cumulative']) ? formatNumber($item['cumulative']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                                     {{ isset($item['efective']) ? formatNumber($item['efective']) : '-' }}
@@ -300,10 +306,10 @@
                                                     {{ formatNumber(getTotalSumUnit($bbm_unloading)) }}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(collect($bbm_unloading)->pluck('stock')->sum()) }}
+                                                    {{-- {{ formatNumber(collect($bbm_unloading)->pluck('cumulative')->sum()) }} --}}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum() - getTotalSumUnit($bbm_unloading)) }}
+                                                    {{-- {{ formatNumber(collect($bbm_unloading)->pluck('ef')->sum() - getTotalSumUnit($bbm_unloading)) }} --}}
                                                 </th>
                                             @endif
                                             @if (isset($type) && $type == 'day')
@@ -311,7 +317,10 @@
                                                     {{ formatNumber(collect($bbm_unloading)->pluck('unit_1_7')->sum()) }}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(collect($bbm_unloading)->pluck('efective')->sum()) }}
+                                                    {{-- {{ formatNumber(collect($bbm_unloading)->pluck('cumulative')->sum()) }} --}}
+                                                </th>
+                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
+                                                    {{-- {{ formatNumber(collect($bbm_unloading)->pluck('efective')->sum()) }} --}}
                                                 </th>
                                             @endif
                                         </tr>

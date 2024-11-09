@@ -124,7 +124,7 @@
                                             class="w-full h-[44px] rounded-md border px-2" autofocus>
                                             <option selected disabled>Pilih Tahun Mulai</option>
                                             @for ($i = date('Y'); $i >= 2000; $i--)
-                                                <option {{ request()->start_year == $i ? 'selected' : '' }}>
+                                                <option {{ request()->start_year == $i  || $i == 2021 ? 'selected' : '' }}>
                                                     {{ $i }}</option>
                                             @endfor
                                         </select>
@@ -136,7 +136,7 @@
                                             class="w-full h-[44px] rounded-md border px-2" autofocus>
                                             <option selected disabled>Pilih Tahun Selesai</option>
                                             @for ($i = date('Y'); $i >= 2000; $i--)
-                                                <option {{ request()->end_year == $i ? 'selected' : '' }}>
+                                                <option {{ request()->end_year == $i || $i == date('Y') ? 'selected' : '' }}>
                                                     {{ $i }}
                                                 </option>
                                             @endfor
@@ -288,10 +288,10 @@
                                                     {{ isset($item['unit_1_7']) ? formatNumber($item['unit_1_7']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ isset($item['stock']) ? formatNumber($item['stock']) : '-' }}
+                                                    {{ isset($item['cumulative']) ? formatNumber($item['cumulative']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ isset($item['tug']) ? formatNumber($item['tug'] - getTotalUnit($item)) : '-' }}
+                                                    {{ isset($item['efective']) ? formatNumber($item['efective']) : '-' }}
                                                 </td>
                                             @endif
                                             @if ($type != 'year')
@@ -331,7 +331,7 @@
                                             @endif
                                             @if (isset($type) && $type != 'year')
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                                    {{ isset($item['cumulative_stock_realitation']) ? formatNumber($item['cumulative_stock_realitation']) : '-' }}
+                                                    {{ isset($item['cumulative']) ? formatNumber($item['cumulative']) : '-' }}
                                                 </td>
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                                     {{ isset($item['efective']) ? formatNumber($item['efective']) : '-' }}
@@ -358,10 +358,10 @@
                                                     {{ formatNumber(getTotalSumUnit($bbm_unloading)) }}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(collect($bbm_unloading)->pluck('stock')->sum()) }}
+                                                    {{-- {{ formatNumber(collect($bbm_unloading)->pluck('cumulative')->sum()) }} --}}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(collect($bbm_unloading)->pluck('tug')->sum() - getTotalSumUnit($bbm_unloading)) }}
+                                                    {{-- {{ formatNumber(collect($bbm_unloading)->pluck('efective')->sum()) }} --}}
                                                 </th>
                                             @endif
                                             @if ($type != 'year')
@@ -402,10 +402,10 @@
                                             @endif
                                             @if (isset($type) && $type != 'year')
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(collect($bbm_unloading)->pluck('cumulative_stock_realitation')->sum()) }}
+                                                    {{-- {{ formatNumber(collect($bbm_unloading)->pluck('cumulative_stock_realitation')->sum()) }} --}}
                                                 </th>
                                                 <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="1">
-                                                    {{ formatNumber(collect($bbm_unloading)->pluck('efective')->sum()) }}
+                                                    {{-- {{ formatNumber(collect($bbm_unloading)->pluck('efective')->sum()) }} --}}
                                                 </th>
                                             @endif
                                         </tr>

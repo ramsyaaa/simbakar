@@ -106,20 +106,20 @@ class ApiFetchController extends Controller
 
         $contract = CoalContract::where('id', $request->id)->first();
 
-        return $certificate = Loading::select('id','analysis_number')->where('contract_uuid',$contract->uuid)->get();
+        return $certificate = Loading::select('id','analysis_number')->where('contract_uuid',$contract->uuid)->latest()->get();
 
     }
     if ($request->type == 2) {
 
         $contract = CoalUnloading::select('analysis_unloading_id')->where('contract_id', $request->id)->get()->toArray();
 
-        return $certificate = Unloading::select('id','analysis_number')->whereIn('id',$contract)->get();
+        return $certificate = Unloading::select('id','analysis_number')->whereIn('id',$contract)->latest()->get();
 
     }
     if ($request->type == 3) {
 
         $contract = CoalContract::where('id', $request->id)->first();
-        return $certificate = Preloadinng::select('id','analysis_number')->where('contract_uuid',$contract->uuid)->get();
+        return $certificate = Preloadinng::select('id','analysis_number')->where('contract_uuid',$contract->uuid)->latest()->get();
 
     }
 

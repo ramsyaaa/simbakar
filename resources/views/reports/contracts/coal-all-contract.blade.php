@@ -16,7 +16,7 @@
                             <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md" required>
                                 <option value="">Tahun</option>
                                 @for ($i = date('Y'); $i >= 2000; $i--)
-                                    <option {{request()->start_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    <option {{request()->start_year == $i || $i == 2021 ? 'selected' :''}}>{{ $i }}</option>
                                 @endfor
                             </select>
                         </div>
@@ -26,7 +26,7 @@
                             <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md" required>
                                 <option value="">Tahun</option>
                                 @for ($i = date('Y'); $i >= 2000; $i--)
-                                    <option {{request()->end_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    <option {{request()->end_year == $i || $i == date('Y') ? 'selected' :''}}>{{ $i }}</option>
                                 @endfor
                             </select>
                         </div>

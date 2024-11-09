@@ -6,6 +6,7 @@ use App\Http\Controllers\Contract\BbmTransferController;
 use App\Http\Controllers\Contract\CoalContractController;
 use App\Http\Controllers\Contract\PenaltyClauseController;
 use App\Http\Controllers\Contract\DeliveryClauseController;
+use App\Http\Controllers\Contract\RefusalPenaltyController;
 use App\Http\Controllers\Contract\AdjusmentClauseController;
 use App\Http\Controllers\Contract\BbmBookContractController;
 use App\Http\Controllers\Contract\BiomassaContractController;
@@ -53,12 +54,21 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'contracts', 'as' => 'contra
         Route::patch('/adjusment-clause/{contractId}/edit/{id}', [AdjusmentClauseController::class,'update'])->name('adjusment-clause.update');
         Route::delete('/adjusment-clause/{contractId}/delete/{id}', [AdjusmentClauseController::class,'destroy'])->name('adjusment-clause.destroy');
 
+        Route::get('/refusal-penalty/{contractId}', [RefusalPenaltyController::class,'index'])->name('refusal-penalty.index');
+        Route::get('/refusal-penalty/{contractId}/create', [RefusalPenaltyController::class,'create'])->name('refusal-penalty.create');
+        Route::post('/refusal-penalty/{contractId}/store', [RefusalPenaltyController::class,'store'])->name('refusal-penalty.store');
+        Route::get('/refusal-penalty/{contractId}/edit/{id}', [RefusalPenaltyController::class,'edit'])->name('refusal-penalty.edit');
+        Route::patch('/refusal-penalty/{contractId}/edit/{id}', [RefusalPenaltyController::class,'update'])->name('refusal-penalty.update');
+        Route::delete('/refusal-penalty/{contractId}/delete/{id}', [RefusalPenaltyController::class,'destroy'])->name('refusal-penalty.destroy');
+        
         Route::get('/penalty-clause/{contractId}', [PenaltyClauseController::class,'index'])->name('penalty-clause.index');
         Route::get('/penalty-clause/{contractId}/create', [PenaltyClauseController::class,'create'])->name('penalty-clause.create');
         Route::post('/penalty-clause/{contractId}/store', [PenaltyClauseController::class,'store'])->name('penalty-clause.store');
         Route::get('/penalty-clause/{contractId}/edit/{id}', [PenaltyClauseController::class,'edit'])->name('penalty-clause.edit');
         Route::patch('/penalty-clause/{contractId}/edit/{id}', [PenaltyClauseController::class,'update'])->name('penalty-clause.update');
         Route::delete('/penalty-clause/{contractId}/delete/{id}', [PenaltyClauseController::class,'destroy'])->name('penalty-clause.destroy');
+
+      
         
     });
     Route::group(['prefix' => 'adendum-coal-contracts', 'as' => 'adendum-coal-contracts.' ,'middleware' => 'permission:kontrak-batu-bara'], function () {

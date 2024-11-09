@@ -47,7 +47,7 @@
                             <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                 <option value="">Tahun</option>
                                 @for ($i = date('Y'); $i >= 2000; $i--)
-                                    <option {{request()->start_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    <option {{request()->start_year == $i || $i == 2021 ? 'selected' :''}}>{{ $i }}</option>
                                 @endfor
                             </select>
                         </div>
@@ -57,7 +57,7 @@
                             <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border rounded-md">
                                 <option value="">Tahun</option>
                                 @for ($i = date('Y'); $i >= 2000; $i--)
-                                    <option {{request()->end_year == $i ? 'selected' :''}}>{{ $i }}</option>
+                                    <option {{request()->end_year == $i || $i == date('Y') ? 'selected' :''}}>{{ $i }}</option>
                                 @endfor
                             </select>
                         </div>
@@ -84,7 +84,7 @@
                         </div>
                         <div class="text-center text-[20px] font-bold">
                             @if (request('filter_type') == 'day')
-                                <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT PLN INDONESIA POWER SURALAYA <br> BULAN {{ request('bulan_tahun' ?? '')}}</p>
+                                <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT PLN INDONESIA POWER SURALAYA <br> BULAN {{  date('F Y', strtotime(request('bulan_tahun')))}}</p>
                             @endif
                             @if (request('filter_type') == 'month')
                                 <p>REKAPITULASI PENERIMAAN BATU BARA <br> PT PLN INDONESIA POWER SURALAYA <br> TAHUN {{ request('tahun' ?? '')}}</p>
@@ -105,7 +105,7 @@
                                     <th rowspan="2" class="border border-gray-400 p-2">Kontrak</th>
                                     <th rowspan="2" class="border border-gray-400 p-2">Volume Kontrak ( Ton )</th>
                                     @if (request('filter_type') == 'day')
-                                        <th colspan="{{$days}}" class="border border-gray-400 p-2">Realisasi Bulan {{request('bulan_tahun') ?? ''}}</th>
+                                        <th colspan="{{$days}}" class="border border-gray-400 p-2">Realisasi Bulan {{date('F Y', strtotime(request('bulan_tahun')))}}</th>
                                     @endif
                                     @if (request('filter_type') == 'month')
                                         <th colspan="12" class="border border-gray-400 p-2">Realisasi Tahun {{request('tahun') ?? ''}}</th>
@@ -156,19 +156,19 @@
                                     <td class="border border-gray-400 p-2">{{$loop->iteration}}</td>
                                     <td class="border border-gray-400 p-2">{{$contract->name}}</td>
                                     <td class="border border-gray-400 p-2">{{$contract->contract_number}}</td>
-                                    <td class="border border-gray-400 p-2">{{ number_format($contract->total_volume)}}</td>
+                                    <td class="border border-gray-400 p-2 text-right">{{ number_format($contract->total_volume)}}</td>
                                     @foreach ($contract->data as $key => $item)
-                                        <td class="border border-gray-400 p-2">{{ number_format($item)}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{ number_format($item)}}</td>
                                     @endforeach
-                                    <td class="border border-gray-400 p-2">{{number_format($contract->total)}}</td>
+                                    <td class="border border-gray-400 p-2 text-right">{{number_format($contract->total)}}</td>
                                 </tr>
                                 @endforeach
                                 <tr>
                                     <td class="border border-gray-400 p-2 text-center" colspan="4">Total</td>
                                     @foreach ($sumDatas as $item)
-                                        <td class="border border-gray-400 p-2 text-center">{{number_format($item)}}</td>
+                                        <td class="border border-gray-400 p-2 text-center text-right">{{number_format($item)}}</td>
                                     @endforeach
-                                    <td class="border border-gray-400 p-2 text-center">{{number_format($totalSum)}}</td>
+                                    <td class="border border-gray-400 p-2 text-center text-right">{{number_format($totalSum)}}</td>
                                 </tr>
                             </tbody>
                         </table>
