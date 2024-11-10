@@ -80,7 +80,7 @@ class BiomassaUsageController extends Controller
         try {
 
             $request->validate([
-                'tug_9_number' => ['required', 'unique:tugs,tug_number'],
+                'tug_9_number' => ['required', 'unique:biomassa_usages,tug_9_number'],
             ], [
                 'tug_9_number.required' => 'No TUG9 wajib diisi',
                 'tug_9_number.unique' => 'No TUG9 sudah digunakan',
@@ -163,7 +163,7 @@ class BiomassaUsageController extends Controller
             }
 
             $request->validate([
-                'tug_9_number' => ['required', $bbm_usage->tug_9_number != $request->tug_9_number ? 'unique:tugs,tug_number' : ''],
+                'tug_9_number' => ['required', $bbm_usage->tug_9_number != $request->tug_9_number ? 'unique:biomassa_usages,tug_9_number' : ''],
             ], [
                 'tug_9_number.required' => 'No TUG9 wajib diisi',
                 'tug_9_number.unique' => 'No TUG9 sudah digunakan',
