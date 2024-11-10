@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Report\BW\BWController;
-use App\Http\Controllers\Report\Receipt\ReceiptController;
 use App\Http\Controllers\Report\Receipt\CoalBLController;
+use App\Http\Controllers\Report\Receipt\ReceiptController;
+use App\Http\Controllers\Report\Receipt\CoalApalController;
 use App\Http\Controllers\Report\Contract\ContractController;
 use App\Http\Controllers\Report\Supplies\SuppliesController;
 use App\Http\Controllers\Report\Unloading\UnloadingController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Report\Contract\MonitoringCoalController;
 use App\Http\Controllers\Report\Performance\PerformanceController;
 use App\Http\Controllers\Report\Contract\CoalAllContractController;
 use App\Http\Controllers\Report\Unloading\DisruptionDataController;
+use App\Http\Controllers\Report\Unloading\HsdCarUnloadingController;
 use App\Http\Controllers\Report\Unloading\OperationalDuksController;
 use App\Http\Controllers\Report\CoalQuality\CoalComparisonController;
 use App\Http\Controllers\Report\ExecutiveSummary\ReportBbmController;
@@ -34,7 +36,6 @@ use App\Http\Controllers\Report\ExecutiveSummary\MonitoringSupplierController;
 use App\Http\Controllers\Report\Contract\PlanAndReazlitionCoalMonthlyController;
 use App\Http\Controllers\Report\ExecutiveSummary\MonitoringCoalAnalyticController;
 use App\Http\Controllers\Report\Contract\PlanAndReazlitionCoalMonthlySpotController;
-use App\Http\Controllers\Report\Unloading\HsdCarUnloadingController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.'], function () {
     Route::group(['prefix' => 'executive-summary', 'as' => 'executive-summary.'], function () {
@@ -104,6 +105,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'reports', 'as' => 'reports.
         Route::get('coal-recapitulation/', [ReceiptRecapitulationController::class, 'index'])->name('coal-recapitulation.index');
         Route::get('coal-monthly', [CoalMonthlyReceiptController::class, 'index'])->name('coal-monthly.index');
          Route::get('/coal-bl', [CoalBLController::class, 'index'])->name('coal-bl');
+         Route::get('/coal-apal', [CoalApalController::class, 'index'])->name('coal-apal');
     });
 
     Route::group(['prefix' => 'coal-quality', 'as' => 'coal-quality.'], function () {

@@ -27,7 +27,7 @@
                     ['text' => 'Penerimaan Bahan Bakar Batubara - Bulanan','url' => route('reports.receipt.coal-monthly.index')],
                     // ['text' => 'Jasa Angkut BBM','url' => '#'],
                     // ['text' => 'Penerimaan Bahan Bakar Batubara - Surveyor','url' => '#'],
-                    // ['text' => 'Realisasi Pengapalan Batubara','url' => '#'],
+                    ['text' => 'Realisasi Pengapalan Batubara','url' => route('reports.receipt.coal-apal')],
                 ]
             @endphp
             @foreach ($dataReport as $index => $report)
