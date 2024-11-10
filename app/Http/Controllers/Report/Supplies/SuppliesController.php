@@ -444,8 +444,10 @@ class SuppliesController extends Controller
                         ],
                         'total' => intval($fuelAdj),
                     ];
+                    
                 }
             }
+            ksort($results);
             // Memasukkan data ke dalam array hasil untuk bulan saat ini
             $data['bbm_receipt'][$bulan] = array_values($daysBbmReceiptArray);
             $data['bbm_usage'][$bulan] = array_values($results);
@@ -453,9 +455,9 @@ class SuppliesController extends Controller
             $cumulative_actual = [];
             foreach ($data['bbm_receipt'][$bulan] as $date => $receipt) {
                 $total = $data['bbm_usage'][$bulan][$date]['total'] ?? 0;
-                $efective_actual[$date] = $start_data_actual + $receipt - $total;
-                $cumulative_actual[$date] = $efective_actual[$date];
-                $start_data_actual = $efective_actual[$date];
+                $cumulative_actual[$date] = $start_data_actual + $receipt - $total;
+                $efective_actual[$date] = $cumulative_actual[$date] - 150000000;
+                $start_data_actual = $cumulative_actual[$date];
             }
             $data['efective'][$bulan] = array_values($efective_actual);
             $data['cumulative'][$bulan] = array_values($cumulative_actual);

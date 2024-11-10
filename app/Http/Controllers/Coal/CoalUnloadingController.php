@@ -128,7 +128,7 @@ class CoalUnloadingController extends Controller
                 'type_tug' => 'coal-unloading',
                 'usage_amount' =>0,
                 'unit' => 'Kg',
-                'type_fuel' => 'Batu Bara',
+                'type_fuel' => 'batubara',
                 'coal_unloading_id' => $unloading->id,
                 'receipt_date' => $end_date
             ]);

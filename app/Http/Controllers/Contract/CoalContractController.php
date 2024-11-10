@@ -21,7 +21,7 @@ class CoalContractController extends Controller
         $coals->when($request->supplier_id, function ($query) use ($request) {
             $query->where('supplier_id', $request->supplier_id);
         });
-        $data['suppliers'] = Supplier::all();
+        $data['suppliers'] = Supplier::orderBy('name','asc')->get();
         $data['coals'] = $coals->latest()->paginate(10)->appends(request()->query());
         return view('contracts.coal-contracts.index',$data);
     }

@@ -10,7 +10,7 @@ use App\Models\PenaltyClause;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
-class PenaltyClauseController extends Controller
+class RefusalPenaltyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class PenaltyClauseController extends Controller
         $penalties = PenaltyClause::query();
 
         $data['contract'] = CoalContract::where('id', $contractId)->first();
-        $data['penalties'] = $penalties->where('contract_id',$contractId)->latest()->paginate(100)->appends(request()->query());
+        $data['penalties'] = $penalties->where('contract_id',$contractId)->latest()->paginate(10)->appends(request()->query());
         // dd($data);
         return view('contracts.coal-contracts.penalty-clause.index',$data);
 

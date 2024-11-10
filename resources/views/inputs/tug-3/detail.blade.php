@@ -77,6 +77,42 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="w-full">
+                                        <label for="usage_amount" class="font-bold text-[#232D42] text-[16px]">Pemeriksa</label>
+                                        <div class="relative">
+                                            <input required type="text" value="
+                                            @if($tug->type_tug == 'coal-unloading')
+                                                {{$tug->coal->user_inspection ?? ''}}
+                                            @elseif($tug->type_tug == 'bbm-receipt')
+                                                {{$tug->bbm->inspector ?? ''}}
+                                            @else
+                                            @endif
+                                            " name="usage_amount" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @error('usage_amount')
+                                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="w-full">
+                                        <label for="usage_amount" class="font-bold text-[#232D42] text-[16px]">Kepala Gudang</label>
+                                        <div class="relative">
+                                            <input required type="text" value="
+                                            @if($tug->type_tug == 'coal-unloading')
+                                                {{$tug->coal->head_warehouse ?? ''}}
+                                            @elseif($tug->type_tug == 'bbm-receipt')
+                                                {{$tug->bbm->head_of_warehouse ?? ''}}          
+                                            @else
+                                            @endif
+                                            " name="usage_amount" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            @error('usage_amount')
+                                            <div class="absolute -bottom-1 left-1 text-red-500">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -186,11 +222,11 @@
                                             <table class="table-auto w-full">
                                                 <tr>
                                                     <td class="pr-4">Pembelian ditempat lihat faktur / bukti kas no</td>
-                                                    <td> : {{$tug->bbm->faktur_number ?? ''}}</td>
+                                                    <td> :  {{$tug->bbm->order->order_number ?? ''}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="pr-4">Diterima bon pengeluaran/surat pengantar no</td>
-                                                    <td> :  {{$tug->bbm->order->order_number ?? ''}}</td>
+                                                    <td> : </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="pr-4">Menurut surat pesanan/daftar permintaan no:</td>

@@ -54,56 +54,50 @@
                     <table class="w-full" id="table">
                         <thead>
                             <tr>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Unit</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="13">Bulan</th>
-                            </tr>
-                            <tr>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jan <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Feb <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Mar <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Apr <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Mei <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jun <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jul <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Agu <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Sep <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Okt <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nov <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Des <br> (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Total</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Bulan</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 1-4 (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 5-7 (Liter)</th>
+                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Total Unit 5-7 (Liter)</th>
                             </tr>
                         </thead>
                         <tbody>
-
                             @php
-                                $total_permonth = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+                                $months = [
+                                    1 => "Januari",
+                                    2 => "Februari",
+                                    3 => "Maret",
+                                    4 => "April",
+                                    5 => "Mei",
+                                    6 => "Juni",
+                                    7 => "Juli",
+                                    8 => "Agustus",
+                                    9 => "September",
+                                    10 => "Oktober",
+                                    11 => "November",
+                                    12 => "Desember"
+                                ];
                             @endphp
-
-                            @foreach ($bbm_usage as $index => $item)
-                            <tr>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $index }}</td>
-                                @php
-                                    $i = 0;
-                                @endphp
-                                @foreach ($item as $index1 => $item1)
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item1, 0, '.', ',') }}</td>
-                                @php
-                                    $total_permonth[$i] = $total_permonth[$i] + $item1;
-                                    $i = $i + 1;
-                                @endphp
-                                @endforeach
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format(array_sum($item), 0, '.', ',') }}</td>
-                                @php
-                                    $total_permonth[12] =  $total_permonth[12]+array_sum($item);
-                                @endphp
-                            </tr>
+                            @foreach ($bbm_usage_1_4 as $index => $usage)
+                                <tr>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{ $months[$index] }}</td>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ number_format($usage, 0, '.', ',') }}</td>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ number_format($bbm_usage_5_7[$index], 0, '.', ',') }}</td>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ number_format(($usage + $bbm_usage_5_7[$index]), 0, '.', ',') }}</td>
+                                </tr>
                             @endforeach
                             <tr>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold bg-gray-300">Jumlah</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold bg-gray-300 text-center">{{ number_format(array_sum($bbm_usage_1_4), 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold bg-gray-300 text-center">{{ number_format(array_sum($bbm_usage_5_7), 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold bg-gray-300 text-center">{{ number_format((array_sum($bbm_usage_1_4) + array_sum($bbm_usage_5_7)), 0, '.', ',') }}</td>
+                            </tr>
+                            
+                            {{-- <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">Jumlah</td>
                                 @foreach ($total_permonth as $item)
                                 <td class="h-[36px] text-[16px] font-normal border px-2 font-bold">{{ number_format($item, 0, '.', ',') }}</td>
                                 @endforeach
-                            </tr>
+                            </tr> --}}
                         </tbody>
                     </table>
                 </div>
