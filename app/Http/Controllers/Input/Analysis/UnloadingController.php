@@ -14,17 +14,22 @@ class UnloadingController extends Controller
 {
     public function index(Request $request)
     {
+        $bulan = $request->month ?? date('Y-m');
+        $date = explode('-', $bulan);
+        
         $unloadings = Unloading::query();
         $year = isset($request->year) ? $request->year : \Carbon\Carbon::now()->year;
 
-        $unloadings->where(function ($query) use ($year) {
+        $unloadings->where(function ($query) use ($date) {
             // Kondisi pertama: `analysis_date` null tapi `created_at` sesuai $year
             $query->whereNull('analysis_date')
-                  ->whereYear('created_at', $year);
+                  ->whereYear('created_at', $date[0])
+                  ->whereMonth('created_at', $date[1]);
         })
-        ->orWhere(function ($query) use ($year) {
+        ->orWhere(function ($query) use ($date) {
             // Kondisi kedua: `analysis_date` sesuai $year
-            $query->whereYear('analysis_date', $year);
+            $query->whereYear('analysis_date', $date[0]);
+            $query->whereMonth('analysis_date', $date[1]);
         });
 
         $unloadings = $unloadings->with(['coal_unloading']);

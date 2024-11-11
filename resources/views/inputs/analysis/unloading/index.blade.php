@@ -33,13 +33,11 @@
             <div class="bg-white rounded-lg p-6">
                 <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.analysis.unloadings.index') }}" method="GET" id="filterForm">
                     <div class="lg:flex items-center justify-between gap-2 w-full mb-3">
-                        <div class="w-full mb-2 lg:mb-0">
-                            <select id="year" name="year" class="w-[350px] h-[44px] rounded-md border px-2" autofocus>
-                                <option selected disabled>Pilih Tahun</option>
-                                @for ($i = date('Y'); $i >= 2000; $i--)
-                                    <option {{request()->year == $i ? 'selected' :''}}>{{ $i }}</option>
-                                @endfor
-                            </select>
+                        <div class="w-full mb-4">
+                            <label for="ship_uuid" class="w-4/12 font-bold text-[#232D42] text-[16px] mr-5">Tanggal Analisa</label>
+                            <input type="month" name="month"
+                                class="border h-[40px] w-9/16 rounded-lg px-3"
+                                value="{{ request('month') }}" min="2000" max="2100">
                         </div>
                     </div>
                     <button type="submit" class="hidden">Search</button>

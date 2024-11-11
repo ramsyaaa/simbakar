@@ -13,14 +13,17 @@ class PreloadingController extends Controller
 {
     public function index(Request $request)
     {
-        $preloadings = Preloadinng::query();
-        $year = isset($request->year) ? $request->year : \Carbon\Carbon::now()->year;
+        $bulan = $request->month ?? date('Y-m');
+        $date = explode('-', $bulan);
 
-        $preloadings->when($year, function ($query) use ($year) {
-            $query->whereYear('analysis_date', $year);
+        $preloadings = Preloadinng::query();
+
+        $preloadings->when($request->month, function ($query) use ($date) {
+            $query->whereYear('analysis_date', $date[0]);
+            $query->whereMonth('analysis_date', $date[1]);
         });
 
-        $preloadings->orderBy('created_at', 'desc');
+        $preloadings->orderBy('analysis_date', 'desc');
 
         $data['preloadings'] = $preloadings->paginate(10)->appends(request()->query());
         return view('inputs.analysis.preloading.index',$data);
