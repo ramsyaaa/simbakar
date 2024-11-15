@@ -85,7 +85,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->unit != null ? $item->unit->name : '-' }}</td>
                                 @endif
                                 @if($bbm_use_for == 'heavy_equipment')
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->heavy_equipment != null ? $item->heavy_equipment->name : '-' }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->heavyEquipment != null ? $item->heavyEquipment->name : '-' }}</td>
                                 @endif
                                 @if($bbm_use_for == 'other')
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->description }}</td>

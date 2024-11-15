@@ -20,11 +20,11 @@
                 <form onsubmit="return confirmSubmit(this, 'Tambahkan Pemesanan BBM ?')" action="{{ route('contracts.bbm-book-contracts.store') }}" method="POST">
                     @csrf
                     <div class="p-4 bg-white rounded-lg w-full">
-                        <div class="lg:flex items-center justify-between">
+                        <div class="lg:flex items-center justify-between gap-2">
                             <div class="w-full">
                                 <label for="name" class="font-bold text-[#232D42] text-[16px]">Nomor Pemesanan</label>
                                 <div class="relative">
-                                    <input type="text" name="order_number" value="{{ old('order_number') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="text" name="order_number" value="{{ old('order_number') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('order_number')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -35,7 +35,7 @@
                             <div class="w-full">
                                 <label for="total" class="font-bold text-[#232D42] text-[16px]">Jumlah</label>
                                 <div class="relative">
-                                    <input type="number" name="total" value="{{ old('total') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="number" name="total" value="{{ old('total') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('total')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -44,11 +44,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="lg:flex items-center justify-between">
+                        <div class="lg:flex items-start gap-2 justify-between">
                             <div class="w-full">
                                 <label for="order_date" class="font-bold text-[#232D42] text-[16px]">Tanggal Pemesanan</label>
                                 <div class="relative">
-                                    <input type="date" name="order_date" value="{{ old('order_date') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="date" name="order_date" value="{{ old('order_date') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('order_date')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -64,7 +64,7 @@
                                         <option value="Mobil">Mobil</option>
                                         <option value="Kapal">Kapal</option>
                                     </select>
-                                    <select id="ship_uuid" name="ship_uuid" class="w-[600px] h-[44px] rounded-md border px-2" disabled>
+                                    <select id="ship_uuid" name="ship_uuid" class="select-2 w-[600px] h-[44px] rounded-md border px-2" disabled>
                                         <option selected disabled>Pilih Kapal</option>
                                         @foreach ($ships as $ship)
                                             <option value="{{$ship->uuid}}">{{$ship->name}}</option>
@@ -78,11 +78,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="lg:flex items-center justify-between">
+                        <div class="lg:flex items-center justify-between gap-2">
                             <div class="w-full">
                                 <label for="alocation_date" class="font-bold text-[#232D42] text-[16px]">Bulan dan Tahun Alokasi</label>
                                 <div class="relative">
-                                    <input type="month" name="alocation_date" value="{{ old('alocation_date') }}" class="w-full lg:w-[600px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="month" name="alocation_date" value="{{ old('alocation_date') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('alocation_date')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
@@ -91,7 +91,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="{{ route('contracts.bbm-book-contracts.index') }}" class="bg-[#C03221] w-full lg:w-[600px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+                        <a href="{{ route('contracts.bbm-book-contracts.index') }}" class="bg-[#C03221] w-full py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                         <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Pemesanan BBM </button>
                     </div>
                 </form>

@@ -39,6 +39,8 @@
                                         <option value="">Jenis Bunker</option>
                                         <option value="hsd-solar">HSD/Solar</option>
                                         <option value="mfo-residu">MFO/Residu</option>
+                                        <option value="batubara">Batubara</option>
+                                        <option value="biomassa">Biomassa</option>
                                     </select>
                                     @error('bunker_type')
                                     <div class="absolute -bottom-1 left-1 text-red-500">

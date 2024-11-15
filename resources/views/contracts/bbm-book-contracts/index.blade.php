@@ -46,11 +46,12 @@
                         <tbody>
                             @foreach ($bbms as $bbm)
                             <tr>
+                                {{-- @if($bbm->fleet_type == 'Mobil') @dd($bbm) @endif --}}
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ date('d-m-Y', strtotime($bbm->order_date)) }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm->order_number }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm->total }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm->fleet_type }} : {{$bbm->ship->name ?? ''}}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm->total, 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bbm->fleet_type }} : @if($bbm->ship != null){{$bbm->ship->name ?? ''}} @elseif($bbm->type_ship != null) {{ $bbm->type_ship->name }} @endif</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('contracts.bbm-book-contracts.edit', ['uuid' => $bbm->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Edit

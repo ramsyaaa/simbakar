@@ -32,6 +32,8 @@
                                 <option value="">Jenis Bunker</option>
                                 <option value="hsd-solar">HSD/Solar</option>
                                 <option value="mfo-residu">MFO/Residu</option>
+                                <option value="batubara">Batubara</option>
+                                <option value="biomassa">Biomassa</option>
                             </select>
                         </div>
                     </div>
@@ -53,8 +55,8 @@
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bunker->name }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $bunker->capacity }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ ($bunker->bunker_type == 'hsd-solar' ? 'HSD/Solar' : "") }} {{ ($bunker->bunker_type == 'mfo-residu' ? 'MFO/Residu' : '') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bunker->capacity, 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ ($bunker->bunker_type == 'hsd-solar' ? 'HSD/Solar' : "") }} {{ ($bunker->bunker_type == 'mfo-residu' ? 'MFO/Residu' : '') }} {{ ($bunker->bunker_type == 'batubara' ? 'Batubara' : '') }} {{ ($bunker->bunker_type == 'biomassa' ? 'Biomassa' : '') }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('master-data.bunkers.soundings.index', ['bunker_uuid' => $bunker->uuid]) }}" class="bg-[#FFF212] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">
                                         Lihat

@@ -40,6 +40,8 @@
                                         <option value="">Jenis Bunker</option>
                                         <option @if($bunker->bunker_type == 'hsd-solar') selected @endif value="hsd-solar">HSD/Solar</option>
                                         <option @if($bunker->bunker_type == 'mfo-residu') selected @endif value="mfo-residu">MFO/Residu</option>
+                                        <option @if($bunker->bunker_type == 'batubara') selected @endif value="batubara">Batubara</option>
+                                        <option @if($bunker->bunker_type == 'biomassa') selected @endif value="biomassa">Biomassa</option>
                                     </select>
                                     @error('bunker_type')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
