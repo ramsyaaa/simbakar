@@ -16,6 +16,11 @@ class BbmBookContract extends Model
         return $this->hasOne(Ship::class, 'uuid', 'ship_uuid');
     }
 
+    public function type_ship()
+    {
+        return $this->hasOne(TypeShip::class, 'uuid', 'type_ship_uuid');
+    }
+
     protected static function boot()
      {
          parent::boot();

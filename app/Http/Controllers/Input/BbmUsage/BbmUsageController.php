@@ -44,6 +44,7 @@ class BbmUsageController extends Controller
         }else{
             $data['bbm_usages'] = $bbm_usages
                                 ->select('bbm_usages.id', 'bbm_usages.*')
+                                ->with(['heavyEquipment'])
                                 ->paginate(10)
                                 ->appends(request()->query());
         }

@@ -12,14 +12,16 @@ class LaborController extends Controller
 {
     public function index(Request $request)
     {
-        $labors = Labor::query();
-        $year = isset($request->year) ? $request->year : \Carbon\Carbon::now()->year;
+        $bulan = $request->month ?? date('Y-m');
+        $date = explode('-', $bulan);
 
-        $labors->when($year, function ($query) use ($year) {
-            $query->whereYear('analysis_date', $year);
+        $labors = Labor::query();
+        $labors->when($request->month, function ($query) use ($date) {
+            $query->whereYear('analysis_date', $date[0]);
+            $query->whereMonth('analysis_date', $date[1]);
         });
 
-        $labors->orderBy('created_at', 'desc');
+        $labors->orderBy('analysis_date', 'desc');
 
         $data['labors'] = $labors->paginate(10)->appends(request()->query());
         return view('inputs.analysis.labor.index',$data);

@@ -15,14 +15,17 @@ class LoadingController extends Controller
 {
     public function index(Request $request)
     {
-        $loadings = Loading::query();
-        $year = isset($request->year) ? $request->year : date('Y');
+        $bulan = $request->month ?? date('Y-m');
+        $date = explode('-', $bulan);
 
-        $loadings->when($year, function ($query) use ($year) {
-            $query->whereYear('analysis_date', $year);
+        $loadings = Loading::query();
+
+        $loadings->when($request->month, function ($query) use ($date) {
+            $query->whereYear('analysis_date', $date[0]);
+            $query->whereMonth('analysis_date', $date[1]);
         });
 
-        $loadings->orderBy('created_at', 'desc');
+        $loadings->orderBy('analysis_date', 'desc');
 
         $data['loadings'] = $loadings->paginate(10)->appends(request()->query());
         return view('inputs.analysis.loading.index',$data);

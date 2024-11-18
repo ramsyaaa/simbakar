@@ -1099,22 +1099,21 @@ class ReportBbmController extends Controller
                 array_push($months, Carbon::create()->month($i)->translatedFormat('m'));
 
                 $processedData[Carbon::create()->month($i)->translatedFormat('F')] = [];
-                // $rakor = DeliveryClause::where(['month' => $i, 'year' => $year]);
-                // if ($contract) {
-                //     $rakor = $rakor->where('contract_id', $contract);
-                // }
-                // $rakor = $rakor->get();
-                // $rakor = $rakor->pluck('rakor')->sum();
-                // $processedData[Carbon::create()->month($i)->translatedFormat('F')]['rakor'] = $rakor;
+                $rakor = DeliveryClause::where(['month' => $i, 'year' => $year]);
+                if ($contract) {
+                    $rakor = $rakor->where('contract_id', $contract);
+                }
+                $rakor = $rakor->get();
+                $rakor = $rakor->pluck('rakor')->sum();
+                $processedData[Carbon::create()->month($i)->translatedFormat('F')]['rakor'] = $rakor;
             }
-            $coal_plans = CoalReceiptPlan::where('year', $year)->first();
-            // $units = Unit::all();
-            $i = 0;
 
+            $i = 0;
+            $delivery_clauses = DeliveryClause::where('year', $year)->get();
             foreach ($processedData as $month => $value) {
                 $filterData = "$year-$months[$i]";
                 // $filterData = "2024-08";
-                $bbm_unloading = CoalUnloading::select('id', 'contract_id', 'tug_3_accept')->with(['contract:id', 'contract.delivery_clauses:id,contract_id,rakor'])->whereRaw('receipt_date like ?', ["%" . ("$filterData") . "%"]);
+                $bbm_unloading = CoalUnloading::select('id', 'contract_id', 'tug_3_accept')->whereRaw('receipt_date like ?', ["%" . ("$filterData") . "%"]);
 
                 if ($contract) {
                     $bbm_unloading = $bbm_unloading->whereHas('contract', function ($query) use ($contract) {
@@ -1126,13 +1125,15 @@ class ReportBbmController extends Controller
                 }
                 $bbm_unloading = $bbm_unloading->get();
 
-                $rakor = collect($bbm_unloading)->pluck('contract.delivery_clauses.rakor')->sum();
-                // $processedData[$month]['rakor'] = $bbm_unloading && count($bbm_unloading) > 0 ? collect($bbm_unloading)->pluck('contract.delivery_clauses')->flatMap(function ($item) {
-                //     return $item->pluck('rakor') ?? 0;
-                // })->sum() : 0;
+                $clauses = $delivery_clauses->filter(function ($item) use ($i) {
+                    return str_replace('0', '', $item->month) == $i + 1;
+                });
+                $rakor = $clauses->pluck('rakor')->sum() ?? 0;
+                $load = $clauses->pluck('load')->sum() ?? 0;
+                $processedData[$month]['rakor'] = $rakor;
+                $processedData[$month]['load'] = $load;
 
                 $processedData[$month]['tug'] =  $bbm_unloading->pluck('tug_3_accept')->sum() ?? 0;
-                $processedData[$month]['rakor'] = $processedData[$month]['tug'];
 
                 $i++;
             }
@@ -1953,7 +1954,7 @@ class ReportBbmController extends Controller
             $cumulative_actual = [];
             foreach ($data['bbm_receipt'][$bulan] as $date => $receipt) {
                 $cumulative_actual[$date] = $start_data_actual + $receipt - $data['bbm_usage'][$bulan][$date];
-                $efective_actual[$date] = $cumulative_actual[$date]-150000000;
+                $efective_actual[$date] = $cumulative_actual[$date] - 150000000;
                 $start_data_actual = $cumulative_actual[$date];
             }
             $data['efective'][$bulan] = array_values($efective_actual);

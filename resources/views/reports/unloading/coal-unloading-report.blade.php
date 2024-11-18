@@ -100,50 +100,59 @@
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border border-gray-400 p-2">No</th>
+                                    <th class="border border-slate-900 p-2">No</th>
                                     @if (request()->filter_type != 'ship')
-                                        <th class="border border-gray-400 p-2">Kapal</th>    
+                                        <th class="border border-slate-900 p-2">Kapal</th>    
                                     @endif
-                                    <th class="border border-gray-400 p-2">Pemasok</th>
-                                    <th class="border border-gray-400 p-2">Agen</th>
-                                    <th class="border border-gray-400 p-2">Tiba</th>
-                                    <th class="border border-gray-400 p-2">Sandar</th>
-                                    <th class="border border-gray-400 p-2">Mulai Bongkar</th>
-                                    <th class="border border-gray-400 p-2">Selesai Bongkar</th>
-                                    <th class="border border-gray-400 p-2">Berangkat</th>
-                                    <th class="border border-gray-400 p-2">Pemakaian Listrik ( KWH )</th>
-                                    <th class="border border-gray-400 p-2">B/L ( Kg )</th>
-                                    <th class="border border-gray-400 p-2">D/S ( Kg )</th>
-                                    <th class="border border-gray-400 p-2">B/W ( Kg )</th>
-                                    <th class="border border-gray-400 p-2">TUG 3 ( Kg )</th>
-                                    <th class="border border-gray-400 p-2">Dermaga</th>
-                                    <th class="border border-gray-400 p-2">GRT Kapal</th>
+                                    <th class="border border-slate-900 p-2">Pemasok</th>
+                                    <th class="border border-slate-900 p-2">Agen</th>
+                                    <th class="border border-slate-900 p-2">Tiba</th>
+                                    <th class="border border-slate-900 p-2">Sandar</th>
+                                    <th class="border border-slate-900 p-2">Mulai Bongkar</th>
+                                    <th class="border border-slate-900 p-2">Selesai Bongkar</th>
+                                    <th class="border border-slate-900 p-2">Berangkat</th>
+                                    <th class="border border-slate-900 p-2">Pemakaian Listrik ( KWH )</th>
+                                    <th class="border border-slate-900 p-2">B/L ( Kg )</th>
+                                    <th class="border border-slate-900 p-2">D/S ( Kg )</th>
+                                    <th class="border border-slate-900 p-2">B/W ( Kg )</th>
+                                    <th class="border border-slate-900 p-2">TUG 3 ( Kg )</th>
+                                    <th class="border border-slate-900 p-2">Dermaga</th>
+                                    <th class="border border-slate-900 p-2">GRT Kapal</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($coals as $coal)
                                 <tr>
-                                    <td class="border border-gray-400 p-2">{{$loop->iteration}}</td>
+                                    <td class="border border-slate-900 p-2">{{$loop->iteration}}</td>
                                     @if (request()->filter_type != 'ship')   
-                                        <td class="border border-gray-400 p-2">{{$coal->ship->name ?? ''}}</td>
+                                        <td class="border border-slate-900 p-2">{{$coal->ship->name ?? ''}}</td>
                                     @endif
-                                    <td class="border border-gray-400 p-2">{{$coal->supplier->name ?? ''}}</td>
-                                    <td class="border border-gray-400 p-2">{{$coal->agent->name ?? ''}}</td>
-                                    <td class="border border-gray-400 p-2">{{date('d-m-Y H:i:s', strtotime($coal->arrived_date))}}</td>
-                                    <td class="border border-gray-400 p-2">{{date('d-m-Y H:i:s', strtotime($coal->dock_ship_date))}}</td>
-                                    <td class="border border-gray-400 p-2">{{date('d-m-Y H:i:s', strtotime($coal->unloading_date))}}</td>
-                                    <td class="border border-gray-400 p-2">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
-                                    <td class="border border-gray-400 p-2">{{date('d-m-Y H:i:s', strtotime($coal->departure_date))}}</td>
-                                    <td class="border border-gray-400 p-2">0</td>
-                                    <td class="border border-gray-400 p-2">{{number_format($coal->bl)}}</td>
-                                    <td class="border border-gray-400 p-2">{{number_format($coal->ds)}}</td>
-                                    <td class="border border-gray-400 p-2">{{number_format($coal->bw)}}</td>
-                                    <td class="border border-gray-400 p-2">{{number_format($coal->tug_3_accept)}}</td>
-                                    <td class="border border-gray-400 p-2">{{$coal->dock->name ?? ''}}</td>
-                                    <td class="border border-gray-400 p-2">{{$coal->ship->grt ?? ''}}</td>
+                                    <td class="border border-slate-900 p-2">{{$coal->supplier->name ?? ''}}</td>
+                                    <td class="border border-slate-900 p-2">{{$coal->agent->name ?? ''}}</td>
+                                    <td class="border border-slate-900 p-2">{{date('d-m-Y H:i:s', strtotime($coal->arrived_date))}}</td>
+                                    <td class="border border-slate-900 p-2">{{date('d-m-Y H:i:s', strtotime($coal->dock_ship_date))}}</td>
+                                    <td class="border border-slate-900 p-2">{{date('d-m-Y H:i:s', strtotime($coal->unloading_date))}}</td>
+                                    <td class="border border-slate-900 p-2">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
+                                    <td class="border border-slate-900 p-2">{{date('d-m-Y H:i:s', strtotime($coal->departure_date))}}</td>
+                                    <td class="border border-slate-900 p-2 text-right">0</td>
+                                    <td class="border border-slate-900 p-2 text-right">{{number_format($coal->bl)}}</td>
+                                    <td class="border border-slate-900 p-2 text-right">{{number_format($coal->ds)}}</td>
+                                    <td class="border border-slate-900 p-2 text-right">{{number_format($coal->bw)}}</td>
+                                    <td class="border border-slate-900 p-2 text-right">{{number_format($coal->tug_3_accept)}}</td>
+                                    <td class="border border-slate-900 p-2">{{$coal->dock->name ?? ''}}</td>
+                                    <td class="border border-slate-900 p-2">{{$coal->ship->grt ?? ''}}</td>
                               
                                     </tr>
                                 @endforeach
+                                <tr>
+                                    <td class="border border-slate-900 p-2 text-center" colspan="10">Total</td>
+                                    <td class="border border-slate-900 p-2 text-right"> {{number_format($coals->sum('bl'))}}</td>
+                                    <td class="border border-slate-900 p-2 text-right"> {{number_format($coals->sum('ds'))}}</td>
+                                    <td class="border border-slate-900 p-2 text-right"> {{number_format($coals->sum('bw'))}}</td>
+                                    <td class="border border-slate-900 p-2 text-right"> {{number_format($coals->sum('tug_3_accept'))}}</td>
+                                    <td class="border border-slate-900 p-2"></td>
+                                    <td class="border border-slate-900 p-2"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
