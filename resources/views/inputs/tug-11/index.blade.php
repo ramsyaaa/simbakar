@@ -64,7 +64,7 @@
                               <tr>
                                    <td class=" font-normal border px-2 text-center">Batu Bara</td>
                                    <td class=" font-normal border px-2 text-center">Unit 1</td>
-                                   <td class=" font-normal border px-2 text-center" rowspan="4">18.01.0009</td>
+                                   <td class=" font-normal border px-2 text-center font-bold" rowspan="4">01.001.003.0100</td>
                                    <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">{{$coal[0] ? number_format($coal[0]) : 0}}</td>
                               </tr>
@@ -102,7 +102,7 @@
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center">Unit 5</td>
-                                   <td class=" font-normal border px-2 text-center" rowspan="3">18.01.0009</td>
+                                   <td class=" font-normal border px-2 text-center font-bold" rowspan="3">01.001.003.0100</td>
                                    <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">
                                         {{$coal[4] ? number_format($coal[4]) : 0}}
@@ -152,7 +152,7 @@
                               <tr>
                                    <td class=" font-normal border px-2 text-center">Solar HSD</td>
                                    <td class=" font-normal border px-2 text-center">Unit 1</td>
-                                   <td class=" font-normal border px-2 text-center" rowspan="6">18.01.0322</td>
+                                   <td class=" font-normal border px-2 text-center font-bold" rowspan="6">01.001.003.0013</td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">{{$solar[0] ? number_format($solar[0]) : 0}}</td>
                               </tr>
@@ -198,7 +198,7 @@
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center">Unit 5</td>
-                                   <td class=" font-normal border px-2 text-center" rowspan="3">18.01.0322</td>
+                                   <td class=" font-normal border px-2 text-center font-bold" rowspan="3">01.001.003.0013</td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">{{$solar[4] ? number_format($solar[4]) : 0}}</td>
                               </tr>
@@ -242,7 +242,7 @@
                               <tr>
                                    <td class=" font-normal border px-2 text-center">Residu MFO</td>
                                    <td class=" font-normal border px-2 text-center">Unit 1</td>
-                                   <td class=" font-normal border px-2 text-center" rowspan="4">18.01.0306</td>
+                                   <td class=" font-normal border px-2 text-center font-bold" rowspan="4">01.001.003.0013</td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">
                                         {{$residu[0] ? number_format($residu[0]) : 0}}
@@ -284,7 +284,9 @@
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center">Unit 5</td>
-                                   <td class=" font-normal border px-2 text-center" rowspan="3">18.01.0306</td>
+                                   <td class=" font-normal border px-2 text-center font-bold" rowspan="3">01.001.003.0013
+
+                                   </td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">
                                         {{$residu[4] ? number_format($residu[4]) : 0}}
@@ -335,7 +337,7 @@
                               <tr>
                                    <td class=" font-normal border px-2 text-center">Biomassa</td>
                                    <td class=" font-normal border px-2 text-center">Unit 1</td>
-                                   <td class=" font-normal border px-2 text-center" rowspan="4">18.01.0306</td>
+                                   <td class=" font-normal border px-2 text-center font-bold" rowspan="4">01.001.003.0013</td>
                                    <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">{{$biomassa[0] ? number_format($biomassa[0]) : 0}}</td>
                               </tr>
@@ -369,7 +371,7 @@
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
                                    <td class=" font-normal border px-2 text-center">Unit 5</td>
-                                   <td class=" font-normal border px-2 text-center" rowspan="3">18.01.0306</td>
+                                   <td class=" font-normal border px-2 text-center font-bold" rowspan="3">01.001.003.0013</td>
                                    <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">{{$biomassa[4] ? number_format($biomassa[4]) : 0}}</</td>
                               </tr>
@@ -443,7 +445,7 @@
                                    <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="11">1</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="11">Batu Bara</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Unit 1</td>
-                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="4">18.01.0009</td>
+                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="4">01.001.003.0100</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Kg</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">{{$coal[0] ? number_format($coal[0]) : 0}}</td>
                               </tr>
@@ -476,7 +478,7 @@
                               </tr>
                               <tr>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Unit 5</td>
-                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="3">18.01.0009</td>
+                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="3">01.001.003.0100</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Kg</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">
                                         {{$coal[4] ? number_format($coal[4]) : 0}}
@@ -522,7 +524,7 @@
                                    <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="13">2</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="13">Solar HSD</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Unit 1</td>
-                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="6">18.01.0322</td>
+                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="6">01.001.003.0013</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Liter</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">{{$solar[0] ? number_format($solar[0]) : 0}}</td>
                               </tr>
@@ -561,7 +563,7 @@
                               </tr>
                               <tr>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Unit 5</td>
-                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="3">18.01.0322</td>
+                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="3">01.001.003.0013</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Liter</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">{{$solar[4] ? number_format($solar[4]) : 0}}</td>
                               </tr>
@@ -601,7 +603,9 @@
                                    <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="7">3</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="7">Residu MFO</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Unit 1</td>
-                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="4">18.01.0306</td>
+                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="4">01.001.003.0013
+
+                                   </td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Liter</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">
                                         {{$residu[0] ? number_format($residu[0]) : 0}}
@@ -659,7 +663,8 @@
                                    <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="11">4</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="11">Biomassa</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Unit 1</td>
-                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="4">18.01.0306</td>
+                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="4"> 01.002.001.0001
+                                   </td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Kg</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">{{$biomassa[0] ? number_format($biomassa[0]) : 0}}</td>
                               </tr>
@@ -688,7 +693,8 @@
                               </tr>
                               <tr>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Unit 5</td>
-                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="3">18.01.0306</td>
+                                   <td class=" font-normal border border-slate-900 px-2 text-center" rowspan="3">  01.002.001.0001
+                                   </td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">Kg</td>
                                    <td class=" font-normal border border-slate-900 px-2 text-center">{{$biomassa[4] ? number_format($biomassa[4]) : 0}}</</td>
                               </tr>
