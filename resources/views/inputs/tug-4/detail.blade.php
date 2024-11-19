@@ -232,7 +232,7 @@
                                                     </table>
                                                     
                                                 </td>
-                                                <td class="px-4 py-2 border border-slate-900">18.01.0009</td>
+                                                <td class="px-4 py-2 border border-slate-900">01.001.003.0100</td>
                                                 <td class="px-4 py-2 border border-slate-900">Kg</td>
                                                 <td class="px-4 py-2 border border-slate-900">{{ number_format($tug->coal->tug_3_accept)}}</td>
                                                 <td class="px-4 py-2 border border-slate-900"></td>
@@ -262,7 +262,7 @@
                                                     </table>
                                                     
                                                 </td>
-                                                <td class="px-4 py-2 border border-slate-900">18.01.0323</td>
+                                                <td class="px-4 py-2 border border-slate-900"> {{$tug->type_fuel == 'solar' ? '01.001.003.0013' : '01.001.003.0101'}}</td>
                                                 <td class="px-4 py-2 border border-slate-900">L</td>
                                                 <td class="px-4 py-2 border border-slate-900">{{ number_format($tug->bbm->amount_receipt)}}</td>
                                                 <td class="px-4 py-2 border border-slate-900"></td>
@@ -288,7 +288,7 @@
                                                 </table>
                                                 
                                             </td>
-                                            <td class="px-4 py-2 border border-slate-900">18.01.0306</td>
+                                            <td class="px-4 py-2 border border-slate-900">01.002.001.0001</td>
                                             <td class="px-4 py-2 border border-slate-900">Kg</td>
                                             <td class="px-4 py-2 border border-slate-900">{{ number_format($tug->biomassa->detailReceipt->sum('volume') ?? 0)}}</td>
                                         </tr>

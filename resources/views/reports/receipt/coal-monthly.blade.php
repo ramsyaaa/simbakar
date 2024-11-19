@@ -93,15 +93,25 @@
                                     <td class="border border-gray-400 p-2">{{$coal->ship->name ?? ''}}</td>
                                     <td class="border border-gray-400 p-2">{{date('d-m-Y H:i:s', strtotime($coal->unloading_date))}}</td>
                                     <td class="border border-gray-400 p-2">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
-                                    <td class="border border-gray-400 p-2">{{$coal->duration_time}}</td>
-                                    <td class="border border-gray-400 p-2">{{number_format($coal->ds)}}</td>
-                                    <td class="border border-gray-400 p-2">{{number_format($coal->bl)}}</td>
-                                    <td class="border border-gray-400 p-2">{{number_format($coal->bw)}}</td>
-                                    <td class="border border-gray-400 p-2">{{number_format($coal->tug_3_accept)}}</td>
+                                    <td class="border border-gray-400 p-2 text-right">{{$coal->duration_time}}</td>
+                                    <td class="border border-gray-400 p-2 text-right">{{number_format($coal->ds)}}</td>
+                                    <td class="border border-gray-400 p-2 text-right">{{number_format($coal->bl)}}</td>
+                                    <td class="border border-gray-400 p-2 text-right">{{number_format($coal->bw)}}</td>
+                                    <td class="border border-gray-400 p-2 text-right">{{number_format($coal->tug_3_accept)}}</td>
                                     <td class="border border-gray-400 p-2">{{$coal->dock->name ?? ''}}</td>
                                     <td class="border border-gray-400 p-2">{{$coal->supplier->name ?? ''}}</td>
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td class="border border-slate-900 p-2 text-center" colspan="4">Total</td>
+                                <td class="border border-slate-900 p-2 text-right"> {{number_format($coals->sum('duration_time'))}}</td>
+                                <td class="border border-slate-900 p-2 text-right"> {{number_format($coals->sum('bl'))}}</td>
+                                <td class="border border-slate-900 p-2 text-right"> {{number_format($coals->sum('ds'))}}</td>
+                                <td class="border border-slate-900 p-2 text-right"> {{number_format($coals->sum('bw'))}}</td>
+                                <td class="border border-slate-900 p-2 text-right"> {{number_format($coals->sum('tug_3_accept'))}}</td>
+                                <td class="border border-slate-900 p-2"></td>
+                                <td class="border border-slate-900 p-2"></td>
+                            </tr>
                         </tbody>
                     </table>
 
