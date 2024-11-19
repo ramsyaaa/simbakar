@@ -673,7 +673,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="inspector" class="font-bold text-[#232D42] text-[16px]">Pemeriksa</label>
                                     <div class="relative">
-                                        <select name="inspector" id="inspector" class="select-2 w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="inspector" id="inspector" class="select-2-tag select-inspection w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Pemeriksa</option>
                                             @foreach ($inspections as $inspection)
                                                 <option {{old('inspector', $bbm->inspector ?? '') == $inspection->name ? 'selected' :''}}>{{$inspection->name}}</option>
@@ -689,7 +689,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="head_of_warehouse" class="font-bold text-[#232D42] text-[16px]">Kepala Gudang</label>
                                     <div class="relative">
-                                        <select name="head_of_warehouse" id="head_of_warehouse" class="select-2 w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                        <select name="head_of_warehouse" id="head_of_warehouse" class="select-2-tag select-warehouse w-full border rounded-md mt-3 mb-5 h-[40px] px-3">
                                             <option selected disabled>Pilih Kepala Gudang</option>
                                                 @foreach ($heads as $head)
                                                 <option {{old('head_of_warehouse', $bbm->head_of_warehouse ?? '') == $head->name ? 'selected' :''}}>{{$head->name}}</option>
