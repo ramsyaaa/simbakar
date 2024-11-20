@@ -199,24 +199,24 @@
                             <table class="w-full" id="table">
                                 <thead>
                                     <tr>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">No</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">
+                                        <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">No</th>
+                                        <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">
                                             {{ $label }}</th>
                                         {{-- @if (isset($_GET['type']) && $_GET['type'] == 'month')
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Stock
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Stock
                                             </th>
                                         @endif --}}
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Realisasi
+                                        <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Realisasi
                                             Penerimaan (Kg)
                                         </th>
                                         @if ($type == 'year' || $type == 'month')
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Realisasi
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Realisasi
                                                 Pemakaian (Kg)
                                             </th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">
                                                 Persediaan Awal Tahun (Kg)
                                             </th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">
                                                 Persediaan Akhir Tahun (Kg)
                                             </th>
                                         @endif
@@ -224,14 +224,14 @@
                                     </tr>
                                     <tr>
                                         @if (isset($type) && $type == 'day')
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="1">
                                                 Realisasi
                                                 Pemakaian
                                             </th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">Stock
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="1">Stock
                                                 Stock Cumulative
                                             </th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">Stock
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="1">Stock
                                                 Efektif
                                             </th>
                                         @endif

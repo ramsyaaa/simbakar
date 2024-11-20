@@ -153,19 +153,19 @@
                             @if ($filter_type == 'day')
                                     <thead>
                                         <tr>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">No</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Kapal</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Tanggal Bongkar</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="{{count($analytic)}}">Nilai Kalor ( Ar )</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="{{count($analytic)}}">Kadar Total Moisture ( Ar )</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">No</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Kapal</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Tanggal Bongkar</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px]" colspan="{{count($analytic)}}">Nilai Kalor ( Ar )</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px]" colspan="{{count($analytic)}}">Kadar Total Moisture ( Ar )</th>
                                         </tr>
                                         <tr>
                                             @foreach ($analytic as $item)
-                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th>
+                                                <th class="border text-white bg-[#047A96] h-[52px] capitalize">{{$item}}</th>
                                             @endforeach
                                             @foreach ($analytic as $item)
-                                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6] capitalize">{{$item}}</th>
+                                                <th class="border text-white bg-[#047A96] h-[52px] capitalize">{{$item}}</th>
                                             @endforeach
 
                                         </tr>

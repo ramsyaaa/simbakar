@@ -199,33 +199,33 @@
                             <table class="min-w-max" id="table">
                                 <thead>
                                     <tr>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">No</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">
+                                        <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">No</th>
+                                        <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">
                                             {{ $label }}</th>
                                         {{-- @if (isset($_GET['type']) && $_GET['type'] == 'month')
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Stock
+                                        <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Stock
                                         </th>
                                     @endif --}}
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Realisasi
+                                        <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Realisasi
                                             Penerimaan (Kg)
                                         </th>
                                         @if ($type == 'year')
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Realisasi
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Realisasi
                                                 Pemakaian (Kg)
                                             </th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">
                                                 Persediaan Awal Tahun (Kg)
                                             </th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">
                                                 Persediaan Akhir Tahun (Kg)
                                             </th>
                                         @endif
                                         @if ($type != 'year')
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="11">
+                                            <th class="border text-white bg-[#047A96] " rowspan="1" colspan="11">
                                                 Pemakaian Batubara ( Sesuai TUG 9 )</th>
                                         @endif
                                         @if ($type != 'year')
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]" rowspan="1" colspan="2">
+                                            <th class="border text-white bg-[#047A96] " rowspan="1" colspan="2">
                                                 Persediaan
                                             </th>
                                         @endif
@@ -233,25 +233,25 @@
                                     </tr>
                                     <tr>
                                         @if ($type != 'year')
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 1</th>
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 2</th>
+                                            <th class="border text-white bg-[#047A96] ">Unit 1</th>
+                                            <th class="border text-white bg-[#047A96] ">Unit 2</th>
 
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 3</th>
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 4</th>
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 1-4</th>
+                                            <th class="border text-white bg-[#047A96] ">Unit 3</th>
+                                            <th class="border text-white bg-[#047A96] ">Unit 4</th>
+                                            <th class="border text-white bg-[#047A96] ">Unit 1-4</th>
 
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 5</th>
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 6</th>
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 7</th>
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 5-7</th>
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Unit 1-7</th>
-                                            <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Lain-lain</th>
+                                            <th class="border text-white bg-[#047A96] ">Unit 5</th>
+                                            <th class="border text-white bg-[#047A96] ">Unit 6</th>
+                                            <th class="border text-white bg-[#047A96] ">Unit 7</th>
+                                            <th class="border text-white bg-[#047A96] ">Unit 5-7</th>
+                                            <th class="border text-white bg-[#047A96] ">Unit 1-7</th>
+                                            <th class="border text-white bg-[#047A96] ">Lain-lain</th>
                                         @endif
                                         @if (isset($type) && $type != 'year')
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="1">
                                                 Kumulatif
                                             </th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="1">Stock
+                                            <th class="border text-white bg-[#047A96] h-[52px]" rowspan="1">Stock
                                                 Efektif
                                             </th>
                                         @endif

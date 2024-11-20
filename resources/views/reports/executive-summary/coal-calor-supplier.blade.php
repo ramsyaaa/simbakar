@@ -167,17 +167,17 @@
                             @if ($filter_type == 'day')
                                     <thead>
                                         <tr>
-                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Tanggal Selesai Bongkar</th>
-                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Nama Kapal</th>
-                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Nomor Kontrak</th>
-                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Pemasok</th>
-                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
-                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" rowspan="2">Asal Barang</th>
-                                            <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6]" colspan="3"> {{$parameter->name}} ( {{request('basis')}} ) </th>
+                                            <th class="border text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Tanggal Selesai Bongkar</th>
+                                            <th class="border text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Nama Kapal</th>
+                                            <th class="border text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Nomor Kontrak</th>
+                                            <th class="border text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Pemasok</th>
+                                            <th class="border text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
+                                            <th class="border text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Asal Barang</th>
+                                            <th class="border text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" colspan="3"> {{$parameter->name}} ( {{request('basis')}} ) </th>
                                         </tr>
                                         <tr>
                                             @foreach ($analytic as $item)
-                                                <th class="border bg-[#F5F6FA] h-[24px] text-[#8A92A6] capitalize">{{$item}}</th>
+                                                <th class="border text-white bg-[#047A96] h-[24px] text-white bg-[#047A96] capitalize">{{$item}}</th>
                                             @endforeach
 
                                         </tr>

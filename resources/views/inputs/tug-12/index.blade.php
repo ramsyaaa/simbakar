@@ -51,13 +51,13 @@
                         <table class="w-full">
                             <thead>
                                 <tr>
-                                    <th class="border  bg-[#F5F6FA] text-[#8A92A6]">#</th>
-                                    <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
-                                    <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
-                                    <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
-                                    <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
-                                    <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
-                                    <th class="border  bg-[#F5F6FA] text-[#8A92A6]">Nomor Pemesanan</th>
+                                    <th class="border text-white bg-[#047A96]">#</th>
+                                    <th class="border text-white bg-[#047A96]">Nomor Pemesanan</th>
+                                    <th class="border text-white bg-[#047A96]">Nomor Pemesanan</th>
+                                    <th class="border text-white bg-[#047A96]">Nomor Pemesanan</th>
+                                    <th class="border text-white bg-[#047A96]">Nomor Pemesanan</th>
+                                    <th class="border text-white bg-[#047A96]">Nomor Pemesanan</th>
+                                    <th class="border text-white bg-[#047A96]">Nomor Pemesanan</th>
                                 </tr>
                             </thead>
                             <tbody>

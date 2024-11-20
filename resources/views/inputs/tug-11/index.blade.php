@@ -52,11 +52,11 @@
                          <table class="w-full">
                          <thead>
                               <tr>
-                                   <th class="border bg-[#F5F6FA] text-[#8A92A6]">Nama Barang</th>
-                                   <th class="border bg-[#F5F6FA] text-[#8A92A6]">Unit</th>
-                                   <th class="border bg-[#F5F6FA] text-[#8A92A6]">Nomor Normalisasi</th>
-                                   <th class="border bg-[#F5F6FA] text-[#8A92A6]">Satuan</th>
-                                   <th class="border bg-[#F5F6FA] text-[#8A92A6]">Mutasi Keluar</th>
+                                   <th class="border text-white bg-[#047A96]">Nama Barang</th>
+                                   <th class="border text-white bg-[#047A96]">Unit</th>
+                                   <th class="border text-white bg-[#047A96]">Nomor Normalisasi</th>
+                                   <th class="border text-white bg-[#047A96]">Satuan</th>
+                                   <th class="border text-white bg-[#047A96]">Mutasi Keluar</th>
                               </tr>
                          </thead>
                          <tbody>

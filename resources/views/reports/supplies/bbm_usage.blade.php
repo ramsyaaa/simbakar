@@ -94,37 +94,37 @@
                     <table class="min-w-max w-full" id="table">
                         <thead>
                             <tr>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">@if($filter_type == 'day') Tanggal @elseif($filter_type == 'month') Bulan @elseif($filter_type == 'year') Tahun @endif</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">@if($filter_type == 'day') Tanggal @elseif($filter_type == 'month') Bulan @elseif($filter_type == 'year') Tahun @endif</th>
                                 @if($filter_type == 'month')
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Stock Awal</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Stock Awal</th>
                                 @endif
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Penerimaan (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" @if($filter_type == 'day') colspan="{{ 12 }}" @else rowspan="2" @endif>@if($filter_type == 'day') Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif Sesuai TUG 9 (Liter) @else Pemakaian @endif</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Penerimaan (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" @if($filter_type == 'day') colspan="{{ 12 }}" @else rowspan="2" @endif>@if($filter_type == 'day') Pemakaian @if($type_bbm == 'solar')HSD @elseif($type_bbm == 'residu')MFO @endif Sesuai TUG 9 (Liter) @else Pemakaian @endif</th>
                                 @if($filter_type != 'year')
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Persediaan (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" colspan="2">Persediaan (Liter)</th>
                                 @else 
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Persediaan Awal Tahun</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Persediaan Akhir Tahun</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Persediaan Awal Tahun</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Persediaan Akhir Tahun</th>
                                 @endif
                             </tr>
                             @if($filter_type != 'year')
                             <tr>
                                 @if($filter_type == 'day')
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Albes</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 1</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 2</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 3</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 4</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 1-4</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 5</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 6</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 7</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 5-7</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Lainnya</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jumlah</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Albes</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit 1</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit 2</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit 3</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit 4</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit 1-4</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit 5</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit 6</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit 7</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit 5-7</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Lainnya</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Jumlah</th>
                                 @endif
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Kumulatif</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Efektif</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Kumulatif</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Efektif</th>
                             </tr>
                             @endif
                         </thead>

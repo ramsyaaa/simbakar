@@ -35,14 +35,14 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal Transfer</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jenis Bbm</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Volume</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nomor Berita Acara</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Sumber</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tujuan</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Tanggal Transfer</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Jenis Bbm</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Volume</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Nomor Berita Acara</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Sumber</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Tujuan</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
                         </thead>
                         <tbody>

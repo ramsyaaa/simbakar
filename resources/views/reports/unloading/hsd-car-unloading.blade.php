@@ -45,15 +45,15 @@
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border border-gray-400 p-2" rowspan="2">No</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Tanggal Penerimaan</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">No Polisi</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">No Faktur</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">Volume</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">No</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Tanggal Penerimaan</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">No Polisi</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">No Faktur</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">Volume</th>
                                 </tr>
                                 <tr>
-                                    <th class="border border-gray-400 p-2">Volume Faktur (Liter)</th>
-                                    <th class="border border-gray-400 p-2">Terima TUG3 (Liter)</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Volume Faktur (Liter)</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Terima TUG3 (Liter)</th>
 
                                 </tr>
                             </thead>

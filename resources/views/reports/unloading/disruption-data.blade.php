@@ -53,29 +53,29 @@
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border border-gray-400 p-2" colspan="12">Data Gangguan UBP Suralaya</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="12">Data Gangguan UBP Suralaya</th>
                                 </tr>
                                 <tr>
-                                    <th class="border border-gray-400 p-2" rowspan="2">No</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Nama Kapal</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Tanggal Penerimaan</th>
-                                    <th class="border border-gray-400 p-2">Tonase</th>
-                                    <th class="border border-gray-400 p-2" colspan="3">Jenis Gangguan PLTU</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">Waktu Durasi</th>
-                                    <th class="border border-gray-400 p-2">Jumlah</th>
-                                    <th class="border border-gray-400 p-2">Total Gangguan SLA</th>
-                                    <th class="border border-gray-400 p-2">Total Gangguan</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">No</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Nama Kapal</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Tanggal Penerimaan</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Tonase</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="3">Jenis Gangguan PLTU</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">Waktu Durasi</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Jumlah</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Total Gangguan SLA</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Total Gangguan</th>
                                 </tr>
                                 <tr>
-                                    <th class="border border-gray-400 p-2">Kg</th>
-                                    <th class="border border-gray-400 p-2">Tanggal</th>
-                                    <th class="border border-gray-400 p-2">DMG</th>
-                                    <th class="border border-gray-400 p-2">Uraian</th>
-                                    <th class="border border-gray-400 p-2">Jam Mulai</th>
-                                    <th class="border border-gray-400 p-2">Jam Akhir</th>
-                                    <th class="border border-gray-400 p-2">Menit</th>
-                                    <th class="border border-gray-400 p-2">Menit</th>
-                                    <th class="border border-gray-400 p-2">Jam</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Kg</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Tanggal</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">DMG</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Uraian</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Jam Mulai</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Jam Akhir</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Menit</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Menit</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Jam</th>
 
                                 </tr>
                             </thead>

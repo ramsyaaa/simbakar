@@ -46,12 +46,12 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Pemasok, Kapal</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Dermaga</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Hasil</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Tanggal</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Pemasok, Kapal</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Dermaga</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Hasil</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
                         </thead>
                         <tbody>

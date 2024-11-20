@@ -39,11 +39,11 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6] text-center">No</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6] text-center">Pemasok</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6] text-center">No TUG 3</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6] text-center">Total Penerimaan</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]"></th>
+                                <th class="border text-white bg-[#047A96] h-[52px] text-center">No</th>
+                                <th class="border text-white bg-[#047A96] h-[52px] text-center">Pemasok</th>
+                                <th class="border text-white bg-[#047A96] h-[52px] text-center">No TUG 3</th>
+                                <th class="border text-white bg-[#047A96] h-[52px] text-center">Total Penerimaan</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]"></th>
                             </tr>
                         </thead>
                         <tbody>

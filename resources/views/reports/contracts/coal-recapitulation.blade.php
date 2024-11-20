@@ -66,15 +66,15 @@
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border border-gray-400 p-2">No</th>
-                                    <th class="border border-gray-400 p-2">Nama Kapal</th>
-                                    <th class="border border-gray-400 p-2">Tanggal Bongkar</th>
-                                    <th class="border border-gray-400 p-2">Tanggal Selesai</th>
-                                    <th class="border border-gray-400 p-2">Lama Bongkar</th>
-                                    <th class="border border-gray-400 p-2">DS</th>
-                                    <th class="border border-gray-400 p-2">BL</th>
-                                    <th class="border border-gray-400 p-2">TUG 3</th>
-                                    <th class="border border-gray-400 p-2">Dermaga</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">No</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Nama Kapal</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Tanggal Bongkar</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Tanggal Selesai</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Lama Bongkar</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">DS</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">BL</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">TUG 3</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Dermaga</th>
                                 </tr>
                             </thead>
                             <tbody>

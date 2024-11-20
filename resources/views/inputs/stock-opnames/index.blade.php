@@ -39,13 +39,13 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal Pengukuran</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Stock Opname ( Kg )</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Loose Density ( Ton/M<sup>3</sup> )</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Compact Density ( Ton/M<sup>3</sup> )</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Bedding ( Ton/M<sup>3</sup> )</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Tanggal Pengukuran</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Stock Opname ( Kg )</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Loose Density ( Ton/M<sup>3</sup> )</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Compact Density ( Ton/M<sup>3</sup> )</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Bedding ( Ton/M<sup>3</sup> )</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
                         </thead>
                         <tbody>

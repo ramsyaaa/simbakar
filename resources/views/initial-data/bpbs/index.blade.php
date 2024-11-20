@@ -21,13 +21,13 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tahun</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">BPB terakir batubara</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">BPB terakir solar</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">BPB terakir residu</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">BPB terakir biomassa</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Tahun</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">BPB terakir batubara</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">BPB terakir solar</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">BPB terakir residu</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">BPB terakir biomassa</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
                         </thead>
                         <tbody>

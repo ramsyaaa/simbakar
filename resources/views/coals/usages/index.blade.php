@@ -59,12 +59,12 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[10px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[10px] text-[#8A92A6]">Tanggal</th>
-                                <th class="border  bg-[#F5F6FA] h-[10px] text-[#8A92A6]">No TUG 9</th>
-                                <th class="border  bg-[#F5F6FA] h-[10px] text-[#8A92A6]">Jumlah Pemakaian</th>
-                                <th class="border  bg-[#F5F6FA] h-[10px] text-[#8A92A6]">Untuk Unit</th>
-                                <th class="border  bg-[#F5F6FA] h-[10px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[10px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[10px]">Tanggal</th>
+                                <th class="border text-white bg-[#047A96] h-[10px]">No TUG 9</th>
+                                <th class="border text-white bg-[#047A96] h-[10px]">Jumlah Pemakaian</th>
+                                <th class="border text-white bg-[#047A96] h-[10px]">Untuk Unit</th>
+                                <th class="border text-white bg-[#047A96] h-[10px]">#</th>
                             </tr>
                         </thead>
                         <tbody>

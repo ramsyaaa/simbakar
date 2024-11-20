@@ -35,12 +35,12 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal Pemesanan</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nomor Pemesanan</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jumlah ( L )</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Armada Pengangkut</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Tanggal Pemesanan</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Nomor Pemesanan</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Jumlah ( L )</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Armada Pengangkut</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
                         </thead>
                         <tbody>

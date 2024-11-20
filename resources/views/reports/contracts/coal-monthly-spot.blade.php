@@ -53,18 +53,18 @@
                         <table class="w-full" id="table">
                             <thead>
                                 <tr>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Bulan</th>
-                                    <th colspan="2" class="border border-gray-400 p-2">Rencana</th>
-                                    <th colspan="2" class="border border-gray-400 p-2">Realisasi</th>
-                                    <th colspan="2" class="border border-gray-400 p-2">Deviasi Realisasi</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Bulan</th>
+                                    <th colspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Rencana</th>
+                                    <th colspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Realisasi</th>
+                                    <th colspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Deviasi Realisasi</th>
                                 </tr>
                                 <tr>
-                                    <th class="border border-gray-400 p-2">Kontrak ( Ton )</th>
-                                    <th class="border border-gray-400 p-2">Adendum ( Ton )</th>
-                                    <th class="border border-gray-400 p-2">Ton</th>
-                                    <th class="border border-gray-400 p-2">%</th>
-                                    <th class="border border-gray-400 p-2">Kontrak ( Ton )</th>
-                                    <th class="border border-gray-400 p-2">Adendum ( Ton )</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Kontrak ( Ton )</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Adendum ( Ton )</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Ton</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">%</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Kontrak ( Ton )</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Adendum ( Ton )</th>
                                 </tr>
                             </thead>
                             <tbody>

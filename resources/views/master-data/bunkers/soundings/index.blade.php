@@ -26,12 +26,12 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Meter</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Centimeter</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Milimeter</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Volume (Liter)</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Meter</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Centimeter</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Milimeter</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Volume (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
                         </thead>
                         <tbody>

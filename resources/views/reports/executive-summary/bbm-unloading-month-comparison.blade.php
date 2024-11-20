@@ -91,27 +91,27 @@
                         <table class="w-full" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">No</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Bulan</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">B/L<br>Kg</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">D/S<br>Kg</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">B/W<br>Kg</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Diterima
+                                    <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">No</th>
+                                    <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Bulan</th>
+                                    <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">B/L<br>Kg</th>
+                                    <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">D/S<br>Kg</th>
+                                    <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">B/W<br>Kg</th>
+                                    <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Diterima
                                         [TUG3](Kg)</th>
 
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]" colspan="2">DS & BL</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]" colspan="2">BW & DS</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]" colspan="2">BL & BW</th>
+                                    <th class="border text-white bg-[#047A96] " colspan="2">DS & BL</th>
+                                    <th class="border text-white bg-[#047A96] " colspan="2">BW & DS</th>
+                                    <th class="border text-white bg-[#047A96] " colspan="2">BL & BW</th>
                                 </tr>
                                 <tr>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Selisih</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Persentasi Selisih</th>
+                                    <th class="border text-white bg-[#047A96] ">Selisih</th>
+                                    <th class="border text-white bg-[#047A96] ">Persentasi Selisih</th>
 
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Selisih</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Persentasi Selisih</th>
+                                    <th class="border text-white bg-[#047A96] ">Selisih</th>
+                                    <th class="border text-white bg-[#047A96] ">Persentasi Selisih</th>
 
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Selisih</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Persentasi Selisih</th>
+                                    <th class="border text-white bg-[#047A96] ">Selisih</th>
+                                    <th class="border text-white bg-[#047A96] ">Persentasi Selisih</th>
                                 </tr>
                             </thead>
                             <tbody>
