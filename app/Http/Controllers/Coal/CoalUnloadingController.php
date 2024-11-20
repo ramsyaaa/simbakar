@@ -102,7 +102,7 @@ class CoalUnloadingController extends Controller
             $requestData['end_date'] = $end_date;
             $requestData['departure_date'] = $departure_date;
             $requestData['receipt_date'] = $end_date;
-            $requestData['form_part_number'] = '18.01.0009';
+            $requestData['form_part_number'] = '01.001.003.0100';
             $requestData['unit'] = 'Kg';
 
             $unloading = CoalUnloading::create($requestData);

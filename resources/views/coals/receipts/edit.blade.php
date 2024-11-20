@@ -133,9 +133,7 @@
                                         <label for="form_part_number" class="font-bold text-[#232D42] text-[16px]">No Form Part</label>
                                         <div class="relative">
                                             <select name="form_part_number" id="form_part_number" class="w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
-                                                <option selected disabled>Pilih No Form Part</option>
-                                                <option {{$receipt->form_part_number == '18.01.0009' ? 'selected' : ''}}>18.01.0009</option>
-                                                <option {{$receipt->form_part_number == '18.01.0008' ? 'selected' : ''}}>18.01.0008</option>
+                                                <option selected>01.001.003.0100</option>
                                             </select>
                                             @error('form_part_number')
                                             <div class="absolute -bottom-1 left-1 text-red-500">
