@@ -96,56 +96,56 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="overflow-auto hide-scrollbar max-w-full">
+                    <div class="overflow-auto max-w-full">
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th rowspan="2" class="border border-gray-400 p-2">No</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Pemasok</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Kontrak</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Volume Kontrak ( Ton )</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">No</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Pemasok</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Kontrak</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Volume Kontrak ( Ton )</th>
                                     @if (request('filter_type') == 'day')
-                                        <th colspan="{{$days}}" class="border border-gray-400 p-2">Realisasi Bulan {{date('F Y', strtotime(request('bulan_tahun')))}}</th>
+                                        <th colspan="{{$days}}" class="border border-gray-400 text-white bg-[#047A96] p-2">Realisasi Bulan {{date('F Y', strtotime(request('bulan_tahun')))}}</th>
                                     @endif
                                     @if (request('filter_type') == 'month')
-                                        <th colspan="12" class="border border-gray-400 p-2">Realisasi Tahun {{request('tahun') ?? ''}}</th>
+                                        <th colspan="12" class="border border-gray-400 text-white bg-[#047A96] p-2">Realisasi Tahun {{request('tahun') ?? ''}}</th>
                                     @endif
                                     @if (request('filter_type') == 'year')
                                         @php
                                             $countYear = request('start)year') == request('end_year') ? 1 : ( request('end_year') - request('start_year') + 1);
                                         @endphp
-                                        <th colspan="{{$countYear}}" class="border border-gray-400 p-2">Realisasi Tahun {{request('start_year') ?? ''}} Sampai Tahun {{request('end_year') ?? ''}}</th>
+                                        <th colspan="{{$countYear}}" class="border border-gray-400 text-white bg-[#047A96] p-2">Realisasi Tahun {{request('start_year') ?? ''}} Sampai Tahun {{request('end_year') ?? ''}}</th>
                                     @endif
-                                    <th rowspan="2" class="border border-gray-400 p-2">Jumlah</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Jumlah</th>
                                 </tr>
                                     @if (request('filter_type') == 'day')
 
                                         <tr>
                                             @for ($i = 1; $i <= $days; $i++)
-                                                <th class="border border-gray-400 p-2">{{$i}}</th>
+                                                <th class="border border-gray-400 text-white bg-[#047A96] p-2">{{$i}}</th>
                                             @endfor
                                         </tr>
                                     @endif
                                     @if (request('filter_type') == 'month')
                                         <tr>
-                                            <th class="border border-gray-400 p-2">Januari</th>
-                                            <th class="border border-gray-400 p-2">Febuari</th>
-                                            <th class="border border-gray-400 p-2">Maret</th>
-                                            <th class="border border-gray-400 p-2">April</th>
-                                            <th class="border border-gray-400 p-2">Mei</th>
-                                            <th class="border border-gray-400 p-2">Juni</th>
-                                            <th class="border border-gray-400 p-2">Juli</th>
-                                            <th class="border border-gray-400 p-2">Agustus</th>
-                                            <th class="border border-gray-400 p-2">September</th>
-                                            <th class="border border-gray-400 p-2">Oktober</th>
-                                            <th class="border border-gray-400 p-2">November</th>
-                                            <th class="border border-gray-400 p-2">Desember</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">Januari</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">Febuari</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">Maret</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">April</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">Mei</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">Juni</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">Juli</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">Agustus</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">September</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">Oktober</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">November</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">Desember</th>
                                         </tr>
                                     @endif
                                     @if (request('filter_type') == 'year')
 
                                         @for ($i = request('start_year'); $i <= request('end_year'); $i++)
-                                            <th class="border border-gray-400 p-2">{{$i}}</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">{{$i}}</th>
                                         @endfor
                                     @endif
 

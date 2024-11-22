@@ -56,22 +56,22 @@
                     <table class="w-full" id="table">
                         <thead>
                             <tr>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">@if($filter_type == 'day')Tanggal @elseif($filter_type == 'month') Bulan @elseif($filter_type == 'year') Tahun @endif</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">@if($filter_type == 'day')Tanggal @elseif($filter_type == 'month') Bulan @elseif($filter_type == 'year') Tahun @endif</th>
                                 @if($filter_type == 'day')
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Pengangkut</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Nomor Faktur</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Pengangkut</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Nomor Faktur</th>
                                 @endif
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Volume Observe</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Volume Liter 15&deg;C</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Selisih</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" colspan="2">Volume Observe</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" colspan="2">Volume Liter 15&deg;C</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" colspan="2">Selisih</th>
                             </tr>
                             <tr>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Faktur (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">TUG-3 (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Faktur (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">TUG-3 (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Liter Obs.</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Selisih %</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Faktur (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">TUG-3 (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Faktur (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">TUG-3 (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Liter Obs.</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Selisih %</th>
                             </tr>
                         </thead>
                         <tbody>

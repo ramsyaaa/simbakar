@@ -58,20 +58,20 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No TUG9</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Pemakaian</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Tanggal</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">No TUG9</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Pemakaian</th>
                                 @if($bbm_use_for == 'unit')
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit</th>
                                 @endif
                                 @if($bbm_use_for == 'heavy_equipment')
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Albes</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Albes</th>
                                 @endif
                                 @if($bbm_use_for == 'other')
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Keterangan</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Keterangan</th>
                                 @endif
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
                         </thead>
                         <tbody>

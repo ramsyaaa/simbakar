@@ -46,8 +46,8 @@
                     <table x-cloak x-show="solar" class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Bulan</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana Penerimaan Solar (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Bulan</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Rencana Penerimaan Solar (Liter)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -129,8 +129,8 @@
                     <table x-cloak x-show="residu" class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Bulan</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana Penerimaan Residu (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Bulan</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Rencana Penerimaan Residu (Liter)</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -128,24 +128,24 @@
                         <table class="w-full" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Bulan</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2" rowspan="1">
+                                    <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Bulan</th>
+                                    <th class="border text-white bg-[#047A96] h-[52px]" colspan="2" rowspan="1">
                                         Rencana</th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Realisasi (Kg)
+                                    <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Realisasi (Kg)
                                     </th>
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="4" rowspan="1">
+                                    <th class="border text-white bg-[#047A96] h-[52px]" colspan="4" rowspan="1">
                                         Deviasi</th>
 
                                 </tr>
                                 <tr>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Kontrak Awal (Kg)</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rakor (Kg)</th>
+                                    <th class="border text-white bg-[#047A96] ">Kontrak Awal (Kg)</th>
+                                    <th class="border text-white bg-[#047A96] ">Rakor (Kg)</th>
 
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Kontrak Awal (Kg)</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">%</th>
+                                    <th class="border text-white bg-[#047A96] ">Kontrak Awal (Kg)</th>
+                                    <th class="border text-white bg-[#047A96] ">%</th>
 
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rakor (Kg)</th>
-                                    <th class="border bg-[#F5F6FA]  text-[#8A92A6]">%</th>
+                                    <th class="border text-white bg-[#047A96] ">Rakor (Kg)</th>
+                                    <th class="border text-white bg-[#047A96] ">%</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -98,8 +98,8 @@
                                 @endphp
                                 @break
                                 @endforeach
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Albes</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="{{ $total+1 }}">@if($filter_type == 'day')Tanggal @elseif($filter_type == 'month')Bulan @elseif($filter_type == 'year') Tahun @endif</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Albes</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" colspan="{{ $total+1 }}">@if($filter_type == 'day')Tanggal @elseif($filter_type == 'month')Bulan @elseif($filter_type == 'year') Tahun @endif</th>
                             </tr>
                             <tr>
                                 @php
@@ -108,14 +108,14 @@
                                 @endphp
                                 @foreach ($bbm_usage as $index => $item)
                                 @foreach ($item as $index1 => $item1)
-                                    <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">@if($filter_type == 'day'){{ $i }} @elseif($filter_type == 'month'){{ date('M', mktime(0, 0, 0, $i, 10)) }} @elseif($filter_type == 'year') {{ $start_year+($i-1) }} @endif</th>
+                                    <th class="border text-white bg-[#047A96] h-[52px]">@if($filter_type == 'day'){{ $i }} @elseif($filter_type == 'month'){{ date('M', mktime(0, 0, 0, $i, 10)) }} @elseif($filter_type == 'year') {{ $start_year+($i-1) }} @endif</th>
                                     @php
                                         $i  = $i + 1;
                                     @endphp
                                 @endforeach
                                 @break
                                 @endforeach
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Total</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Total</th>
                             </tr>
                         </thead>
                         <tbody>

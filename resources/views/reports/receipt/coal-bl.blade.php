@@ -118,22 +118,22 @@
                             @if (request('filter_type') == 'day')
                                 <thead>
                                     <tr>
-                                        <th rowspan="2" class="border border-gray-400 p-2">No</th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">Nama Kapal</th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">Pemasok</th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">Tanggal Selesai Bongkar</th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">B/L (Kg)</th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">D/S (Kg)</th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">B/W (Kg)</th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">Diterima (TUG3) (Kg)</th>
-                                        <th colspan="2" class="border border-gray-400 p-2">D/S & B/L</th>
-                                        <th colspan="2" class="border border-gray-400 p-2">D/S & B/W</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">No</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Nama Kapal</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Pemasok</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Tanggal Selesai Bongkar</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">B/L (Kg)</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">D/S (Kg)</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">B/W (Kg)</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Diterima (TUG3) (Kg)</th>
+                                        <th colspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">D/S & B/L</th>
+                                        <th colspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">D/S & B/W</th>
                                     </tr>
                                     <tr>
-                                        <th class="border border-gray-400 p-2">Selisih</th>
-                                        <th class="border border-gray-400 p-2">%Selisih</th>
-                                        <th class="border border-gray-400 p-2">Selisih</th>
-                                        <th class="border border-gray-400 p-2">%Selisih</th>
+                                        <th class="border border-gray-400 text-white bg-[#047A96] p-2">Selisih</th>
+                                        <th class="border border-gray-400 text-white bg-[#047A96] p-2">%Selisih</th>
+                                        <th class="border border-gray-400 text-white bg-[#047A96] p-2">Selisih</th>
+                                        <th class="border border-gray-400 text-white bg-[#047A96] p-2">%Selisih</th>
         
                                     </tr>
 

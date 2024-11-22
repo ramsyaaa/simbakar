@@ -68,26 +68,26 @@
                                 <table class="min-w-max" id="table">
                                     <thead>
                                         <tr>
-                                            <th rowspan="2" class="border border-gray-400 p-2">No</th>
-                                            <th rowspan="2" class="border border-gray-400 p-2">Pemasok</th>
-                                            <th rowspan="2" class="border border-gray-400 p-2">Kontrak</th>
-                                            <th rowspan="2" class="border border-gray-400 p-2">Jumlah ( Ton )</th>
-                                            <th rowspan="2" class="border border-gray-400 p-2">Batas Kontrak</th>
-                                            <th rowspan="2" class="border border-gray-400 p-2">Perpanjangan Waktu</th>
-                                            <th rowspan="2" class="border border-gray-400 p-2">Posisi</th>
+                                            <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">No</th>
+                                            <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Pemasok</th>
+                                            <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Kontrak</th>
+                                            <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Jumlah ( Ton )</th>
+                                            <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Batas Kontrak</th>
+                                            <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Perpanjangan Waktu</th>
+                                            <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Posisi</th>
                                             @php
                                                 $countYear = $start_year == $end_year ? 1 : ( $end_year - $start_year + 1);
                                             @endphp
-                                            <th colspan="{{$countYear}}" class="border border-gray-400 p-2">Tahun</th>
-                                            <th rowspan="2" class="border border-gray-400 p-2">Realisasi ( Ton )</th>
-                                            <th colspan="2" class="border border-gray-400 p-2">Deviasi ( Ton )</th>
+                                            <th colspan="{{$countYear}}" class="border border-gray-400 text-white bg-[#047A96] p-2">Tahun</th>
+                                            <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Realisasi ( Ton )</th>
+                                            <th colspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Deviasi ( Ton )</th>
                                         </tr>
                                         <tr>
                                             @for ($i = $start_year ; $i <= $end_year; $i++)
-                                                <th class="border border-gray-400 p-2">{{$i}}</th>
+                                                <th class="border border-gray-400 text-white bg-[#047A96] p-2">{{$i}}</th>
                                             @endfor
-                                            <th class="border border-gray-400 p-2">Ton</th>
-                                            <th class="border border-gray-400 p-2">%</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">Ton</th>
+                                            <th class="border border-gray-400 text-white bg-[#047A96] p-2">%</th>
                                         </tr>
                                     </thead>
                                     <tbody>

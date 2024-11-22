@@ -52,11 +52,11 @@
                          <table class="w-full">
                          <thead>
                               <tr>
-                                   <th class="border bg-[#F5F6FA] text-[#8A92A6]">Nama Barang</th>
-                                   <th class="border bg-[#F5F6FA] text-[#8A92A6]">Unit</th>
-                                   <th class="border bg-[#F5F6FA] text-[#8A92A6]">Nomor Normalisasi</th>
-                                   <th class="border bg-[#F5F6FA] text-[#8A92A6]">Satuan</th>
-                                   <th class="border bg-[#F5F6FA] text-[#8A92A6]">Mutasi Keluar</th>
+                                   <th class="border text-white bg-[#047A96]">Nama Barang</th>
+                                   <th class="border text-white bg-[#047A96]">Unit</th>
+                                   <th class="border text-white bg-[#047A96]">Nomor Normalisasi</th>
+                                   <th class="border text-white bg-[#047A96]">Satuan</th>
+                                   <th class="border text-white bg-[#047A96]">Mutasi Keluar</th>
                               </tr>
                          </thead>
                          <tbody>
@@ -95,7 +95,7 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Unit 1 - 4 </td>
                                    <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($sumCoal1)}}</td>
                               </tr>
@@ -129,13 +129,13 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 7 </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Unit 5 - 7 </td>
                                    <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($sumCoal2)}}</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Batu Bara Lainnya </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Batu Bara Lainnya </td>
                                    <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($coalOther)}}</td>
                               </tr>
@@ -144,7 +144,7 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Batu Bara </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Batu Bara </td>
                                    <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($coalTotal)}}</td>
                               </tr>
@@ -191,7 +191,7 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Unit 1 - 4 </td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($sumSolar1)}}</td>
                               </tr>
@@ -219,13 +219,13 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 7 </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Unit 5 - 7 </td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($sumSolar2)}}</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Solar HSD Lainnya </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Solar HSD Lainnya </td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($solarOther)}}</td>
                               </tr>
@@ -234,7 +234,7 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Solar HSD </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Solar HSD </td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($solarTotal)}}</td>
                               </tr>
@@ -277,7 +277,7 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Unit 1 - 4 </td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($sumResidu1)}}</td>
                               </tr>
@@ -313,13 +313,13 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 7 </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Unit 5 - 7 </td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($sumResidu2)}}</td>
                               </tr>
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Residu MFO Lainnya </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Residu MFO Lainnya </td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($residuOther)}}</td>
                               </tr>
@@ -328,7 +328,7 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Residu MFO </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Residu MFO </td>
                                    <td class=" font-normal border px-2 text-center">Liter</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($residuTotal)}}</td>
                               </tr>
@@ -364,7 +364,7 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 1 - 4 </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Unit 1 - 4 </td>
                                    <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($sumBiomassa1)}}</td>
                               </tr>
@@ -392,7 +392,7 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Unit 5 - 7 </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Unit 5 - 7 </td>
                                    <td class=" font-normal border px-2 text-center">Kg</td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($sumBiomassa2)}}</td>
                               </tr>
@@ -401,7 +401,7 @@
                               @endphp
                               <tr>
                                    <td class=" font-normal border px-2 text-center"></td>
-                                   <td class=" font-normal border px-2 text-center bg-sky-500 text-white" colspan="2">Total Pemakaian Biomassa </td>
+                                   <td class=" font-normal border px-2 text-center text-white bg-[#047A96]" colspan="2">Total Pemakaian Biomassa </td>
                                    <td class=" font-normal border px-2 text-center">Kg  </td>
                                    <td class=" font-normal border px-2 text-center">{{number_format($biomassaTotal)}}</td>
                               </tr>
