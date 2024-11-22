@@ -20,25 +20,33 @@ class UnloadingController extends Controller
         $unloadings = Unloading::query();
         $year = isset($request->year) ? $request->year : \Carbon\Carbon::now()->year;
 
+        // Filter berdasarkan `analysis_date` dan `created_at`
         $unloadings->where(function ($query) use ($date) {
-            // Kondisi pertama: `analysis_date` null tapi `created_at` sesuai $year
             $query->whereNull('analysis_date')
-                  ->whereYear('created_at', $date[0])
-                  ->whereMonth('created_at', $date[1]);
+                ->whereYear('created_at', $date[0])
+                ->whereMonth('created_at', $date[1]);
         })
         ->orWhere(function ($query) use ($date) {
-            // Kondisi kedua: `analysis_date` sesuai $year
-            $query->whereYear('analysis_date', $date[0]);
-            $query->whereMonth('analysis_date', $date[1]);
+            $query->whereYear('analysis_date', $date[0])
+                ->whereMonth('analysis_date', $date[1]);
         });
 
-        $unloadings = $unloadings->with(['coal_unloading']);
+        // Tambahkan eager loading
+        $unloadings->with(['coal_unloading']);
 
-        $unloadings->orderBy('created_at', 'desc');
+        // Urutkan berdasarkan `id` dari tabel `coal_unloadings` secara descending
+        $unloadings->orderBy(
+            CoalUnloading::select('id')
+                ->whereColumn('coal_unloadings.id', 'unloadings.coal_unloading_id'),
+            'desc'
+        );
 
+        // Ambil data dengan pagination
         $data['unloadings'] = $unloadings->paginate(10)->appends(request()->query());
-        return view('inputs.analysis.unloading.index',$data);
+        
+        return view('inputs.analysis.unloading.index', $data);
     }
+
 
     /**
      * Show the form for creating a new resource.
