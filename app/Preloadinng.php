@@ -13,4 +13,13 @@ class Preloadinng extends Model
     {
         return $this->belongsTo(CoalContract::class, "contract_uuid", 'uuid');
     }
+    public function surveyor()
+    {
+        return $this->belongsTo(Surveyor::class, "surveyor_uuid", 'uuid');
+    }
+    
+    public function ship()
+    {
+        return $this->belongsTo(Ship::class, "ship_uuid", 'uuid');
+    }
 }

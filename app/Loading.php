@@ -23,6 +23,6 @@ class Loading extends Model
     
     public function ship()
     {
-        return $this->belongsTo(Ship::class, "ship_uuid", 'uuid');
+        return $this->hasOne(Ship::class, "uuid", 'ship_uuid');
     }
 }
