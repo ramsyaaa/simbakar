@@ -262,7 +262,7 @@
                                                     </table>
                                                     
                                                 </td>
-                                                <td class="px-4 py-2 border border-slate-900"> {{$tug->type_fuel == 'solar' ? '01.001.003.0013' : '01.001.003.0013'}}</td>
+                                                <td class="px-4 py-2 border border-slate-900"> {{$tug->type_fuel == 'solar' ? '01.001.003.0013' : '01.001.003.0101'}}</td>
                                                 <td class="px-4 py-2 border border-slate-900">L</td>
                                                 <td class="px-4 py-2 border border-slate-900">{{ number_format($tug->bbm->amount_receipt)}}</td>
                                                 <td class="px-4 py-2 border border-slate-900"></td>

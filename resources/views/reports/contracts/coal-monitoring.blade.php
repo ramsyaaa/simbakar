@@ -54,31 +54,31 @@
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th rowspan="2" class="border border-gray-400 p-2">No</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Pemasok</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Kontrak</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Volume Kontrak ( Ton )</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Real s/d des {{$beforeYear}}</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Rencana {{$year}} ( Ton )</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Posisi</th>
-                                    <th colspan="12" class="border border-gray-400 p-2">Tahun {{request('year') ?? ''}}</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Realisasi {{$year}} ( Ton )</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Deviasi {{$year}} ( Ton )</th>
-                                    <th rowspan="2" class="border border-gray-400 p-2">Deviasi Kontrak {{$year}} ( Ton )</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">No</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Pemasok</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Kontrak</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Volume Kontrak ( Ton )</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Real s/d des {{$beforeYear}}</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Rencana {{$year}} ( Ton )</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Posisi</th>
+                                    <th colspan="12" class="border border-gray-400 text-white bg-[#047A96] p-2">Tahun {{request('year') ?? ''}}</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Realisasi {{$year}} ( Ton )</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Deviasi {{$year}} ( Ton )</th>
+                                    <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Deviasi Kontrak {{$year}} ( Ton )</th>
                                 </tr>
                                 <tr>
-                                    <th class="border border-gray-400 p-2">Januari</th>
-                                    <th class="border border-gray-400 p-2">Febuari</th>
-                                    <th class="border border-gray-400 p-2">Maret</th>
-                                    <th class="border border-gray-400 p-2">April</th>
-                                    <th class="border border-gray-400 p-2">Mei</th>
-                                    <th class="border border-gray-400 p-2">Juni</th>
-                                    <th class="border border-gray-400 p-2">Juli</th>
-                                    <th class="border border-gray-400 p-2">Agustus</th>
-                                    <th class="border border-gray-400 p-2">September</th>
-                                    <th class="border border-gray-400 p-2">Oktober</th>
-                                    <th class="border border-gray-400 p-2">November</th>
-                                    <th class="border border-gray-400 p-2">Desember</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Januari</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Febuari</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Maret</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">April</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Mei</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Juni</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Juli</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Agustus</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">September</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Oktober</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">November</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Desember</th>
                                 </tr>
                             </thead>
                             <tbody>

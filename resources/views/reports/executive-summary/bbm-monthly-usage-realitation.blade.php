@@ -100,46 +100,46 @@
                             <table class="w-full" id="table">
                                 <thead>
                                     <tr>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">Bulan</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                        <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">Bulan</th>
+                                        <th class="border text-white bg-[#047A96] h-[52px]" colspan="2"
                                             rowspan="1">
                                             Stok Awal</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                        <th class="border text-white bg-[#047A96] h-[52px]" colspan="2"
                                             rowspan="1">Produksi</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                        <th class="border text-white bg-[#047A96] h-[52px]" colspan="2"
                                             rowspan="1">
                                             Penerimaan</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                        <th class="border text-white bg-[#047A96] h-[52px]" colspan="2"
                                             rowspan="1">
                                             Pemakaian</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                        <th class="border text-white bg-[#047A96] h-[52px]" colspan="2"
                                             rowspan="1">
                                             Stok Kumulatif</th>
-                                        <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2"
+                                        <th class="border text-white bg-[#047A96] h-[52px]" colspan="2"
                                             rowspan="1">
                                             Stok Efektif</th>
                                     </tr>
                                     <tr>
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
+                                        <th class="border text-white bg-[#047A96] ">Rencana <br>(ton)</th>
+                                        <th class="border text-white bg-[#047A96] ">Realisasi <br>(ton)</th>
 
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(GWH)</th>
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(GWH)</th>
+                                        <th class="border text-white bg-[#047A96] ">Rencana <br>(GWH)</th>
+                                        <th class="border text-white bg-[#047A96] ">Realisasi <br>(GWH)</th>
 
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
-
-
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
+                                        <th class="border text-white bg-[#047A96] ">Rencana <br>(ton)</th>
+                                        <th class="border text-white bg-[#047A96] ">Realisasi <br>(ton)</th>
 
 
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
+                                        <th class="border text-white bg-[#047A96] ">Rencana <br>(ton)</th>
+                                        <th class="border text-white bg-[#047A96] ">Realisasi <br>(ton)</th>
 
 
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Rencana <br>(ton)</th>
-                                        <th class="border bg-[#F5F6FA]  text-[#8A92A6]">Realisasi <br>(ton)</th>
+                                        <th class="border text-white bg-[#047A96] ">Rencana <br>(ton)</th>
+                                        <th class="border text-white bg-[#047A96] ">Realisasi <br>(ton)</th>
+
+
+                                        <th class="border text-white bg-[#047A96] ">Rencana <br>(ton)</th>
+                                        <th class="border text-white bg-[#047A96] ">Realisasi <br>(ton)</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -23,8 +23,8 @@ class TugFourController extends Controller
         $tugs->where('tug',3)
         ->when($request->date, function ($query) use ($request) {
             $date = explode('-', $request->date);
-            $query->whereYear('created_at', $date[0]);
-            $query->whereMonth('created_at', $date[1]);
+            $query->whereYear('receipt_date', $date[0]);
+            $query->whereMonth('receipt_date', $date[1]);
         })->when($request->fuel, function ($query) use ($request) {
             $query->where('type_fuel', $request->fuel);
         });

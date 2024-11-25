@@ -69,20 +69,20 @@
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border border-gray-400 p-2" rowspan="2">No</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Nama Kapal</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">Tanggal Bongkar</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Lama Bongkar ( Jam )</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">D / S ( Kg )</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">B / L ( Kg )</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">B / W ( Kg )</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">TUG 3 ( Kg )</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Unit Dermaga</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Pemasok</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">No</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Nama Kapal</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">Tanggal Bongkar</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Lama Bongkar ( Jam )</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">D / S ( Kg )</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">B / L ( Kg )</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">B / W ( Kg )</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">TUG 3 ( Kg )</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Unit Dermaga</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Pemasok</th>
                                 </tr>
                                 <tr>
-                                    <th class="border border-gray-400 p-2">Mulai</th>
-                                    <th class="border border-gray-400 p-2">Selesai</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Mulai</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Selesai</th>
 
                                 </tr>
                             </thead>

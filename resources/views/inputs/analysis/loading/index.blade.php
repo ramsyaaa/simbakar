@@ -51,11 +51,11 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal Loading</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No Kontrak</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No Analisa</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border h-[52px] text-white bg-[#047A96]">#</th>
+                                <th class="border h-[52px] text-white bg-[#047A96]">Tanggal Loading</th>
+                                <th class="border h-[52px] text-white bg-[#047A96]">No Kontrak</th>
+                                <th class="border h-[52px] text-white bg-[#047A96]">No Analisa</th>
+                                <th class="border h-[52px] text-white bg-[#047A96]">#</th>
                             </tr>
                         </thead>
                         <tbody>

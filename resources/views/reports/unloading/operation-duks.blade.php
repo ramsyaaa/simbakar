@@ -69,23 +69,23 @@
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border border-gray-400 p-2" rowspan="2">No</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Nama Kapal</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Nama Nahkoda</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Bendera</th>
-                                    <th class="border border-gray-400 p-2" colspan="3">Ukuran Kapal</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">Waktu Sandar</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Asal Pelabuhan</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">Bongkar</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">No</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Nama Kapal</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Nama Nahkoda</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Bendera</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="3">Ukuran Kapal</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">Waktu Sandar</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Asal Pelabuhan</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">Bongkar</th>
                                 </tr>
                                 <tr>
-                                    <th class="border border-gray-400 p-2">DWT</th>
-                                    <th class="border border-gray-400 p-2">GRT</th>
-                                    <th class="border border-gray-400 p-2">Panjang</th>
-                                    <th class="border border-gray-400 p-2">Tanggal</th>
-                                    <th class="border border-gray-400 p-2">Jam</th>
-                                    <th class="border border-gray-400 p-2">Kg</th>
-                                    <th class="border border-gray-400 p-2">Jenis</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">DWT</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">GRT</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Panjang</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Tanggal</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Jam</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Kg</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Jenis</th>
 
                                 </tr>
                             </thead>

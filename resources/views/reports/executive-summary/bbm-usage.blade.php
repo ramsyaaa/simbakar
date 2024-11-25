@@ -54,10 +54,10 @@
                     <table class="w-full" id="table">
                         <thead>
                             <tr>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Bulan</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 1-4 (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit 5-7 (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Total Unit 5-7 (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Bulan</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit 1-4 (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit 5-7 (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Total Unit 5-7 (Liter)</th>
                             </tr>
                         </thead>
                         <tbody>

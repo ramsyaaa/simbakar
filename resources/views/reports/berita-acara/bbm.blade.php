@@ -56,30 +56,30 @@
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border border-gray-400 p-2" rowspan="2">No</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Tanggal Penerimaan</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Nama Tongkang / Kapal</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">No Faktur</th>
-                                    {{-- <th class="border border-gray-400 p-2" colspan="2">UBL</th> --}}
-                                    <th class="border border-gray-400 p-2" colspan="2">Vol Faktur</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">UAL</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">Terima <br> Tongkang/Kapal</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">UBD</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">UAD</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">No</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Tanggal Penerimaan</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Nama Tongkang / Kapal</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">No Faktur</th>
+                                    {{-- <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">UBL</th> --}}
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">Vol Faktur</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">UAL</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">Terima <br> Tongkang/Kapal</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">UBD</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">UAD</th>
                                 </tr>
                                 <tr>
                                     {{-- <th class="border border-gray-400 p-2">Liter Obs</th>
                                     <th class="border border-gray-400 p-2">Liter 15</th> --}}
-                                    <th class="border border-gray-400 p-2">Liter Obs</th>
-                                    <th class="border border-gray-400 p-2">Liter 15</th>
-                                    <th class="border border-gray-400 p-2">Liter Obs</th>
-                                    <th class="border border-gray-400 p-2">Liter 15</th>
-                                    <th class="border border-gray-400 p-2">Liter Obs</th>
-                                    <th class="border border-gray-400 p-2">Liter 15</th>
-                                    <th class="border border-gray-400 p-2">Liter Obs</th>
-                                    <th class="border border-gray-400 p-2">Liter 15</th>
-                                    <th class="border border-gray-400 p-2">Liter Obs</th>
-                                    <th class="border border-gray-400 p-2">Liter 15</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Liter Obs</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Liter 15</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Liter Obs</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Liter 15</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Liter Obs</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Liter 15</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Liter Obs</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Liter 15</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Liter Obs</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Liter 15</th>
                                 </tr>
                             </thead>
                             <tbody>

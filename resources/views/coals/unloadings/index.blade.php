@@ -36,12 +36,12 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Pemasok Kapal</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Dermaga</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Detail</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Tanggal</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Pemasok Kapal</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Dermaga</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Detail</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,7 +51,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                     <span>Tiba : {{date('d-m-Y H:i:s', strtotime($unloading->arrived_date))}}</span><br/>
                                     <span>Bongkar : {{date('d-m-Y H:i:s', strtotime($unloading->unloading_date))}}</span><br/> 
-                                    <span>Selesai : {{date('d-m-Y H:i:s', strtotime($unloading->end_date))}}</span>
+                                    <span class="text-sky-700 font-bold">Selesai : {{date('d-m-Y H:i:s', strtotime($unloading->end_date))}}</span>
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
                                     <span>Pemasok : {{$unloading->supplier->name}}</span><br/>

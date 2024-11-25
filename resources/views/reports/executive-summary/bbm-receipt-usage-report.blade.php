@@ -80,21 +80,21 @@
                     <table class="w-full" id="table">
                         <thead>
                             <tr>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" rowspan="2">@if($filter_type == 'day')Tanggal @elseif($filter_type == 'month') Bulan @elseif($filter_type == 'year') Tahun @endif</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Stock Awal</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Penerimaan</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Pemakaian</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]" colspan="2">Stock Kumulatif</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" rowspan="2">@if($filter_type == 'day')Tanggal @elseif($filter_type == 'month') Bulan @elseif($filter_type == 'year') Tahun @endif</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" colspan="2">Stock Awal</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" colspan="2">Penerimaan</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" colspan="2">Pemakaian</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]" colspan="2">Stock Kumulatif</th>
                             </tr>
                             <tr>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Realisasi (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Realisasi (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Realisasi (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Rencana (Liter)</th>
-                                <th class="border bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Realisasi (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Rencana (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Realisasi (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Rencana (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Realisasi (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Rencana (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Realisasi (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Rencana (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Realisasi (Liter)</th>
                             </tr>
                         </thead>
                         <tbody>

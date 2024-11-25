@@ -48,22 +48,22 @@
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border border-slate-900 p-2" rowspan="3">No</th>
-                                    <th class="border border-slate-900 p-2" rowspan="3">Bulan</th>
-                                    <th class="border border-slate-900 p-2" colspan="{{$docks->count() * 2 }}">Realisasi Pembongkaran Di Dermaga Dan Realisasi Penerimaan Batubara Tahun {{request()->year}}</th>
-                                    <th class="border border-slate-900 p-2" rowspan="3">Total Kapal Tongkang</th>
-                                    <th class="border border-slate-900 p-2" rowspan="3">Total Terima ( Kg )</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="3">No</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="3">Bulan</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="{{$docks->count() * 2 }}">Realisasi Pembongkaran Di Dermaga Dan Realisasi Penerimaan Batubara Tahun {{request()->year}}</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="3">Total Kapal Tongkang</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="3">Total Terima ( Kg )</th>
                                 </tr>
                                 <tr>
                                     @foreach ($docks as $dock)
-                                    <th class="border border-slate-900 p-2" colspan="2">Dermaga {{$dock->name}}</th>        
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">Dermaga {{$dock->name}}</th>        
                                     @endforeach
                                    
                                 </tr>
                                 <tr>
                                     @foreach ($docks as $dock)
-                                        <th class="border border-slate-900 p-2">Jumlah Kapal / Tongkang</th>
-                                        <th class="border border-slate-900 p-2">Jumlah Terima ( Kg )</th>      
+                                        <th class="border border-gray-400 text-white bg-[#047A96] p-2">Jumlah Kapal / Tongkang</th>
+                                        <th class="border border-gray-400 text-white bg-[#047A96] p-2">Jumlah Terima ( Kg )</th>      
                                         @endforeach
                                         
                                         
@@ -76,8 +76,8 @@
                                     @endphp
                                 @foreach ($coals as $coal)
                                     <tr>
-                                        <td class="border border-slate-900 p-2">{{$loop->iteration}}</td>
-                                        <td class="border border-slate-900 p-2"> {{ Carbon\Carbon::create()->day(1)->month($loop->iteration)->format('M') }}</td> 
+                                        <td class="border border-gray-400 p-2">{{$loop->iteration}}</td>
+                                        <td class="border border-gray-400 p-2"> {{ Carbon\Carbon::create()->day(1)->month($loop->iteration)->format('M') }}</td> 
                                         @foreach ($docks as $item)
                                             @if (!empty($coal))
                                                 @php
@@ -89,31 +89,31 @@
                                                 $totalShip = $totalShip + $shipCount;
                                                 $totalTug = $totalTug + $totalCount;
                                                 @endphp
-                                                <td class="border border-slate-900 p-2 text-right">{{ $shipCount }}</td>
-                                                <td class="border border-slate-900 p-2 text-right">{{number_format($totalCount)}}</td> 
+                                                <td class="border border-gray-400 p-2 text-right">{{ $shipCount }}</td>
+                                                <td class="border border-gray-400 p-2 text-right">{{number_format($totalCount)}}</td> 
                                             @else
-                                                <td class="border border-slate-900 p-2 text-right">0</td>
-                                                <td class="border border-slate-900 p-2 text-right">0</td> 
+                                                <td class="border border-gray-400 p-2 text-right">0</td>
+                                                <td class="border border-gray-400 p-2 text-right">0</td> 
                                             @endif
                                             
                                         @endforeach
-                                        <td class="border border-slate-900 p-2 text-right">{{isset($coal) ? $coal->count('ship_id') : 0}}</td>
-                                        <td class="border border-slate-900 p-2 text-right">{{isset($coal) ? number_format($coal->sum('tug_3_accept')) : 0}}</td> 
+                                        <td class="border border-gray-400 p-2 text-right">{{isset($coal) ? $coal->count('ship_id') : 0}}</td>
+                                        <td class="border border-gray-400 p-2 text-right">{{isset($coal) ? number_format($coal->sum('tug_3_accept')) : 0}}</td> 
                                     </tr>
                                 @endforeach
                                 <tr>
-                                    <td class="border border-slate-900 p-2"></td> 
-                                    <td class="border border-slate-900 p-2"></td> 
+                                    <td class="border border-gray-400 p-2"></td> 
+                                    <td class="border border-gray-400 p-2"></td> 
                                     @foreach ($docks as $item)
                                     @php
                                         $totalShipsPerDock = $getCoals->where('dock_id',$item->id)->count('ship_id');
                                         $totalTugPerDock = $getCoals->where('dock_id',$item->id)->sum('tug_3_accept');
                                     @endphp
-                                    <td class="border border-slate-900 p-2 font-bold text-right">{{ $totalShipsPerDock}}</td> <!-- Total kapal per dock -->
-                                    <td class="border border-slate-900 p-2 font-bold text-right">{{ number_format($totalTugPerDock) }}</td> <!-- Total jumlah per dock -->
+                                    <td class="border border-gray-400 p-2 font-bold text-right">{{ $totalShipsPerDock}}</td> <!-- Total kapal per dock -->
+                                    <td class="border border-gray-400 p-2 font-bold text-right">{{ number_format($totalTugPerDock) }}</td> <!-- Total jumlah per dock -->
                                     @endforeach
-                                    <td class="border border-slate-900 p-2 font-bold text-right">{{number_format($totalShip)}}</td> 
-                                    <td class="border border-slate-900 p-2 font-bold text-right">{{number_format($totalTug)}}</td> 
+                                    <td class="border border-gray-400 p-2 font-bold text-right">{{number_format($totalShip)}}</td> 
+                                    <td class="border border-gray-400 p-2 font-bold text-right">{{number_format($totalTug)}}</td> 
                                 </tr>
                         </tbody>
                     </table>

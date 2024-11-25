@@ -53,13 +53,13 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nama</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jenis Kapal</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Benndera</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jenis Muatan</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Identitas</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Nama</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Jenis Kapal</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Benndera</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Jenis Muatan</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Identitas</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
                         </thead>
                         <tbody>

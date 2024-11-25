@@ -139,19 +139,19 @@
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border bg-[#F5F6FA]" rowspan="2">No</th>
-                                    <th class="border bg-[#F5F6FA]" rowspan="2">Tanggal Selesai Bongkar</th>
+                                    <th class="border text-white bg-[#047A96]" rowspan="2">No</th>
+                                    <th class="border text-white bg-[#047A96]" rowspan="2">Tanggal Selesai Bongkar</th>
                                     @if (request('filter_type') != 'kontrak')
-                                        <th class="border bg-[#F5F6FA]" rowspan="2">Kontrak</th>
+                                        <th class="border text-white bg-[#047A96]" rowspan="2">Kontrak</th>
                                     @endif
-                                    <th class="border bg-[#F5F6FA]" rowspan="2">Kapal</th>
-                                    <th class="border bg-[#F5F6FA]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
-                                    <th class="border bg-[#F5F6FA]" colspan="3">{{$parameter->name}} ( {{request('basis')}} )</th>
+                                    <th class="border text-white bg-[#047A96]" rowspan="2">Kapal</th>
+                                    <th class="border text-white bg-[#047A96]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
+                                    <th class="border text-white bg-[#047A96]" colspan="3">{{$parameter->name}} ( {{request('basis')}} )</th>
                                 </tr>
                                 <tr>
-                                    <th class="border bg-[#F5F6FA]">Loading</th>
-                                    <th class="border bg-[#F5F6FA]">Unloading</th>
-                                    <th class="border bg-[#F5F6FA]">Labor</th>
+                                    <th class="border text-white bg-[#047A96]">Loading</th>
+                                    <th class="border text-white bg-[#047A96]">Unloading</th>
+                                    <th class="border text-white bg-[#047A96]">Labor</th>
                                 </tr>
                             </thead>
                             <tbody>

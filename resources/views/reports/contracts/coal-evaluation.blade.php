@@ -103,11 +103,11 @@
                                         </tr>
                                         <tr>
                                             <th class="text-left">Jumlah B/L</th>
-                                            <td>: {{number_format($certificate->bill_of_ladding) ?? 0}} <b>MT<b></td>
+                                            <td>: {{$certificate->bill_of_ladding ? number_format($certificate->bill_of_ladding) : number_format($certificate->tonase)}} <b>MT<b></td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">Tanggal Analisa</th>
-                                            <td>: {{$certificate->analysis_date}}</td>
+                                            <td>: {{ date('d-m-Y', strtotime($certificate->analysis_date))}}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">Asal Barang</th>

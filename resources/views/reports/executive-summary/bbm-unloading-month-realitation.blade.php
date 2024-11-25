@@ -95,30 +95,30 @@
                                 <table class="w-full" id="table">
                                     <thead>
                                         <tr>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">No</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Nama Kapal</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Tanggal Terima
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">No</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">Nama Kapal</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">Tanggal Terima
                                             </th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Pemasok</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Lama
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">Pemasok</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">Lama
                                                 Bongkar<br>(Jam)
                                             </th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Lama
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">Lama
                                                 Standard<br>(Jam)
                                             </th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Lama
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">Lama
                                                 Kapal<br>(Jam)
                                             </th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Waktu
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">Waktu
                                                 Tunggu<br>(Jam)
                                             </th>
 
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">B/L<br>(Ton)</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">D/S<br>(Ton)</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">B/W<br>(Ton)</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Diterima
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">B/L<br>(Ton)</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">D/S<br>(Ton)</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">B/W<br>(Ton)</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">Diterima
                                                 [TUG3](Ton)</th>
-                                            <th class="border bg-[#F5F6FA] h-[52px] w-max text-[#8A92A6]">Nama Dermaga</th>
+                                            <th class="border text-white bg-[#047A96] h-[52px] w-max">Nama Dermaga</th>
 
                                         </tr>
                                     </thead>

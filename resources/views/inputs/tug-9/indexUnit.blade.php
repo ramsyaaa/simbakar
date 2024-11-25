@@ -49,6 +49,9 @@
                 <a href="{{ route('inputs.tug-9.index-other') }}" class="w-1/2 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
                     BBM lain lain
                 </a>
+                <a href="{{ route('inputs.tug-9.index-biomassa') }}" class="w-1/2 px-3 py-2 bg-[#6C757D] text-white text-center font-bold rounded-lg">
+                    Biomassa
+                </a>
             </div>
             <div class="bg-white rounded-lg p-6 h-full">
                 <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.tug-9.index-unit') }}" method="GET" id="filterForm">
@@ -69,13 +72,13 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Tanggal</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">No Tug 9</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jumlah Pemakaian</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Jenis BBM</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Unit</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Tanggal</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">No Tug 9</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Jumlah Pemakaian</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Jenis BBM</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Unit</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
                         </thead>
                         <tbody>

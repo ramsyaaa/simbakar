@@ -43,11 +43,11 @@
                     <table class="w-full">
                         <thead>
                             <tr>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Nama</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Kapasitas (Liter)</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">Bunker Jenis Bahan Bakar</th>
-                                <th class="border  bg-[#F5F6FA] h-[52px] text-[#8A92A6]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Nama</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Kapasitas (Liter)</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Bunker Jenis Bahan Bakar</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
                         </thead>
                         <tbody>

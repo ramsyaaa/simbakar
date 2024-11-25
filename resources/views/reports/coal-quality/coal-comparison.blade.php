@@ -74,17 +74,17 @@
                         <table class="w-full" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border border-gray-400 p-2" rowspan="2">No</th>
-                                    <th class="border border-gray-400 p-2" rowspan="2">Parameter</th>
-                                    <th class="border border-gray-400 p-2" colspan="3">Hasil Analisa</th>
-                                    <th class="border border-gray-400 p-2" colspan="2">Selisih</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">No</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" rowspan="2">Parameter</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="3">Hasil Analisa</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2" colspan="2">Selisih</th>
                                 </tr>
                                 <tr>
-                                    <th class="border border-gray-400 p-2">Loading Port</th>
-                                    <th class="border border-gray-400 p-2">Unloading</th>
-                                    <th class="border border-gray-400 p-2">Labor SLA</th>
-                                    <th class="border border-gray-400 p-2">Loading dan Unloading Port</th>
-                                    <th class="border border-gray-400 p-2">Unloading Port dan Labor SLA</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Loading Port</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Unloading</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Labor SLA</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Loading dan Unloading Port</th>
+                                    <th class="border border-gray-400 text-white bg-[#047A96] p-2">Unloading Port dan Labor SLA</th>
                                 </tr>
                             </thead>
                             <tbody>
