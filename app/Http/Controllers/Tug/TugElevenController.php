@@ -78,7 +78,7 @@ class TugElevenController extends Controller
                 $query->where('use_date', $request->date);
             })->sum('amount');
             
-            $solarHeavy = BbmUsage::where('bbm_use_for','heavy')->where('bbm_type','solar')->when($request->date, function ($query) use ($request) {
+            $solarHeavy = BbmUsage::where('bbm_use_for','heavy_equipment')->where('bbm_type','solar')->when($request->date, function ($query) use ($request) {
                 $query->where('use_date', $request->date);
             })->sum('amount');
             $residuOther = BbmUsage::where('bbm_use_for','other')->where('bbm_type','residu')->when($request->date, function ($query) use ($request) {
