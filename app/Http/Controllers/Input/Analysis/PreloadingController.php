@@ -61,7 +61,10 @@ class PreloadingController extends Controller
             'moisture_total' => 'required',
             'ash' => 'required',
             'fixed_carbon' => 'required',
-            'calorivic_value' => 'required',
+            'calorivic_value' =>  [
+                'required',
+                'regex:/^\d+(\.\d{2})?$/'
+            ],
             'air_dried_moisture' => 'required',
             'volatile_matter' => 'required',
             'total_sulfur' => 'required',
@@ -69,10 +72,22 @@ class PreloadingController extends Controller
             'nitrogen' => 'required',
             'hydrogen' => 'required',
             'oxygen' => 'required',
-            'initial_deformation' => 'required',
-            'hemispherical' => 'required',
-            'softening' => 'required',
-            'fluid' => 'required',
+            'initial_deformation' =>  [
+                'required',
+                'regex:/^\d+(\.\d{2})?$/'
+            ],
+            'hemispherical' =>  [
+                'required',
+                'regex:/^\d+(\.\d{2})?$/'
+            ],
+            'softening' =>  [
+                'required',
+                'regex:/^\d+(\.\d{2})?$/'
+            ],
+            'fluid' =>  [
+                'required',
+                'regex:/^\d+(\.\d{2})?$/'
+            ],
             'sio2' => 'required',
             'fe2o3' => 'required',
             'mgo' => 'required',
@@ -223,7 +238,10 @@ class PreloadingController extends Controller
             'moisture_total' => 'required',
             'ash' => 'required',
             'fixed_carbon' => 'required',
-            'calorivic_value' => 'required',
+            'calorivic_value' =>  [
+                'required',
+                'regex:/^\d+(\.\d{2})?$/'
+            ],
             'air_dried_moisture' => 'required',
             'volatile_matter' => 'required',
             'total_sulfur' => 'required',
@@ -231,10 +249,22 @@ class PreloadingController extends Controller
             'nitrogen' => 'required',
             'hydrogen' => 'required',
             'oxygen' => 'required',
-            'initial_deformation' => 'required',
-            'hemispherical' => 'required',
-            'softening' => 'required',
-            'fluid' => 'required',
+            'initial_deformation' =>  [
+                'required',
+                'regex:/^\d+(\.\d{2})?$/'
+            ],
+            'hemispherical' =>  [
+                'required',
+                'regex:/^\d+(\.\d{2})?$/'
+            ],
+            'softening' =>  [
+                'required',
+                'regex:/^\d+(\.\d{2})?$/'
+            ],
+            'fluid' =>  [
+                'required',
+                'regex:/^\d+(\.\d{2})?$/'
+            ],
             'sio2' => 'required',
             'fe2o3' => 'required',
             'mgo' => 'required',

@@ -202,7 +202,7 @@
                                 <div class="w-6/12 flex items-center mt-2">
                                     <label for="calorivic_value" class="w-4/12 font-bold text-[#232D42] text-[16px]">Calorivic Value</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="calorivic_value" value="{{ old('calorivic_value') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
+                                        <input type="text" name="calorivic_value" value="{{ old('calorivic_value') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('calorivic_value')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -276,7 +276,7 @@
                                 <div class="w-6/12 flex items-center mt-2">
                                     <label for="initial_deformation" class="w-4/12 font-bold text-[#232D42] text-[16px]">Initial Deformation</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="initial_deformation" value="{{ old('initial_deformation') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
+                                        <input type="text" name="initial_deformation" value="{{ old('initial_deformation') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('initial_deformation')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -287,7 +287,7 @@
                                 <div class="w-6/12 flex items-center mt-2">
                                     <label for="softening" class="w-4/12 font-bold text-[#232D42] text-[16px]">Softening</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="softening" value="{{ old('softening') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
+                                        <input type="text" name="softening" value="{{ old('softening') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('softening')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -301,7 +301,7 @@
                                 <div class="w-6/12 flex items-center mt-2">
                                     <label for="hemispherical" class="w-4/12 font-bold text-[#232D42] text-[16px]">Hemispherical</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="hemispherical" value="{{ old('hemispherical') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
+                                        <input type="text" name="hemispherical" value="{{ old('hemispherical') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('hemispherical')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
@@ -312,7 +312,7 @@
                                 <div class="w-6/12 flex items-center mt-2">
                                     <label for="fluid" class="w-4/12 font-bold text-[#232D42] text-[16px]">Fluid</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="fluid" value="{{ old('fluid') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
+                                        <input type="text" name="fluid" value="{{ old('fluid') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('fluid')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
