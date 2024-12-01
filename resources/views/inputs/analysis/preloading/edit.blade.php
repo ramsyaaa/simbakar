@@ -542,7 +542,7 @@
                                 <div class="w-6/12 flex items-center mt-2">
                                     <label for="hgi" class="w-4/12 font-bold text-[#232D42] text-[16px]">HGI</label>
                                     <div class="relative w-8/12">
-                                        <input type="text" name="hgi" value="{{ old('hgi', $preloading->hgi ?? '') }}" class="w-full border rounded-md h-[24px] px-3 format-number">
+                                        <input type="text" name="hgi" value="{{ old('hgi', $preloading->hgi ?? '') }}" class="w-full border rounded-md h-[24px] px-3">
                                         @error('hgi')
                                         <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
