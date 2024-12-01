@@ -79,7 +79,7 @@ class UnloadingController extends Controller
             'fixed_carbon' => 'required',
             'calorivic_value' =>  [
                 'required',
-                'regex:/^\d+(\.\d{2})?$/'
+                'regex:/^\d{4}$/'
             ],
             'air_dried_moisture' => 'required',
             'volatile_matter' => 'required',
@@ -90,19 +90,19 @@ class UnloadingController extends Controller
             'oxygen' => 'required',
             'initial_deformation' =>  [
                 'required',
-                'regex:/^\d+(\.\d{2})?$/'
+                'regex:/^\d{4}$/'
             ],
             'hemispherical' =>  [
                 'required',
-                'regex:/^\d+(\.\d{2})?$/'
+                'regex:/^\d{4}$/'
             ],
             'softening' =>  [
                 'required',
-                'regex:/^\d+(\.\d{2})?$/'
+                'regex:/^\d{4}$/'
             ],
             'fluid' =>  [
                 'required',
-                'regex:/^\d+(\.\d{2})?$/'
+                'regex:/^\d{4}$/'
             ],
             'sio2' => 'required',
             'fe2o3' => 'required',
@@ -244,7 +244,7 @@ class UnloadingController extends Controller
             'fixed_carbon' => 'required',
             'calorivic_value' =>  [
                 'required',
-                'regex:/^\d+(\.\d{2})?$/'
+                'regex:/^\d{4}$/'
             ],
             'air_dried_moisture' => 'required',
             'volatile_matter' => 'required',
@@ -255,19 +255,19 @@ class UnloadingController extends Controller
             'oxygen' => 'required',
             'initial_deformation' =>  [
                 'required',
-                'regex:/^\d+(\.\d{2})?$/'
+                'regex:/^\d{4}$/'
             ],
             'hemispherical' =>  [
                 'required',
-                'regex:/^\d+(\.\d{2})?$/'
+                'regex:/^\d{4}$/'
             ],
             'softening' =>  [
                 'required',
-                'regex:/^\d+(\.\d{2})?$/'
+                'regex:/^\d{4}$/'
             ],
             'fluid' =>  [
                 'required',
-                'regex:/^\d+(\.\d{2})?$/'
+                'regex:/^\d{4}$/'
             ],
             'sio2' => 'required',
             'fe2o3' => 'required',
