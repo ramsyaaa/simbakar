@@ -30,7 +30,7 @@ class CoalUnloadingController extends Controller
             $query->whereYear('receipt_date', $date[0]);
             $query->whereMonth('receipt_date', $date[1]);
         });
-        $data['unloadings'] = $unloadings->latest()->paginate(10)->appends(request()->query());
+        $data['unloadings'] = $unloadings->orderBy('tug_number','desc')->paginate(10)->appends(request()->query());
         // dd($data);
         return view('coals.unloadings.index',$data);
 

@@ -129,6 +129,9 @@
                             @endif
                         </thead>
                         <tbody>
+                            @php
+                                $total = [];
+                            @endphp
                             @foreach ($bbm_usage as $index => $item)
                             @php
                                 $sum = 0;
@@ -136,11 +139,18 @@
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">@if($filter_type == 'day') {{ $index+1 }}-{{ $bulan }}-{{ $tahun }} @elseif($filter_type == 'month') {{ date('F', mktime(0, 0, 0, $index+1, 1)) }} @elseif($filter_type == 'year') {{ $index }} @endif</td>
                                 @if($filter_type == 'month')
-                                <td class="h-[36px] text-[16px] font-normal border px-2">@if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($cumulative[$index - 1], 0) }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right">@if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($cumulative[$index - 1], 0) }} @endif</td>
                                 @endif
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm_receipt[$index], 0, '.', ',') }}</td>
+                                @php
+                                    $total[0] = isset($total[0]) ? $total[0] + $bbm_receipt[$index] : $bbm_receipt[$index];
+                                    $total[1] = isset($total[1]) ? $total[1] + $item['total'] : $item['total'];
+                                    if($filter_type == 'day'){
+                                        $total[2] = isset($total[2]) ? $total[2] + $item['heavy_equipment'] : $item['heavy_equipment'];
+                                    }
+                                @endphp
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right">{{ number_format($bbm_receipt[$index], 0, '.', ',') }}</td>
                                 @if($filter_type == 'day')
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['heavy_equipment'], 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right">{{ number_format($item['heavy_equipment'], 0, '.', ',') }}</td>
                                 @if($filter_type == 'day')
                                     @php
                                         $data_units = [
@@ -183,27 +193,64 @@
                                         $data_units['unit5_7'] = $total5_7;
                                         $data_units['unit1_4'] = $total1_4;
 
+                                        if($filter_type == 'day'){
+                                            $total[3] = isset($total[3]) ? $total[3] + $data_units['unit_1'] : $data_units['unit_1'];
+                                            $total[4] = isset($total[4]) ? $total[4] + $data_units['unit_2'] : $data_units['unit_2'];
+                                            $total[5] = isset($total[5]) ? $total[5] + $data_units['unit_3'] : $data_units['unit_3'];
+                                            $total[6] = isset($total[6]) ? $total[6] + $data_units['unit_4'] : $data_units['unit_4'];
+                                            $total[7] = isset($total[7]) ? $total[7] + $data_units['unit1_4'] : $data_units['unit1_4'];
+                                            $total[8] = isset($total[8]) ? $total[8] + $data_units['unit_5'] : $data_units['unit_5'];
+                                            $total[9] = isset($total[9]) ? $total[9] + $data_units['unit_6'] : $data_units['unit_6'];
+                                            $total[10] = isset($total[10]) ? $total[10] + $data_units['unit_7'] : $data_units['unit_7'];
+                                            $total[11] = isset($total[11]) ? $total[11] + $data_units['unit5_7'] : $data_units['unit5_7'];
+                                            $total[12] = isset($total[12]) ? $total[12] + $item['other'] : $item['other'];
+                                        }
+
                                     @endphp
                                     @foreach ($data_units as $unit)
-                                    <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($unit, 0, '.', ',') }}</td>
+                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-right">{{ number_format($unit, 0, '.', ',') }}</td>
                                     @endforeach
                                 @elseif($filter_type == 'month' || $filter_type == 'year')
                                 @foreach ($item['unit'] as $unit)
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($unit, 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right">{{ number_format($unit, 0, '.', ',') }}</td>
                                 @endforeach
                                 @endif
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['other'], 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right">{{ number_format($item['other'], 0, '.', ',') }}</td>
                                 @endif
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item['total'], 0, '.', ',') }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right">{{ number_format($item['total'], 0, '.', ',') }}</td>
                                 @if($filter_type != 'year')
-                                <td class="h-[36px] text-[16px] font-normal border px-2"> {{ number_format($cumulative[$index], 0) }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2"> {{ number_format($efective[$index], 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right"> {{ number_format($cumulative[$index], 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right"> {{ number_format($efective[$index], 0) }}</td>
                                 @else
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($bbm_start_year[$index] ?? 0, 0) }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2"> @if($filter_type != 'year') @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($efective[$index - 1], 0) }} @endif @else {{ number_format($cumulative[$index], 0) }} @endif</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right">{{ number_format($bbm_start_year[$index] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right"> @if($filter_type != 'year') @if($index == 0) {{ number_format($start_year_data_actual ?? 0, 0) }} @else {{ number_format($efective[$index - 1], 0) }} @endif @else {{ number_format($cumulative[$index], 0) }} @endif</td>
                                 @endif
                             </tr>
                             @endforeach
+                            @if($filter_type == 'month' || $filter_type == 'year')
+                            <tr>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right" @if($filter_type == "month") colspan="2" @endif>Jumlah</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[0] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[1] ?? 0, 0) }}</td>
+                            </tr>
+                            @else
+                            <tr>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right" @if($filter_type == "month") colspan="2" @endif>Jumlah</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[0] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[2] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[3] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[4] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[5] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[6] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[7] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[8] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[9] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[10] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[11] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[12] ?? 0, 0) }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2 font-bold text-right">{{ number_format($total[1] ?? 0, 0) }}</td>
+                            </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>

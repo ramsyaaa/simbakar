@@ -99,9 +99,9 @@
                                         </div>
                                     </div>
                                     <div class="w-full mb-5">
-                                        <label for="general_manager" class="font-bold text-[#232D42] text-[16px]">General Manager</label>
+                                        <label for="general_manager" class="font-bold text-[#232D42] text-[16px]">PLT General Manager</label>
                                         <div class="relative">
-                                            <select name="general_manager" id="general_manager" class="select-2 select-manager w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                            <select name="general_manager" id="general_manager" class="select-2-tag select-manager w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                                 <option value="">Pilih</option>
                                                 @foreach ($managers as $manager)
                                                     <option value="{{ $manager->name }}" {{ $tug->general_manager == $manager->name ? 'selected' : '' }}>{{ $manager->name }}</option>
