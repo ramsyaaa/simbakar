@@ -49,10 +49,10 @@
                                     
                                 </td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">
-                                    <span>Pemasok : {{$receipt->supplier->name}}</span><br/>
+                                    <span>Pemasok : {{$receipt->supplier->name ?? ''}}</span><br/>
                                     <span>Kapal : <span class="text-sky-700 cursor-pointer hover:text-sky-800 ship-modal"
-                                    data-nama_kapal="{{$receipt->ship->name}}"
-                                    data-bendera="{{$receipt->ship->flag}}"
+                                    data-nama_kapal="{{$receipt->ship->name ?? ''}}"
+                                    data-bendera="{{$receipt->ship->flag ?? ''}}"
                                     data-grt="{{$receipt->ship->grt}}"
                                     data-dwt="{{$receipt->ship->dwt}}"
                                     data-loa="{{$receipt->ship->loa}}"
@@ -78,7 +78,7 @@
                                     <span>TUG3 : {{$receipt->tug_number}}</span><br/>
                                         <a href="#" class="text-sky-700 hover:text-sky-800 unloading-modal"
                                         data-analysis="{{$receipt->analysis_loading_id}}"
-                                        data-company="{{$receipt->company->name}}"
+                                        data-company="{{$receipt->company->name ?? ''}}"
                                         data-dock="{{$receipt->dock->name ?? ''}}"
                                         data-supplier="{{$receipt->supplier->name}}"
                                         data-ship="{{$receipt->ship->name}}"
