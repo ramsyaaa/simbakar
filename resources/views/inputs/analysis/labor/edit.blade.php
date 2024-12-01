@@ -32,7 +32,7 @@
                                         @endforeach
                                     </select>
                                     @error('supplier_uuid')
-                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                    <div class="-bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
                                     @enderror
@@ -48,7 +48,7 @@
                                         @endforeach
                                     </select>
                                     @error('ship_uuid')
-                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                    <div class="-bottom-1 left-1 text-red-500">
                                         {{ $message }}
                                     </div>
                                     @enderror
@@ -60,7 +60,7 @@
                                     <div class="relative w-8/12">
                                         <input type="datetime-local" name="start_unloading" value="{{ old('start_unloading', $labor->start_unloading ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('start_unloading')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -71,7 +71,7 @@
                                     <div class="relative w-8/12">
                                         <input type="datetime-local" name="end_unloading" value="{{ old('end_unloading', $labor->end_unloading ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('end_unloading')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -84,7 +84,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="analysis_number" value="{{ old('analysis_number', $labor->analysis_number ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('analysis_number')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -95,7 +95,7 @@
                                     <div class="relative w-8/12">
                                         <input type="date" name="analysis_date" value="{{ old('analysis_date', $labor->analysis_date ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('analysis_date')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -114,7 +114,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="moisture_total" value="{{ old('moisture_total', $labor->moisture_total ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('moisture_total')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -125,7 +125,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="air_dried_moisture" value="{{ old('air_dried_moisture', $labor->air_dried_moisture ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('air_dried_moisture')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -139,7 +139,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="ash" value="{{ old('ash', $labor->ash ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('ash')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -150,7 +150,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="volatile_matter" value="{{ old('volatile_matter', $labor->volatile_matter ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('volatile_matter')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -164,7 +164,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="fixed_carbon" value="{{ old('fixed_carbon', $labor->fixed_carbon ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('fixed_carbon')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -175,7 +175,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="total_sulfur" value="{{ old('total_sulfur', $labor->total_sulfur ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('total_sulfur')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -189,7 +189,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="calorivic_value" value="{{ old('calorivic_value', $labor->calorivic_value ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('calorivic_value')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -208,7 +208,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="carbon" value="{{ old('carbon', $labor->carbon ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('carbon')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -219,7 +219,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="hydrogen" value="{{ old('hydrogen', $labor->hydrogen ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('hydrogen')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -233,7 +233,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="nitrogen" value="{{ old('nitrogen', $labor->nitrogen ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('nitrogen')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -244,7 +244,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="oxygen" value="{{ old('oxygen', $labor->oxygen ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('oxygen')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -263,7 +263,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="initial_deformation" value="{{ old('initial_deformation', $labor->initial_deformation ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('initial_deformation')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -274,7 +274,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="softening" value="{{ old('softening', $labor->softening ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('softening')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -288,7 +288,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="hemispherical" value="{{ old('hemispherical', $labor->hemispherical ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('hemispherical')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -299,7 +299,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="fluid" value="{{ old('fluid', $labor->fluid ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3">
                                         @error('fluid')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -318,7 +318,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="sio2" value="{{ old('sio2', $labor->sio2 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('sio2')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -329,7 +329,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="al2o3" value="{{ old('al2o3', $labor->al2o3 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('al2o3')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -343,7 +343,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="fe2o3" value="{{ old('fe2o3', $labor->fe2o3 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('fe2o3')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -354,7 +354,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="cao" value="{{ old('cao', $labor->cao ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('cao')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -368,7 +368,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="mgo" value="{{ old('mgo', $labor->mgo ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('mgo')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -379,7 +379,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="na2o" value="{{ old('na2o', $labor->na2o ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('na2o')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -393,7 +393,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="k2o" value="{{ old('k2o', $labor->k2o ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('k2o')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -404,7 +404,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="tlo2" value="{{ old('tlo2', $labor->tlo2 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('tlo2')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -418,7 +418,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="so3" value="{{ old('so3', $labor->so3 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('so3')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -429,7 +429,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="p2o5" value="{{ old('p2o5', $labor->p2o5 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('p2o5')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -443,7 +443,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="mn3o4" value="{{ old('mn3o4', $labor->mn3o4 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('mn3o4')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -462,7 +462,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="butiran_70" value="{{ old('butiran_70', $labor->butiran_70 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('butiran_70')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -476,7 +476,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="butiran_50" value="{{ old('butiran_50', $labor->butiran_50 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('butiran_50')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -487,7 +487,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="butiran_32_50" value="{{ old('butiran_32_50', $labor->butiran_32_50 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('butiran_32_50')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -501,7 +501,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="butiran_32" value="{{ old('butiran_32', $labor->butiran_32 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('butiran_32')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -512,7 +512,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="butiran_238" value="{{ old('butiran_238', $labor->butiran_238 ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('butiran_238')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
@@ -531,7 +531,7 @@
                                     <div class="relative w-8/12">
                                         <input type="text" name="hgi" value="{{ old('hgi', $labor->hgi ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[24px] px-3 format-number">
                                         @error('hgi')
-                                        <div class="absolute -bottom-1 left-1 text-red-500">
+                                        <div class="-bottom-1 left-1 text-red-500">
                                             {{ $message }}
                                         </div>
                                         @enderror
