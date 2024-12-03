@@ -28,7 +28,7 @@ class TugFourController extends Controller
         })->when($request->fuel, function ($query) use ($request) {
             $query->where('type_fuel', $request->fuel);
         });
-        $data['tugs'] = $tugs->latest()->paginate(10)->appends(request()->query());
+        $data['tugs'] = $tugs->orderBy('receipt_date','desc')->paginate(10)->appends(request()->query());
         return view('inputs.tug-4.index',$data);
 
     }
