@@ -47,7 +47,7 @@ class TugFourController extends Controller
 
         Carbon::setLocale('id');
         // Buat objek Carbon dari data tanggal
-        $carbonDate = Carbon::now();
+        $carbonDate = Carbon::parse($tug->receipt_date);
             
         // Tampilkan hari dalam bahasa Indonesia
         $day = $carbonDate->isoFormat('dddd'); 

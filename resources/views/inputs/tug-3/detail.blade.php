@@ -124,7 +124,7 @@
                             </div>
 
                     </div>
-                    <div id="my-pdf" style="display:none;">
+                    <div id="my-pdf" style="display:block;">
                         <div class="p-8" style="font-size: 0.9em;">
                             <div class="p-6 mx-auto my-auto">
                                 <div class="flex justify-between items-center">
@@ -330,16 +330,12 @@
                                                             <td> : {{$tug->type_fuel == 'solar' ? 'Solar / HSD' : 'Residu MFO'}}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="pr-4">Catatan</td>
-                                                            <td> : {{$tug->bbm->note ?? ''}}</td>
-                                                        </tr>
-                                                        <tr>
                                                             <td class="pr-4">Nama Agen</td>
                                                             <td> : {{$tug->bbm->shipAgent->name ?? ''}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="pr-4">Volume Faktur</td>
-                                                            <td> : {{ number_format($tug->bbm->amount_receipt ?? 0) }} Kg</td>
+                                                            <td> : {{ number_format($tug->bbm->amount_receipt ?? 0) }} Liter</td>
                                                         </tr>
                                                     </table>
                                                     

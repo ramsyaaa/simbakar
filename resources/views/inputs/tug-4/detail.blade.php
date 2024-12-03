@@ -142,7 +142,7 @@
                             <span>Pada hari, tgl</span>
                             <div class="border-collapse border border-slate-900">
                                 <span>{{$day}}</span> <br>
-                                <span>{{date('y-M-d')}}</span>
+                                <span>{{date('y-M-d', strtotime($tug->receipt_date))}}</span>
                             </div>
                         </div>
 
@@ -265,7 +265,7 @@
                                                   antara Fisik Bunker di banding dengan B/L  {{$tug->type_fuel == 'solar' ? 'Solar' : 'MFO'}}</p>
                                             <table class="table-auto w-full font-bold">
                                                 <tr>
-                                                    <td class="pr-4">Catatan</td>
+                                                    <td class="pr-4">Keterangan : </td>
                                              
                                                 </tr>
                                                 <tr>
@@ -291,10 +291,10 @@
                                             </table>
                                             
                                         </td>
-                                        <td class="px-4 py-2 border border-slate-900"> {{$tug->type_fuel == 'solar' ? '01.001.003.0013' : '01.001.003.0101'}}</td>
-                                        <td class="px-4 py-2 border border-slate-900">L</td>
-                                        <td class="px-4 py-2 border border-slate-900 text-nowrap">{{ number_format($totalbbm)}} Liter</td>
-                                        <td class="px-4 py-2 border border-slate-900 text-nowrap">{{number_format($percentage,2)}} %</td>
+                                        <td class="px-4 py-2 border border-slate-900 align-top"> {{$tug->type_fuel == 'solar' ? '01.001.003.0013' : '01.001.003.0101'}}</td>
+                                        <td class="px-4 py-2 border border-slate-900 align-top">L</td>
+                                        <td class="px-4 py-2 border border-slate-900 align-top text-nowrap">{{ number_format($totalbbm)}} Liter</td>
+                                        <td class="px-4 py-2 border border-slate-900 align-top text-nowrap">{{number_format($percentage,2)}} %</td>
                                     </tr>
                                 @endif
                                 @if ($tug->type_tug == 'biomassa-receipt')
