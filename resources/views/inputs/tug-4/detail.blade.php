@@ -250,8 +250,8 @@
                                 @endif
                                 @if ($tug->type_tug == 'bbm-receipt')
                                     @php
-                                        $totalbbm = $tug->bbm->uad_obs - $tug->bbm->faktur_obs;
-                                        $percentage = $totalbbm / $tug->bbm->uad_obs * 100;
+                                        $totalbbm = $tug->bbm->amount_receipt - $tug->bbm->faktur_obs;
+                                        $percentage = $totalbbm / $tug->bbm->amount_receipt * 100;
                                     @endphp
                                     <tr>
                                         <td class="px-4 py-2 border border-slate-900"></td>
@@ -278,11 +278,11 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="pr-4">Jumlah menurut Fisik Bunker</td>
-                                                    <td> : {{$tug->bbm->faktur_obs ? number_format($tug->bbm->uad_obs) : 0}}</td>
+                                                    <td> : {{$tug->bbm->faktur_obs ? number_format($tug->bbm->amount_receipt) : 0}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="pr-4">Diterima</td>
-                                                    <td> : {{$tug->bbm->faktur_obs ? number_format($tug->bbm->uad_obs) : 0}}</td>
+                                                    <td> : {{$tug->bbm->faktur_obs ? number_format($tug->bbm->amount_receipt) : 0}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="pr-4">Nomor TUG 3</td>
