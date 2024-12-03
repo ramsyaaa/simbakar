@@ -1,0 +1,57 @@
+SELECT 
+    id, 
+    calorivic_value,
+    initial_deformation,
+    softening,
+    hemispherical,
+    fluid,
+    REPLACE(calorivic_value, '.00', ''),
+    REPLACE(initial_deformation, '.00', ''),
+    REPLACE(softening, '.00', ''),
+    REPLACE(hemispherical, '.00', ''),
+    REPLACE(fluid, '.00', '')
+FROM loadings;
+
+SELECT 
+    id, 
+    calorivic_value,
+    initial_deformation,
+    softening,
+    hemispherical,
+    fluid,
+    REPLACE(calorivic_value, '.00', ''),
+    REPLACE(initial_deformation, '.00', ''),
+    REPLACE(softening, '.00', ''),
+    REPLACE(hemispherical, '.00', ''),
+    REPLACE(fluid, '.00', '')
+FROM labors;
+
+SELECT 
+    id, 
+    calorivic_value,
+    initial_deformation,
+    softening,
+    hemispherical,
+    fluid,
+    REPLACE(calorivic_value, '.00', ''),
+    REPLACE(initial_deformation, '.00', ''),
+    REPLACE(softening, '.00', ''),
+    REPLACE(hemispherical, '.00', ''),
+    REPLACE(fluid, '.00', '')
+FROM unloadings;
+
+SELECT 
+    id, 
+    calorivic_value,
+    initial_deformation,
+    softening,
+    hemispherical,
+    fluid,
+    REPLACE(calorivic_value, '.00', ''),
+    REPLACE(initial_deformation, '.00', ''),
+    REPLACE(softening, '.00', ''),
+    REPLACE(hemispherical, '.00', ''),
+    REPLACE(fluid, '.00', '')
+FROM preloadinngs;
+
+
