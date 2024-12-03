@@ -23,8 +23,8 @@ class UnloadingController extends Controller
         // Filter berdasarkan `analysis_date` dan `created_at`
         $unloadings->where(function ($query) use ($date) {
             $query->whereNull('analysis_date')
-                ->whereYear('created_at', $date[0])
-                ->whereMonth('created_at', $date[1]);
+                ->whereYear('end_unloading', $date[0])
+                ->whereMonth('end_unloading', $date[1]);
         })
         ->orWhere(function ($query) use ($date) {
             $query->whereYear('analysis_date', $date[0])
