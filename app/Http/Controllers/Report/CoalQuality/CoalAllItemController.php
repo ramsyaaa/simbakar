@@ -32,6 +32,7 @@ class CoalAllItemController extends Controller
             ->when($request->supplier_id != 0, function ($query) use ($request) {
                 $query->where('supplier_id', $request->supplier_id);
             })
+            ->orderBy('receipt_date', 'asc')
             ->get()
             ->map(function($item) use ($request) {
 
