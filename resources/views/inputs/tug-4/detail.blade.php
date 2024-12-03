@@ -178,10 +178,19 @@
                         </div>
 
                         <div class="mb-6 font-bold" style="font-size: 13px; line-height:1.5;">
-                            <p class="mb-2">Telah mengadakan pemeriksaan atas barang-barang/spare parts milik PT. PLN Indonesia Power yang berada <br> di / terima dari: UBP Suralaya Tgl. {{$tug->receipt_date}}. Menurut Surat Pesanan/B.P. No. ............. Tgl. .......... Gudang <span class="border border-slate-900 border-1 p-1 pr-10">{{$tug->bunker->name ?? ''}}</span> </p>
-                            <p >dan menyatakan sebagai berikut :</p>
-
-                            <table class="min-w-full border-collapse border border-slate-900" style="font-size: 14px;">
+                            @if ($tug->type_tug == 'coal-unloading')
+                                <p class="mb-2" style="text-align: justify;">Telah mengadakan pemeriksaan atas barang-barang/spare parts milik PT. PLN Indonesia Power yang berada <br> di / terima dari: UBP Suralaya Tgl. {{$tug->receipt_date}}. Menurut Surat Pesanan/B.P. No. ............. Tgl. .......... Gudang <span class="border border-slate-900 border-1 p-1 pr-10">{{$tug->bunker->name ?? ''}}</span> </p>
+                                <p >dan menyatakan sebagai berikut :</p>
+                            @endif
+                            @if ($tug->type_tug == 'bbm-receipt')
+                                <p class="mb-2" style="text-align: justify;">Telah mengadakan pemeriksaan atas barang-barang/spare parts milik PT. PLN Indonesia Power yang berada <br> di / terima dari: UBP Suralaya Tgl.{{date('d-M-Y', strtotime($tug->receipt_date))}}. Menurut Surat Pesanan/B.P. No. {{$tug->bbm->order->order_number}} Tgl. {{date('d-M-Y', strtotime($tug->bbm->order->order_date))}} Gudang <span class="border border-slate-900 border-1 p-1 pr-10">{{$tug->bunker->name ?? ''}}</span> </p>
+                                <p >dan menyatakan sebagai berikut :</p>
+                            @endif
+                            @if ($tug->type_tug == 'biomassa-receipt')
+                                <p class="mb-2" style="text-align: justify;">Telah mengadakan pemeriksaan atas barang-barang/spare parts milik PT. PLN Indonesia Power yang berada <br> di / terima dari: UBP Suralaya Tgl. {{$tug->receipt_date}}. Menurut Surat Pesanan/B.P. No. ............. Tgl. .......... Gudang <span class="border border-slate-900 border-1 p-1 pr-10">{{$tug->bunker->name ?? ''}}</span> </p>
+                                <p >dan menyatakan sebagai berikut :</p>
+                            @endif
+                            <table class="min-w-full border-collapse border border-slate-900" style="font-size: 12px;">
                                 <thead>
                                     <tr>
                                         <th class="border border-slate-900 p-2">No.</th>
@@ -240,33 +249,52 @@
                                     </tr>
                                 @endif
                                 @if ($tug->type_tug == 'bbm-receipt')
+                                    @php
+                                        $totalbbm = $tug->bbm->uad_obs - $tug->bbm->faktur_obs;
+                                        $percentage = $totalbbm / $tug->bbm->uad_obs * 100;
+                                    @endphp
                                     <tr>
                                         <td class="px-4 py-2 border border-slate-900"></td>
                                         <td class="px-4 py-2 border border-slate-900">
+                                            <p style="text-align: justify;" class="font-normal"> Telah diterima dengan baik, dengan
+                                                @if ($totalbbm == 0)
+                                                    Volume yang sama
+                                                @else
+                                                    Volume berbeda
+                                                @endif
+                                                  antara Fisik Bunker di banding dengan B/L  {{$tug->type_fuel == 'solar' ? 'Solar' : 'MFO'}}</p>
                                             <table class="table-auto w-full font-bold">
                                                 <tr>
-                                                    <td class="pr-4">Jenis Bahan Bakar</td>
-                                                    <td> : {{$tug->type_fuel == 'solar' ? 'Solar / HSD' : 'Residu MFO'}}</td>
-                                                </tr>
-                                                <tr>
                                                     <td class="pr-4">Catatan</td>
-                                                    <td> : {{$tug->bbm->note}}</td>
+                                             
                                                 </tr>
                                                 <tr>
-                                                    <td class="pr-4">Nama Agen</td>
-                                                    <td> : {{$tug->bbm->shipAgent->name ?? ''}}</td>
+                                                    <td class="pr-4">Jumlah menurut B/L</td>
+                                                    <td> : {{$tug->bbm->faktur_obs ? number_format($tug->bbm->faktur_obs) : 0}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="pr-4">Volume Faktur:</td>
-                                                    <td> : {{ number_format($tug->bbm->amount_receipt) }} Liter</td>
+                                                    <td class="pr-4">Jumlah menurut Liter 15<sup>o</sup> C</td>
+                                                    <td> : {{$tug->bbm->faktur_obs ? number_format($tug->bbm->faktur_ltr15) : 0}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Jumlah menurut Fisik Bunker</td>
+                                                    <td> : {{$tug->bbm->faktur_obs ? number_format($tug->bbm->uad_obs) : 0}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Diterima</td>
+                                                    <td> : {{$tug->bbm->faktur_obs ? number_format($tug->bbm->uad_obs) : 0}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="pr-4">Nomor TUG 3</td>
+                                                    <td> : {{$tug->bbm->tug3_number ?? ''}}</td>
                                                 </tr>
                                             </table>
                                             
                                         </td>
                                         <td class="px-4 py-2 border border-slate-900"> {{$tug->type_fuel == 'solar' ? '01.001.003.0013' : '01.001.003.0101'}}</td>
                                         <td class="px-4 py-2 border border-slate-900">L</td>
-                                        <td class="px-4 py-2 border border-slate-900">{{ number_format($tug->bbm->amount_receipt)}}</td>
-                                        <td class="px-4 py-2 border border-slate-900"></td>
+                                        <td class="px-4 py-2 border border-slate-900 text-nowrap">{{ number_format($totalbbm)}} Liter</td>
+                                        <td class="px-4 py-2 border border-slate-900 text-nowrap">{{number_format($percentage,2)}} %</td>
                                     </tr>
                                 @endif
                                 @if ($tug->type_tug == 'biomassa-receipt')
