@@ -145,13 +145,13 @@
                                     </tr>
                                 @endforeach
                                 <tr>
-                                    <td class="border border-gray-400 p-2 text-center" colspan="10">Total</td>
-                                    <td class="border border-gray-400 p-2 text-right"> {{number_format($coals->sum('bl'))}}</td>
-                                    <td class="border border-gray-400 p-2 text-right"> {{number_format($coals->sum('ds'))}}</td>
-                                    <td class="border border-gray-400 p-2 text-right"> {{number_format($coals->sum('bw'))}}</td>
-                                    <td class="border border-gray-400 p-2 text-right"> {{number_format($coals->sum('tug_3_accept'))}}</td>
-                                    <td class="border border-gray-400 p-2"></td>
-                                    <td class="border border-gray-400 p-2"></td>
+                                    <td class="border border-gray-400 font-bold p-2 text-center" colspan="10">Total</td>
+                                    <td class="border border-gray-400 font-bold p-2 text-right"> {{number_format($coals->sum('bl'))}}</td>
+                                    <td class="border border-gray-400 font-bold p-2 text-right"> {{number_format($coals->sum('ds'))}}</td>
+                                    <td class="border border-gray-400 font-bold p-2 text-right"> {{number_format($coals->sum('bw'))}}</td>
+                                    <td class="border border-gray-400 font-bold p-2 text-right"> {{number_format($coals->sum('tug_3_accept'))}}</td>
+                                    <td class="border border-gray-400 font-bold p-2"></td>
+                                    <td class="border border-gray-400 font-bold p-2"></td>
                                 </tr>
                             </tbody>
                         </table>

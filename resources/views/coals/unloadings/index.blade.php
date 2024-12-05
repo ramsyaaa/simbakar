@@ -1,5 +1,11 @@
 @extends('layouts.app')
-
+@section('css')
+<style>
+  tr:nth-child(even) {
+    background-color: #ededed;
+  }
+</style>
+@endsection
 @section('content')
 <div x-data="{sidebar:true}" class="w-screen overflow-hidden flex bg-[#E9ECEF]">
     @include('components.sidebar')

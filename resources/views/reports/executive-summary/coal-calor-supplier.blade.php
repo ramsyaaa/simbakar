@@ -283,7 +283,7 @@
                                             <tr>
 
                                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['month']}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right">{{round($coal['tug_3_accept'])}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-right">{{number_format($coal['tug_3_accept'])}}</td>
                                                 @if (in_array('loading',$analytic))
                                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-right">{{round($coal['loading'],2)}}</td>
                                                 @endif
