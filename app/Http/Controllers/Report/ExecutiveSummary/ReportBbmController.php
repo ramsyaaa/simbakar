@@ -462,13 +462,13 @@ class ReportBbmController extends Controller
 
 
 
-            $bbm_unloading = CoalUnloading::with(['ship', 'dock', 'company'])->whereRaw('receipt_date like ?', ["%" . $year_month . "%"])->get();
+            $bbm_unloading = CoalUnloading::with(['ship', 'dock', 'supplier'])->whereRaw('receipt_date like ?', ["%" . $year_month . "%"])->get();
 
             foreach ($bbm_unloading as $key => $value) {
                 $processedData[$key] = [];
                 $processedData[$key]['ship_name'] = $value->ship->name;
                 $processedData[$key]['dock_name'] = $value->dock->name;
-                $processedData[$key]['company_name'] = $value->company->name;
+                $processedData[$key]['company_name'] = $value->supplier->name;
                 $processedData[$key]['receipt_date'] = date('d M Y', strtotime($value->receipt_date));
 
                 $processedData[$key]['unloading_duration'] = getTimeDifference($value->end_date, $value->receipt_date);

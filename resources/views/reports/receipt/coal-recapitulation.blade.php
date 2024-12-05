@@ -164,11 +164,11 @@
                                 </tr>
                                 @endforeach
                                 <tr>
-                                    <td class="border border-gray-400 p-2 text-center" colspan="4">Total</td>
+                                    <td class="border border-gray-400 font-bold p-2 text-center" colspan="4">Total</td>
                                     @foreach ($sumDatas as $item)
-                                        <td class="border border-gray-400 p-2 text-center text-right">{{number_format($item)}}</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-center text-right">{{number_format($item)}}</td>
                                     @endforeach
-                                    <td class="border border-gray-400 p-2 text-center text-right">{{number_format($totalSum)}}</td>
+                                    <td class="border border-gray-400 font-bold p-2 text-center text-right">{{number_format($totalSum)}}</td>
                                 </tr>
                             </tbody>
                         </table>

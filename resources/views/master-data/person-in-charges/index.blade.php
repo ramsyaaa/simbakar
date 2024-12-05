@@ -38,6 +38,7 @@
                                 <th class="border text-white bg-[#047A96] h-[52px]">Nama</th>
                                 <th class="border text-white bg-[#047A96] h-[52px]">Jabatan Struktural</th>
                                 <th class="border text-white bg-[#047A96] h-[52px]">Jabatan Fungsional</th>
+                                <th class="border text-white bg-[#047A96] h-[52px]">Nama Jabatan</th>
                                 <th class="border text-white bg-[#047A96] h-[52px]">Status</th>
                                 <th class="border text-white bg-[#047A96] h-[52px]">#</th>
                             </tr>
@@ -49,6 +50,7 @@
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $pic->name }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $pic->structural_position }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $pic->functional_role }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $pic->name_position }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $pic->status == 1 ? 'Aktif' : 'Tidak Aktif' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('master-data.person-in-charges.edit', ['uuid' => $pic->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">

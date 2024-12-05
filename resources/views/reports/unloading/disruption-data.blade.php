@@ -155,11 +155,11 @@
                               
                             @endforeach
                             <tr>
-                                <td class="border border-gray-400 p-2" colspan="3">Total</td>
-                                <td class="border border-gray-400 p-2">{{number_format($totalTug)}}</td>
-                                <td class="border border-gray-400 p-2" colspan="6"></td>
-                                <td class="border border-gray-400 p-2">{{number_format($totalMinute)}}</td>
-                                <td class="border border-gray-400 p-2">
+                                <td class="border border-gray-400 font-bold p-2" colspan="3">Total</td>
+                                <td class="border border-gray-400 font-bold p-2">{{number_format($totalTug)}}</td>
+                                <td class="border border-gray-400 font-bold p-2" colspan="6"></td>
+                                <td class="border border-gray-400 font-bold p-2">{{number_format($totalMinute)}}</td>
+                                <td class="border border-gray-400 font-bold p-2">
                                     @php
                                         $hour = $totalMinute / 60 ;
                                     @endphp

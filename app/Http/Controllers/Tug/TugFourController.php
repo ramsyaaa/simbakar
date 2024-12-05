@@ -73,6 +73,7 @@ class TugFourController extends Controller
         $tug->inspection_date = $request->inspection_date;
         $tug->user_inspections = $request->user_inspections;
         $tug->general_manager = $request->general_manager;
+        $tug->senior_manager = $request->senior_manager;
         $tug->bunker_id = $request->bunker_id;
         $tug->save();
 
