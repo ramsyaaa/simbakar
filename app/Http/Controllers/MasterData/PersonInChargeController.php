@@ -40,7 +40,7 @@ class PersonInChargeController extends Controller
         PersonInCharge::create([
             'name' => $request->name,
             'structural_position' => $request->structural_position,
-            'name_position' => $request->name,
+            'name_position' => $request->name_position,
             'functional_role' => $request->functional_role,
             'status' => 1
         ]);
@@ -76,6 +76,7 @@ class PersonInChargeController extends Controller
             'uuid' => $uuid,
         ])->update([
             'name' => $request->name,
+            'name_position' => $request->name_position,
             'structural_position' => $request->structural_position,
             'functional_role' => $request->functional_role,
             'status' => $request->status
