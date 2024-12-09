@@ -43,6 +43,7 @@ class SupplierController extends Controller
             'mine_name' => 'required',
             'mine_location' => 'required',
             'producer' => 'required',
+            'acronym' => 'required',
         ], [
             'name.required' => 'Pemasok wajib diisi.',
             'load_type_uuid.required' => 'Type muatan wajib diisi.',
@@ -53,6 +54,7 @@ class SupplierController extends Controller
             'mine_name.required' => 'Nama tambang wajib diisi.',
             'mine_location.required' => 'Lokasi tambang wajib diisi.',
             'producer.required' => 'Producer wajib diisi.',
+            'acronym.required' => 'Singkatan wajib diisi',
         ]);
 
         Supplier::create([
@@ -66,6 +68,7 @@ class SupplierController extends Controller
             'mine_name' => $request->mine_name,
             'mine_location' => $request->mine_location,
             'producer' => $request->producer,
+            'acronym' => $request->acronym,
         ]);
 
         return redirect(route('master-data.suppliers.index'))->with('success', 'Pemasok baru berhasil dibuat.');
@@ -97,6 +100,7 @@ class SupplierController extends Controller
             'mine_name' => 'required',
             'mine_location' => 'required',
             'producer' => 'required',
+            'acronym' => 'required',
         ], [
             'name.required' => 'Pemasok wajib diisi.',
             'load_type_uuid.required' => 'Type muatan wajib diisi.',
@@ -107,6 +111,7 @@ class SupplierController extends Controller
             'mine_name.required' => 'Nama tambang wajib diisi.',
             'mine_location.required' => 'Lokasi tambang wajib diisi.',
             'producer.required' => 'Producer wajib diisi.',
+            'acronym.required' => 'Singkatan wajib diisi',
         ]);
 
         Supplier::where([
@@ -122,6 +127,7 @@ class SupplierController extends Controller
             'mine_name' => $request->mine_name,
             'mine_location' => $request->mine_location,
             'producer' => $request->producer,
+            'acronym' => $request->acronym,
         ]);
 
         return redirect(route('master-data.suppliers.index'))->with('success', 'Pemasok berhasil diupdate.');

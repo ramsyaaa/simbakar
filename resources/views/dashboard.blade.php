@@ -158,10 +158,21 @@
                                         </div>
                                     </a>
                                     @endforeach
-                                    <div class="absolute text-white left-[{{ $text_left }}px] top-[4px] h-fit text-[10px] truncate" style="max-width: {{ $totalDivWidth }}px; box-sizing: border-box; z-index: 101;">
+                                    <div class="absolute text-white left-[{{ $text_left }}px] top-[4px] h-fit text-[10px] truncate" style="box-sizing: border-box; z-index: 101;">
                                         @if(count($p) > 0)
                                         {{-- @dd($p[0]->schedulingPlan->supplier->name ) --}}
-                                        {{ isset($p[0]->schedulingPlan->supplier->name) ? $p[0]->schedulingPlan->supplier->name : '' }}, {{ isset($p[0]->schedulingPlan->calor) ? $p[0]->schedulingPlan->calor : '' }}, {{ isset($p[0]->schedulingPlan->ship->name) ? $p[0]->schedulingPlan->ship->name : '' }}
+                                        @php
+                                            $ship_name = '-';
+                                            if(isset($p[0]->schedulingPlan->ship)){
+                                                $ship_name = $p[0]->schedulingPlan->ship->acronym != null ? $p[0]->schedulingPlan->ship->acronym : $p[0]->schedulingPlan->ship->name;
+                                            }
+
+                                            $supplier_name = '-';
+                                            if(isset($p[0]->schedulingPlan->supplier)){
+                                                $supplier_name = $p[0]->schedulingPlan->supplier->acronym != null ? $p[0]->schedulingPlan->supplier->acronym : $p[0]->schedulingPlan->ship->name;
+                                            }
+                                        @endphp
+                                        {{ $supplier_name }}, {{ isset($p[0]->schedulingPlan->calor) ? $p[0]->schedulingPlan->calor : '' }}, {{ $ship_name }}
                                         @endif
                                     </div>
                                 @endforeach
