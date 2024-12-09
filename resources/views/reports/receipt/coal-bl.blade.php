@@ -160,40 +160,40 @@
                                         $total= collect($coals);
                                     @endphp
                                     <tr>
-                                        <td colspan="4" class="border border-gray-400 p-2">Jumlah</td>
-                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('bl'))}}</td>
-                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('ds'))}}</td>
-                                        <td class="border border-gray-400 p-2 text-right">0</td>
-                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('tug_3_accept'))}}</td>
-                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('selisih_bl'))}}</td>
-                                        <td class="border border-gray-400 p-2 text-right">-</td>
-                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('selisih_bw'))}}</td>
-                                        <td class="border border-gray-400 p-2 text-right">-</td>
+                                        <td colspan="4" class="border border-gray-400 font-bold p-2">Jumlah</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">{{number_format($total->sum('bl'))}}</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">{{number_format($total->sum('ds'))}}</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">0</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">{{number_format($total->sum('tug_3_accept'))}}</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">{{number_format($total->sum('selisih_bl'))}}</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">-</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">{{number_format($total->sum('selisih_bw'))}}</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">-</td>
                                     </tr>
                                 </tbody>
                             @else
                                 <thead>
                                     <tr>
-                                        <th rowspan="2" class="border border-gray-400 p-2">No</th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">No</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">
                                             @if (request('filter_type') == 'month')
                                              Bulan
                                             @else
                                             Tahun   
                                             @endif
                                         </th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">B/L (Kg)</th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">D/S (Kg)</th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">B/W (Kg)</th>
-                                        <th rowspan="2" class="border border-gray-400 p-2">Diterima (TUG3) (Kg)</th>
-                                        <th colspan="2" class="border border-gray-400 p-2">D/S & B/L</th>
-                                        <th colspan="2" class="border border-gray-400 p-2">D/S & B/W</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">B/L (Kg)</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">D/S (Kg)</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">B/W (Kg)</th>
+                                        <th rowspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">Diterima (TUG3) (Kg)</th>
+                                        <th colspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">D/S & B/L</th>
+                                        <th colspan="2" class="border border-gray-400 text-white bg-[#047A96] p-2">D/S & B/W</th>
                                     </tr>
                                     <tr>
-                                        <th class="border border-gray-400 p-2">Selisih</th>
-                                        <th class="border border-gray-400 p-2">%Selisih</th>
-                                        <th class="border border-gray-400 p-2">Selisih</th>
-                                        <th class="border border-gray-400 p-2">%Selisih</th>
+                                        <th class="border border-gray-400 text-white bg-[#047A96] p-2">Selisih</th>
+                                        <th class="border border-gray-400 text-white bg-[#047A96] p-2">%Selisih</th>
+                                        <th class="border border-gray-400 text-white bg-[#047A96] p-2">Selisih</th>
+                                        <th class="border border-gray-400 text-white bg-[#047A96] p-2">%Selisih</th>
         
                                     </tr>
 
@@ -218,15 +218,15 @@
                                         $total= collect($coals);
                                     @endphp
                                     <tr>
-                                        <td colspan="2" class="border border-gray-400 p-2 text-right">Jumlah</td>
-                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('bl'))}}</td>
-                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('ds'))}}</td>
-                                        <td class="border border-gray-400 p-2 text-right">0</td>
-                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('tug_3_accept'))}}</td>
-                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('selisih_bl'))}}</td>
-                                        <td class="border border-gray-400 p-2 text-right">-</td>
-                                        <td class="border border-gray-400 p-2 text-right">{{number_format($total->sum('selisih_bw'))}}</td>
-                                        <td class="border border-gray-400 p-2 text-right">-</td>
+                                        <td colspan="2" class="border border-gray-400 font-bold p-2 text-right">Jumlah</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">{{number_format($total->sum('bl'))}}</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">{{number_format($total->sum('ds'))}}</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">0</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">{{number_format($total->sum('tug_3_accept'))}}</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">{{number_format($total->sum('selisih_bl'))}}</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">-</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">{{number_format($total->sum('selisih_bw'))}}</td>
+                                        <td class="border border-gray-400 font-bold p-2 text-right">-</td>
                                     </tr>
                                 
                                 </tbody>

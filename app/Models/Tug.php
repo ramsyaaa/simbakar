@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Bunkers;
 use App\BbmReceipt;
 use Ramsey\Uuid\Uuid;
+use App\PersonInCharge;
 use App\BiomassaReceipt;
 use App\Models\CoalUnloading;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +32,14 @@ class Tug extends Model
     public function bunker()
     {
         return $this->hasOne(Bunkers::class, 'id', 'bunker_id');
+    }
+    public function manager()
+    {
+        return $this->hasOne(PersonInCharge::class, 'id', 'general_manager');
+    }
+    public function senior()
+    {
+        return $this->hasOne(PersonInCharge::class, 'id', 'senior_manager');
     }
     
 }

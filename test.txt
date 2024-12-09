@@ -1,0 +1,38 @@
+UPDATE loadings
+SET 
+    calorivic_value = REPLACE(calorivic_value, '.00', ''),
+    initial_deformation = REPLACE(initial_deformation, '.00', ''),
+    softening = REPLACE(softening, '.00', ''),
+    hemispherical = REPLACE(hemispherical, '.00', ''),
+    fluid = REPLACE(fluid, '.00', ''),
+    hgi = REPLACE(hgi, '.00', '');
+
+
+UPDATE labors
+SET 
+    calorivic_value = REPLACE(calorivic_value, '.00', ''),
+    initial_deformation = REPLACE(initial_deformation, '.00', ''),
+    softening = REPLACE(softening, '.00', ''),
+    hemispherical = REPLACE(hemispherical, '.00', ''),
+    fluid = REPLACE(fluid, '.00', ''),
+    hgi = REPLACE(hgi, '.00', '');
+
+UPDATE unloadings
+SET 
+    calorivic_value = REPLACE(calorivic_value, '.00', ''),
+    initial_deformation = REPLACE(initial_deformation, '.00', ''),
+    softening = REPLACE(softening, '.00', ''),
+    hemispherical = REPLACE(hemispherical, '.00', ''),
+    fluid = REPLACE(fluid, '.00', ''),
+    hgi = REPLACE(hgi, '.00', '');
+
+UPDATE preloadinngs
+SET 
+    calorivic_value = REPLACE(calorivic_value, '.00', ''),
+    initial_deformation = REPLACE(initial_deformation, '.00', ''),
+    softening = REPLACE(softening, '.00', ''),
+    hemispherical = REPLACE(hemispherical, '.00', ''),
+    fluid = REPLACE(fluid, '.00', ''),
+    hgi = REPLACE(hgi, '.00', '');
+
+

@@ -18,17 +18,18 @@ class UnloadingController extends Controller
         $date = explode('-', $bulan);
         
         $unloadings = Unloading::query();
+        $unloadings->select('unloadings.*')->join('coal_unloadings','coal_unloadings.id','unloadings.coal_unloading_id');
         $year = isset($request->year) ? $request->year : \Carbon\Carbon::now()->year;
 
         // Filter berdasarkan `analysis_date` dan `created_at`
         $unloadings->where(function ($query) use ($date) {
-            $query->whereNull('analysis_date')
-                ->whereYear('end_unloading', $date[0])
-                ->whereMonth('end_unloading', $date[1]);
+            $query->whereNull('unloadings.analysis_date')
+                ->whereYear('coal_unloadings.end_date', $date[0])
+                ->whereMonth('coal_unloadings.end_date', $date[1]);
         })
         ->orWhere(function ($query) use ($date) {
-            $query->whereYear('analysis_date', $date[0])
-                ->whereMonth('analysis_date', $date[1]);
+            $query->whereYear('coal_unloadings.end_date', $date[0])
+                    ->whereMonth('coal_unloadings.end_date', $date[1]);
         });
 
         // Tambahkan eager loading

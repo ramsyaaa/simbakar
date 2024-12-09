@@ -28,7 +28,7 @@ class TugFourController extends Controller
         })->when($request->fuel, function ($query) use ($request) {
             $query->where('type_fuel', $request->fuel);
         });
-        $data['tugs'] = $tugs->latest()->paginate(10)->appends(request()->query());
+        $data['tugs'] = $tugs->orderBy('receipt_date','desc')->paginate(10)->appends(request()->query());
         return view('inputs.tug-4.index',$data);
 
     }
@@ -47,7 +47,7 @@ class TugFourController extends Controller
 
         Carbon::setLocale('id');
         // Buat objek Carbon dari data tanggal
-        $carbonDate = Carbon::now();
+        $carbonDate = Carbon::parse($tug->receipt_date);
             
         // Tampilkan hari dalam bahasa Indonesia
         $day = $carbonDate->isoFormat('dddd'); 
@@ -73,6 +73,7 @@ class TugFourController extends Controller
         $tug->inspection_date = $request->inspection_date;
         $tug->user_inspections = $request->user_inspections;
         $tug->general_manager = $request->general_manager;
+        $tug->senior_manager = $request->senior_manager;
         $tug->bunker_id = $request->bunker_id;
         $tug->save();
 

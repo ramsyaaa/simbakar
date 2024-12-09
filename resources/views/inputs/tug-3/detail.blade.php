@@ -330,16 +330,12 @@
                                                             <td> : {{$tug->type_fuel == 'solar' ? 'Solar / HSD' : 'Residu MFO'}}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="pr-4">Catatan</td>
-                                                            <td> : {{$tug->bbm->note ?? ''}}</td>
-                                                        </tr>
-                                                        <tr>
                                                             <td class="pr-4">Nama Agen</td>
                                                             <td> : {{$tug->bbm->shipAgent->name ?? ''}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="pr-4">Volume Faktur</td>
-                                                            <td> : {{ number_format($tug->bbm->amount_receipt ?? 0) }} Kg</td>
+                                                            <td> : {{ number_format($tug->bbm->amount_receipt ?? 0) }} Liter</td>
                                                         </tr>
                                                     </table>
                                                     

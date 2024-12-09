@@ -23,7 +23,7 @@
                     @method('PUT')
                     <div class="p-4 bg-white rounded-lg w-full">
                         <div class="lg:flex items-center justify-between">
-                            <div class="w-full">
+                            <div class="w-1/2">
                                 <label for="name" class="font-bold text-[#232D42] text-[16px]">Nama Penanggung Jawab</label>
                                 <div class="relative">
                                     <input type="text" name="name" value="{{ old('name') ? old('name') : $person_in_charge->name }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
@@ -66,6 +66,17 @@
                                 <label for="functional_role" class="font-bold text-[#232D42] text-[16px]">Jabatan Fungsional</label>
                                 <div class="relative">
                                     <input type="text" name="functional_role" value="{{ old('functional_role') ? old('functional_role') : $person_in_charge->functional_role }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    @error('functional_role')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <label for="name_position" class="font-bold text-[#232D42] text-[16px]">Nama Jabatan Fungsional</label>
+                                <div class="relative">
+                                    <input type="text" name="name_position" value="{{ old('name_position') ? old('name_position') : $person_in_charge->name_position }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('functional_role')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}
