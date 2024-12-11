@@ -140,3 +140,4 @@ require 'input.php';
 require 'report.php';
 require 'setting.php';
 
+Route::get('/recalculate', [SchedulingPlanController::class, 'calculateLoadData']);

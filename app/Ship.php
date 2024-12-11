@@ -18,6 +18,7 @@ class Ship extends Model
         'dwt',
         'loa',
         'status',
+        'acronym'
     ];
 
     public function typeShip()

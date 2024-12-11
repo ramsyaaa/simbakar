@@ -52,7 +52,7 @@
                             @foreach ($suppliers as $supplier)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $supplier->name }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $supplier->name }} @if($supplier->acronym != null) ({{ $supplier->acronym }}) @endif</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $supplier->loadType ? $supplier->loadType->name : '' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
                                     <a href="{{ route('master-data.suppliers.edit', ['uuid' => $supplier->uuid]) }}" class="bg-[#1AA053] text-center text-white w-[80px] h-[25px] text-[16px] rounded-md">

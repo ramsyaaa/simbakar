@@ -22,7 +22,7 @@
                             <select id="ship" name="ship" class="select-2 w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                 <option selected>Pilih Kapal</option>
                                 @foreach ($ships as $ship)
-                                    <option value="{{ $ship->id }}">{{ $ship->name }}</option>
+                                    <option value="{{ $ship->id }}">{{ $ship->name }} @if($ship->acronym != null) ({{ $ship->acronym }}) @endif</option>
                                 @endforeach
                             </select>
                         </div>
@@ -47,7 +47,7 @@
                             <select id="supplier" name="supplier" class="select-2 w-full lg:w-46 border rounded-md mt-3 mb-5 h-[40px] px-3">
                                 <option selected disabled>Pilih Supplier</option>
                                 @foreach ($suppliers as $supplier)
-                                    <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                    <option value="{{ $supplier->id }}">{{ $supplier->name }} @if($supplier->acronym != null) ({{ $supplier->acronym }}) @endif</option>
                                 @endforeach
                             </select>
                         </div>
@@ -303,19 +303,22 @@
                             // Kolom pertama: input untuk capacity
                             const capacityInput = document.createElement('input');
                             capacityInput.type = 'text';
+                            capacityInput.name = 'capacity[]';
                             capacityInput.value = total.toFixed(2); // Pastikan total adalah angka
-                            capacityInput.disabled = true; // Default disabled karena tidak bisa diubah saat persentase dipilih
+                            capacityInput.readonly = true; // Default readonly karena tidak bisa diubah saat persentase dipilih
                             capacityInput.classList.add('w-1/3', 'p-2', 'rounded-lg', 'border', 'border-gray-300', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-500', 'text-center', 'bg-gray-100', 'capacity');
 
                             // Kolom kedua: input untuk persentase
                             const percentageInput = document.createElement('input');
                             percentageInput.type = 'text';
+                            percentageInput.name = 'speed[]';
                             percentageInput.value = data.persentase;
-                            percentageInput.disabled = false; // Default enabled
+                            percentageInput.readonly = false; // Default enabled
                             percentageInput.classList.add('w-1/3', 'p-2', 'rounded-lg', 'border', 'border-gray-300', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-500', 'text-center', 'persentase');
 
                             // Kolom ketiga: select untuk memilih tipe (persentase atau aktual)
                             const selectType = document.createElement('select');
+                            selectType.name = 'type[]';
                             selectType.classList.add('w-1/3', 'p-2', 'rounded-lg', 'border', 'border-gray-300', 'focus:outline-none', 'focus:ring-2', 'focus:ring-blue-500', 'text-center', 'type'); // Tambahkan kelas 'type' di sini
                             const optionPersentase = document.createElement('option');
                             optionPersentase.value = 'persentase';
@@ -331,25 +334,25 @@
                             if (data.type === 'aktual') {
                                 selectType.value = 'aktual';
                                 // Jika 'aktual', disable persentaseInput dan enable capacityInput
-                                capacityInput.disabled = false;
-                                percentageInput.disabled = true;
+                                capacityInput.readonly = false;
+                                percentageInput.readonly = true;
                             } else if (data.type === 'persentase') {
                                 selectType.value = 'persentase';
                                 // Jika 'persentase', disable capacityInput dan enable persentaseInput
-                                capacityInput.disabled = true;
-                                percentageInput.disabled = false;
+                                capacityInput.readonly = true;
+                                percentageInput.readonly = false;
                             }
 
-                            // Fungsi untuk mengubah status disabled berdasarkan pilihan select
+                            // Fungsi untuk mengubah status readonly berdasarkan pilihan select
                             selectType.addEventListener('change', () => {
                                 if (selectType.value === 'persentase') {
                                     // Jika persentase dipilih, disable capacity input dan enable persentase input
-                                    capacityInput.disabled = true;
-                                    percentageInput.disabled = false;
+                                    capacityInput.readonly = true;
+                                    percentageInput.readonly = false;
                                 } else if (selectType.value === 'aktual') {
                                     // Jika aktual dipilih, disable persentase input dan enable capacity input
-                                    capacityInput.disabled = false;
-                                    percentageInput.disabled = true;
+                                    capacityInput.readonly = false;
+                                    percentageInput.readonly = true;
                                 }
                             });
 
@@ -409,9 +412,6 @@
                     }
 
                 </script>
-
-
-
             </div>
         </div>
     </div>

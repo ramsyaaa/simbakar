@@ -66,7 +66,7 @@
                             @foreach ($ships as $ship)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $ship->name }} <br> Tahun Pembuatan : {{ $ship->year_created }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $ship->name }} @if($ship->acronym != null) ({{ $ship->acronym }}) @endif <br> Tahun Pembuatan : {{ $ship->year_created }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $ship->typeShip->name }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $ship->flag }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $ship->loadType->name }}</td>

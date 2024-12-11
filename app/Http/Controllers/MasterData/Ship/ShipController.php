@@ -49,7 +49,8 @@ class ShipController extends Controller
             'year_created' => 'required',
             'grt' => 'required',
             'dwt' => 'required',
-            'loa' => 'required'
+            'loa' => 'required',
+            'acronym' => 'required',
         ], [
             'name.required' => 'Jenis kapal wajib diisi.',
             'type_ship_uuid.required' => 'Type kapal wajib diisi.',
@@ -59,6 +60,7 @@ class ShipController extends Controller
             'grt.required' => 'GRT wajib diisi.',
             'dwt.required' => 'DWT wajib diisi.',
             'loa.required' => 'LOA wajib diisi.',
+            'acronym.required' => 'Singkatan wajib diisi.',
         ]);
 
         $type_ship = Ship::where(['uuid' => $uuid])->update([
@@ -70,6 +72,7 @@ class ShipController extends Controller
             'grt' => $request->grt,
             'dwt' => $request->dwt,
             'loa' => $request->loa,
+            'acronym' => $request->acronym,
             'status' => 1,
         ]);
 
@@ -92,7 +95,8 @@ class ShipController extends Controller
             'year_created' => 'required',
             'grt' => 'required',
             'dwt' => 'required',
-            'loa' => 'required'
+            'loa' => 'required',
+            'acronym' => 'required',
         ], [
             'name.required' => 'Jenis kapal wajib diisi.',
             'type_ship_uuid.required' => 'Type kapal wajib diisi.',
@@ -102,6 +106,7 @@ class ShipController extends Controller
             'grt.required' => 'GRT wajib diisi.',
             'dwt.required' => 'DWT wajib diisi.',
             'loa.required' => 'LOA wajib diisi.',
+            'acronym.required' => 'Singkatan wajib diisi.',
         ]);
 
         $type_ship = Ship::create([
@@ -113,6 +118,7 @@ class ShipController extends Controller
             'grt' => $request->grt,
             'dwt' => $request->dwt,
             'loa' => $request->loa,
+            'acronym' => $request->acronym,
             'status' => 1,
         ]);
 

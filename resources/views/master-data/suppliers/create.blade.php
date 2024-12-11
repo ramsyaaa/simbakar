@@ -145,6 +145,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="lg:flex items-center justify-between">
+                            <div class="w-full">
+                                <label for="acronym" class="font-bold text-[#232D42] text-[16px]">Singkatan</label>
+                                <div class="relative">
+                                    <input type="text" name="acronym" value="{{ old('acronym') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    @error('acronym')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                         <a href="{{ route('master-data.suppliers.index') }}" class="bg-[#C03221] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                         <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Tambah Pemasok</button>
                     </div>

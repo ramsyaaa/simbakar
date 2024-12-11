@@ -17,6 +17,7 @@ class Supplier extends Model
         'mine_name',
         'mine_location',
         'producer',
+        'acronym',
     ];
 
     public function loadType()
