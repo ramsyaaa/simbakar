@@ -158,7 +158,7 @@
                             <span>Pada hari, tgl</span>
                             <div class="border-collapse border border-slate-900">
                                 <span>{{$day}}</span> <br>
-                                <span>{{date('y-M-d', strtotime($tug->receipt_date))}}</span>
+                                <span>{{date('d-M-Y', strtotime($tug->receipt_date))}}</span>
                             </div>
                         </div>
 
@@ -195,7 +195,7 @@
 
                         <div class="mb-6 font-bold" style="font-size: 13px; line-height:1.5;">
                             @if ($tug->type_tug == 'coal-unloading')
-                                <p class="mb-2" style="text-align: justify;">Telah mengadakan pemeriksaan atas barang-barang/spare parts milik PT. PLN Indonesia Power yang berada <br> di / terima dari: UBP Suralaya Tgl. {{$tug->receipt_date}}. Menurut Surat Pesanan/B.P. No. ............. Tgl. .......... Gudang <span class="border border-slate-900 border-1 p-1 pr-10">{{$tug->bunker->name ?? ''}}</span> </p>
+                                <p class="mb-2" style="text-align: justify;">Telah mengadakan pemeriksaan atas barang-barang/spare parts milik PT. PLN Indonesia Power yang berada <br> di / terima dari: UBP Suralaya Tgl. {{date('d-M-Y', strtotime($tug->receipt_date))}}. Menurut Surat Pesanan/B.P. No. ............. Tgl. .......... Gudang <span class="border border-slate-900 border-1 p-1 pr-10">{{$tug->bunker->name ?? ''}}</span> </p>
                                 <p >dan menyatakan sebagai berikut :</p>
                             @endif
                             @if ($tug->type_tug == 'bbm-receipt')
@@ -203,7 +203,7 @@
                                 <p >dan menyatakan sebagai berikut :</p>
                             @endif
                             @if ($tug->type_tug == 'biomassa-receipt')
-                                <p class="mb-2" style="text-align: justify;">Telah mengadakan pemeriksaan atas barang-barang/spare parts milik PT. PLN Indonesia Power yang berada <br> di / terima dari: UBP Suralaya Tgl. {{$tug->receipt_date}}. Menurut Surat Pesanan/B.P. No. ............. Tgl. .......... Gudang <span class="border border-slate-900 border-1 p-1 pr-10">{{$tug->bunker->name ?? ''}}</span> </p>
+                                <p class="mb-2" style="text-align: justify;">Telah mengadakan pemeriksaan atas barang-barang/spare parts milik PT. PLN Indonesia Power yang berada <br> di / terima dari: UBP Suralaya Tgl. {{date('d-M-Y', strtotime($tug->receipt_date))}}. Menurut Surat Pesanan/B.P. No. ............. Tgl. .......... Gudang <span class="border border-slate-900 border-1 p-1 pr-10">{{$tug->bunker->name ?? ''}}</span> </p>
                                 <p >dan menyatakan sebagai berikut :</p>
                             @endif
                             <table class="min-w-full border-collapse border border-slate-900" style="font-size: 12px;">
@@ -366,7 +366,7 @@
                                 </div>
                                 <div class="text-center-print font-bold">
                                     <p class="pb-20">{{$tug->senior->name_position ?? ''}}</p>
-                                    <p class="font-bold mt-4 uppercase">{{$tug->senior->name ?? ''}}</p>
+                                    <p class="font-bold mt-4 uppercase text-center">{{$tug->senior->name ?? ''}}</p>
                                 </div>
                             </div>
                             <div class="flex justify-between mt-6 print-footer" style="font: 14px;">
@@ -374,7 +374,7 @@
                                 </div>
                                 <div class="text-center-print font-bold">
                                     <p class="pb-20">{{$tug->manager->name_position ?? ''}}</p>
-                                    <p class="font-bold mt-4 uppercase">{{$tug->manager->name ?? ''}}</p>
+                                    <p class="font-bold mt-4 uppercase text-center">{{$tug->manager->name ?? ''}}</p>
                                 </div>
                             </div>
                         </div>
