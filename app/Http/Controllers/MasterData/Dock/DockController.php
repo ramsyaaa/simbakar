@@ -39,7 +39,9 @@ class DockController extends Controller
             'draft' => 'required',
             'load_rate' => 'required|numeric',
             'dock_equipment_lists' => 'nullable|array',
-            'dock_inspection_lists' => 'nullable|array'
+            'dock_inspection_lists' => 'nullable|array',
+            'duration_before_load' => 'required',
+            'duration_after_load' => 'required',
         ], [
             'name.required' => 'Dermaga wajib diisi.',
             'length.required' => 'Length wajib diisi.',
@@ -48,6 +50,8 @@ class DockController extends Controller
             'load_rate.numeric' => 'Load rate wajib berupa angka',
             'dock_equipment_lists.required' => 'List peralatan wajib diisi.',
             'dock_inspection_lists.required' => 'List pengecekan wajib diisi.',
+            'duration_before_load.required' => 'Durasi sebelum bongkar wajib diisi.',
+            'duration_after_load.required' => 'Durasi setelah bongkar wajib diisi.',
         ]);
 
         $dock = Dock::create([
@@ -56,6 +60,8 @@ class DockController extends Controller
             'width' => $request->width,
             'load_rate' => $request->load_rate,
             'draft' => $request->draft,
+            'duration_before_load' => $request->duration_before_load,
+            'duration_after_load' => $request->duration_after_load,
         ]);
 
         $dock_equipment_lists = [];
@@ -113,7 +119,9 @@ class DockController extends Controller
             'draft' => 'required',
             'load_rate' => 'required|numeric',
             'dock_equipment_lists' => 'nullable|array',
-            'dock_inspection_lists' => 'nullable|array'
+            'dock_inspection_lists' => 'nullable|array',
+            'duration_before_load' => 'required',
+            'duration_after_load' => 'required',
         ], [
             'name.required' => 'Dermaga wajib diisi.',
             'length.required' => 'Length wajib diisi.',
@@ -122,6 +130,8 @@ class DockController extends Controller
             'load_rate.numeric' => 'Load rate wajib berupa angka',
             'dock_equipment_lists.required' => 'List peralatan wajib diisi.',
             'dock_inspection_lists.required' => 'List pengecekan wajib diisi.',
+            'duration_before_load.required' => 'Durasi sebelum bongkar wajib diisi.',
+            'duration_after_load.required' => 'Durasi setelah bongkar wajib diisi.',
         ]);
 
         Dock::where([
@@ -132,6 +142,8 @@ class DockController extends Controller
             'load_rate' => $request->load_rate,
             'width' => $request->width,
             'draft' => $request->draft,
+            'duration_before_load' => $request->duration_before_load,
+            'duration_after_load' => $request->duration_after_load,
         ]);
 
         DockInspectionParameterList::where([

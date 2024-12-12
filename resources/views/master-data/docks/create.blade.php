@@ -82,6 +82,31 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="lg:flex items-center justify-between">
+                            <div class="w-full">
+                                <label for="duration_before_load" class="font-bold text-[#232D42] text-[16px]">Durasi Sebelum Bongkar (jam)</label>
+                                <div class="relative">
+                                    <input type="text" name="duration_before_load" value="{{ old('duration_before_load') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    @error('duration_before_load')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <label for="duration_after_load" class="font-bold text-[#232D42] text-[16px]">Durasi Setelah Bongkar (jam)</label>
+                                <div class="relative">
+                                    <input type="text" name="duration_after_load" value="{{ old('duration_after_load') }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    @error('duration_after_load')
+                                    <div class="absolute -bottom-1 left-1 text-red-500">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                         <div class="mb-10">
                             <div class="w-full">
                                 <label for="dock_equipment_lists" class="font-bold text-[#232D42] text-[16px]">Parameter pengecekan :</label>
