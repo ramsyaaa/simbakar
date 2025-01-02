@@ -37,7 +37,7 @@ class UnloadingController extends Controller
 
         // Urutkan berdasarkan `id` dari tabel `coal_unloadings` secara descending
         $unloadings->orderBy(
-            CoalUnloading::select('id')
+            CoalUnloading::select('tug_number')
                 ->whereColumn('coal_unloadings.id', 'unloadings.coal_unloading_id'),
             'desc'
         );

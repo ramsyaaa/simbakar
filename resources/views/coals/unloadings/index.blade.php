@@ -212,7 +212,7 @@
         // Set modal content based on button data attributes
         document.getElementById('modalContent-unloading').innerHTML = `
         <span>Analisis : ${analysis} </span><br/>
-        <span>PMB : ${company} </span><br/>
+        <span>PBM : ${company} </span><br/>
         <span>Pemasok : ${supplier} </span><br/>
         <span>Dermaga : ${dock} </span><br/>
         <span>Kapal : ${ship} </span><br/>

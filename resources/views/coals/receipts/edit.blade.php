@@ -20,7 +20,7 @@
                 <div class="bg-sky-600 py-1 text-center text-xl text-white mb-3 rounded">Data Analisa Kuantitas</div>
 
                  <div class="p-4 bg-white rounded-lg w-full">
-                    <form onsubmit="return confirmSubmit(this, 'Update Data Analisa Kuantitas ?')" action="{{route('coals.receipts.update-analytic',['id' => $receipt->id])}}" method="POST">
+                    <form onsubmit="return confirmSubmit(this, 'Update Data Penerimaan TUG 3 ?')" action="{{route('coals.receipts.update-analytic',['id' => $receipt->id])}}" method="POST">
                         @csrf
                         @method('PATCH')
                         <div class="lg:flex lg:gap-3">

@@ -89,8 +89,15 @@ class CoalUnloadingController extends Controller
             $departure = $request->departure_date_month.' '.$request->departure_date_hour.':'.$request->departure_date_minute;
             $departure_date= Carbon::parse($departure)->format('Y-m-d H:i:s');
 
-            $lastUnloadingYear = CoalUnloading::whereYear('receipt_date',$formattedYear)->get()->count() + 1;
-            $bpbNumber = 'B.'.$formattedYear.'.'.$lastUnloadingYear;
+            $lastUnloadingYear = CoalUnloading::whereYear('receipt_date',$formattedYear)->latest()->first();
+            $countbpb = 0;
+            if(!$lastUnloadingYear){
+                $countbpb = 1;
+            }else{
+                $arraybpb = explode('.',$lastUnloadingYear->bpb_number);
+                $countbpb = $arraybpb[2] + 1;
+            }
+            $bpbNumber = 'B.'.$formattedYear.'.'.$countbpb;
 
             $requestData = $request->all();
             $requestData['tug_number'] = $tugNumber;
