@@ -224,37 +224,41 @@
                                         <td class="px-4 py-2 border border-slate-900">
                                             <table class="table-auto w-full font-bold">
                                                 <tr>
-                                                    <td class="pr-4">Jenis Bahan Bakar</td>
-                                                    <td> : Batubara</td>
+                                                    <p class="font-normal">Seluruhnya diterima dengan baik sesuai data terlampir</p>
                                                 </tr>
                                                 <tr>
-                                                    <td class="pr-4">ex.</td>
-                                                    <td> : {{$tug->coal->supplier->name ?? ''}}</td>
+                                                    <td class="pr-4">Tanggal Penerimaan</td>
+                                                    <td> : {{date('d-m-Y', strtotime($tug->receipt_date))}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="pr-4">Penerimaan Untuk</td>
-                                                    <td> : Unit 1-7</td>
+                                                    <td class="pr-4">Jumlah B/L</td>
+                                                    <td> : {{number_format($tug->coal->bl)}} Kg</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="pr-4">Pelabuhan Asal</td>
-                                                    <td> : {{$tug->coal->originHarbor->name ?? ''}}</td>
+                                                    <td class="pr-4">Jumlah DS</td>
+                                                    <td> : {{number_format($tug->coal->bl)}} Kg</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="pr-4">Draft Survey:</td>
-                                                    <td> : {{ number_format($tug->coal->ds) }} Kg</td>
+                                                    <td class="pr-4">Jumlah BW</td>
+                                                    <td> : {{number_format($tug->coal->bw)}} Kg</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="pr-4">Belt Weigher</td>
-                                                    <td> : 0 Kg</td>
+                                                    <td class="pr-4">Jumlah Diterima</td>
+                                                    <td> : {{number_format($tug->coal->tug_3_accept)}} Kg</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="pr-4">Bill of Lading</td>
-                                                    <td> : {{ number_format($tug->coal->bl) }} Kg</td>
+                                                    <td class="pr-4">Nama Kapal</td>
+                                                    <td> : {{$tug->coal->ship->name ?? ''}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="pr-4">Diterima</td>
-                                                    <td> : {{ number_format($tug->coal->tug_3_accept) }} Kg</td>
+                                                    <td class="pr-4">No Kontrak</td>
+                                                    <td> : {{$tug->coal->contract->contract_number ?? ''}}</td>
                                                 </tr>
+                                                <tr>
+                                                    <td class="pr-4">No TUG3</td>
+                                                    <td> : {{$tug->coal->tug_number ?? ''}}</td>
+                                                </tr>
+                                              
                                             </table>
                                             
                                         </td>
