@@ -52,7 +52,7 @@
                             @foreach ($stocks as $stock)
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
-                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ $stock->measurement_date }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ date('d-m-Y', strtotime($stock->measurement_date)) }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $stock->stock_opname }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $stock->loose_density }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $stock->compact_density }}</td>
