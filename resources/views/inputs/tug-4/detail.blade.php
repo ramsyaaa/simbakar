@@ -236,7 +236,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="pr-4">Jumlah DS</td>
-                                                    <td> : {{number_format($tug->coal->bl)}} Kg</td>
+                                                    <td> : {{number_format($tug->coal->ds)}} Kg</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="pr-4">Jumlah BW</td>
