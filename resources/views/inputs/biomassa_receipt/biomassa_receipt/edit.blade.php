@@ -71,7 +71,7 @@
                                 <div class="w-full lg:w-6/12">
                                     <label for="tug3_number" class="font-bold text-[#232D42] text-[16px]">No TUG3</label>
                                     <div class="relative">
-                                        <input disabled type="text" name="tug3_number" value="{{ old('tug3_number', $biomassa->tug3_number ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="diisi otomatis">
+                                        <input type="text" name="tug3_number" value="{{ old('tug3_number', $biomassa->tug3_number ?? '') }}" class="w-full border rounded-md mt-3 mb-5 h-[40px] px-3" placeholder="diisi otomatis">
                                         @error('tug3_number')
                                         <div class="absolute -bottom-1 left-1 text-red-500">
                                             {{ $message }}
