@@ -87,9 +87,9 @@
                                 </div>
                             </div>
                             <div class="w-full">
-                                <label for="bg_color" class="font-bold text-[#232D42] text-[16px]">Background warna (untuk jadwal, ex: #ffffff)</label>
+                                <label for="bg_color" class="font-bold text-[#232D42] text-[16px]">Background warna jadwal</label>
                                 <div class="relative">
-                                    <input type="text" name="bg_color" value="{{ old('bg_color') ? old('bg_color') : $supplier->bg_color }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
+                                    <input type="color" name="bg_color" value="{{ old('bg_color') ? old('bg_color') : $supplier->bg_color }}" class="w-full lg:w-[300px] border rounded-md mt-3 mb-5 h-[40px] px-3">
                                     @error('bg_color')
                                     <div class="absolute -bottom-1 left-1 text-red-500">
                                         {{ $message }}

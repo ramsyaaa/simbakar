@@ -66,10 +66,12 @@ class BiomassaReceiptController extends Controller
         $lastUnloadingToday = BiomassaReceipt::whereDate('created_at', Carbon::today())->get()->count() + 1;
 
         $count = sprintf("%02d", $lastUnloadingToday);
-        $tugNumber = 'Biomassa.'.date('Ymd').'.'.$count;
+        $date = isset($request->end_date_unloading[1]) ? date('Ymd', strtotime($request->end_date_unloading[1])) : date('Ymd');
+        $tugNumber = 'Biomassa.'.$date.'.'.$count;
 
         $lastUnloadingYear = BiomassaReceipt::whereYear('created_at',date('Y'))->get()->count() + 1;
-        $bpbNumber = 'Biomassa.'.date('Y').'.'.$lastUnloadingYear;
+        $year = isset($request->end_date_unloading[1]) ? date('Y', strtotime($request->end_date_unloading[1])) : date('Ymd');
+        $bpbNumber = 'Biomassa.'.$year.'.'.$lastUnloadingYear;
 
         $biomassa = BiomassaReceipt::create([
             'bpb_number' => $bpbNumber,
@@ -197,6 +199,7 @@ class BiomassaReceiptController extends Controller
             'faktur_number' => $request->faktur_number,
             'main_supplier_uuid' => $request->main_supplier_uuid,
             'note' => $request->note,
+            'tug3_number' => $request->tug3_number,
             'contract_id' => $request->contract_id,
         ]);
 
