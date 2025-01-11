@@ -187,7 +187,7 @@ class CoalReceiptController extends Controller
             
             if($request->has('check_tug')){
 
-                $lastUnloadingToday = CoalUnloading::whereDate('created_at', Carbon::today())->get()->count() + 1;
+                $lastUnloadingToday = CoalUnloading::whereDate('receipt_date', Carbon::today())->get()->count() + 1;
 
                 $countTug = sprintf("%02d", $lastUnloadingToday);
                 $tugNumber = 'B.'.date('Ymd').'.'.$countTug;
@@ -198,6 +198,7 @@ class CoalReceiptController extends Controller
 
             Tug::where('type_tug','coal-unloading')->where('coal_unloading_id',$id)->update([
                 'tug_number' => $requestData['tug_number'],
+                'receipt_date' => $requestData['receipt_date'],
             ]);
 
             DB::commit();
