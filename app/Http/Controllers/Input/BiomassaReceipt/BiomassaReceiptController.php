@@ -34,7 +34,7 @@ class BiomassaReceiptController extends Controller
             $query->whereYear('created_at', $request->year);
         });
 
-        $data['receipts'] = $receipts->latest()->paginate(10)->appends(request()->query());
+        $data['receipts'] = $receipts->with(['detailReceipt'])->latest()->paginate(10)->appends(request()->query());
         foreach ($data['receipts'] as $receipt) {
             $receipt->total_volume = $receipt->detailReceipt->sum('volume');
         }

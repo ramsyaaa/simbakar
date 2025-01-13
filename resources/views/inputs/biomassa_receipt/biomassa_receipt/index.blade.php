@@ -41,6 +41,7 @@
                             <tr>
                                 <th class="border text-white bg-[#047A96] h-[52px] text-center">No</th>
                                 <th class="border text-white bg-[#047A96] h-[52px] text-center">Pemasok</th>
+                                <th class="border text-white bg-[#047A96] h-[52px] text-center">Tanggal Penerimaan</th>
                                 <th class="border text-white bg-[#047A96] h-[52px] text-center">No TUG 3</th>
                                 <th class="border text-white bg-[#047A96] h-[52px] text-center">Total Penerimaan</th>
                                 <th class="border text-white bg-[#047A96] h-[52px]"></th>
@@ -51,6 +52,7 @@
                             <tr>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 text-center">{{ $loop->iteration }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->supplier != null ? $item->supplier->name : '-' }}</td>
+                                <td class="h-[36px] text-[16px] font-normal border px-2">{{ isset($item->detailReceipt[0]) ? date('d-m-Y', strtotime($item->detailReceipt[0]->end_date_unloading)) : '' }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ $item->tug3_number }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2">{{ number_format($item->total_volume) }}</td>
                                 <td class="h-[36px] text-[16px] font-normal border px-2 flex items-center justify-center gap-2">
