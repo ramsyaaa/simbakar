@@ -285,7 +285,7 @@ class BiomassaReceiptController extends Controller
             'type_tug' => 'biomassa-receipt',
             'biomassa_receipt_id' => $biomassa->id,
         ])->update([
-            'tug3_number' => $request->tug3_number,
+            'tug_number' => $request->tug3_number,
             'usage_amount' => $totalVolume,
             'receipt_date' => $latest_receipt_date,
         ]);
