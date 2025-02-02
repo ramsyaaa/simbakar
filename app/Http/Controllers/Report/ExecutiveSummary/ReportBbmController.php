@@ -479,10 +479,10 @@ class ReportBbmController extends Controller
 
                 $processedData[$key]['waiting_time'] = getTimeDifference($value->arrived_date, $value->unloading_date);
 
-                $processedData[$key]['bl'] = $value->bl / 1000;
-                $processedData[$key]['ds'] = $value->ds / 1000;
-                $processedData[$key]['bl'] = $value->bw / 1000;
-                $processedData[$key]['tug'] = $value->tug_3_accept / 1000;
+                $processedData[$key]['bl'] = $value->bl;
+                $processedData[$key]['ds'] = $value->ds;
+                $processedData[$key]['bw'] = $value->bw;
+                $processedData[$key]['tug'] = $value->tug_3_accept;
             }
         }
 
