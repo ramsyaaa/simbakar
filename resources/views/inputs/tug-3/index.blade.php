@@ -44,7 +44,7 @@
                             <option {{request('fuel') == 'batubara' ? 'selected' : ''}} value="batubara">Batu Bara</option>
                             <option {{request('fuel') == 'solar' ? 'selected' : ''}} value="solar">HSD / Solar</option>
                             <option {{request('fuel') == 'residu' ? 'selected' : ''}} value="residu">MFO / Residu</option>
-                            <option {{request('fuel') == 'biomassa-receipt' ? 'selected' : ''}} value="biomassa">Biomassa</option>
+                            <option {{request('fuel') == 'biomassa' ? 'selected' : ''}} value="biomassa">Biomassa</option>
                         </select>
                     </div>
                     <button type="submit" class="hidden">Search</button>
