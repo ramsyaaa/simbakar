@@ -147,6 +147,7 @@ class BiomassaReceiptController extends Controller
             'tug_number' => $tugNumber,
             'bpb_number' => $bpbNumber,
             'type_tug' => 'biomassa-receipt',
+            'typefuel' => 'biomassa',
             'unit' => 'Kg',
             'usage_amount' => $totalVolume,
             'biomassa_receipt_id' => $biomassa->id,
