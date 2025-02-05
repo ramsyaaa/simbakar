@@ -25,6 +25,9 @@ class Authenticate extends Middleware
         if ($this->auth->guard($guard)->guest()) {
             return redirect()->route('login');
         }
+        if ($request->isMethod('get') && !$request->expectsJson()) {
+            session(['back_url' => url()->previous()]);
+        }
 
         return $next($request);
     }
