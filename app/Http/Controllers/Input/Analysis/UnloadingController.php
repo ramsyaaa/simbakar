@@ -445,6 +445,13 @@ class UnloadingController extends Controller
      */
     public function destroy($id)
     {
+        $getData = Unloading::where('id',$id)->first();
+        CoalUnloading::where([
+            'id' => $getData->coal_unloading_id
+        ])->update([
+            'analysis_unloading_id' => null,
+        ]);
+
         Unloading::where('id',$id)->update([
             'surveyor_uuid' => null,
             'analysis_number' => null,
