@@ -147,6 +147,7 @@ class BiomassaReceiptController extends Controller
             'tug_number' => $tugNumber,
             'bpb_number' => $bpbNumber,
             'type_tug' => 'biomassa-receipt',
+            'typefuel' => 'biomassa',
             'unit' => 'Kg',
             'usage_amount' => $totalVolume,
             'biomassa_receipt_id' => $biomassa->id,
@@ -285,6 +286,7 @@ class BiomassaReceiptController extends Controller
             'type_tug' => 'biomassa-receipt',
             'biomassa_receipt_id' => $biomassa->id,
         ])->update([
+            'tug_number' => $request->tug3_number,
             'usage_amount' => $totalVolume,
             'receipt_date' => $latest_receipt_date,
         ]);

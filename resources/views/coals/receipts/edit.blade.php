@@ -687,8 +687,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                @php
+                                    $backDate = \Carbon\Carbon::parse($receipt->receipt_date)->format('Y-m')
+                                @endphp
                                 <div class="flex gap-3">
-                                    <a href="{{route('coals.receipts.index')}}" class="bg-[#C03221] text-center w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
+                                    <a href="{{session('back_url')}}" class="bg-[#C03221] text-center w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3 px-3">Back</a>
                                     <button class="bg-[#2E46BA] w-full lg:w-[300px] py-3 text-[white] text-[16px] font-semibold rounded-lg mt-3">Ubah</button>
                                 </div>
                             </form>

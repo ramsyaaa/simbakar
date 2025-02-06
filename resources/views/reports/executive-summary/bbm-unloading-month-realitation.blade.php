@@ -156,16 +156,16 @@
                                                     {{ number_format($item['waiting_time'], 2) ?? '-' }}
                                                 </td>
                                                 <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
-                                                    {{ $item['bl'] ?? '-' }}
+                                                    {{ number_format($item['bl']) ?? '-' }}
                                                 </td>
                                                 <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
-                                                    {{ $item['ds'] ?? '-' }}
+                                                    {{ number_format($item['ds']) ?? '-' }}
                                                 </td>
                                                 <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
-                                                    {{ $item['bw'] ?? '-' }}
+                                                    {{ number_format($item['bw']) ?? '-' }}
                                                 </td>
                                                 <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
-                                                    {{ $item['tug'] ?? '-' }}
+                                                    {{ number_format($item['tug']) ?? '-' }}
                                                 </td>
                                                 <td class="h-[36px] !min-w-[150px] text-[16px] font-normal border px-2">
                                                     {{ $item['dock_name'] ?? '-' }}
