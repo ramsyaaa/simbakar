@@ -269,18 +269,17 @@ class CoalReceiptController extends Controller
                 $requestData['loading_date_minute'],
                 
                 $requestData['labor_date'],
-                $requestData['unloading_date'],
-                $requestData['loading_date']
                 
 
             );
 
-            CoalUnloading::where('id',$id)->update(
-                $requestData
-            );
+            $coal = CoalUnloading::where('id',$id)->first();
+            $coal->update($requestData);
+
+            $dateReceipt = Carbon::parse($coal->receipt_date)->format('Y-m');
 
             DB::commit();
-            return redirect(route('coals.receipts.index'))->with('success', 'Penerimaan Batu Bara berhasil di ubah.');
+            return redirect(route('coals.receipts.index',['date'=>$dateReceipt]))->with('success', 'Penerimaan Batu Bara berhasil di ubah.');
             
         } catch (\ValidationException $th) {
             DB::rollback();

@@ -445,7 +445,51 @@ class UnloadingController extends Controller
      */
     public function destroy($id)
     {
-        Unloading::where('id',$id)->first()->delete();
+        $getData = Unloading::where('id',$id)->first();
+        CoalUnloading::where([
+            'id' => $getData->coal_unloading_id
+        ])->update([
+            'analysis_unloading_id' => null,
+        ]);
+
+        Unloading::where('id',$id)->update([
+            'surveyor_uuid' => null,
+            'analysis_number' => null,
+            'analysis_date' => null,
+            'moisture_total' => null,
+            'ash' => null,
+            'fixed_carbon' => null,
+            'calorivic_value' => null,
+            'air_dried_moisture' => null,
+            'volatile_matter' => null,
+            'total_sulfur' => null,
+            'carbon' => null,
+            'nitrogen' => null,
+            'hydrogen' => null,
+            'oxygen' => null,
+            'initial_deformation' => null,
+            'hemispherical' => null,
+            'softening' => null,
+            'fluid' => null,
+            'sio2' => null,
+            'fe2o3' => null,
+            'mgo' => null,
+            'k2o' => null,
+            'so3' => null,
+            'mn3o4' => null,
+            'al2o3' => null,
+            'cao' => null,
+            'na2o' => null,
+            'tlo2' => null,
+            'p2o5' => null,
+            'butiran_70' => null,
+            'butiran_50' => null,
+            'butiran_32' => null,
+            'butiran_32_50' => null,
+            'butiran_238' => null,
+            'hgi' => null,
+        ]);
+
 
         return redirect(route('inputs.analysis.unloadings.index'))->with('success', 'Unloading berhasil dihapus.');
     }

@@ -31,10 +31,10 @@
                         </select>
                     </div>
                     <div>
-                        <label for="" class="w-full text-sm">Jumlah Tonase pada kontrak / adendum <span class="tonase"></span></label>
+                        <label for="" class="w-full text-sm">Jumlah Tonase pada kontrak / adendum <span class="tonase">{{ number_format($contract_data->total_volume)}} ton</span></label>
                     </div>
                     <div>
-                        <label for="" class="w-full text-sm">Masa berlaku <span class="masa-berlaku"></span></label>
+                        <label for="" class="w-full text-sm">Masa berlaku <span class="masa-berlaku">{{$contract_data->contract_start_date}} s/d {{$contract_data->contract_end_date}}</span></label>
                     </div>
 
                     <div class="w-full flex justify-end gap-4">
