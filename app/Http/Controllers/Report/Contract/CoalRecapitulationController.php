@@ -45,7 +45,8 @@ class CoalRecapitulationController extends Controller
 
 
             $data['contracts']= $contracts;
-            $data['numbers'] = CoalContract::where('id', $request->get('contract_id'))->where('supplier_id',$request->get('supplier_id'))->get();
+            $data['numbers'] = CoalContract::where('supplier_id',$request->get('supplier_id'))->get();
+            $data['contract_data'] = CoalContract::where('id', $request->get('contract_id'))->where('supplier_id',$request->get('supplier_id'))->first();
             $data['ds']= $ds;
             $data['bl']= $bl;
             $data['tug']= $tug;

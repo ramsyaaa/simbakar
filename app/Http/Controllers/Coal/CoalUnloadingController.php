@@ -249,7 +249,8 @@ class CoalUnloadingController extends Controller
             $requestData['departure_date'] = $departure_date;
             $requestData['receipt_date'] = $end_date;
 
-            CoalUnloading::where('id',$id)->update([
+            $coal = CoalUnloading::where('id',$id)->first();
+            $coal->update([
                 'analysis_loading_id' => $requestData['analysis_loading_id'] ?? null,
                 'load_company_id' => $requestData['load_company_id'],
                 'supplier_id' => $requestData['supplier_id'],
@@ -266,8 +267,9 @@ class CoalUnloadingController extends Controller
                 'note' => $requestData['note'], 
             ]);
 
+            $dateReceipt = Carbon::parse($coal->receipt_date)->format('Y-m');
             DB::commit();
-            return redirect(route('coals.unloadings.index'))->with('success', 'Pembongkaran Batu Bara berhasil di ubah.');
+            return redirect(route('coals.unloadings.index',['date'=>$dateReceipt]))->with('success', 'Pembongkaran Batu Bara berhasil di ubah.');
 
         } catch (\ValidationException $th) {
             DB::rollback();

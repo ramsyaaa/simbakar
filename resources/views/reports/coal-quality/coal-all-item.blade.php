@@ -111,7 +111,7 @@
                                     <th class="border border-gray-400" rowspan="2">Kapal</th>
                                     <th class="border border-gray-400" rowspan="2">Tanggal Tiba</th>
                                     <th class="border border-gray-400" rowspan="2">Tanggal Selesai Bongkar</th>
-                                    <th class="border border-gray-400" rowspan="2">Analisa</th>
+                                    <th class="border border-gray-400" rowspan="2" colspan="2">Analisa</th>
                                     <th class="border border-gray-400" colspan="7">Proximate Analysis ( ASTM D-1372 )</th>
                                     <th class="border border-gray-400" colspan="4">Ultimate Analysis ( ASTM D-3176 )</th>
                                     <th class="border border-gray-400" colspan="4">Ash Fusion Temperature ( ASTM D-1857 )</th>
@@ -160,10 +160,11 @@
                                    <tr>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic)}}">{{$coal->supplier->name ?? ''}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic)}}">{{$coal->ship->name ?? ''}}</td>
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic)}}">{{date('d-m-Y H:i:s', strtotime($coal->arrived_date))}}</td>
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic)}}">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic)}}">{{date('d-m-Y H.i.s', strtotime($coal->arrived_date))}}</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400" rowspan="{{count($analytic)}}">{{date('d-m-Y H.i.s', strtotime($coal->end_date))}}</td>
                                    @if (in_array('loading',$analytic))
-                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-sky-600 text-white">Loading : {{$coal->loading->surveyor->name ?? ''}}</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-sky-600 text-white">Loading</td>
+                                        <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-sky-600 text-white">{{$coal->loading->surveyor->name ?? ''}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-sky-600 text-white">{{$coal->loading->moisture_total ?? ''}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-sky-600 text-white">{{$coal->loading->air_dried_moisture ?? ''}}</td>
                                         <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-sky-600 text-white">{{$coal->loading->ash ?? ''}}</td>
@@ -199,7 +200,8 @@
                                     </tr>
                                     @endif
                                    @if (in_array('unloading',$analytic))
-                                    <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-green-600 text-white">Unloading : {{$coal->unloading->surveyor->name ?? ''}}</td>
+                                    <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-green-600 text-white">Unloading</td>
+                                    <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-green-600 text-white">{{$coal->unloading->surveyor->name ?? ''}}</td>
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-green-600 text-white">{{$coal->unloading->moisture_total ?? ''}}</td>
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-green-600 text-white">{{$coal->unloading->air_dried_moisture ?? ''}}</td>
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-green-600 text-white">{{$coal->unloading->ash ?? ''}}</td>
@@ -240,7 +242,8 @@
                                <tr>
                                    
                                @endif
-                                    <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-amber-600 text-white">Labor : </td>
+                                    <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-amber-600 text-white">Labor</td>
+                                    <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-amber-600 text-white"></td>
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-amber-600 text-white">{{$coal->labor->moisture_total ?? ''}}</td>
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-amber-600 text-white">{{$coal->labor->air_dried_moisture ?? ''}}</td>
                                     <td class="h-[36px] text-[12px] font-normal border border-gray-400 bg-amber-600 text-white">{{$coal->labor->ash ?? ''}}</td>
