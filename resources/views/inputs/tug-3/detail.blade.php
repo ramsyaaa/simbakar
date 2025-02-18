@@ -230,7 +230,7 @@
                                             <table class="table-auto w-full">
                                                 <tr>
                                                     <td class="pr-4">Pembelian ditempat lihat faktur / bukti kas no</td>
-                                                    <td> :  {{$tug->bbm->order->order_number ?? ''}}</td>
+                                                    <td> :  {{$tug->bbm->faktur_number ?? ''}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="pr-4">Diterima bon pengeluaran/surat pengantar no</td>
@@ -238,7 +238,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="pr-4">Menurut surat pesanan/daftar permintaan no:</td>
-                                                    <td> : </td>
+                                                    <td> : {{$tug->bbm->order->order_number ?? ''}}</td>
                                                 </tr>
                                             </table>
                                             
