@@ -21,14 +21,14 @@
 
                     <div class="flex gap-4 items-center mb-4">
                         <label for="filter_type">Filter:</label>
-                        <select class="w-full border border-black h-[40px] rounded-lg" id="filter_type" name="filter_type">
+                        <select class="w-full border print:border-black print:text-black h-[40px] rounded-lg" id="filter_type" name="filter_type">
                             <option value="day" {{ $filter_type == 'day' ? 'selected' : '' }}>Hari</option>
                             <option value="month" {{ $filter_type == 'month' ? 'selected' : '' }}>Bulan</option>
                             <option value="year" {{ $filter_type == 'year' ? 'selected' : '' }}>Tahun</option>
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="supplier_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border border-black rounded-md supplier-select">
+                        <select name="supplier_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border print:border-black print:text-black rounded-md supplier-select">
                             <option value="0">Semua Supplier</option>
                             @foreach ($suppliers as $supplier)
                                 <option value="{{$supplier->id}}" {{request('supplier_id') == $supplier->id ? 'selected' : ''}}> {{$supplier->name}}</option>
@@ -36,19 +36,19 @@
                         </select>
                     </div>
                     <div id="day-fields" class="filter-field mb-6" style="display: none;">
-                        <input type="month" id="bulan_tahun" name="bulan_tahun" class="border border-black h-[40px] w-full rounded-lg px-3" value="{{ request('bulan_tahun') }}">
+                        <input type="month" id="bulan_tahun" name="bulan_tahun" class="border print:border-black print:text-black h-[40px] w-full rounded-lg px-3" value="{{ request('bulan_tahun') }}">
                     </div>
 
                     <div id="month-fields" class="filter-field" style="display: none;">
                         <label for="start_year">Tahun</label>
-                        <input type="number" id="tahun" name="tahun" class="border border-black h-[40px] w-full rounded-lg px-3" value="{{ request('tahun') }}" min="1980" max="2200">
+                        <input type="number" id="tahun" name="tahun" class="border print:border-black print:text-black h-[40px] w-full rounded-lg px-3" value="{{ request('tahun') }}" min="1980" max="2200">
                     </div>
 
                     <div id="year-fields" class="filter-field" style="display: none;">
                         <div class="flex gap-3">
                             <div class="w-full mb-4">
                                 <label for="start_year">Tahun Awal:</label>
-                                <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border border-black rounded-md">
+                                <select name="start_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border print:border-black print:text-black rounded-md">
                                     <option value="">Tahun</option>
                                     @for ($i = date('Y'); $i >= 2000; $i--)
                                         <option {{request()->start_year == $i || $i == 2021 ? 'selected' :''}}>{{ $i }}</option>
@@ -57,7 +57,7 @@
                             </div>
                             <div class="w-full mb-4">
                                 <label for="end_year">Tahun Akhir:</label>
-                                <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border border-black rounded-md">
+                                <select name="end_year" id="" class="w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border print:border-black print:text-black rounded-md">
                                     <option value="">Tahun</option>
                                     @for ($i = date('Y'); $i >= 2000; $i--)
                                         <option {{request()->end_year == $i || $i == date('Y') ? 'selected' :''}}>{{ $i }}</option>
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     <div class="mb-4">
-                        <select name="unit_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border border-black rounded-md">
+                        <select name="unit_id" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border print:border-black print:text-black rounded-md">
                             <option selected disabled>Pilih Parameter</option>
                             @foreach ($units as $unit)
                                 <option value="{{$unit->id}}" {{request('unit_id') == $unit->id ? 'selected' : ''}}> {{$unit->name}}</option>
@@ -75,7 +75,7 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="basis" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border border-black rounded-md">
+                        <select name="basis" id="" class="select-2 w-full lg:w-full h-[44px] text-[19px] text-[#8A92A6] border print:border-black print:text-black rounded-md">
                             <option selected disabled>Pilih Basis</option>
                             <option {{request('basis') == 'AR' ? 'selected' : ''}}>AR</option>
                             <option {{request('basis') == 'ADB' ? 'selected' : ''}}>ADB</option>
@@ -167,17 +167,17 @@
                             @if ($filter_type == 'day')
                                     <thead>
                                         <tr>
-                                            <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96]" rowspan="2">Tanggal Selesai Bongkar</th>
-                                            <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96]" rowspan="2">Nama Kapal</th>
-                                            <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96]" rowspan="2">Nomor Kontrak</th>
-                                            <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96]" rowspan="2">Pemasok</th>
-                                            <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
-                                            <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96]" rowspan="2">Asal Barang</th>
-                                            <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96]" colspan="3"> {{$parameter->name}} ( {{request('basis')}} ) </th>
+                                            <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Tanggal Selesai Bongkar</th>
+                                            <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Nama Kapal</th>
+                                            <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Nomor Kontrak</th>
+                                            <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Pemasok</th>
+                                            <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
+                                            <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Asal Barang</th>
+                                            <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" colspan="3"> {{$parameter->name}} ( {{request('basis')}} ) </th>
                                         </tr>
                                         <tr>
                                             @foreach ($analytic as $item)
-                                                <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96] capitalize">{{$item}}</th>
+                                                <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96] capitalize">{{$item}}</th>
                                             @endforeach
 
                                         </tr>
@@ -186,89 +186,89 @@
                                         @foreach ($coals as $coal)
                                             <tr>
 
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2">{{$coal->ship->name ?? ''}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2">{{$coal->contract->contract_number ?? ''}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2">{{$coal->supplier->name ?? ''}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-right">{{number_format($coal->tug_3_accept)}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2">{{$coal->origin}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2">{{date('d-m-Y H:i:s', strtotime($coal->end_date))}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2">{{$coal->ship->name ?? ''}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2">{{$coal->contract->contract_number ?? ''}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2">{{$coal->supplier->name ?? ''}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-right">{{number_format($coal->tug_3_accept)}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2">{{$coal->origin}}</td>
                                                 @if (in_array('loading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-right">{{$coal->loading != null ? round($coal->loading, 2) : ''}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-right">{{$coal->loading != null ? round($coal->loading, 2) : ''}}</td>
                                                 @endif
                                                 @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-right">{{$coal->unloading != null ? round($coal->unloading, 2) : ''}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-right">{{$coal->unloading != null ? round($coal->unloading, 2) : ''}}</td>
                                                 @endif
                                                 @if (in_array('labor',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2">{{$coal->labor != null ? round($coal->labor, 2) : ''}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2">{{$coal->labor != null ? round($coal->labor, 2) : ''}}</td>
                                                 @endif
                                             </tr>
                                         @endforeach
                                         <tr>
-                                            <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black" colspan="5">Total</td>
-                                            <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right" colspan="{{count($analytic) + 1}}">{{ number_format($coals->sum('tug_3_accept')) }}</td>
+                                            <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="5">Total</td>
+                                            <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right" colspan="{{count($analytic) + 1}}">{{ number_format($coals->sum('tug_3_accept')) }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black" colspan="6">Rata Rata Tertimbang</td>
+                                            <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="6">Rata Rata Tertimbang</td>
                                             @if (in_array('loading', $analytic))
                                                 @php
                                                     $loadingavg = $coals->sum('sum_loading') / $coals->sum('tug_3_accept');
                                                 @endphp
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($loadingavg,2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($loadingavg,2) }}</td>
                                             @endif
 
                                             @if (in_array('unloading', $analytic))
                                                 @php
                                                     $unloadingavg = $coals->sum('sum_unloading') / $coals->sum('tug_3_accept');
                                                 @endphp
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($unloadingavg,2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($unloadingavg,2) }}</td>
                                             @endif
                                             @if (in_array('labor', $analytic))
                                                 @php
                                                     $laboravg = $coals->sum('sum_labor') / $coals->sum('tug_3_accept');
                                                 @endphp
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($laboravg,2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($laboravg,2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
-                                            <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black" colspan="6">Hasil Analisa Tertinggi</td>
+                                            <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="6">Hasil Analisa Tertinggi</td>
                                             @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coals->max('loading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coals->max('loading'),2) }}</td>
                                             @endif
                                             @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right ">{{ round($coals->max('unloading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right ">{{ round($coals->max('unloading'),2) }}</td>
                                             @endif
 
                                           
 
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coals->max('labor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coals->max('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
-                                            <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black" colspan="6">Hasil Analisa Terendah</td>
+                                            <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="6">Hasil Analisa Terendah</td>
                                             @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coals->min('loading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coals->min('loading'),2) }}</td>
                                             @endif
 
                                             @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coals->min('unloading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coals->min('unloading'),2) }}</td>
                                             @endif
 
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coals->min('labor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coals->min('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                     </tbody>
                                 @else
                                     <thead>
                                         <tr>
-                                            <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96]" rowspan="2">Tanggal</th>
-                                            <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
-                                            <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96]" colspan="{{count($analytic)}}"> {{$parameter->name}} ( {{request('basis')}} ) </th>
+                                            <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Tanggal</th>
+                                            <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
+                                            <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96]" colspan="{{count($analytic)}}"> {{$parameter->name}} ( {{request('basis')}} ) </th>
                                         </tr>
                                         <tr>
                                             @foreach ($analytic as $item)
-                                                <th class="border border-black text-black bg-[#047A96] h-[24px] text-black bg-[#047A96] capitalize">{{$item}}</th>
+                                                <th class="border print:border-black print:text-black text-white bg-[#047A96] h-[24px] text-white bg-[#047A96] capitalize">{{$item}}</th>
                                             @endforeach
 
                                         </tr>
@@ -282,61 +282,61 @@
                                         @foreach ($coals as $coal)
                                             <tr>
 
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2">{{$coal['month']}}</td>
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-right">{{number_format($coal['tug_3_accept'])}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2">{{$coal['month']}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-right">{{number_format($coal['tug_3_accept'])}}</td>
                                                 @if (in_array('loading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-right">{{round($coal['loading'],2)}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-right">{{round($coal['loading'],2)}}</td>
                                                 @endif
                                                 @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-right">{{round($coal['unloading'],2)}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-right">{{round($coal['unloading'],2)}}</td>
                                                 @endif
                                                 @if (in_array('labor',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-right">{{round($coal['labor'],2)}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-right">{{round($coal['labor'],2)}}</td>
                                                 @endif
                                             </tr>
                                         @endforeach
                                         <tr>
-                                            <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black">Total</td>
-                                            <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black" colspan="{{count($analytic) + 1}}">{{ number_format($coalsCollection->sum('tug_3_accept')) }}</td>
+                                            <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black">Total</td>
+                                            <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="{{count($analytic) + 1}}">{{ number_format($coalsCollection->sum('tug_3_accept')) }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black" colspan="2">Rata Rata Tertimbang</td>
+                                            <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="2">Rata Rata Tertimbang</td>
 
                                             @if (in_array('loading', $analytic))
                                             @php
                                                 $loadingavg = $coalsCollection->sum('sum_loading') / $coalsCollection->sum('tug_3_accept');
                                             @endphp
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($loadingavg,2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($loadingavg,2) }}</td>
                                             @endif
                                             @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coalsCollection->avg('unloading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coalsCollection->avg('unloading'),2) }}</td>
                                             @endif  
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coalsCollection->avg('labor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coalsCollection->avg('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
-                                            <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black" colspan="2">Hasil Analisa Tertinggi</td>
+                                            <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="2">Hasil Analisa Tertinggi</td>
                                             @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coalsCollection->max('loading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coalsCollection->max('loading'),2) }}</td>
                                             @endif
                                             @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coalsCollection->max('unloading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coalsCollection->max('unloading'),2) }}</td>
                                             @endif
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coalsCollection->max('labor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coalsCollection->max('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                         <tr>
-                                            <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black" colspan="2">Hasil Analisa Terendah</td>
+                                            <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="2">Hasil Analisa Terendah</td>
                                             @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coalsCollection->where('loading','>',0)->min('loading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coalsCollection->where('loading','>',0)->min('loading'),2) }}</td>
                                             @endif
                                             @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coalsCollection->where('unloading','>',0)->min('unloading'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coalsCollection->where('unloading','>',0)->min('unloading'),2) }}</td>
                                             @endif
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border border-black px-2 text-center font-black text-right">{{ round($coalsCollection->where('labor','>',0)->min('labor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black text-right">{{ round($coalsCollection->where('labor','>',0)->min('labor'),2) }}</td>
                                             @endif
                                         </tr>
                                     </tbody>

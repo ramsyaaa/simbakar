@@ -18,7 +18,7 @@
                     @csrf
                     <div class="flex gap-4 items-center mb-4">
                         <label for="filter_type">Filter:</label>
-                        <select class="w-full border h-[40px] rounded-lg" id="filter_type" name="filter_type">
+                        <select class="w-full border print:border-black print:text-black h-[40px] rounded-lg" id="filter_type" name="filter_type">
                             <option value="kontrak" {{ $filter_type == 'kontrak' ? 'selected' : '' }}>Kontrak</option>
                             <option value="tahunan" {{ $filter_type == 'tahunan' ? 'selected' : '' }}>Tahunan</option>
                             <option value="periodik" {{ $filter_type == 'periodik' ? 'selected' : '' }}>Periodik</option>
@@ -139,71 +139,71 @@
                         <table class="min-w-max" id="table">
                             <thead>
                                 <tr>
-                                    <th class="border text-white bg-[#047A96]" rowspan="2">No</th>
-                                    <th class="border text-white bg-[#047A96]" rowspan="2">Tanggal Selesai Bongkar</th>
+                                    <th class="border print:border-black print:text-black text-white bg-[#047A96]" rowspan="2">No</th>
+                                    <th class="border print:border-black print:text-black text-white bg-[#047A96]" rowspan="2">Tanggal Selesai Bongkar</th>
                                     @if (request('filter_type') != 'kontrak')
-                                        <th class="border text-white bg-[#047A96]" rowspan="2">Kontrak</th>
+                                        <th class="border print:border-black print:text-black text-white bg-[#047A96]" rowspan="2">Kontrak</th>
                                     @endif
-                                    <th class="border text-white bg-[#047A96]" rowspan="2">Kapal</th>
-                                    <th class="border text-white bg-[#047A96]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
-                                    <th class="border text-white bg-[#047A96]" colspan="3">{{$parameter->name}} ( {{request('basis')}} )</th>
+                                    <th class="border print:border-black print:text-black text-white bg-[#047A96]" rowspan="2">Kapal</th>
+                                    <th class="border print:border-black print:text-black text-white bg-[#047A96]" rowspan="2">Terima ( TUG 3 ) ( Kg )</th>
+                                    <th class="border print:border-black print:text-black text-white bg-[#047A96]" colspan="3">{{$parameter->name}} ( {{request('basis')}} )</th>
                                 </tr>
                                 <tr>
-                                    <th class="border text-white bg-[#047A96]">Loading</th>
-                                    <th class="border text-white bg-[#047A96]">Unloading</th>
-                                    <th class="border text-white bg-[#047A96]">Labor</th>
+                                    <th class="border print:border-black print:text-black text-white bg-[#047A96]">Loading</th>
+                                    <th class="border print:border-black print:text-black text-white bg-[#047A96]">Unloading</th>
+                                    <th class="border print:border-black print:text-black text-white bg-[#047A96]">Labor</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($coals as $coal)
                                     <tr>
-                                        <td class="border text-center">{{$loop->iteration}}</td>
-                                        <td class="border text-center">
+                                        <td class="border print:border-black print:text-black text-center">{{$loop->iteration}}</td>
+                                        <td class="border print:border-black print:text-black text-center">
                                             {{ date('d-m-Y', strtotime($coal->end_date))}} 
                                         </td>
                                         @if (request('filter_type') != 'kontrak')
-                                            <td class="border  text-center">{{$coal->contract->contract_number ?? ''}}</td>
+                                            <td class="border print:border-black print:text-black  text-center">{{$coal->contract->contract_number ?? ''}}</td>
                                         @endif
-                                        <td class="border text-center">{{$coal->ship->name ?? ''}}</td>
-                                        <td class="border text-center">{{number_format($coal->tug_3_accept)}}</td>
-                                        <td class="border text-center">{{$coal->loading != null ? number_format($coal->loading, 2) : ''}}</td>
-                                        <td class="border text-center">{{$coal->unloading != null ? number_format($coal->unloading, 2) : ''}}</td>
-                                        <td class="border text-center">{{$coal->labor != null ? number_format($coal->labor, 2) : ''}}</td>
+                                        <td class="border print:border-black print:text-black text-center">{{$coal->ship->name ?? ''}}</td>
+                                        <td class="border print:border-black print:text-black text-center">{{number_format($coal->tug_3_accept)}}</td>
+                                        <td class="border print:border-black print:text-black text-center">{{$coal->loading != null ? number_format($coal->loading, 2) : ''}}</td>
+                                        <td class="border print:border-black print:text-black text-center">{{$coal->unloading != null ? number_format($coal->unloading, 2) : ''}}</td>
+                                        <td class="border print:border-black print:text-black text-center">{{$coal->labor != null ? number_format($coal->labor, 2) : ''}}</td>
                                     </tr>
                                 @endforeach
                                 <tr>
-                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Total</td>
-                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="3">{{ number_format($coals->sum('tug_3_accept')) }}</td>
+                                    <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Total</td>
+                                    <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="3">{{ number_format($coals->sum('tug_3_accept')) }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Rata Rata Tertimbang</td>
+                                    <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Rata Rata Tertimbang</td>
                                     @php
                                         $loadingavg = $coals->sum('sum_loading') / $coals->sum('tug_3_accept');
                                         $unloadingavg = $coals->sum('sum_unloading') / $coals->sum('tug_3_accept');
                                         $laboravg = $coals->sum('sum_labor') / $coals->sum('tug_3_accept');
                                     @endphp
 
-                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($loadingavg,2) }}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($unloadingavg,2) }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black">{{ number_format($loadingavg,2) }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black">{{ number_format($unloadingavg,2) }}</td>
 
-                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($laboravg,2) }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black">{{ number_format($laboravg,2) }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Hasil Analisa Tertinggi</td>
+                                    <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Hasil Analisa Tertinggi</td>
 
-                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('loading'),2) }}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('unloading'),2) }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black">{{ number_format($coals->max('loading'),2) }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black">{{ number_format($coals->max('unloading'),2) }}</td>
 
 
-                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->max('labor'),2) }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black">{{ number_format($coals->max('labor'),2) }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Hasil Analisa Terendah</td>
+                                    <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black" colspan="{{request()->filter_type == 'kontrak' ? '4': '5'}}">Hasil Analisa Terendah</td>
 
-                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('loading'),2) }}</td>
-                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('unloading'),2) }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black">{{ number_format($coals->min('loading'),2) }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black">{{ number_format($coals->min('unloading'),2) }}</td>
 
-                                        <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coals->min('labor'),2) }}</td>
+                                        <td class="h-[36px] text-[16px] font-normal border print:border-black print:text-black px-2 text-center font-black">{{ number_format($coals->min('labor'),2) }}</td>
                                 </tr>
                             </tbody>
                             </table>
