@@ -229,7 +229,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Abu ( Ash )</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->ash_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->ash_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penaltyAsh->penalty_will_get_if_sign ?? ''}}   {{ isset($penaltyAsh->penalty_will_get_if_number) ? number_format($penaltyAsh->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signAsh}}</span>{{$certificate->ash}}</td>
@@ -259,7 +259,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Fixed Carbon</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->fixed_carbon_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->fixed_carbon_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penaltyCarbon->penalty_will_get_if_sign ?? ''}}   {{ isset($penaltyCarbon->penalty_will_get_if_number) ? number_format($penaltyCarbon->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signCarbon}}</span>{{$certificate->fixed_carbon}}</td>
@@ -289,7 +289,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">HGI</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->hgi_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->hgi_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penaltyHgi->penalty_will_get_if_sign ?? ''}} {{ isset($penaltyHgi->penalty_will_get_if_number) ? number_format($penaltyHgi->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signHgi}}</span>{{$certificate->hgi}}</td>
@@ -319,7 +319,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Inherent Moisture</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->inherent_moisture_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->inherent_moisture_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penaltyInherent->penalty_will_get_if_sign ?? ''}}   {{ isset($penaltyInherent->penalty_will_get_if_number) ? number_format($penaltyInherent->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signInherent}}</span>{{$certificate->air_dried_moisture}}</td>
@@ -349,7 +349,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Initial Deformation</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->initial_deformation_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->initial_deformation_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penaltyInitial->penalty_will_get_if_sign ?? ''}}   {{ isset($penaltyInitial->penalty_will_get_if_number) ? number_format($penaltyInitial->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signInitial}}</span>{{$certificate->initial_deformation}}</td>
@@ -379,7 +379,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Natrium Oksida ( Na2O )</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->na2o_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->na2o_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penaltyNa2o->penalty_will_get_if_sign ?? ''}}   {{ isset($penaltyNa2o->penalty_will_get_if_number) ? number_format($penaltyNa2o->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signNa2o}}</span>{{$certificate->na2o}}</td>
@@ -409,7 +409,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Nilai Kalor ( Calorivic Value )</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->calorivic_value_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->calorivic_value_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penaltyCalor->penalty_will_get_if_sign ?? ''}}   {{ isset($penaltyCalor->penalty_will_get_if_number) ? number_format($penaltyCalor->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signCalor}}</span>{{$certificate->calorivic_value}}</td>
@@ -439,7 +439,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Nitrogen</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->nitrogen_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->nitrogen_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penaltyNitrogen->penalty_will_get_if_sign ?? ''}}   {{ isset($penaltyNitrogen->penalty_will_get_if_number) ? number_format($penaltyNitrogen->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signNitrogen}}</span>{{$certificate->nitrogen}}</td>
@@ -469,7 +469,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Sulfur</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->total_sulfur_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->total_sulfur_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penaltySulfur->penalty_will_get_if_sign ?? ''}}   {{ isset($penaltySulfur->penalty_will_get_if_number) ? number_format($penaltySulfur->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signSulfur}}</span>{{$certificate->total_sulfur}}</td>
@@ -499,7 +499,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Total Moisture</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->moisture_total_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->moisture_total_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penaltyMoisture->penalty_will_get_if_sign ?? ''}}   {{ isset($penaltyMoisture->penalty_will_get_if_number) ? number_format($penaltyMoisture->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signMoisture}}</span>{{$certificate->moisture_total}}</td>
@@ -529,7 +529,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Ukuran < 2,38</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->butiran_238_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->butiran_238_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penalty238->penalty_will_get_if_sign ?? ''}}   {{ isset($penalty238->penalty_will_get_if_number) ? number_format($penalty238->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$sign238}}</span>{{$certificate->butiran_238}}</td>
@@ -559,7 +559,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Ukuran < 32</td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->butiran_32_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->butiran_32_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penalty32->penalty_will_get_if_sign ?? ''}} {{ isset($penalty32->penalty_will_get_if_number) ? number_format($penalty32->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$sign32}}</span>{{$certificate->butiran_32}}</td>
@@ -589,7 +589,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Ukuran > 50 </td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->butiran_50_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->butiran_50_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penalty50->penalty_will_get_if_sign ?? ''}} {{ isset($penalty50->penalty_will_get_if_number) ? number_format($penalty50->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$sign50}}</span>{{$certificate->butiran_50}}</td>
@@ -619,7 +619,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Ukuran > 70 </td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->butiran_70_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->butiran_70_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penalty70->penalty_will_get_if_sign ?? ''}} {{ isset($penalty70->penalty_will_get_if_number) ? number_format($penalty70->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$sign70}}</span>{{$certificate->butiran_70}}</td>
@@ -649,7 +649,7 @@
                                         @endphp
                                         <tr>
                                             <td class="border border-slate-900">Volatile Matter </td>
-                                            <td class="border border-slate-900 text-right">{{$spesification->volatile_matter_typical}}</td>
+                                            <td class="border border-slate-900 text-right">{{$spesification->volatile_matter_typical ?? ''}}</td>
                                             <td class="border border-slate-900 text-right"></td>
                                             <td class="border border-slate-900 text-right"> {{$penaltyVolatile->penalty_will_get_if_sign ?? ''}}   {{ isset($penaltyVolatile->penalty_will_get_if_number) ? number_format($penaltyVolatile->penalty_will_get_if_number, 2) : '' }}</td>
                                             <td class="border border-slate-900 text-right"> <span class="text-pink-900">{{$signVolatile}}</span>{{$certificate->volatile_matter}}</td>
