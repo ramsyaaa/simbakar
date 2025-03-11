@@ -6,6 +6,7 @@ use App\Supplier;
 use App\Models\CoalContract;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\SpesificationContractCoal;
 
 class CoalContractController extends Controller
 {
@@ -68,7 +69,7 @@ class CoalContractController extends Controller
                 'contract_end_date.required' => 'Tanggal Selesai Kontrak wajib diisi.',
             ]);
     
-            CoalContract::create([
+            $contract = CoalContract::create([
                 'supplier_id' => $request->supplier_id,
                 'contract_number' => $request->contract_number,
                 'contract_date' => $request->contract_date,
@@ -78,6 +79,13 @@ class CoalContractController extends Controller
                 'price' => $request->price,
                 'contract_start_date' => $request->contract_start_date,
                 'contract_end_date' => $request->contract_end_date,
+            ]);
+
+            SpesificationContractCoal::create([
+                'contract_id' => $contract->id,
+                'identification_spesification' => '',
+                'price' => $request->price,
+                'exchange_rate' => 1,
             ]);
     
             return redirect(route('contracts.coal-contracts.index'))->with('success', 'Kontrak Batu Bara berhasil dibuat.');
