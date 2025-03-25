@@ -41,10 +41,10 @@ class BbmReceiptController extends Controller
         $loadings = BbmReceipt::query();
 
         $loadings->where(['shipment_type' => $data['shipment_type']])->when($request->year, function ($query) use ($request) {
-            $query->whereYear('created_at', $request->year);
+            $query->whereYear('finish_date', $request->year);
         });
 
-        $data['loadings'] = $loadings->latest()->paginate(10)->appends(request()->query());
+        $data['loadings'] = $loadings->orderBy('finish_date','desc')->paginate(10)->appends(request()->query());
         return view('inputs.bbm_receipt.bbm_receipt.index', ['shipment_type' => $shipment_type],$data);
     }
 
