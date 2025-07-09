@@ -203,27 +203,27 @@
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">Total</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->sum('tug_3_accept'))}}</td>
                                             @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{$coals->pluck('unloading.calorivic_value')->avg()}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{(int)$coals->pluck('unloading.calorivic_value')->avg()}}</td>
 
                                             @endif
                                             @if (in_array('loading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{$coals->pluck('loading.calorivic_value')->avg()}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{(int)$coals->pluck('loading.calorivic_value')->avg()}}</td>
 
                                             @endif
                                             @if (in_array('labor',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{$coals->pluck('labor.calorivic_value')->avg()}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{(int)$coals->pluck('labor.calorivic_value')->avg()}}</td>
 
                                             @endif
                                             @if (in_array('unloading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{$coals->pluck('unloading.moisture_total')->avg()}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->pluck('unloading.moisture_total')->avg(),2)}}</td>
 
                                             @endif
                                             @if (in_array('loading',$analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{$coals->pluck('loading.moisture_total')->avg()}}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->pluck('loading.moisture_total')->avg(),2)}}</td>
 
                                             @endif
                                             @if (in_array('labor',$analytic))
-                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{$coals->pluck('labor.moisture_total')->avg()}}</td>
+                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black" >{{number_format($coals->pluck('labor.moisture_total')->avg(),2)}}</td>
 
                                             @endif
                                         </tr>
@@ -259,22 +259,22 @@
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['month']}}</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['tug_3_accept'])}}</td>
                                             @if (in_array('unloading',$analytic))
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['unloading_calor']}}</td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{(int)$coal['unloading_calor']}}</td>
                                             @endif
                                             @if (in_array('loading',$analytic))
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['loading_calor']}}</td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{(int)$coal['loading_calor']}}</td>
                                             @endif
                                             @if (in_array('labor',$analytic))
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['labor_calor']}}</td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{(int)$coal['labor_calor']}}</td>
                                             @endif
                                             @if (in_array('unloading',$analytic))
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['unloading_moisture']}}</td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['unloading_moisture'],2)}}</td>
                                             @endif
                                             @if (in_array('loading',$analytic))
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['loading_moisture']}}</td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['loading_moisture'],2)}}</td>
                                             @endif
                                             @if (in_array('labor',$analytic))
-                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{$coal['labor_moisture']}}</td>
+                                            <td class="h-[36px] text-[16px] font-normal border px-2">{{number_format($coal['labor_moisture'],2)}}</td>
                                             @endif
                                         </tr>
                                         @endforeach
@@ -284,15 +284,15 @@
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->sum('tug_3_accept')) }}</td>
 
                                             @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('unloading_calor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ (int)$coalsCollection->avg('unloading_calor') }}</td>
                                             @endif
 
                                             @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('loading_calor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ (int)$coalsCollection->avg('loading_calor') }}</td>
                                             @endif
 
                                             @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('labor_calor'),2) }}</td>
+                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ (int)$coalsCollection->avg('labor_calor') }}</td>
                                             @endif
 
                                             @if (in_array('unloading', $analytic))
