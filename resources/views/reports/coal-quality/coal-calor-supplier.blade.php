@@ -283,29 +283,44 @@
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">Total</td>
                                             <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->sum('tug_3_accept')) }}</td>
 
-                                            @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ (int)$coalsCollection->avg('unloading_calor') }}</td>
-                                            @endif
+                                           {{-- Calorific Value --}}
+                                        @if (in_array('unloading', $analytic))
+                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">
+                                                {{ (int)($coalsCollection->where('unloading_calor', '>', 0)->avg('unloading_calor') ?? 0) }}
+                                            </td>
+                                        @endif
 
-                                            @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ (int)$coalsCollection->avg('loading_calor') }}</td>
-                                            @endif
+                                        @if (in_array('loading', $analytic))
+                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">
+                                                {{ (int)($coalsCollection->where('loading_calor', '>', 0)->avg('loading_calor') ?? 0) }}
+                                            </td>
+                                        @endif
 
-                                            @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ (int)$coalsCollection->avg('labor_calor') }}</td>
-                                            @endif
+                                        @if (in_array('labor', $analytic))
+                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">
+                                                {{ (int)($coalsCollection->where('labor_calor', '>', 0)->avg('labor_calor') ?? 0) }}
+                                            </td>
+                                        @endif
 
-                                            @if (in_array('unloading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('unloading_moisture'),2) }}</td>
-                                            @endif
+                                        {{-- Moisture Value --}}
+                                        @if (in_array('unloading', $analytic))
+                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">
+                                                {{ number_format($coalsCollection->where('unloading_moisture', '>', 0)->avg('unloading_moisture') ?? 0, 2) }}
+                                            </td>
+                                        @endif
 
-                                            @if (in_array('loading', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('loading_moisture'),2) }}</td>
-                                            @endif
+                                        @if (in_array('loading', $analytic))
+                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">
+                                                {{ number_format($coalsCollection->where('loading_moisture', '>', 0)->avg('loading_moisture') ?? 0, 2) }}
+                                            </td>
+                                        @endif
 
-                                            @if (in_array('labor', $analytic))
-                                                <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">{{ number_format($coalsCollection->avg('labor_moisture'),2) }}</td>
-                                            @endif
+                                        @if (in_array('labor', $analytic))
+                                            <td class="h-[36px] text-[16px] font-normal border px-2 text-center font-black">
+                                                {{ number_format($coalsCollection->where('labor_moisture', '>', 0)->avg('labor_moisture') ?? 0, 2) }}
+                                            </td>
+                                        @endif
+
                                         </tr>
                                     </tbody>
                                 @endif
