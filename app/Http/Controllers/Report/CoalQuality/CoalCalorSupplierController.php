@@ -40,16 +40,22 @@ class CoalCalorSupplierController extends Controller
         switch ($filterType) {
 
             case 'day':
-                $coals = CoalUnloading::with('ship')->where('supplier_id',$request->supplier_id)->whereMonth('unloading_date',$bulan)
-                ->whereYear('unloading_date',$tahun)
-                ->whereNotNull('analysis_loading_id')
-                ->whereNotNull('analysis_unloading_id')
-                ->whereNotNull('analysis_labor_id')
+                $coals = CoalUnloading::with('ship')->where('supplier_id',$request->supplier_id)->whereMonth('receipt_date',$bulan)
+                ->whereYear('receipt_date',$tahun)
+                ->orderBy('unloading_date','asc')
                 ->get()
                 ->map(function($item){
-                    $item->unloading = Unloading::select('calorivic_value','moisture_total')->where('id',$item->analysis_unloading_id)->first();
-                    $item->loading = Loading::select('calorivic_value','moisture_total')->where('id',$item->analysis_loading_id)->first();
-                    $item->labor = Labor::select('calorivic_value','moisture_total')->where('id',$item->analysis_labor_id)->first();
+                     $item->unloading = Unloading::select('calorivic_value', 'moisture_total')
+                        ->where('id', $item->analysis_unloading_id)
+                        ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
+
+                    $item->loading = Loading::select('calorivic_value', 'moisture_total')
+                        ->where('id', $item->analysis_loading_id)
+                        ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
+
+                    $item->labor = Labor::select('calorivic_value', 'moisture_total')
+                        ->where('id', $item->analysis_labor_id)
+                        ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
                     return $item;
                 });
 
@@ -61,16 +67,21 @@ class CoalCalorSupplierController extends Controller
                 $coals = [];
                 for ($i = 1; $i <=12 ; $i++){
                     $coal = CoalUnloading::where('supplier_id',$request->supplier_id)
-                    ->whereMonth('unloading_date',$i)
-                    ->whereYear('unloading_date',$tahunInput)
-                    ->whereNotNull('analysis_loading_id')
-                    ->whereNotNull('analysis_unloading_id')
-                    ->whereNotNull('analysis_labor_id')
+                    ->whereMonth('receipt_date',$i)
+                    ->whereYear('receipt_date',$tahunInput)
                     ->get()
                     ->map(function($item){
-                        $item->unloading = Unloading::select('calorivic_value','moisture_total')->where('id',$item->analysis_unloading_id)->first();
-                        $item->loading = Loading::select('calorivic_value','moisture_total')->where('id',$item->analysis_loading_id)->first();
-                        $item->labor = Labor::select('calorivic_value','moisture_total')->where('id',$item->analysis_labor_id)->first();
+                        $item->unloading = Unloading::select('calorivic_value', 'moisture_total')
+                            ->where('id', $item->analysis_unloading_id)
+                            ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
+
+                        $item->loading = Loading::select('calorivic_value', 'moisture_total')
+                            ->where('id', $item->analysis_loading_id)
+                            ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
+
+                        $item->labor = Labor::select('calorivic_value', 'moisture_total')
+                            ->where('id', $item->analysis_labor_id)
+                            ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
                         return $item;
                     });
                     if(!empty($coal)){
@@ -105,15 +116,20 @@ class CoalCalorSupplierController extends Controller
                 $coals = [];
                 for ($i = $startYear; $i <=$endYear ; $i++){
                     $coal = CoalUnloading::where('supplier_id',$request->supplier_id)
-                    ->whereYear('unloading_date',$i)
-                    ->whereNotNull('analysis_loading_id')
-                    ->whereNotNull('analysis_unloading_id')
-                    ->whereNotNull('analysis_labor_id')
+                    ->whereYear('receipt_date',$i)
                     ->get()
                     ->map(function($item){
-                        $item->unloading = Unloading::select('calorivic_value','moisture_total')->where('id',$item->analysis_unloading_id)->first();
-                        $item->loading = Loading::select('calorivic_value','moisture_total')->where('id',$item->analysis_loading_id)->first();
-                        $item->labor = Labor::select('calorivic_value','moisture_total')->where('id',$item->analysis_labor_id)->first();
+                        $item->unloading = Unloading::select('calorivic_value', 'moisture_total')
+                            ->where('id', $item->analysis_unloading_id)
+                            ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
+
+                        $item->loading = Loading::select('calorivic_value', 'moisture_total')
+                            ->where('id', $item->analysis_loading_id)
+                            ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
+
+                        $item->labor = Labor::select('calorivic_value', 'moisture_total')
+                            ->where('id', $item->analysis_labor_id)
+                            ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
                         return $item;
                     });
                     if(!empty($coal)){
