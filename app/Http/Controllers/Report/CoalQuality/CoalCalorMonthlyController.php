@@ -39,8 +39,9 @@ class CoalCalorMonthlyController extends Controller
         switch ($filterType) {
 
             case 'day':
-                $coals = CoalUnloading::with('ship','supplier')->whereMonth('unloading_date',$bulan)
-                ->whereYear('unloading_date',$tahun)
+                $coals = CoalUnloading::with('ship','supplier')->whereMonth('receipt_date',$bulan)
+                ->whereYear('receipt_date',$tahun)
+                ->orderBy('unloading_date','asc')
                 ->get()
                 ->map(function($item){
                    $item->unloading = Unloading::select('calorivic_value', 'moisture_total')
@@ -62,57 +63,49 @@ class CoalCalorMonthlyController extends Controller
                 break;
 
             case 'month':
-                $coals = [];
-                for ($i = 1; $i <=12 ; $i++){
-                    $coal = CoalUnloading::whereMonth('unloading_date',$i)
-                    ->whereYear('unloading_date',$tahunInput)
-                    ->get()
-                    ->map(function($item){
-                        $item->unloading = Unloading::select('calorivic_value', 'moisture_total')
-                            ->where('id', $item->analysis_unloading_id)
-                            ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
+               $coals = [];
 
-                        $item->loading = Loading::select('calorivic_value', 'moisture_total')
-                            ->where('id', $item->analysis_loading_id)
-                            ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
+                for ($i = 1; $i <= 12; $i++) {
+                    $coal = CoalUnloading::whereMonth('receipt_date', $i)
+                        ->whereYear('receipt_date', (int)$tahunInput)
+                        ->get()
+                        ->map(function ($item) {
+                            $item->unloading = Unloading::select('calorivic_value', 'moisture_total')
+                                ->where('id', $item->analysis_unloading_id)
+                                ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
 
-                        $item->labor = Labor::select('calorivic_value', 'moisture_total')
-                            ->where('id', $item->analysis_labor_id)
-                            ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
-                        return $item;
-                    });
-                    if(!empty($coal)){
-                        $coals [] = [
-                            'month' => $monthNames[$i],
-                            'tug_3_accept' => $coal->sum('tug_3_accept') ?? 0,
-                            'unloading_calor' => $coal->pluck('unloading.calorivic_value')->avg() ?? 0,
-                            'loading_calor' => $coal->pluck('loading.calorivic_value')->avg() ?? 0,
-                            'labor_calor' => $coal->pluck('labor.calorivic_value')->avg() ?? 0,
-                            'unloading_moisture' => $coal->pluck('unloading.moisture_total')->avg() ?? 0,
-                            'loading_moisture' => $coal->pluck('loading.moisture_total')->avg() ?? 0,
-                            'labor_moisture' => $coal->pluck('labor.moisture_total')->avg() ?? 0,
-                        ];
-                    }else{
-                        $coals [] = [
-                            'month' => $monthNames[$i],
-                            'tug_3_accept' => 0,
-                            'unloading_calor' => 0,
-                            'loading_calor' => 0,
-                            'labor_calor' =>  0,
-                            'unloading_moisture' => 0,
-                            'loading_moisture' =>  0,
-                            'labor_moisture' =>  0
-                        ];
-                    }
+                            $item->loading = Loading::select('calorivic_value', 'moisture_total')
+                                ->where('id', $item->analysis_loading_id)
+                                ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
+
+                            $item->labor = Labor::select('calorivic_value', 'moisture_total')
+                                ->where('id', $item->analysis_labor_id)
+                                ->first() ?? (object)['calorivic_value' => null, 'moisture_total' => null];
+
+                            return $item;
+                        });
+                    $tug3AcceptSum = $coal->pluck('tug_3_accept')->filter(fn($val) => is_numeric($val))->sum();
+
+                    $coals[] = [
+                        'month' => $monthNames[$i],
+                        'tug_3_accept' => $tug3AcceptSum,
+                        'unloading_calor' => $coal->pluck('unloading.calorivic_value')->filter(fn($val) => $val > 0)->avg() ?? 0,
+                        'loading_calor' => $coal->pluck('loading.calorivic_value')->filter(fn($val) => $val > 0)->avg() ?? 0,
+                        'labor_calor' => $coal->pluck('labor.calorivic_value')->filter(fn($val) => $val > 0)->avg() ?? 0,
+                        'unloading_moisture' => $coal->pluck('unloading.moisture_total')->filter(fn($val) => $val > 0)->avg() ?? 0,
+                        'loading_moisture' => $coal->pluck('loading.moisture_total')->filter(fn($val) => $val > 0)->avg() ?? 0,
+                        'labor_moisture' => $coal->pluck('labor.moisture_total')->filter(fn($val) => $val > 0)->avg() ?? 0,
+                    ];
                 }
                 $data['coals'] = $coals;
+
                 break;
 
 
             case 'year':
                 $coals = [];
                 for ($i = $startYear; $i <=$endYear ; $i++){
-                    $coal = CoalUnloading::whereYear('unloading_date',$i)
+                    $coal = CoalUnloading::whereYear('receipt_date',$i)
                     ->get()
                     ->map(function($item){
                         $item->unloading = Unloading::select('calorivic_value', 'moisture_total')
