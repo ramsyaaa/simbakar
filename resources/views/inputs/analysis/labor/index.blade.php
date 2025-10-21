@@ -37,17 +37,45 @@
                 </a>
             </div>
             <div class="bg-white rounded-lg p-6">
-                <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }" x-on:change="submitForm()" action="{{ route('inputs.analysis.labors.index') }}" method="GET" id="filterForm">
+                <form x-data="{ submitForm: function() { document.getElementById('filterForm').submit(); } }"
+                    x-on:change="submitForm()"
+                    action="{{ route('inputs.analysis.labors.index') }}"
+                    method="GET"
+                    id="filterForm">
+
                     <div class="lg:flex items-center justify-between gap-2 w-full mb-3">
-                        <div class="w-full mb-4">
-                            <label for="ship_uuid" class="w-4/12 font-bold text-[#232D42] text-[16px] mr-5">Tanggal Analisa</label>
-                            <input type="month" name="month"
+
+                        <!-- Filter tanggal -->
+                        <div class="w-full mb-4 lg:w-1/2">
+                            <label for="month" class="w-4/12 font-bold text-[#232D42] text-[16px] mr-5">
+                                Tanggal Analisa
+                            </label>
+                            <input type="month"
+                                id="month"
+                                name="month"
                                 class="border h-[40px] w-9/16 rounded-lg px-3"
-                                value="{{ request('month') }}" min="2000" max="2100">
+                                value="{{ request('month') }}"
+                                min="2000"
+                                max="2100">
+                        </div>
+
+                        <!-- Filter pencarian -->
+                        <div class="w-full mb-4 lg:w-1/2 flex gap-2 items-center">
+                            <label for="search" class="w-4/12 font-bold text-[#232D42] text-[16px] mr-5">
+                                No Analisa
+                            </label>
+                            <input type="text"
+                                id="search"
+                                name="search"
+                                placeholder="Cari..."
+                                class="border h-[40px] w-full rounded-lg px-3"
+                                value="{{ request('search') }}">
                         </div>
                     </div>
+
                     <button type="submit" class="hidden">Search</button>
                 </form>
+
                 <div class="overflow-auto hide-scrollbar max-w-full">
                     <table class="w-full">
                         <thead>
