@@ -14,18 +14,28 @@ class LaborController extends Controller
     {
         $bulan = $request->month ?? date('Y-m');
         $date = explode('-', $bulan);
+        $search = $request->search ?? '';
 
         $labors = Labor::query();
+
+        // Filter berdasarkan bulan
         $labors->when($request->month, function ($query) use ($date) {
-            $query->whereYear('analysis_date', $date[0]);
-            $query->whereMonth('analysis_date', $date[1]);
+            $query->whereYear('analysis_date', $date[0])
+                ->whereMonth('analysis_date', $date[1]);
+        });
+
+        // 🔍 Filter berdasarkan nomor analisa (jika ada)
+        $labors->when($search, function ($query, $search) {
+            $query->where('analysis_number', $search);
         });
 
         $labors->orderBy('analysis_date', 'desc');
 
         $data['labors'] = $labors->paginate(10)->appends(request()->query());
-        return view('inputs.analysis.labor.index',$data);
+
+        return view('inputs.analysis.labor.index', $data);
     }
+
 
     /**
      * Show the form for creating a new resource.
