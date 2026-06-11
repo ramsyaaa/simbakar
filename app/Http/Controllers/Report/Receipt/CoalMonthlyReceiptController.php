@@ -47,7 +47,7 @@ class CoalMonthlyReceiptController extends Controller
                 $time3 = $time1->diffInMinutes($time2);
                 $bongkarTime = $time3 / 60;
 
-                $item->duration_time = number_format($bongkarTime,2);
+                $item->duration_time = round($bongkarTime, 2);
                 return $item;
             });
             $data['pemasok'] = Supplier::where('id',$request->get('supplier_id'))->first();
