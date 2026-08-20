@@ -220,7 +220,7 @@ class CoalReceiptController extends Controller
             $loading = $request->loading_date_month.' '.$request->loading_date_hour.':'.$request->loading_date_minute;
             $loading_date = Carbon::parse($loading)->format('Y-m-d H:i:s');
 
-            $dock_ship = $request->dock_ship_date_date_month.' '.$request->dock_ship_date_hour.':'.$request->dock_ship_date_minute;       
+            $dock_ship = $request->dock_ship_date_month.' '.$request->dock_ship_date_hour.':'.$request->dock_ship_date_minute;       
             $dock_ship_date= Carbon::parse($dock_ship)->format('Y-m-d H:i:s');
 
             $arrived = $request->arrived_date_month.' '.$request->arrived_date_hour.':'.$request->arrived_date_minute;
