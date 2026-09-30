@@ -343,7 +343,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td class="pr-4">Volume Faktur</td>
-                                                            <td> : {{ number_format($tug->bbm->amount_receipt ?? 0) }} Liter</td>
+                                                            <td> : {{ number_format($tug->bbm->faktur_ltr15 ?? 0) }} Liter</td>
                                                         </tr>
                                                     </table>
                                                     
